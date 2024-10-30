@@ -8,8 +8,14 @@ on:
 
 jobs:
   test:
-    name: python
+    name: test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - "3.9"
+          - "3.10"
+          - "3.11"
 
     steps:
       - uses: actions/checkout@v4
@@ -18,7 +24,7 @@ jobs:
         uses: astral-sh/setup-uv@v3
 
       - name: Set up Python
-        run: uv python install
+        run: uv python install ${{ matrix.python-version }}
 
       - name: Install the project
         run: uv sync --all-extras --dev
