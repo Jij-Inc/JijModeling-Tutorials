@@ -3,7 +3,7 @@ name = "jijmodeling-tutorial"
 version = "1.8.0"
 description = "Tutorial for JijModeling"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.9, <3.12"
 dependencies = [
     "jijmodeling >= 1.8.0, < 1.9.0",
     "jupyterlab >= 4.2.5",
