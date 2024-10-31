@@ -2,6 +2,8 @@
 
 [![PyPI version shields.io](https://img.shields.io/pypi/v/jijmodeling.svg)](https://pypi.python.org/pypi/jijmodeling/)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/jijmodeling.svg)](https://pypi.python.org/pypi/jijmodeling/)
+[![Discord-EN](https://img.shields.io/badge/Discord-English-default?logo=Discord)](https://discord.gg/bcP4g4ar6J)
+[![Discord-JP](https://img.shields.io/badge/Discord-日本語-default?logo=Discord)](https://discord.gg/2wNHCbfG)
 
 Public repository for the JijModeling project.
 
