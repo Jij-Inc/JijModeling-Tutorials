@@ -17,4 +17,4 @@ Public repository for the JijModeling project.
 
 | JijModeling Version | Release Date | Notebook | Binder | Google Colab |
 |:--------------------|:-------------|:---------|:-------|:-------------|
-| 1.8.0               | 2024-10-25   | [releases/jijmodeling-1.8.0.ipynb](releases/jijmodeling-1.8.0.ipynb) | TBA | TBA |
+| 1.8.0               | 2024-10-25   | [releases/jijmodeling-1.8.0.ipynb](releases/jijmodeling-1.8.0.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Jij-Inc/JijModeling-Tutorials/main?labpath=releases%2Fjijmodeling-1.8.0.ipynb) | TBA |
