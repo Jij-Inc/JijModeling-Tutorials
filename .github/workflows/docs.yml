@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/add_conventional_tutorial
   workflow_dispatch:
 
 permissions:
