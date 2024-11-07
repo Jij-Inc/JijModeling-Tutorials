@@ -1,6 +1,6 @@
 # Tutorial and Learning materials for JijModeling 
 
-[![Document](https://img.shields.io/badge/JijModeling-Document-blue)](https://github.com/Jij-Inc/JijModeling-Tutorials)
+[![Document](https://img.shields.io/badge/JijModeling-Document-blue)](https://jij-inc.github.io/JijModeling-Tutorials/)
 [![Discord-EN](https://img.shields.io/badge/Discord-English-default?logo=Discord)](https://discord.gg/bcP4g4ar6J)
 [![Discord-JP](https://img.shields.io/badge/Discord-日本語-default?logo=Discord)](https://discord.gg/2wNHCbfG)
 
