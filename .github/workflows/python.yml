@@ -19,7 +19,11 @@ jobs:
         os:
           - ubuntu-latest
           - windows-latest
-          - macos-latest
+          # Python-MIP does not support macOS natively
+          # See https://github.com/coin-or/python-mip/issues/167
+          # This issue will be fixed in the next minor release
+          # https://github.com/coin-or/python-mip/releases/tag/1.16-pre
+          # - macos-latest
 
     steps:
       - uses: actions/checkout@v4

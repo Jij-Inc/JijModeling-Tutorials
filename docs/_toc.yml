@@ -10,6 +10,7 @@ parts:
       - file: tutorials/types_and_bounds
       - file: tutorials/expressions
       - file: tutorials/constraint_and_penalty
+      - file: tutorials/model_to_instance
   - caption: "リファレンス"
     chapters:
       - file: references/tips
