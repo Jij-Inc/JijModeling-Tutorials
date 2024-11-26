@@ -7,7 +7,6 @@ requires-python = ">=3.9, <3.12"  # jijmodeling does not support Python 3.12 yet
 dependencies = [
     "jijmodeling >= 1.8.0, < 1.9.0",
     "jijmodeling-transpiler>=0.6.15",
-    "jupyter-book >= 1.0.0, < 2.0.0",
     "ommx >= 1.4.0, < 2.0.0",
     "ommx-python-mip-adapter >= 1.4.0, < 2.0.0",
     "openjij>=0.9.2",
@@ -16,6 +15,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "nbconvert>=7.16.4",
+    "nbconvert>=7.16.4",
+    "jupyter-book >= 1.0.0, < 2.0.0",
 ]
 
