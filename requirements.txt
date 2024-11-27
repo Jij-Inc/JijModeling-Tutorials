@@ -38,9 +38,7 @@ jijmodeling==1.8.0
 jijmodeling-transpiler==0.6.15
     # via jijmodeling-tutorial (pyproject.toml)
 mip==1.15.0
-    # via
-    #   jijmodeling-transpiler
-    #   ommx-python-mip-adapter
+    # via jijmodeling-transpiler
 networkx==3.2.1
     # via dwave-samplers
 numpy==1.26.4
@@ -56,12 +54,12 @@ numpy==1.26.4
     #   pyarrow
     #   pyqubo
     #   scipy
-ommx==1.4.0
+ommx==1.4.2
     # via
     #   jijmodeling-tutorial (pyproject.toml)
     #   jijmodeling
-    #   ommx-python-mip-adapter
-ommx-python-mip-adapter==1.4.0
+    #   ommx-pyscipopt-adapter
+ommx-pyscipopt-adapter==1.4.2
     # via jijmodeling-tutorial (pyproject.toml)
 openjij==0.9.2
     # via jijmodeling-tutorial (pyproject.toml)
@@ -87,6 +85,8 @@ pydantic-core==2.23.4
     # via pydantic
 pyqubo==1.4.0
     # via jijmodeling-transpiler
+pyscipopt==5.2.1
+    # via ommx-pyscipopt-adapter
 pytest==8.3.3
     # via jijmodeling-tutorial (pyproject.toml)
 python-dateutil==2.9.0.post0
