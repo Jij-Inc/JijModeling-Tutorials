@@ -38,4 +38,6 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Run tests
-        run: uv run jupyter nbconvert --execute --to notebook --inplace docs/**/*.ipynb
+        run: | 
+          uv run jupyter nbconvert --execute --to notebook --inplace docs/**/*.ipynb
+          uv run jupyter nbconvert --execute --to notebook --inplace en/**/*.ipynb

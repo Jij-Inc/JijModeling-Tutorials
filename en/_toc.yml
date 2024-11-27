@@ -2,22 +2,18 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: introduction
+root: getting_started
 parts:
-  - caption: "クイックスタート"
-    chapters:
-      - file: quickstart/scip
-      - file: quickstart/openjij
-  - caption: "チュートリアル"
+  - caption: "Tutorials"
     chapters:
       - file: tutorials/creating_models
       - file: tutorials/types_and_bounds
       - file: tutorials/expressions
       - file: tutorials/constraint_and_penalty
-  - caption: "リファレンス"
+  - caption: "References"
     chapters:
       - file: references/tips
       - file: references/cheat_sheet
-  - caption: "リリースノート"
+  - caption: "Release Notes"
     chapters:
       - file: releases/jijmodeling-1.8.0

@@ -17,9 +17,6 @@ concurrency:
 
 jobs:
   docs:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     strategy:
       matrix:
         python-version:
@@ -35,7 +32,7 @@ jobs:
         uses: astral-sh/setup-uv@v3
 
       - name: Set up Python
-        run: uv python install ${{ matrix.python-version}}
+        run: uv python install ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: uv sync --all-extras --dev
@@ -43,13 +40,88 @@ jobs:
       - name: Build the book
         run: uv run jupyter-book build docs
 
+      - name: Upload HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs
+          path: ./docs/_build/html
+          retention-days: 30
+
+  en:
+    strategy:
+      matrix:
+        python-version:
+          - "3.9"
+        os:
+          - ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Set up Python
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Build the book
+        run: uv run jupyter-book build en
+  
+      - name: Upload HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: en
+          path: ./en/_build/html
+          retention-days: 30
+
+  package:
+    needs: [docs, en]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download HTML of docs
+        uses: actions/download-artifact@v4
+        with:
+          name: docs
+          path: ./package
+
+      - name: Download HTML of en
+        uses: actions/download-artifact@v4
+        with:
+          name: en
+          path: ./package/en
+
+      - name: Upload Docs Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: ./package
+          retention-days: 30
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: package
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Docs Package
+        uses: actions/download-artifact@v4
+        with:
+          name: package
+          path: .
+  
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "docs/_build/html"
+          path: "."
 
       - name: Deploy to GitHub Pages
         id: deployment
