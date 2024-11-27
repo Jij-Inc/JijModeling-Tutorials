@@ -6,8 +6,8 @@ root: introduction
 parts:
   - caption: "クイックスタート"
     chapters:
-      - file: quickstart/openjij
       - file: quickstart/scip
+      - file: quickstart/openjij
   - caption: "チュートリアル"
     chapters:
       - file: tutorials/creating_models
