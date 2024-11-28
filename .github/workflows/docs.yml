@@ -47,6 +47,12 @@ jobs:
           path: ./docs/_build/html
           retention-days: 30
 
+      - name: Upload API ref
+        uses: actions/upload-artifact@v4
+        with:
+          name: api
+          path: ./apis
+          retention-days: 30
   en:
     strategy:
       matrix:
@@ -87,6 +93,12 @@ jobs:
         with:
           name: docs
           path: ./package
+
+      - name: Download HTML of api reference
+        uses: actions/download-artifact@v4
+        with:
+          name: api
+          path: ./package/apis
 
       - name: Download HTML of en
         uses: actions/download-artifact@v4
