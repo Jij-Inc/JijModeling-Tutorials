@@ -4,22 +4,22 @@
 format: jb-book
 root: introduction
 parts:
-  - caption: "クイックスタート"
+  - caption: "QUICK START"
     chapters:
       - file: quickstart/scip
       - file: quickstart/openjij
-  - caption: "チュートリアル"
+  - caption: "BASICS"
     chapters:
-      - file: tutorials/creating_models
-      - file: tutorials/types_and_bounds
-      - file: tutorials/expressions
-      - file: tutorials/constraint_and_penalty
-  - caption: "リファレンス"
+      - file: basic/creating_models
+      - file: basic/types_and_bounds
+      - file: basic/expressions
+      - file: basic/constraint_and_penalty
+  - caption: "REFERENCES"
     chapters:
       - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
         title: "jijmodeling API Reference"
       - file: references/tips
       - file: references/cheat_sheet
-  - caption: "リリースノート"
+  - caption: "RELEASES"
     chapters:
       - file: releases/jijmodeling-1.8.0
