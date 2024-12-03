@@ -10,10 +10,10 @@ parts:
       - file: quickstart/openjij
   - caption: "BASICS"
     chapters:
-      - file: basic/creating_models
-      - file: basic/types_and_bounds
-      - file: basic/expressions
-      - file: basic/constraint_and_penalty
+      - file: basics/creating_models
+      - file: basics/types_and_bounds
+      - file: basics/expressions
+      - file: basics/constraint_and_penalty
   - caption: "REFERENCES"
     chapters:
       - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
