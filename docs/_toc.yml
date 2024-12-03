@@ -16,10 +16,10 @@ parts:
       - file: basics/constraint_and_penalty
   - caption: "REFERENCES"
     chapters:
-      - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
-        title: "jijmodeling API Reference"
       - file: references/tips
       - file: references/cheat_sheet
+      - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
+        title: "jijmodeling API Reference"
   - caption: "RELEASES"
     chapters:
       - file: releases/jijmodeling-1.8.0
