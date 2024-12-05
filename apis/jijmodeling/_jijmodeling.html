@@ -167,10 +167,10 @@
                     <a class="class" href="#NumberLit">NumberLit</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="variable" href="#NumberLit.value">value</a>
+                                <a class="variable" href="#NumberLit.dtype">dtype</a>
                         </li>
                         <li>
-                                <a class="variable" href="#NumberLit.dtype">dtype</a>
+                                <a class="variable" href="#NumberLit.value">value</a>
                         </li>
                 </ul>
 
@@ -185,16 +185,22 @@
                                 <a class="function" href="#Placeholder.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Placeholder.shape">shape</a>
+                                <a class="variable" href="#Placeholder.name">name</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Placeholder.name">name</a>
+                                <a class="variable" href="#Placeholder.ndim">ndim</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Placeholder.jagged">jagged</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Placeholder.description">description</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Placeholder.ndim">ndim</a>
+                                <a class="variable" href="#Placeholder.shape">shape</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Placeholder.dtype">dtype</a>
                         </li>
                 </ul>
 
@@ -221,16 +227,16 @@
                                 <a class="function" href="#Element.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Element.belong_to">belong_to</a>
+                                <a class="variable" href="#Element.description">description</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Element.ndim">ndim</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Element.name">name</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Element.description">description</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Element.ndim">ndim</a>
+                                <a class="variable" href="#Element.belong_to">belong_to</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Element.shape">shape</a>
@@ -251,13 +257,13 @@
                                 <a class="variable" href="#Subscript.ndim">ndim</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Subscript.subscripts">subscripts</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Subscript.variable">variable</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Subscript.shape">shape</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Subscript.subscripts">subscripts</a>
                         </li>
                 </ul>
 
@@ -269,10 +275,10 @@
                                 <a class="function" href="#ArrayLength.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ArrayLength.description">description</a>
+                                <a class="variable" href="#ArrayLength.array">array</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ArrayLength.array">array</a>
+                                <a class="variable" href="#ArrayLength.description">description</a>
                         </li>
                         <li>
                                 <a class="variable" href="#ArrayLength.axis">axis</a>
@@ -299,16 +305,16 @@
                                 <a class="function" href="#BinaryVar.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#BinaryVar.name">name</a>
+                                <a class="variable" href="#BinaryVar.shape">shape</a>
                         </li>
                         <li>
                                 <a class="variable" href="#BinaryVar.description">description</a>
                         </li>
                         <li>
-                                <a class="variable" href="#BinaryVar.ndim">ndim</a>
+                                <a class="variable" href="#BinaryVar.name">name</a>
                         </li>
                         <li>
-                                <a class="variable" href="#BinaryVar.shape">shape</a>
+                                <a class="variable" href="#BinaryVar.ndim">ndim</a>
                         </li>
                 </ul>
 
@@ -320,22 +326,22 @@
                                 <a class="function" href="#IntegerVar.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#IntegerVar.upper_bound">upper_bound</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#IntegerVar.ndim">ndim</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#IntegerVar.shape">shape</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#IntegerVar.name">name</a>
                         </li>
                         <li>
                                 <a class="variable" href="#IntegerVar.description">description</a>
                         </li>
                         <li>
                                 <a class="variable" href="#IntegerVar.lower_bound">lower_bound</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#IntegerVar.upper_bound">upper_bound</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#IntegerVar.name">name</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#IntegerVar.shape">shape</a>
                         </li>
                 </ul>
 
@@ -347,13 +353,7 @@
                                 <a class="function" href="#ContinuousVar.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ContinuousVar.ndim">ndim</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#ContinuousVar.upper_bound">upper_bound</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#ContinuousVar.shape">shape</a>
+                                <a class="variable" href="#ContinuousVar.name">name</a>
                         </li>
                         <li>
                                 <a class="variable" href="#ContinuousVar.description">description</a>
@@ -362,7 +362,13 @@
                                 <a class="variable" href="#ContinuousVar.lower_bound">lower_bound</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ContinuousVar.name">name</a>
+                                <a class="variable" href="#ContinuousVar.upper_bound">upper_bound</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#ContinuousVar.ndim">ndim</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#ContinuousVar.shape">shape</a>
                         </li>
                 </ul>
 
@@ -374,13 +380,13 @@
                                 <a class="function" href="#SemiIntegerVar.set_latex">set_latex</a>
                         </li>
                         <li>
+                                <a class="variable" href="#SemiIntegerVar.lower_bound">lower_bound</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#SemiIntegerVar.shape">shape</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SemiIntegerVar.name">name</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#SemiIntegerVar.lower_bound">lower_bound</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SemiIntegerVar.description">description</a>
@@ -401,22 +407,22 @@
                                 <a class="function" href="#SemiContinuousVar.set_latex">set_latex</a>
                         </li>
                         <li>
+                                <a class="variable" href="#SemiContinuousVar.lower_bound">lower_bound</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#SemiContinuousVar.ndim">ndim</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#SemiContinuousVar.shape">shape</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SemiContinuousVar.upper_bound">upper_bound</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SemiContinuousVar.ndim">ndim</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#SemiContinuousVar.name">name</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#SemiContinuousVar.description">description</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SemiContinuousVar.lower_bound">lower_bound</a>
+                                <a class="variable" href="#SemiContinuousVar.name">name</a>
                         </li>
                 </ul>
 
@@ -581,10 +587,10 @@
                                 <a class="variable" href="#SumOp.condition">condition</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SumOp.operand">operand</a>
+                                <a class="variable" href="#SumOp.index">index</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SumOp.index">index</a>
+                                <a class="variable" href="#SumOp.operand">operand</a>
                         </li>
                 </ul>
 
@@ -596,13 +602,13 @@
                                 <a class="function" href="#ProdOp.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ProdOp.condition">condition</a>
+                                <a class="variable" href="#ProdOp.index">index</a>
                         </li>
                         <li>
                                 <a class="variable" href="#ProdOp.operand">operand</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ProdOp.index">index</a>
+                                <a class="variable" href="#ProdOp.condition">condition</a>
                         </li>
                 </ul>
 
@@ -650,10 +656,10 @@
                                 <a class="function" href="#EqualOp.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#EqualOp.left">left</a>
+                                <a class="variable" href="#EqualOp.right">right</a>
                         </li>
                         <li>
-                                <a class="variable" href="#EqualOp.right">right</a>
+                                <a class="variable" href="#EqualOp.left">left</a>
                         </li>
                 </ul>
 
@@ -665,10 +671,10 @@
                                 <a class="function" href="#NotEqualOp.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#NotEqualOp.left">left</a>
+                                <a class="variable" href="#NotEqualOp.right">right</a>
                         </li>
                         <li>
-                                <a class="variable" href="#NotEqualOp.right">right</a>
+                                <a class="variable" href="#NotEqualOp.left">left</a>
                         </li>
                 </ul>
 
@@ -695,10 +701,10 @@
                                 <a class="function" href="#LessThanEqualOp.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#LessThanEqualOp.left">left</a>
+                                <a class="variable" href="#LessThanEqualOp.right">right</a>
                         </li>
                         <li>
-                                <a class="variable" href="#LessThanEqualOp.right">right</a>
+                                <a class="variable" href="#LessThanEqualOp.left">left</a>
                         </li>
                 </ul>
 
@@ -725,10 +731,10 @@
                                 <a class="function" href="#GreaterThanEqualOp.set_latex">set_latex</a>
                         </li>
                         <li>
-                                <a class="variable" href="#GreaterThanEqualOp.left">left</a>
+                                <a class="variable" href="#GreaterThanEqualOp.right">right</a>
                         </li>
                         <li>
-                                <a class="variable" href="#GreaterThanEqualOp.right">right</a>
+                                <a class="variable" href="#GreaterThanEqualOp.left">left</a>
                         </li>
                 </ul>
 
@@ -743,19 +749,25 @@
                                 <a class="function" href="#Problem.get_problem_schema">get_problem_schema</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Problem.name">name</a>
+                                <a class="function" href="#Problem.generate_random_dataset">generate_random_dataset</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Problem.custom_penalty_terms">custom_penalty_terms</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Problem.objective">objective</a>
+                                <a class="function" href="#Problem.generate_random_instance">generate_random_instance</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Problem.constraints">constraints</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Problem.custom_penalty_terms">custom_penalty_terms</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Problem.sense">sense</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Problem.name">name</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Problem.objective">objective</a>
                         </li>
                 </ul>
 
@@ -782,22 +794,22 @@
                                 <a class="function" href="#Constraint.is_inequality">is_inequality</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Constraint.right">right</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Constraint.name">name</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Constraint.forall">forall</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Constraint.expression">expression</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Constraint.left">left</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Constraint.name">name</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#Constraint.sense">sense</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Constraint.right">right</a>
+                                <a class="variable" href="#Constraint.left">left</a>
                         </li>
                 </ul>
 
@@ -821,10 +833,10 @@
                     <a class="class" href="#CustomPenaltyTerm">CustomPenaltyTerm</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="variable" href="#CustomPenaltyTerm.name">name</a>
+                                <a class="variable" href="#CustomPenaltyTerm.forall">forall</a>
                         </li>
                         <li>
-                                <a class="variable" href="#CustomPenaltyTerm.forall">forall</a>
+                                <a class="variable" href="#CustomPenaltyTerm.name">name</a>
                         </li>
                         <li>
                                 <a class="variable" href="#CustomPenaltyTerm.expression">expression</a>
@@ -854,19 +866,19 @@
                                 <a class="variable" href="#Evaluation.penalty">penalty</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Evaluation.constraint_expr_values">constraint_expr_values</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Evaluation.energy">energy</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#Evaluation.objective">objective</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Evaluation.constraint_forall">constraint_forall</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Evaluation.constraint_violations">constraint_violations</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Evaluation.constraint_forall">constraint_forall</a>
+                                <a class="variable" href="#Evaluation.constraint_expr_values">constraint_expr_values</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Evaluation.energy">energy</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Evaluation.constraint_values">constraint_values</a>
@@ -905,10 +917,10 @@
                                 <a class="function" href="#Record.to_pandas">to_pandas</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Record.num_occurrences">num_occurrences</a>
+                                <a class="variable" href="#Record.solution">solution</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Record.solution">solution</a>
+                                <a class="variable" href="#Record.num_occurrences">num_occurrences</a>
                         </li>
                 </ul>
 
@@ -929,10 +941,10 @@
                                 <a class="function" href="#SolvingTime.from_json">from_json</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SolvingTime.solve">solve</a>
+                                <a class="variable" href="#SolvingTime.preprocess">preprocess</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SolvingTime.preprocess">preprocess</a>
+                                <a class="variable" href="#SolvingTime.solve">solve</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SolvingTime.postprocess">postprocess</a>
@@ -956,19 +968,19 @@
                                 <a class="function" href="#SystemTime.from_json">from_json</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SystemTime.request_queue">request_queue</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#SystemTime.fetch_result">fetch_result</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SystemTime.deserialize_solution">deserialize_solution</a>
+                                <a class="variable" href="#SystemTime.request_queue">request_queue</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#SystemTime.fetch_problem_and_instance_data">fetch_problem_and_instance_data</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SystemTime.post_problem_and_instance_data">post_problem_and_instance_data</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SystemTime.fetch_problem_and_instance_data">fetch_problem_and_instance_data</a>
+                                <a class="variable" href="#SystemTime.deserialize_solution">deserialize_solution</a>
                         </li>
                 </ul>
 
@@ -992,10 +1004,10 @@
                                 <a class="variable" href="#MeasuringTime.system">system</a>
                         </li>
                         <li>
-                                <a class="variable" href="#MeasuringTime.solve">solve</a>
+                                <a class="variable" href="#MeasuringTime.total">total</a>
                         </li>
                         <li>
-                                <a class="variable" href="#MeasuringTime.total">total</a>
+                                <a class="variable" href="#MeasuringTime.solve">solve</a>
                         </li>
                 </ul>
 
@@ -1040,9 +1052,6 @@
                                 <a class="function" href="#SampleSet.get_backend_calculation_time">get_backend_calculation_time</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SampleSet.measuring_time">measuring_time</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#SampleSet.metadata">metadata</a>
                         </li>
                         <li>
@@ -1050,6 +1059,9 @@
                         </li>
                         <li>
                                 <a class="variable" href="#SampleSet.evaluation">evaluation</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#SampleSet.measuring_time">measuring_time</a>
                         </li>
                 </ul>
 
@@ -1129,7 +1141,7 @@
                 <section id="__version__">
                     <div class="attr variable">
             <span class="name">__version__</span>        =
-<span class="default_value">&#39;1.8.1&#39;</span>
+<span class="default_value">&#39;1.9.0&#39;</span>
 
         
     </div>
@@ -2244,17 +2256,6 @@ an object defined by <code><a href="../jijmodeling.html">jijmodeling</a></code> 
 </div>
 
 
-                            <div id="NumberLit.value" class="classattr">
-                                <div class="attr variable">
-            <span class="name">value</span>
-
-        
-    </div>
-    <a class="headerlink" href="#NumberLit.value"></a>
-    
-    
-
-                            </div>
                             <div id="NumberLit.dtype" class="classattr">
                                 <div class="attr variable">
             <span class="name">dtype</span>
@@ -2262,6 +2263,17 @@ an object defined by <code><a href="../jijmodeling.html">jijmodeling</a></code> 
         
     </div>
     <a class="headerlink" href="#NumberLit.dtype"></a>
+    
+    
+
+                            </div>
+                            <div id="NumberLit.value" class="classattr">
+                                <div class="attr variable">
+            <span class="name">value</span>
+
+        
+    </div>
+    <a class="headerlink" href="#NumberLit.value"></a>
     
     
 
@@ -2289,6 +2301,9 @@ It is a symbol to be replaced by a numerical value when you solve an optimizatio
 <ul>
 <li><code><a href="#Placeholder.name">name</a></code> (<code>str</code>): A name of the placeholder.</li>
 <li><code><a href="#Placeholder.ndim">ndim</a></code> (<code>int</code>): The number of dimensions of the placeholder.</li>
+<li><code><a href="#Placeholder.shape">shape</a></code> (<code>list</code> of <code>Optional[Expression]</code>, optional): The (partial) shape of the placeholder if given.</li>
+<li><code><a href="#Placeholder.dtype">dtype</a></code> (<code><a href="#DataType">DataType</a></code>, optional): The data type (<code>DataType.INT</code> or <code><a href="#DataType.FLOAT">DataType.FLOAT</a></code>) of the placeholder.</li>
+<li><code><a href="#Placeholder.jagged">jagged</a></code> (<code>boolean</code>, defaut: <code>False</code>): <code>True</code> if the placeholder will be treated as a jagged array in random data generation. Ignored for scalars.</li>
 <li><code><a href="#Placeholder.description">description</a></code> (<code>str</code>, optional): A description of the placeholder.</li>
 </ul>
 
@@ -2296,7 +2311,10 @@ It is a symbol to be replaced by a numerical value when you solve an optimizatio
 
 <ul>
 <li><code><a href="#Placeholder.name">name</a></code> (<code>str</code>): A name of the placeholder.</li>
-<li><code><a href="#Placeholder.ndim">ndim</a></code> (<code>int</code>): The number of dimensions of the placeholder. Defaults to <code>0</code>. The <code><a href="#Placeholder.ndim">ndim</a></code> must be set to a non-negative value.</li>
+<li><code><a href="#Placeholder.ndim">ndim</a></code> (<code>Optional[int]</code>): The number of dimensions of the placeholder. Defaults to <code>0</code>. The <code><a href="#Placeholder.ndim">ndim</a></code> must be set to a non-negative value and must concide with the length of <code><a href="#Placeholder.shape">shape</a></code> if both specified. If <code>None</code> is given, you must specify <code><a href="#Placeholder.shape">shape</a></code> explicitly and the length of <code><a href="#Placeholder.shape">shape</a></code> will be used.</li>
+<li><code><a href="#Placeholder.shape">shape</a></code> (<code>list[Optional[Expression]]</code>, optional): The (partial) shape of the placeholder. Used for random data generation.</li>
+<li><code><a href="#Placeholder.dtype">dtype</a></code> (<code><a href="#DataType">DataType</a></code>, optional): The data type (<code>DataType.INT</code> or <code><a href="#DataType.FLOAT">DataType.FLOAT</a></code>) of the placeholder. Used for random data generation.</li>
+<li><code><a href="#Placeholder.jagged">jagged</a></code> (<code>boolean</code>, defaut: <code>False</code>): <code>True</code> if the placeholder will be treated as a jagged array in random data generation. Ignored for scalars.</li>
 <li><code>latex</code> (<code>str</code>, optional): A LaTeX-name of the placeholder to be represented in Jupyter notebook.
 It is set to <code><a href="#Placeholder.name">name</a></code> by default.</li>
 <li><code><a href="#Placeholder.description">description</a></code> (<code>str</code>, optional): A description of the placeholder.</li>
@@ -2372,17 +2390,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="Placeholder.shape" class="classattr">
-                                <div class="attr variable">
-            <span class="name">shape</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Placeholder.shape"></a>
-    
-    
-
-                            </div>
                             <div id="Placeholder.name" class="classattr">
                                 <div class="attr variable">
             <span class="name">name</span>
@@ -2390,6 +2397,28 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#Placeholder.name"></a>
+    
+    
+
+                            </div>
+                            <div id="Placeholder.ndim" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ndim</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Placeholder.ndim"></a>
+    
+    
+
+                            </div>
+                            <div id="Placeholder.jagged" class="classattr">
+                                <div class="attr variable">
+            <span class="name">jagged</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Placeholder.jagged"></a>
     
     
 
@@ -2405,13 +2434,24 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="Placeholder.ndim" class="classattr">
+                            <div id="Placeholder.shape" class="classattr">
                                 <div class="attr variable">
-            <span class="name">ndim</span>
+            <span class="name">shape</span>
 
         
     </div>
-    <a class="headerlink" href="#Placeholder.ndim"></a>
+    <a class="headerlink" href="#Placeholder.shape"></a>
+    
+    
+
+                            </div>
+                            <div id="Placeholder.dtype" class="classattr">
+                                <div class="attr variable">
+            <span class="name">dtype</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Placeholder.dtype"></a>
     
     
 
@@ -2611,28 +2651,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="Element.belong_to" class="classattr">
-                                <div class="attr variable">
-            <span class="name">belong_to</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Element.belong_to"></a>
-    
-    
-
-                            </div>
-                            <div id="Element.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Element.name"></a>
-    
-    
-
-                            </div>
                             <div id="Element.description" class="classattr">
                                 <div class="attr variable">
             <span class="name">description</span>
@@ -2651,6 +2669,28 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#Element.ndim"></a>
+    
+    
+
+                            </div>
+                            <div id="Element.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Element.name"></a>
+    
+    
+
+                            </div>
+                            <div id="Element.belong_to" class="classattr">
+                                <div class="attr variable">
+            <span class="name">belong_to</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Element.belong_to"></a>
     
     
 
@@ -2739,6 +2779,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
+                            <div id="Subscript.subscripts" class="classattr">
+                                <div class="attr variable">
+            <span class="name">subscripts</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Subscript.subscripts"></a>
+    
+    
+
+                            </div>
                             <div id="Subscript.variable" class="classattr">
                                 <div class="attr variable">
             <span class="name">variable</span>
@@ -2757,17 +2808,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#Subscript.shape"></a>
-    
-    
-
-                            </div>
-                            <div id="Subscript.subscripts" class="classattr">
-                                <div class="attr variable">
-            <span class="name">subscripts</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Subscript.subscripts"></a>
     
     
 
@@ -2836,17 +2876,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="ArrayLength.description" class="classattr">
-                                <div class="attr variable">
-            <span class="name">description</span>
-
-        
-    </div>
-    <a class="headerlink" href="#ArrayLength.description"></a>
-    
-    
-
-                            </div>
                             <div id="ArrayLength.array" class="classattr">
                                 <div class="attr variable">
             <span class="name">array</span>
@@ -2854,6 +2883,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#ArrayLength.array"></a>
+    
+    
+
+                            </div>
+                            <div id="ArrayLength.description" class="classattr">
+                                <div class="attr variable">
+            <span class="name">description</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ArrayLength.description"></a>
     
     
 
@@ -3068,13 +3108,13 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="BinaryVar.name" class="classattr">
+                            <div id="BinaryVar.shape" class="classattr">
                                 <div class="attr variable">
-            <span class="name">name</span>
+            <span class="name">shape</span>
 
         
     </div>
-    <a class="headerlink" href="#BinaryVar.name"></a>
+    <a class="headerlink" href="#BinaryVar.shape"></a>
     
     
 
@@ -3090,6 +3130,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
+                            <div id="BinaryVar.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#BinaryVar.name"></a>
+    
+    
+
+                            </div>
                             <div id="BinaryVar.ndim" class="classattr">
                                 <div class="attr variable">
             <span class="name">ndim</span>
@@ -3097,17 +3148,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#BinaryVar.ndim"></a>
-    
-    
-
-                            </div>
-                            <div id="BinaryVar.shape" class="classattr">
-                                <div class="attr variable">
-            <span class="name">shape</span>
-
-        
-    </div>
-    <a class="headerlink" href="#BinaryVar.shape"></a>
     
     
 
@@ -3226,17 +3266,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="IntegerVar.upper_bound" class="classattr">
-                                <div class="attr variable">
-            <span class="name">upper_bound</span>
-
-        
-    </div>
-    <a class="headerlink" href="#IntegerVar.upper_bound"></a>
-    
-    
-
-                            </div>
                             <div id="IntegerVar.ndim" class="classattr">
                                 <div class="attr variable">
             <span class="name">ndim</span>
@@ -3244,28 +3273,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#IntegerVar.ndim"></a>
-    
-    
-
-                            </div>
-                            <div id="IntegerVar.shape" class="classattr">
-                                <div class="attr variable">
-            <span class="name">shape</span>
-
-        
-    </div>
-    <a class="headerlink" href="#IntegerVar.shape"></a>
-    
-    
-
-                            </div>
-                            <div id="IntegerVar.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#IntegerVar.name"></a>
     
     
 
@@ -3288,6 +3295,39 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#IntegerVar.lower_bound"></a>
+    
+    
+
+                            </div>
+                            <div id="IntegerVar.upper_bound" class="classattr">
+                                <div class="attr variable">
+            <span class="name">upper_bound</span>
+
+        
+    </div>
+    <a class="headerlink" href="#IntegerVar.upper_bound"></a>
+    
+    
+
+                            </div>
+                            <div id="IntegerVar.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#IntegerVar.name"></a>
+    
+    
+
+                            </div>
+                            <div id="IntegerVar.shape" class="classattr">
+                                <div class="attr variable">
+            <span class="name">shape</span>
+
+        
+    </div>
+    <a class="headerlink" href="#IntegerVar.shape"></a>
     
     
 
@@ -3405,35 +3445,13 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="ContinuousVar.ndim" class="classattr">
+                            <div id="ContinuousVar.name" class="classattr">
                                 <div class="attr variable">
-            <span class="name">ndim</span>
+            <span class="name">name</span>
 
         
     </div>
-    <a class="headerlink" href="#ContinuousVar.ndim"></a>
-    
-    
-
-                            </div>
-                            <div id="ContinuousVar.upper_bound" class="classattr">
-                                <div class="attr variable">
-            <span class="name">upper_bound</span>
-
-        
-    </div>
-    <a class="headerlink" href="#ContinuousVar.upper_bound"></a>
-    
-    
-
-                            </div>
-                            <div id="ContinuousVar.shape" class="classattr">
-                                <div class="attr variable">
-            <span class="name">shape</span>
-
-        
-    </div>
-    <a class="headerlink" href="#ContinuousVar.shape"></a>
+    <a class="headerlink" href="#ContinuousVar.name"></a>
     
     
 
@@ -3460,13 +3478,35 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="ContinuousVar.name" class="classattr">
+                            <div id="ContinuousVar.upper_bound" class="classattr">
                                 <div class="attr variable">
-            <span class="name">name</span>
+            <span class="name">upper_bound</span>
 
         
     </div>
-    <a class="headerlink" href="#ContinuousVar.name"></a>
+    <a class="headerlink" href="#ContinuousVar.upper_bound"></a>
+    
+    
+
+                            </div>
+                            <div id="ContinuousVar.ndim" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ndim</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ContinuousVar.ndim"></a>
+    
+    
+
+                            </div>
+                            <div id="ContinuousVar.shape" class="classattr">
+                                <div class="attr variable">
+            <span class="name">shape</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ContinuousVar.shape"></a>
     
     
 
@@ -3585,6 +3625,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
+                            <div id="SemiIntegerVar.lower_bound" class="classattr">
+                                <div class="attr variable">
+            <span class="name">lower_bound</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SemiIntegerVar.lower_bound"></a>
+    
+    
+
+                            </div>
                             <div id="SemiIntegerVar.shape" class="classattr">
                                 <div class="attr variable">
             <span class="name">shape</span>
@@ -3603,17 +3654,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#SemiIntegerVar.name"></a>
-    
-    
-
-                            </div>
-                            <div id="SemiIntegerVar.lower_bound" class="classattr">
-                                <div class="attr variable">
-            <span class="name">lower_bound</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SemiIntegerVar.lower_bound"></a>
     
     
 
@@ -3765,6 +3805,28 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
+                            <div id="SemiContinuousVar.lower_bound" class="classattr">
+                                <div class="attr variable">
+            <span class="name">lower_bound</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SemiContinuousVar.lower_bound"></a>
+    
+    
+
+                            </div>
+                            <div id="SemiContinuousVar.ndim" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ndim</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SemiContinuousVar.ndim"></a>
+    
+    
+
+                            </div>
                             <div id="SemiContinuousVar.shape" class="classattr">
                                 <div class="attr variable">
             <span class="name">shape</span>
@@ -3787,28 +3849,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="SemiContinuousVar.ndim" class="classattr">
-                                <div class="attr variable">
-            <span class="name">ndim</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SemiContinuousVar.ndim"></a>
-    
-    
-
-                            </div>
-                            <div id="SemiContinuousVar.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SemiContinuousVar.name"></a>
-    
-    
-
-                            </div>
                             <div id="SemiContinuousVar.description" class="classattr">
                                 <div class="attr variable">
             <span class="name">description</span>
@@ -3820,13 +3860,13 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="SemiContinuousVar.lower_bound" class="classattr">
+                            <div id="SemiContinuousVar.name" class="classattr">
                                 <div class="attr variable">
-            <span class="name">lower_bound</span>
+            <span class="name">name</span>
 
         
     </div>
-    <a class="headerlink" href="#SemiContinuousVar.lower_bound"></a>
+    <a class="headerlink" href="#SemiContinuousVar.name"></a>
     
     
 
@@ -4624,17 +4664,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="SumOp.operand" class="classattr">
-                                <div class="attr variable">
-            <span class="name">operand</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SumOp.operand"></a>
-    
-    
-
-                            </div>
                             <div id="SumOp.index" class="classattr">
                                 <div class="attr variable">
             <span class="name">index</span>
@@ -4642,6 +4671,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#SumOp.index"></a>
+    
+    
+
+                            </div>
+                            <div id="SumOp.operand" class="classattr">
+                                <div class="attr variable">
+            <span class="name">operand</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SumOp.operand"></a>
     
     
 
@@ -4696,13 +4736,13 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="ProdOp.condition" class="classattr">
+                            <div id="ProdOp.index" class="classattr">
                                 <div class="attr variable">
-            <span class="name">condition</span>
+            <span class="name">index</span>
 
         
     </div>
-    <a class="headerlink" href="#ProdOp.condition"></a>
+    <a class="headerlink" href="#ProdOp.index"></a>
     
     
 
@@ -4718,13 +4758,13 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="ProdOp.index" class="classattr">
+                            <div id="ProdOp.condition" class="classattr">
                                 <div class="attr variable">
-            <span class="name">index</span>
+            <span class="name">condition</span>
 
         
     </div>
-    <a class="headerlink" href="#ProdOp.index"></a>
+    <a class="headerlink" href="#ProdOp.condition"></a>
     
     
 
@@ -4958,17 +4998,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="EqualOp.left" class="classattr">
-                                <div class="attr variable">
-            <span class="name">left</span>
-
-        
-    </div>
-    <a class="headerlink" href="#EqualOp.left"></a>
-    
-    
-
-                            </div>
                             <div id="EqualOp.right" class="classattr">
                                 <div class="attr variable">
             <span class="name">right</span>
@@ -4976,6 +5005,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#EqualOp.right"></a>
+    
+    
+
+                            </div>
+                            <div id="EqualOp.left" class="classattr">
+                                <div class="attr variable">
+            <span class="name">left</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EqualOp.left"></a>
     
     
 
@@ -5029,17 +5069,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="NotEqualOp.left" class="classattr">
-                                <div class="attr variable">
-            <span class="name">left</span>
-
-        
-    </div>
-    <a class="headerlink" href="#NotEqualOp.left"></a>
-    
-    
-
-                            </div>
                             <div id="NotEqualOp.right" class="classattr">
                                 <div class="attr variable">
             <span class="name">right</span>
@@ -5047,6 +5076,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#NotEqualOp.right"></a>
+    
+    
+
+                            </div>
+                            <div id="NotEqualOp.left" class="classattr">
+                                <div class="attr variable">
+            <span class="name">left</span>
+
+        
+    </div>
+    <a class="headerlink" href="#NotEqualOp.left"></a>
     
     
 
@@ -5171,17 +5211,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="LessThanEqualOp.left" class="classattr">
-                                <div class="attr variable">
-            <span class="name">left</span>
-
-        
-    </div>
-    <a class="headerlink" href="#LessThanEqualOp.left"></a>
-    
-    
-
-                            </div>
                             <div id="LessThanEqualOp.right" class="classattr">
                                 <div class="attr variable">
             <span class="name">right</span>
@@ -5189,6 +5218,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#LessThanEqualOp.right"></a>
+    
+    
+
+                            </div>
+                            <div id="LessThanEqualOp.left" class="classattr">
+                                <div class="attr variable">
+            <span class="name">left</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LessThanEqualOp.left"></a>
     
     
 
@@ -5313,17 +5353,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
-                            <div id="GreaterThanEqualOp.left" class="classattr">
-                                <div class="attr variable">
-            <span class="name">left</span>
-
-        
-    </div>
-    <a class="headerlink" href="#GreaterThanEqualOp.left"></a>
-    
-    
-
-                            </div>
                             <div id="GreaterThanEqualOp.right" class="classattr">
                                 <div class="attr variable">
             <span class="name">right</span>
@@ -5331,6 +5360,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#GreaterThanEqualOp.right"></a>
+    
+    
+
+                            </div>
+                            <div id="GreaterThanEqualOp.left" class="classattr">
+                                <div class="attr variable">
+            <span class="name">left</span>
+
+        
+    </div>
+    <a class="headerlink" href="#GreaterThanEqualOp.left"></a>
     
     
 
@@ -5398,16 +5438,197 @@ If the LaTeX representation is not set, the default representation is set.</p>
     </div>
     <a class="headerlink" href="#Problem.get_problem_schema"></a>
     
-    
+            <div class="docstring"><p>Returns the schema of the problem.</p>
+
+<h2 id="returns">Returns</h2>
+
+<ul>
+<li><code>schema</code>: The dictionary containing the schema of the problem.</li>
+</ul>
+</div>
+
 
                             </div>
-                            <div id="Problem.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
+                            <div id="Problem.generate_random_dataset" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">generate_random_dataset</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">seed</span>, </span><span class="param"><span class="n">default</span>, </span><span class="param"><span class="n">options</span></span><span class="return-annotation">):</span></span>
 
         
     </div>
-    <a class="headerlink" href="#Problem.name"></a>
+    <a class="headerlink" href="#Problem.generate_random_dataset"></a>
+    
+            <div class="docstring"><p>Generates a dictionary of random <code>InstanceDataValue</code> for a given problem.
+To generate <code>ommx.v1.Instance</code> object directly, use <code>InstanceDataValue.generate_random_instance</code> instead.</p>
+
+<h2 id="args">Args</h2>
+
+<ul>
+<li><code>options</code> (optional): a dictionary of range parameters for each separate placeholders. The key must be the name of the placeholder and the value must be range parameter (as described in "Range Parameters and Range Syntax" below).</li>
+<li><code>default</code> (optional): default range parameters for placeholders which is not specified in <code>options</code>.</li>
+<li><code>seed</code> (optional): seed for random number generation.</li>
+</ul>
+
+<h2 id="returns">Returns</h2>
+
+<p><code>dict</code>: The dictionary from the name of placeholders to the generated <code>InstanceDataValue</code> objects. To be fed to <code><a href="#Interpreter.eval_problem">Interpreter.eval_problem</a></code>.</p>
+
+<h2 id="range-parameters-and-range-syntax">Range Parameters and Range Syntax</h2>
+
+<p>A range parameter is a dictionary consisting of the following fields:</p>
+
+<ul>
+<li><code>size</code> (optional): interval of natural numbers for the size of each array dimension (default: <code>range(1, 6)</code>)</li>
+<li><code>value</code> (optional): interval of real numbers for the value of each array element (default: <code>range(-1.0, 1.0)</code> - a uniform distribution on a closed interval $[-1.0, 1.0]$).</li>
+</ul>
+
+<p>Example range parameter config:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">jm</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">closed</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">)}</span>
+</code></pre>
+</div>
+
+<p>Intervals are expressed as a range object.
+Currently, the following syntax is supported for range objects:</p>
+
+<ol>
+<li>Direct value of type <code>int</code> or <code>float</code> - it corresponds to a singleton interval $[a, a] = {a}$. In random generation context, this just means a constant fixed value.</li>
+<li>Use the functions from <code><a href="range.html">jijmodeling.range</a></code>, <code><a href="range/size.html">jijmodeling.range.size</a></code>, or <code><a href="range/value.html">jijmodeling.range.value</a></code> modules.
+<ul>
+<li>Use functions from <code>jij.modeling.range.size</code> to specify (non-negative) integer intervals, and <code>jij.modeling.range.value</code> for real intervals. <code>jij.modeling.range</code> dynamically determines the type of the range based on the input.</li>
+<li>These three modules provides the following combinators (see the module documents for more details.):
+<ul>
+<li><code>closed(a, b)</code>: a closed interval $[a, b]$</li>
+<li><code>open(a, b)</code>: an open interval $(a, b)$</li>
+<li><code>closed_open(a, b)</code>: an upper half-open interval $[a, b)$</li>
+<li><code>open_closed(a, b)</code>: a lower half-open interval $(a, b]$</li>
+<li><code>greater_than(a)</code>: an open interval $(a, \infty)$</li>
+<li><code>at_least(a)</code>: a closed interval $[a, \infty)$</li>
+<li><code>less_than(a)</code>: an open interval $(-\infty, a)$</li>
+<li><code>at_most(a)</code>: a closed interval $(-\infty, a]$</li>
+</ul></li>
+</ul></li>
+<li>Use <code>range</code> builtin function: this is equivalent to <code>jijmodeling.range.value.closed_open(a, b)</code>.
+<ul>
+<li>Any python range object with <code>step = 1</code> can be used as a size range; otherwise it results in runtime error.</li>
+</ul></li>
+<li><p>Use a tuple: raw tuple <code>(a, b)</code> is equivalent to <code>jijmodeling.range.closed_open(a, b)</code> if <code>a</code> and <code>b</code> are either <code>int</code> or <code>float</code>.</p>
+
+<ul>
+<li><p>You can also use bound object as a tuple component; in such case, both tuple components must be one of the following:</p>
+
+<ol>
+<li>A string <code>"Unbounded"</code> means $-\infty$ (in the first component) or $\infty$ (the second).</li>
+<li>A dictionary <code>{"Included": a}</code> means the endpoint is inclusive.</li>
+<li>A dictionary <code>{"Excluded": a}</code> means the endpoint is exclusive.</li>
+</ol></li>
+<li>Examples:
+<ul>
+<li><code>(1.2, 4)</code> is equivalent to <code>closed_open(1.2, 4)</code>,</li>
+<li><code>(-1, {"Included": 1})</code> is equivalent to <code>closed(-1, 1)</code>,</li>
+<li><code>(-5, {"Excluded": 4})</code> is equivalent to <code>closed_open(-5, 4)</code> and built in function <code>range(-5, 4)</code>,</li>
+<li><code>({"Excluded": 1}, {"Excluded": 2.5})</code> is equivalent to <code>open(1, 2.5)</code>,</li>
+<li><code>({"Included": -1}, "Unbounded")</code> is equivalent to <code>at_least(-1)</code>.</li>
+<li><code>(5, "Unbounded")</code> is <strong>INVALID</strong>; <code>5</code> must be bound object.</li>
+</ul></li>
+</ul></li>
+<li>The range object: A dictionary of form <code>{"start": lb, "end": ub}</code>, where both <code>lb</code> and <code>ub</code> are the bound object described as above.</li>
+</ol>
+
+<h2 id="examples">Examples</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">jijmodeling</span> <span class="k">as</span> <span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">builtins</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">N</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">INTEGER</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">belong_to</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">+=</span> <span class="n">jm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">generate_random_dataset</span><span class="p">(</span>
+<span class="o">...</span>     <span class="n">options</span><span class="o">=</span><span class="p">{</span>
+<span class="o">...</span>         <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">builtins</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)},</span>
+<span class="o">...</span>         <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">jm</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">closed</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}</span>
+<span class="o">...</span>          <span class="c1"># You can also specify &quot;size&quot; for the range of jagged array dimension size.</span>
+<span class="o">...</span>     <span class="p">},</span>
+<span class="o">...</span>     <span class="n">seed</span><span class="o">=</span><span class="mi">123</span> <span class="c1"># omittable</span>
+<span class="o">...</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">inputs</span>
+<span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="mf">11.0</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.93914459</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.06511935</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7460324</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.32443706</span><span class="p">,</span>  <span class="mf">0.99981451</span><span class="p">,</span>
+       <span class="o">-</span><span class="mf">0.24407535</span><span class="p">,</span>  <span class="mf">0.31329469</span><span class="p">,</span>  <span class="mf">0.52206453</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1291936</span> <span class="p">,</span>  <span class="mf">0.30443087</span><span class="p">,</span>
+        <span class="mf">0.53125838</span><span class="p">])}</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
+                            <div id="Problem.generate_random_instance" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">generate_random_instance</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">seed</span>, </span><span class="param"><span class="n">default</span>, </span><span class="param"><span class="n">options</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Problem.generate_random_instance"></a>
+    
+            <div class="docstring"><p>Generates random <code>ommx.v1.Instance</code> for a given problem.
+See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
+
+<h2 id="args">Args</h2>
+
+<ul>
+<li><code>options</code> (optional): a dictionary of range parameters for each separate placeholders. The key must be the name of the placeholder and the value must be range parameter (as described in "Range Parameters and Range Syntax" section in <code>~<a href="#Problem.generate_random_dataset">jijmodeling.Problem.generate_random_dataset()</a></code>).</li>
+<li><code>default</code> (optional): default range parameters for placeholders which is not specified in <code>options</code>.</li>
+<li><code>seed</code> (optional): seed for random number generation.</li>
+</ul>
+
+<h2 id="returns">Returns</h2>
+
+<p><code>instance</code>: The OMMX v1 instance object.</p>
+
+<h2 id="examples">Examples</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">jijmodeling</span> <span class="k">as</span> <span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">builtins</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">ommx.v1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">N</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">INTEGER</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">belong_to</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">+=</span> <span class="n">jm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">instance</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">generate_random_instance</span><span class="p">(</span>
+<span class="o">...</span>     <span class="n">options</span><span class="o">=</span><span class="p">{</span>
+<span class="o">...</span>         <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">builtins</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)},</span>
+<span class="o">...</span>         <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">jm</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">closed</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}</span>
+<span class="o">...</span>     <span class="p">},</span>
+<span class="o">...</span>     <span class="n">seed</span><span class="o">=</span><span class="mi">123</span>
+<span class="o">...</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span> <span class="ow">is</span> <span class="n">ommx</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">Instance</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
+                            <div id="Problem.constraints" class="classattr">
+                                <div class="attr variable">
+            <span class="name">constraints</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Problem.constraints"></a>
     
     
 
@@ -5423,28 +5644,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="Problem.objective" class="classattr">
-                                <div class="attr variable">
-            <span class="name">objective</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Problem.objective"></a>
-    
-    
-
-                            </div>
-                            <div id="Problem.constraints" class="classattr">
-                                <div class="attr variable">
-            <span class="name">constraints</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Problem.constraints"></a>
-    
-    
-
-                            </div>
                             <div id="Problem.sense" class="classattr">
                                 <div class="attr variable">
             <span class="name">sense</span>
@@ -5452,6 +5651,28 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#Problem.sense"></a>
+    
+    
+
+                            </div>
+                            <div id="Problem.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Problem.name"></a>
+    
+    
+
+                            </div>
+                            <div id="Problem.objective" class="classattr">
+                                <div class="attr variable">
+            <span class="name">objective</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Problem.objective"></a>
     
     
 
@@ -5635,6 +5856,28 @@ If the LaTeX representation is not set, the default representation is set.</p>
 
 
                             </div>
+                            <div id="Constraint.right" class="classattr">
+                                <div class="attr variable">
+            <span class="name">right</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.right"></a>
+    
+    
+
+                            </div>
+                            <div id="Constraint.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.name"></a>
+    
+    
+
+                            </div>
                             <div id="Constraint.forall" class="classattr">
                                 <div class="attr variable">
             <span class="name">forall</span>
@@ -5657,28 +5900,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="Constraint.left" class="classattr">
-                                <div class="attr variable">
-            <span class="name">left</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.left"></a>
-    
-    
-
-                            </div>
-                            <div id="Constraint.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.name"></a>
-    
-    
-
-                            </div>
                             <div id="Constraint.sense" class="classattr">
                                 <div class="attr variable">
             <span class="name">sense</span>
@@ -5690,13 +5911,13 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
-                            <div id="Constraint.right" class="classattr">
+                            <div id="Constraint.left" class="classattr">
                                 <div class="attr variable">
-            <span class="name">right</span>
+            <span class="name">left</span>
 
         
     </div>
-    <a class="headerlink" href="#Constraint.right"></a>
+    <a class="headerlink" href="#Constraint.left"></a>
     
     
 
@@ -5829,17 +6050,6 @@ If the LaTeX representation is not set, the default representation is set.</p>
 </div>
 
 
-                            <div id="CustomPenaltyTerm.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#CustomPenaltyTerm.name"></a>
-    
-    
-
-                            </div>
                             <div id="CustomPenaltyTerm.forall" class="classattr">
                                 <div class="attr variable">
             <span class="name">forall</span>
@@ -5847,6 +6057,17 @@ If the LaTeX representation is not set, the default representation is set.</p>
         
     </div>
     <a class="headerlink" href="#CustomPenaltyTerm.forall"></a>
+    
+    
+
+                            </div>
+                            <div id="CustomPenaltyTerm.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#CustomPenaltyTerm.name"></a>
     
     
 
@@ -5996,6 +6217,39 @@ If the LaTeX representation is not set, the default representation is set.</p>
     
 
                             </div>
+                            <div id="Evaluation.objective" class="classattr">
+                                <div class="attr variable">
+            <span class="name">objective</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Evaluation.objective"></a>
+    
+    
+
+                            </div>
+                            <div id="Evaluation.constraint_forall" class="classattr">
+                                <div class="attr variable">
+            <span class="name">constraint_forall</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Evaluation.constraint_forall"></a>
+    
+    
+
+                            </div>
+                            <div id="Evaluation.constraint_violations" class="classattr">
+                                <div class="attr variable">
+            <span class="name">constraint_violations</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Evaluation.constraint_violations"></a>
+    
+    
+
+                            </div>
                             <div id="Evaluation.constraint_expr_values" class="classattr">
                                 <div class="attr variable">
             <span class="name">constraint_expr_values</span>
@@ -6023,39 +6277,6 @@ The dictionary values have the keys of the forall indices as tuple and the value
         
     </div>
     <a class="headerlink" href="#Evaluation.energy"></a>
-    
-    
-
-                            </div>
-                            <div id="Evaluation.objective" class="classattr">
-                                <div class="attr variable">
-            <span class="name">objective</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Evaluation.objective"></a>
-    
-    
-
-                            </div>
-                            <div id="Evaluation.constraint_violations" class="classattr">
-                                <div class="attr variable">
-            <span class="name">constraint_violations</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Evaluation.constraint_violations"></a>
-    
-    
-
-                            </div>
-                            <div id="Evaluation.constraint_forall" class="classattr">
-                                <div class="attr variable">
-            <span class="name">constraint_forall</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Evaluation.constraint_forall"></a>
     
     
 
@@ -6325,17 +6546,6 @@ Otherwise, the solution is converted into a sparse solution.</p>
 
 
                             </div>
-                            <div id="Record.num_occurrences" class="classattr">
-                                <div class="attr variable">
-            <span class="name">num_occurrences</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Record.num_occurrences"></a>
-    
-    
-
-                            </div>
                             <div id="Record.solution" class="classattr">
                                 <div class="attr variable">
             <span class="name">solution</span>
@@ -6343,6 +6553,17 @@ Otherwise, the solution is converted into a sparse solution.</p>
         
     </div>
     <a class="headerlink" href="#Record.solution"></a>
+    
+    
+
+                            </div>
+                            <div id="Record.num_occurrences" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_occurrences</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Record.num_occurrences"></a>
     
     
 
@@ -6460,17 +6681,6 @@ Otherwise, the solution is converted into a sparse solution.</p>
 
 
                             </div>
-                            <div id="SolvingTime.solve" class="classattr">
-                                <div class="attr variable">
-            <span class="name">solve</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SolvingTime.solve"></a>
-    
-    
-
-                            </div>
                             <div id="SolvingTime.preprocess" class="classattr">
                                 <div class="attr variable">
             <span class="name">preprocess</span>
@@ -6478,6 +6688,17 @@ Otherwise, the solution is converted into a sparse solution.</p>
         
     </div>
     <a class="headerlink" href="#SolvingTime.preprocess"></a>
+    
+    
+
+                            </div>
+                            <div id="SolvingTime.solve" class="classattr">
+                                <div class="attr variable">
+            <span class="name">solve</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SolvingTime.solve"></a>
     
     
 
@@ -6608,17 +6829,6 @@ Otherwise, the solution is converted into a sparse solution.</p>
 
 
                             </div>
-                            <div id="SystemTime.request_queue" class="classattr">
-                                <div class="attr variable">
-            <span class="name">request_queue</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SystemTime.request_queue"></a>
-    
-    
-
-                            </div>
                             <div id="SystemTime.fetch_result" class="classattr">
                                 <div class="attr variable">
             <span class="name">fetch_result</span>
@@ -6630,13 +6840,24 @@ Otherwise, the solution is converted into a sparse solution.</p>
     
 
                             </div>
-                            <div id="SystemTime.deserialize_solution" class="classattr">
+                            <div id="SystemTime.request_queue" class="classattr">
                                 <div class="attr variable">
-            <span class="name">deserialize_solution</span>
+            <span class="name">request_queue</span>
 
         
     </div>
-    <a class="headerlink" href="#SystemTime.deserialize_solution"></a>
+    <a class="headerlink" href="#SystemTime.request_queue"></a>
+    
+    
+
+                            </div>
+                            <div id="SystemTime.fetch_problem_and_instance_data" class="classattr">
+                                <div class="attr variable">
+            <span class="name">fetch_problem_and_instance_data</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SystemTime.fetch_problem_and_instance_data"></a>
     
     
 
@@ -6652,13 +6873,13 @@ Otherwise, the solution is converted into a sparse solution.</p>
     
 
                             </div>
-                            <div id="SystemTime.fetch_problem_and_instance_data" class="classattr">
+                            <div id="SystemTime.deserialize_solution" class="classattr">
                                 <div class="attr variable">
-            <span class="name">fetch_problem_and_instance_data</span>
+            <span class="name">deserialize_solution</span>
 
         
     </div>
-    <a class="headerlink" href="#SystemTime.fetch_problem_and_instance_data"></a>
+    <a class="headerlink" href="#SystemTime.deserialize_solution"></a>
     
     
 
@@ -6787,17 +7008,6 @@ Otherwise, the solution is converted into a sparse solution.</p>
     
 
                             </div>
-                            <div id="MeasuringTime.solve" class="classattr">
-                                <div class="attr variable">
-            <span class="name">solve</span>
-
-        
-    </div>
-    <a class="headerlink" href="#MeasuringTime.solve"></a>
-    
-    
-
-                            </div>
                             <div id="MeasuringTime.total" class="classattr">
                                 <div class="attr variable">
             <span class="name">total</span>
@@ -6805,6 +7015,17 @@ Otherwise, the solution is converted into a sparse solution.</p>
         
     </div>
     <a class="headerlink" href="#MeasuringTime.total"></a>
+    
+    
+
+                            </div>
+                            <div id="MeasuringTime.solve" class="classattr">
+                                <div class="attr variable">
+            <span class="name">solve</span>
+
+        
+    </div>
+    <a class="headerlink" href="#MeasuringTime.solve"></a>
     
     
 
@@ -7116,17 +7337,6 @@ $$ |0 - v| \leq \mathrm{atol} + \mathrm{rtol} \cdot |v| $$</p>
 
 
                             </div>
-                            <div id="SampleSet.measuring_time" class="classattr">
-                                <div class="attr variable">
-            <span class="name">measuring_time</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SampleSet.measuring_time"></a>
-    
-    
-
-                            </div>
                             <div id="SampleSet.metadata" class="classattr">
                                 <div class="attr variable">
             <span class="name">metadata</span>
@@ -7156,6 +7366,17 @@ $$ |0 - v| \leq \mathrm{atol} + \mathrm{rtol} \cdot |v| $$</p>
         
     </div>
     <a class="headerlink" href="#SampleSet.evaluation"></a>
+    
+    
+
+                            </div>
+                            <div id="SampleSet.measuring_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">measuring_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SampleSet.measuring_time"></a>
     
     
 
