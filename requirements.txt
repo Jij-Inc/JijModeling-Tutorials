@@ -25,13 +25,11 @@ exceptiongroup==1.2.2
     # via pytest
 idna==3.10
     # via requests
-importlib-metadata==8.5.0
-    # via typeguard
 iniconfig==2.0.0
     # via pytest
 jij-cimod==1.6.2
     # via openjij
-jijmodeling==1.8.0
+jijmodeling==1.9.0
     # via
     #   jijmodeling-tutorial (pyproject.toml)
     #   jijmodeling-transpiler
@@ -122,5 +120,3 @@ urllib3==2.2.3
     # via requests
 wrapt==1.16.0
     # via deprecated
-zipp==3.20.2
-    # via importlib-metadata
