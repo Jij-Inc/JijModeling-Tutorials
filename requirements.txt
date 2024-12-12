@@ -29,7 +29,7 @@ iniconfig==2.0.0
     # via pytest
 jij-cimod==1.6.2
     # via openjij
-jijmodeling==1.9.0
+jijmodeling==1.10.0
     # via
     #   jijmodeling-tutorial (pyproject.toml)
     #   jijmodeling-transpiler
@@ -52,7 +52,7 @@ numpy==1.26.4
     #   pyarrow
     #   pyqubo
     #   scipy
-ommx==1.4.2
+ommx==1.5.1
     # via
     #   jijmodeling-tutorial (pyproject.toml)
     #   jijmodeling
