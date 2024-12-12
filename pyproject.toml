@@ -1,11 +1,11 @@
 [project]
 name = "jijmodeling-tutorial"
-version = "1.9.0"
+version = "1.10.0"
 description = "Tutorial for JijModeling"
 readme = "README.md"
 requires-python = ">=3.9, <3.12" # jijmodeling does not support Python 3.12 yet
 dependencies = [
-  "jijmodeling >= 1.9.0, < 1.10.0",
+  "jijmodeling >= 1.10.0, < 1.11.0",
   "jijmodeling-transpiler>=0.6.15",
   "ommx >= 1.4.1, < 2.0.0",
   "ommx-pyscipopt-adapter >= 1.4.2, < 2.0.0",
