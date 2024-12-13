@@ -25,3 +25,4 @@ parts:
       - file: releases/jijmodeling-1.8.0
       - file: releases/jijmodeling-1.9.0
       - file: releases/jijmodeling-1.10.0
+      - file: releases/jijmodeling-1.10.1
