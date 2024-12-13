@@ -29,7 +29,7 @@ iniconfig==2.0.0
     # via pytest
 jij-cimod==1.6.2
     # via openjij
-jijmodeling==1.10.0
+jijmodeling==1.10.1
     # via
     #   jijmodeling-tutorial (pyproject.toml)
     #   jijmodeling-transpiler
