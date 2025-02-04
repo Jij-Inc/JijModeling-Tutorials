@@ -7,107 +7,63 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  docs:
+  book:
     strategy:
       matrix:
-        python-version:
-          - "3.9"
-        os:
-          - ubuntu-latest
-    runs-on: ${{ matrix.os }}
+        lang:
+          - ja
+          - en
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install uv
         uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
 
-      - name: Set up Python
-        run: uv python install ${{ matrix.python-version }}
-
-      - name: Install dependencies
-        run: uv sync --all-extras --dev
+      - name: Set up Python and dependencies
+        run: |
+          uv python install 3.9
+          uv sync --all-extras --dev
 
       - name: Build the book
         run: |
-          uv run jupyter-book build docs
-          ERROR_LOGS=$(find docs/_build -type f -name "*.err.log")
+          uv run jupyter-book build docs/${{ matrix.lang }}
+          ERROR_LOGS=$(find docs/${{ matrix.lang }}/_build -type f -name "*.err.log")
           if [ -n "$ERROR_LOGS" ]; then while IFS= read -r log; do echo "[ERROR LOG] $log" && cat "$log"; done <<< "$ERROR_LOGS" && exit 1; fi
 
       - name: Upload HTML
         uses: actions/upload-artifact@v4
         with:
-          name: docs
-          path: ./docs/_build/html
+          name: docs-${{ matrix.lang }}
+          path: ./docs/${{ matrix.lang }}/_build/html
           retention-days: 30
 
-      - name: Upload API ref
-        uses: actions/upload-artifact@v4
-        with:
-          name: api
-          path: ./apis
-          retention-days: 30
-  en:
-    strategy:
-      matrix:
-        python-version:
-          - "3.9"
-        os:
-          - ubuntu-latest
-    runs-on: ${{ matrix.os }}
+  package:
+    needs: book
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v3
+      - name: API reference
+        run: |
+          mkdir -p package
+          mv apis package
 
-      - name: Set up Python
-        run: uv python install ${{ matrix.python-version }}
-
-      - name: Install dependencies
-        run: uv sync --all-extras --dev
-
-      - name: Build the book
-        run: uv run jupyter-book build en
-  
-      - name: Upload HTML
-        uses: actions/upload-artifact@v4
-        with:
-          name: en
-          path: ./en/_build/html
-          retention-days: 30
-
-  package:
-    needs: [docs, en]
-    runs-on: ubuntu-latest
-    steps:
       - name: Download HTML of docs
         uses: actions/download-artifact@v4
         with:
-          name: docs
-          path: ./package
-
-      - name: Download HTML of api reference
-        uses: actions/download-artifact@v4
-        with:
-          name: api
-          path: ./package/apis
+          name: docs-ja
+          path: ./package/ja
 
       - name: Download HTML of en
         uses: actions/download-artifact@v4
         with:
-          name: en
+          name: docs-en
           path: ./package/en
 
       - name: Upload Docs Package
@@ -118,6 +74,15 @@ jobs:
           retention-days: 30
 
   deploy:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+
     if: github.ref == 'refs/heads/main'
     needs: package
     environment:
@@ -130,7 +95,7 @@ jobs:
         with:
           name: package
           path: .
-  
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
