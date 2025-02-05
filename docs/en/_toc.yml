@@ -6,25 +6,25 @@ root: introduction
 parts:
   - caption: Switch Language
     chapters:
-      - url: https://jij-inc.github.io/JijModeling-Tutorials/en/
-        title: English
-  - caption: "クイックスタート"
+      - url: https://jij-inc.github.io/JijModeling-Tutorials/ja/
+        title: 日本語
+  - caption: Quick Start
     chapters:
       - file: quickstart/scip
       - file: quickstart/openjij
-  - caption: "チュートリアル"
+  - caption: Tutorial
     chapters:
       - file: tutorials/creating_models
       - file: tutorials/types_and_bounds
       - file: tutorials/expressions
       - file: tutorials/constraint_and_penalty
-  - caption: "リファレンス"
+  - caption: Reference
     chapters:
       - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
         title: "jijmodeling API Reference"
       - file: references/tips
       - file: references/cheat_sheet
-  - caption: "リリースノート"
+  - caption: Release Note
     chapters:
       - file: releases/jijmodeling-1.8.0
       - file: releases/jijmodeling-1.9.0
