@@ -4,53 +4,65 @@ version: "3"
 
 tasks:
   build_book_ja:
+    desc: Build the Japanese version of the book
     cmds:
       - uv run jupyter-book build docs/ja
 
   build_book_ja_all:
+    desc: Build the Japanese version of the book (force rebuild all notebooks)
     cmds:
       - uv run jupyter-book build docs/ja --all
 
   open_book_ja:
+    desc: Open the Japanese version of the book
     cmds:
       - uv run python -m webbrowser file:///$(pwd)/docs/ja/_build/html/index.html
 
   watch_book_ja:
+    desc: Watch Japanese notebooks and auto-rebuild of the book
     cmds:
       - fswatch -o docs/ja/**/*.ipynb | xargs -n1 -I{} jupyter-book build docs/ja
 
   book_ja:
+    desc: Build and open the Japanese version of the book
     cmds:
       - task: build_book_ja
       - task: open_book_ja
 
   book_ja_all:
+    desc: Build and open the Japanese version of the book (force rebuild all notebooks)
     cmds:
       - task: build_book_ja_all
       - task: open_book_ja
 
   build_book_en:
+    desc: Build the English version of the book
     cmds:
       - uv run jupyter-book build docs/en
 
   build_book_en_all:
+    desc: Build the English version of the book (force rebuild all notebooks)
     cmds:
       - uv run jupyter-book build docs/en --all
 
   open_book_en:
+    desc: Open the English version of the book
     cmds:
       - uv run python -m webbrowser file:///$(pwd)/docs/en/_build/html/index.html
 
   watch_book_en:
+    desc: Watch English notebooks and auto-rebuild of the book
     cmds:
       - fswatch -o docs/en/**/*.ipynb | xargs -n1 -I{} jupyter-book build docs/en
 
   book_en:
+    desc: Build and open the English version of the book
     cmds:
       - task: build_book_en
       - task: open_book_en
 
   book_en_all:
+    desc: Build and open the English version of the book (force rebuild all notebooks)
     cmds:
       - task: build_book_en_all
       - task: open_book_en
