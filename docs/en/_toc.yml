@@ -2,23 +2,29 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: getting_started
+root: introduction
 parts:
   - caption: Switch Language
     chapters:
-      - url: https://jij-inc.github.io/JijModeling-Tutorials/ja/
-        title: 日本語
-  - caption: "Tutorials"
+      - url: https://jij-inc.github.io/JijModeling-Tutorials/en/
+        title: English
+  - caption: "クイックスタート"
+    chapters:
+      - file: quickstart/scip
+      - file: quickstart/openjij
+  - caption: "チュートリアル"
     chapters:
       - file: tutorials/creating_models
       - file: tutorials/types_and_bounds
       - file: tutorials/expressions
       - file: tutorials/constraint_and_penalty
-  - caption: "References"
+  - caption: "リファレンス"
     chapters:
+      - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
+        title: "jijmodeling API Reference"
       - file: references/tips
       - file: references/cheat_sheet
-  - caption: "Release Notes"
+  - caption: "リリースノート"
     chapters:
       - file: releases/jijmodeling-1.8.0
       - file: releases/jijmodeling-1.9.0
