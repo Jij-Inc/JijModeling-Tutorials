@@ -14,24 +14,24 @@ Public repository for the JijModeling project.
 Build Jupyter Book
 -------------------
 
-日本語と英語のJupyter Bookがあります。
+There are Jupyter Books in both Japanese and English.
 
 | Language | Path | GitHub Pages |
 |----------|------|--------------|
 | English  | [docs/en](./docs/en) | [![Book-EN](https://img.shields.io/badge/Book-English-blue)](https://jij-inc.github.io/JijModeling-Tutorials/en) |
 | 日本語   | [docs/ja](./docs/ja) | [![Book-JA](https://img.shields.io/badge/Book-日本語-blue)](https://jij-inc.github.io/JijModeling-Tutorials/ja) |
 
-それぞれのNotebookは独立に管理され、手動で翻訳されています。
+Each notebook is managed independently and translated manually.
 
 ### Build
 
-[uv](https://docs.astral.sh/uv/getting-started/installation/) と [Task](https://taskfile.dev/installation/) をインストールしておきます。
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and [task](https://taskfile.dev/installation/).
 
 ```shell
 task book_ja
 ```
 
-で日本語版Bookが `docs/ja/_build/html` にビルドされ、自動的にブラウザで開かれます。ビルドだけする場合は `build_book_ja` などを使います。利用できるタスクは以下の通りです。
+This command builds the Japanese version of the book in `docs/ja/_build/html` and automatically opens it in the browser. To only build the book, use `build_book_ja` task instead. Available tasks are as follows:
 
 ```text
 $ task -l
