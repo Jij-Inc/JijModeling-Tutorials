@@ -25,7 +25,7 @@ Build Jupyter Book
 
 ### Build
 
-[Task](https://taskfile.dev/installation/) をインストールしておきます。
+[uv](https://docs.astral.sh/uv/getting-started/installation/) と [Task](https://taskfile.dev/installation/) をインストールしておきます。
 
 ```shell
 task book_ja
