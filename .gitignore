@@ -163,4 +163,5 @@ cython_debug/
 
 .DS_Store
 
-en/_build/
+# Jupyter book
+_build/
