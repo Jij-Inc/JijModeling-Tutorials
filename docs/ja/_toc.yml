@@ -4,6 +4,10 @@
 format: jb-book
 root: introduction
 parts:
+  - caption: Switch Language
+    chapters:
+      - url: https://jij-inc.github.io/JijModeling-Tutorials/en/
+        title: English
   - caption: "クイックスタート"
     chapters:
       - file: quickstart/scip
