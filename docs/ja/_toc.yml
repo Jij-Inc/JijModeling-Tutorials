@@ -31,3 +31,4 @@ parts:
       - file: releases/jijmodeling-1.10.0
       - file: releases/jijmodeling-1.10.1
       - file: releases/jijmodeling-1.11.0
+      - file: releases/jijmodeling-1.12.0
