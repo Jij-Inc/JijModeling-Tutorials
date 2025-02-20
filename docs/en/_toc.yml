@@ -4,31 +4,32 @@
 format: jb-book
 root: introduction
 parts:
-  - caption: Switch Language
-    chapters:
-      - url: https://jij-inc.github.io/JijModeling-Tutorials/ja/
-        title: 日本語
-  - caption: Quick Start
-    chapters:
-      - file: quickstart/scip
-      - file: quickstart/openjij
-  - caption: Tutorial
-    chapters:
-      - file: tutorials/creating_models
-      - file: tutorials/types_and_bounds
-      - file: tutorials/expressions
-      - file: tutorials/constraint_and_penalty
-  - caption: Reference
-    chapters:
-      - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
-        title: "jijmodeling API Reference"
-      - file: references/tips
-      - file: references/cheat_sheet
-  - caption: Release Note
-    chapters:
-      - file: releases/jijmodeling-1.12.0
-      - file: releases/jijmodeling-1.11.0
-      - file: releases/jijmodeling-1.10.1
-      - file: releases/jijmodeling-1.10.0
-      - file: releases/jijmodeling-1.9.0
-      - file: releases/jijmodeling-1.8.0
+- caption: Switch Language
+  chapters:
+  - url: https://jij-inc.github.io/JijModeling-Tutorials/ja/
+    title: 日本語
+- caption: Quick Start
+  chapters:
+  - file: quickstart/scip
+  - file: quickstart/openjij
+- caption: Tutorial
+  chapters:
+  - file: tutorials/creating_models
+  - file: tutorials/types_and_bounds
+  - file: tutorials/expressions
+  - file: tutorials/constraint_and_penalty
+- caption: Reference
+  chapters:
+  - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
+    title: jijmodeling API Reference
+  - file: references/tips
+  - file: references/cheat_sheet
+- caption: Release Note
+  chapters:
+  - file: releases/jijmodeling-1.12.0
+  - file: releases/jijmodeling-1.12.0
+  - file: releases/jijmodeling-1.11.0
+  - file: releases/jijmodeling-1.10.1
+  - file: releases/jijmodeling-1.10.0
+  - file: releases/jijmodeling-1.9.0
+  - file: releases/jijmodeling-1.8.0
