@@ -3,7 +3,7 @@ name = "jijmodeling-tutorial"
 version = "1.10.1"
 description = "Tutorial for JijModeling"
 readme = "README.md"
-requires-python = ">=3.9, <3.12" # jijmodeling does not support Python 3.12 yet
+requires-python = ">=3.9, <3.13" # jijmodeling does not support Python 3.13 yet
 dependencies = [
   "jijmodeling == 1.12.1",
   "jijmodeling-transpiler>=0.6.15",

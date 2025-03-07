@@ -26,7 +26,7 @@ jobs:
 
       - name: Set up Python and dependencies
         run: |
-          uv python install 3.9
+          uv python install 3.11
           uv sync --all-extras --dev
 
       - name: Build the book
