@@ -26,6 +26,7 @@ parts:
   - file: references/cheat_sheet
 - caption: リリースノート
   chapters:
+  - file: releases/jijmodeling-1.12.3
   - file: releases/jijmodeling-1.12.2
   - file: releases/jijmodeling-1.12.1
   - file: releases/jijmodeling-1.12.0
