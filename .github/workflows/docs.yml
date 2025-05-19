@@ -30,7 +30,14 @@ jobs:
           uv sync --all-extras --dev
 
       - name: Build the book
+        env:
+          GA4_TRACKING_ID: ${{ secrets.GA4_TRACKING_ID }}
         run: |
+          # Replace GA4_TRACKING_ID placeholder with actual value from secrets
+          # Using | as delimiter to avoid issues with / in the GA4 ID
+          sed -i "s|GA4_TRACKING_ID|${GA4_TRACKING_ID}|g" docs/${{ matrix.lang }}/_config.yml
+          
+          # Build the book
           uv run jupyter-book build docs/${{ matrix.lang }}
           ERROR_LOGS=$(find docs/${{ matrix.lang }}/_build -type f -name "*.err.log")
           if [ -n "$ERROR_LOGS" ]; then while IFS= read -r log; do echo "[ERROR LOG] $log" && cat "$log"; done <<< "$ERROR_LOGS" && exit 1; fi
