@@ -455,7 +455,16 @@
                                 <a class="function" href="#DecisionVar.prod">prod</a>
                         </li>
                         <li>
+                                <a class="variable" href="#DecisionVar.kind">kind</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#DecisionVar.ndim">ndim</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#DecisionVar.lower_bound">lower_bound</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#DecisionVar.upper_bound">upper_bound</a>
                         </li>
                         <li>
                                 <a class="variable" href="#DecisionVar.description">description</a>
@@ -464,16 +473,7 @@
                                 <a class="variable" href="#DecisionVar.shape">shape</a>
                         </li>
                         <li>
-                                <a class="variable" href="#DecisionVar.kind">kind</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#DecisionVar.upper_bound">upper_bound</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#DecisionVar.name">name</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#DecisionVar.lower_bound">lower_bound</a>
                         </li>
                 </ul>
 
@@ -521,6 +521,9 @@
                                 <a class="function" href="#Problem.namespace">namespace</a>
                         </li>
                         <li>
+                                <a class="function" href="#Problem.update">update</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Problem.Constraint">Constraint</a>
                         </li>
                         <li>
@@ -563,22 +566,22 @@
                                 <a class="function" href="#Constraint.is_inequality">is_inequality</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Constraint.expression">expression</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Constraint.left">left</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#Constraint.name">name</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Constraint.right">right</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Constraint.is_equality">is_equality</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Constraint.right">right</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Constraint.sense">sense</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Constraint.left">left</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Constraint.expression">expression</a>
                         </li>
                 </ul>
 
@@ -646,6 +649,72 @@
                 </ul>
 
             </li>
+            <li>
+                    <a class="class" href="#DecoratedProblem">DecoratedProblem</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#DecoratedProblem.Placeholder">Placeholder</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.Integer">Integer</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.Float">Float</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.Natural">Natural</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.Binary">Binary</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.DecisionVar">DecisionVar</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.BinaryVar">BinaryVar</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.IntegerVar">IntegerVar</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.SemiIntegerVar">SemiIntegerVar</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.ContinuousVar">ContinuousVar</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.SemiContinuousVar">SemiContinuousVar</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.Constraint">Constraint</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.used_placeholders">used_placeholders</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.get_problem_schema">get_problem_schema</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.generate_random_dataset">generate_random_dataset</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.generate_random_instance">generate_random_instance</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.type_of">type_of</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DecoratedProblem.infer">infer</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#DesugaredProblemBuilder">DesugaredProblemBuilder</a>
+                            <ul class="memberlist">
+                </ul>
+
+            </li>
     </ul>
 
 
@@ -670,7 +739,7 @@
                 <section id="__version__">
                     <div class="attr variable">
             <span class="name">__version__</span>        =
-<span class="default_value">&#39;2.0.0-alpha.5&#39;</span>
+<span class="default_value">&#39;2.0.0-alpha.6&#39;</span>
 
         
     </div>
@@ -2521,6 +2590,17 @@ accessing the 123rd component of it..</p>
     
 
                             </div>
+                            <div id="DecisionVar.kind" class="classattr">
+                                <div class="attr variable">
+            <span class="name">kind</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecisionVar.kind"></a>
+    
+    
+
+                            </div>
                             <div id="DecisionVar.ndim" class="classattr">
                                 <div class="attr variable">
             <span class="name">ndim</span>
@@ -2528,6 +2608,28 @@ accessing the 123rd component of it..</p>
         
     </div>
     <a class="headerlink" href="#DecisionVar.ndim"></a>
+    
+    
+
+                            </div>
+                            <div id="DecisionVar.lower_bound" class="classattr">
+                                <div class="attr variable">
+            <span class="name">lower_bound</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecisionVar.lower_bound"></a>
+    
+    
+
+                            </div>
+                            <div id="DecisionVar.upper_bound" class="classattr">
+                                <div class="attr variable">
+            <span class="name">upper_bound</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecisionVar.upper_bound"></a>
     
     
 
@@ -2554,28 +2656,6 @@ accessing the 123rd component of it..</p>
     
 
                             </div>
-                            <div id="DecisionVar.kind" class="classattr">
-                                <div class="attr variable">
-            <span class="name">kind</span>
-
-        
-    </div>
-    <a class="headerlink" href="#DecisionVar.kind"></a>
-    
-    
-
-                            </div>
-                            <div id="DecisionVar.upper_bound" class="classattr">
-                                <div class="attr variable">
-            <span class="name">upper_bound</span>
-
-        
-    </div>
-    <a class="headerlink" href="#DecisionVar.upper_bound"></a>
-    
-    
-
-                            </div>
                             <div id="DecisionVar.name" class="classattr">
                                 <div class="attr variable">
             <span class="name">name</span>
@@ -2583,17 +2663,6 @@ accessing the 123rd component of it..</p>
         
     </div>
     <a class="headerlink" href="#DecisionVar.name"></a>
-    
-    
-
-                            </div>
-                            <div id="DecisionVar.lower_bound" class="classattr">
-                                <div class="attr variable">
-            <span class="name">lower_bound</span>
-
-        
-    </div>
-    <a class="headerlink" href="#DecisionVar.lower_bound"></a>
     
     
 
@@ -3034,6 +3103,48 @@ is neither <code>0</code> nor the same value as <code>ndim</code> of the integer
     
 
                             </div>
+                            <div id="Problem.update" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">update</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span>, </span><span class="param"><span class="n">func</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Problem.update"></a>
+    
+            <div class="docstring"><p>A function decorator to modify an existing <code><a href="#Problem">Problem</a></code> using the decorated API.
+This must be decorated to a function that takes <code><a href="#DecoratedProblem">DecoratedProblem</a></code> as the only argument and returns None.
+You can call <code><a href="#Problem.update">update</a></code> multiple times.
+The given function will automatically be evaluated exactly once by the decocrator, so you DO NOT need to call the original function again.</p>
+
+<h2 id="example">Example</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;Knapsack Problem&quot;</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">ProblemSense</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nd">@problem</span><span class="o">.</span><span class="n">update</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">def</span><span class="w"> </span><span class="nf">my_updater</span><span class="p">(</span><span class="n">problem</span><span class="p">:</span> <span class="n">jm</span><span class="o">.</span><span class="n">DecoratedProblem</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">w</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Weights of the items&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">N</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">len_at</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">v</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Values of the items&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">W</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Total weight&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Selected items&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">problem</span> <span class="o">+=</span> <span class="n">problem</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="n">jm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">W</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">problem</span> <span class="o">+=</span> <span class="n">jm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">w_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">v_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">instance_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="n">w_data</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">v_data</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">instance</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">instance_data</span><span class="p">)</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
                             <div id="Problem.Constraint" class="classattr">
                                 <div class="attr function">
             
@@ -3367,28 +3478,6 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
 
 
                             </div>
-                            <div id="Constraint.expression" class="classattr">
-                                <div class="attr variable">
-            <span class="name">expression</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.expression"></a>
-    
-    
-
-                            </div>
-                            <div id="Constraint.left" class="classattr">
-                                <div class="attr variable">
-            <span class="name">left</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.left"></a>
-    
-    
-
-                            </div>
                             <div id="Constraint.name" class="classattr">
                                 <div class="attr variable">
             <span class="name">name</span>
@@ -3396,17 +3485,6 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
         
     </div>
     <a class="headerlink" href="#Constraint.name"></a>
-    
-    
-
-                            </div>
-                            <div id="Constraint.right" class="classattr">
-                                <div class="attr variable">
-            <span class="name">right</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.right"></a>
     
     
 
@@ -3440,6 +3518,17 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
 
 
                             </div>
+                            <div id="Constraint.right" class="classattr">
+                                <div class="attr variable">
+            <span class="name">right</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.right"></a>
+    
+    
+
+                            </div>
                             <div id="Constraint.sense" class="classattr">
                                 <div class="attr variable">
             <span class="name">sense</span>
@@ -3447,6 +3536,28 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
         
     </div>
     <a class="headerlink" href="#Constraint.sense"></a>
+    
+    
+
+                            </div>
+                            <div id="Constraint.left" class="classattr">
+                                <div class="attr variable">
+            <span class="name">left</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.left"></a>
+    
+    
+
+                            </div>
+                            <div id="Constraint.expression" class="classattr">
+                                <div class="attr variable">
+            <span class="name">expression</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.expression"></a>
     
     
 
@@ -3684,6 +3795,652 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
     
 
                             </div>
+                </section>
+                <section id="DecoratedProblem">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">DecoratedProblem</span><wbr>(<span class="base">builtins.PyProtocol</span>):
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem"></a>
+    
+            <div class="docstring"><p>A variant of <code><a href="#Problem">Problem</a></code> that is only available in Decorator API provided by <code>Problem.compile</code>.</p>
+</div>
+
+
+                            <div id="DecoratedProblem.Placeholder" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">Placeholder</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">ndim</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">dtype</span><span class="o">=</span><span class="bp">Ellipsis</span>,</span><span class="param">	<span class="n">jagged</span><span class="o">=</span><span class="kc">False</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.Placeholder"></a>
+    
+    
+
+                            </div>
+                            <div id="DecoratedProblem.Integer" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">Integer</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">ndim</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">jagged</span><span class="o">=</span><span class="kc">False</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.Integer"></a>
+    
+            <div class="docstring"><p>A shorthand for <code><a href="#Problem.Placeholder">Problem.Placeholder</a>(dtype=int)</code></p>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.Float" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">Float</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">ndim</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">jagged</span><span class="o">=</span><span class="kc">False</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.Float"></a>
+    
+            <div class="docstring"><p>A shorthand for <code><a href="#Problem.Placeholder">Problem.Placeholder</a>(dtype=DataType.FLOAT)</code></p>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.Natural" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">Natural</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">ndim</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">jagged</span><span class="o">=</span><span class="kc">False</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.Natural"></a>
+    
+            <div class="docstring"><p>A shorthand for <code><a href="#Problem.Placeholder">Problem.Placeholder</a>(dtype=DataType.NATURAL)</code></p>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.Binary" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">Binary</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">ndim</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">jagged</span><span class="o">=</span><span class="kc">False</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.Binary"></a>
+    
+            <div class="docstring"><p>A shorthand for <code><a href="#Problem.Placeholder">Problem.Placeholder</a>(dtype=DataType.BINARY)</code></p>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.DecisionVar" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">DecisionVar</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">kind</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">lower_bound</span>,</span><span class="param">	<span class="n">upper_bound</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.DecisionVar"></a>
+    
+            <div class="docstring"><p>A function to create a decision variable and register to the problem namespace. See <code><a href="#DecoratedProblem.DecisionVar">DecisionVar</a></code> for more details.</p>
+
+<h2 id="args">Args</h2>
+
+<ul>
+<li><code>name</code> (<code>str</code>): A name of the binary variable. If omitted, local variable name is used.</li>
+<li><code>kind</code> (<code>DecisionVarKind</code>): A kind of the decision variable.</li>
+<li><code>shape</code> (<code>list | tuple</code>): A sequence with the size of each dimension of the binary variable. Defaults to an empty tuple (a scalar value).
+<ul>
+<li>Each item in <code>shape</code> must be a valid expression evaluating to a non-negative scalar.</li>
+</ul></li>
+<li><code>lower_bound</code> and <code>upper_bound</code> (<code><a href="#Expression">jijmodeling.Expression</a></code>): A lower and upper bounds of the binary variable.</li>
+<li><code>kind</code> (<code>DecisionVarKind</code>): A kind of the decision variable.</li>
+<li><code>latex</code> (<code>str</code>, optional): A LaTeX-name of the binary variable to be represented in Jupyter notebook.
+<ul>
+<li>It is set to <code>name</code> by default.</li>
+</ul></li>
+<li><code>description</code> (<code>str</code>, optional): A description of the binary variable.</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<p>Create a scalar binary variable whose name is "z".</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">DecisionVar</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DecisionVarKind</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Create a 2-dimensional binary variable whose name is "x" and has a 2x2 shape.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>Create a 1-dimensional binary variable with the index of <code>123</code>.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">124</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">[</span><span class="mi">123</span><span class="p">]</span>
+<span class="n">BinaryVar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">NumberLit</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">124</span><span class="p">)])[</span><span class="n">NumberLit</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">123</span><span class="p">)]</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.BinaryVar" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">BinaryVar</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span>, </span><span class="param"><span class="n">name</span><span class="o">=</span><span class="kc">None</span>, </span><span class="param"><span class="o">*</span>, </span><span class="param"><span class="n">shape</span><span class="o">=</span><span class="kc">None</span>, </span><span class="param"><span class="n">latex</span><span class="o">=</span><span class="kc">None</span>, </span><span class="param"><span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.BinaryVar"></a>
+    
+            <div class="docstring"><p>A function to create a binary decision variable and register to the problem namespace. See <code><a href="#DecoratedProblem.DecisionVar">DecisionVar</a></code> for more details.</p>
+
+<h2 id="args">Args</h2>
+
+<ul>
+<li><code>name</code> (<code>str</code>): A name of the binary variable. If omitted, local variable name is used.</li>
+<li><code>shape</code> (<code>list | tuple</code>): A sequence with the size of each dimension of the binary variable. Defaults to an empty tuple (a scalar value).
+<ul>
+<li>Each item in <code>shape</code> must be a valid expression evaluating to a non-negative scalar.</li>
+</ul></li>
+<li><code>latex</code> (<code>str</code>, optional): A LaTeX-name of the binary variable to be represented in Jupyter notebook.
+<ul>
+<li>It is set to <code>name</code> by default.</li>
+</ul></li>
+<li><code>description</code> (<code>str</code>, optional): A description of the binary variable.</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<p>Create a scalar binary variable whose name is "z".</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Create a 2-dimensional binary variable whose name is "x" and has a 2x2 shape.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>Create a 1-dimensional binary variable with the index of <code>123</code>.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">problemm</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">124</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">[</span><span class="mi">123</span><span class="p">]</span>
+<span class="n">x</span><span class="p">[</span><span class="mi">123</span><span class="p">]</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.IntegerVar" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">IntegerVar</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">lower_bound</span>,</span><span class="param">	<span class="n">upper_bound</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.IntegerVar"></a>
+    
+            <div class="docstring"><p>A function to create a decision variable and register to the problem namespace. See <code><a href="#DecoratedProblem.DecisionVar">DecisionVar</a></code> for more details.</p>
+
+<h2 id="args">Args</h2>
+
+<ul>
+<li><code>name</code> (`str): A name of the integer variable. If omitted, local variable name is used.</li>
+<li><code>shape</code> (<code>list | tuple</code>): A sequence with the size of each dimension of the integer variable. Defaults to an empty tuple (a scalar value).
+<ul>
+<li>Each item in <code>shape</code> must be a valid expression evaluating to a non-negative scalar.</li>
+</ul></li>
+<li><code>lower_bound</code>: The lower bound of the variable.</li>
+<li><code>upper_bound</code>: The upper bound of the variable.</li>
+<li><code>latex</code> (<code>str</code>, optional): A LaTeX-name of the integer variable to be represented in Jupyter notebook.
+<ul>
+<li>It is set to <code>name</code> by default.</li>
+</ul></li>
+<li><code>description</code> (<code>str</code>, optional): A description of the integer variable.</li>
+</ul>
+
+<h2 id="raises">Raises</h2>
+
+<p><code>ModelingError</code>: Raises if a bound is a <code><a href="#DecoratedProblem.Placeholder">Placeholder</a></code> or <code>Subscript</code> object whose <code>ndim</code>
+is neither <code>0</code> nor the same value as <code>ndim</code> of the integer variable.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>Create a scalar integer variable whose name is "z" and domain is <code>[-1, 1]</code>.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">IntegerVar</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Create a 2-dimensional integer variable...</p>
+
+<ul>
+<li>whose name is "x".</li>
+<li>whose domain is [0, 2].</li>
+<li>where each dimension has length 2 (making this a 2x2 matrix).</li>
+</ul>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">IntegerVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Create a 1-dimensional integer variable with the index of <code>123</code>.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;my_problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">IntegerVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">124</span><span class="p">],</span> <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">[</span><span class="mi">123</span><span class="p">]</span>
+<span class="n">x</span><span class="p">[</span><span class="mi">123</span><span class="p">]</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.SemiIntegerVar" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">SemiIntegerVar</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">lower_bound</span>,</span><span class="param">	<span class="n">upper_bound</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.SemiIntegerVar"></a>
+    
+    
+
+                            </div>
+                            <div id="DecoratedProblem.ContinuousVar" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">ContinuousVar</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">lower_bound</span>,</span><span class="param">	<span class="n">upper_bound</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.ContinuousVar"></a>
+    
+            <div class="docstring"><p>A function to create a decision variable and register to the problem namespace. See <code><a href="#DecoratedProblem.DecisionVar">DecisionVar</a></code> for more details.</p>
+
+<h2 id="args">Args</h2>
+
+<ul>
+<li><code>name</code> (<code>str</code>): A name of the continuous variable.</li>
+<li><code>shape</code> (<code>list | tuple</code>): A sequence with the size of each dimension of the continuous variable. Defaults to an empty tuple (a scalar value).
+<ul>
+<li>Each item in <code>shape</code> must be a valid expression evaluating to a non-negative scalar.</li>
+</ul></li>
+<li><code>lower_bound</code>: The lower bound of the variable.</li>
+<li><code>upper_bound</code>: The upper bound of the variable.</li>
+<li><code>latex</code> (<code>str</code>, optional): A LaTeX-name of the continuous variable to be represented in Jupyter notebook.
+<ul>
+<li>It is set to <code>name</code> by default.</li>
+</ul></li>
+<li><code>description</code> (<code>str</code>, optional): A description of the continuous variable.</li>
+</ul>
+
+<h2 id="raises">Raises</h2>
+
+<p><code>ModelingError</code>: Raises if a bound is a <code><a href="#DecoratedProblem.Placeholder">Placeholder</a></code> or <code>Subscript</code> object whose <code>ndim</code> is neither <code>0</code> nor the same value as <code>ndim</code> of the continuous variable.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>Create a scalar continuous variable whose name is "z" and domain is <code>[-1, 1]</code>.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">ContinuousVar</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Create a 2-dimensional continuous variable...</p>
+
+<ul>
+<li>whose name is "x".</li>
+<li>whose domain is [0, 2].</li>
+<li>where each dimension has length 2 (making this a 2x2 matrix).</li>
+</ul>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">ContinuousVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Create a 1-dimensional continuous variable with the index of <code>123</code>.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">ContinuousVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">124</span><span class="p">],</span> <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">[</span><span class="mi">123</span><span class="p">]</span>
+<span class="n">ContinuousVar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">NumberLit</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">124</span><span class="p">)],</span> <span class="n">lower_bound</span><span class="o">=</span><span class="n">NumberLit</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">upper_bound</span><span class="o">=</span><span class="n">NumberLit</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">2</span><span class="p">))[</span><span class="n">NumberLit</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">123</span><span class="p">)]</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.SemiContinuousVar" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">SemiContinuousVar</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="o">/</span>,</span><span class="param">	<span class="n">name</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">shape</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">lower_bound</span>,</span><span class="param">	<span class="n">upper_bound</span>,</span><span class="param">	<span class="n">latex</span><span class="o">=</span><span class="kc">None</span>,</span><span class="param">	<span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.SemiContinuousVar"></a>
+    
+    
+
+                            </div>
+                            <div id="DecoratedProblem.Constraint" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">Constraint</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">name</span>, </span><span class="param"><span class="n">expression</span>, </span><span class="param"><span class="o">*</span>, </span><span class="param"><span class="n">description</span><span class="o">=</span><span class="kc">None</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.Constraint"></a>
+    
+            <div class="docstring"><p>Constructs <code><a href="#DecoratedProblem.Constraint">Constraint</a></code> object, __WITHOUT__ registering it to the problem.
+Use <code>+=</code> operator to register the constraint to the problem.</p>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.used_placeholders" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">used_placeholders</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.used_placeholders"></a>
+    
+    
+
+                            </div>
+                            <div id="DecoratedProblem.get_problem_schema" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_problem_schema</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.get_problem_schema"></a>
+    
+            <div class="docstring"><p>Returns the schema of the problem.</p>
+
+<h2 id="returns">Returns</h2>
+
+<ul>
+<li><code>schema</code>: The dictionary containing the schema of the problem.</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.generate_random_dataset" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">generate_random_dataset</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">seed</span>, </span><span class="param"><span class="n">default</span>, </span><span class="param"><span class="n">options</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.generate_random_dataset"></a>
+    
+            <div class="docstring"><p>Generates a dictionary of random <code>InstanceDataValue</code> for a given problem.
+To generate <code>ommx.v1.Instance</code> object directly, use <code>InstanceDataValue.generate_random_instance</code> instead.</p>
+
+<h2 id="args">Args</h2>
+
+<ul>
+<li><code>options</code> (optional): a dictionary of range parameters for each separate placeholders. The key must be the name of the placeholder and the value must be range parameter (as described in "Range Parameters and Range Syntax" below).</li>
+<li><code>default</code> (optional): default range parameters for placeholders which is not specified in <code>options</code>.</li>
+<li><code>seed</code> (optional): seed for random number generation.</li>
+</ul>
+
+<h2 id="returns">Returns</h2>
+
+<p><code>dict</code>: The dictionary from the name of placeholders to the generated <code>InstanceDataValue</code> objects. To be fed to <code>Interpreter.eval_problem</code>.</p>
+
+<h2 id="range-parameters-and-range-syntax">Range Parameters and Range Syntax</h2>
+
+<p>A range parameter is a dictionary consisting of the following fields:</p>
+
+<ul>
+<li><code>size</code> (optional): interval of natural numbers for the size of each array dimension (default: <code>range(1, 6)</code>)</li>
+<li><code>value</code> (optional): interval of real numbers for the value of each array element (default: <code>range(-1.0, 1.0)</code> - a uniform distribution on a closed interval $[-1.0, 1.0]$).</li>
+</ul>
+
+<p>Example range parameter config:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">jm</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">closed</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">)}</span>
+</code></pre>
+</div>
+
+<p>Intervals are expressed as a range object.
+Currently, the following syntax is supported for range objects:</p>
+
+<ol>
+<li>Direct value of type <code>int</code> or <code>float</code> - it corresponds to a singleton interval $[a, a] = {a}$. In random generation context, this just means a constant fixed value.</li>
+<li>Use the functions from <code><a href="range.html">jijmodeling.range</a></code>, <code><a href="range/size.html">jijmodeling.range.size</a></code>, or <code><a href="range/value.html">jijmodeling.range.value</a></code> modules.
+<ul>
+<li>Use functions from <code>jij.modeling.range.size</code> to specify (non-negative) integer intervals, and <code>jij.modeling.range.value</code> for real intervals. <code>jij.modeling.range</code> dynamically determines the type of the range based on the input.</li>
+<li>These three modules provides the following combinators (see the module documents for more details.):
+<ul>
+<li><code>closed(a, b)</code>: a closed interval $[a, b]$</li>
+<li><code>open(a, b)</code>: an open interval $(a, b)$</li>
+<li><code>closed_open(a, b)</code>: an upper half-open interval $[a, b)$</li>
+<li><code>open_closed(a, b)</code>: a lower half-open interval $(a, b]$</li>
+<li><code>greater_than(a)</code>: an open interval $(a, \infty)$</li>
+<li><code>at_least(a)</code>: a closed interval $[a, \infty)$</li>
+<li><code>less_than(a)</code>: an open interval $(-\infty, a)$</li>
+<li><code>at_most(a)</code>: a closed interval $(-\infty, a]$</li>
+</ul></li>
+</ul></li>
+<li>Use <code>range</code> builtin function: this is equivalent to <code>jijmodeling.range.value.closed_open(a, b)</code>.
+<ul>
+<li>Any python range object with <code>step = 1</code> can be used as a size range; otherwise it results in runtime error.</li>
+</ul></li>
+<li><p>Use a tuple: raw tuple <code>(a, b)</code> is equivalent to <code>jijmodeling.range.closed_open(a, b)</code> if <code>a</code> and <code>b</code> are either <code>int</code> or <code>float</code>.</p>
+
+<ul>
+<li><p>You can also use bound object as a tuple component; in such case, both tuple components must be one of the following:</p>
+
+<ol>
+<li>A string <code>"Unbounded"</code> means $-\infty$ (in the first component) or $\infty$ (the second).</li>
+<li>A dictionary <code>{"Included": a}</code> means the endpoint is inclusive.</li>
+<li>A dictionary <code>{"Excluded": a}</code> means the endpoint is exclusive.</li>
+</ol></li>
+<li>Examples:
+<ul>
+<li><code>(1.2, 4)</code> is equivalent to <code>closed_open(1.2, 4)</code>,</li>
+<li><code>(-1, {"Included": 1})</code> is equivalent to <code>closed(-1, 1)</code>,</li>
+<li><code>(-5, {"Excluded": 4})</code> is equivalent to <code>closed_open(-5, 4)</code> and built in function <code>range(-5, 4)</code>,</li>
+<li><code>({"Excluded": 1}, {"Excluded": 2.5})</code> is equivalent to <code>open(1, 2.5)</code>,</li>
+<li><code>({"Included": -1}, "Unbounded")</code> is equivalent to <code>at_least(-1)</code>.</li>
+<li><code>(5, "Unbounded")</code> is <strong>INVALID</strong>; <code>5</code> must be bound object.</li>
+</ul></li>
+</ul></li>
+<li>The range object: A dictionary of form <code>{"start": lb, "end": ub}</code>, where both <code>lb</code> and <code>ub</code> are the bound object described as above.</li>
+</ol>
+
+<h2 id="examples">Examples</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">builtins</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">N</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">INTEGER</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">belong_to</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">+=</span> <span class="n">jm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">generate_random_dataset</span><span class="p">(</span>
+<span class="o">...</span>     <span class="n">options</span><span class="o">=</span><span class="p">{</span>
+<span class="o">...</span>         <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">builtins</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)},</span>
+<span class="o">...</span>         <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">jm</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">closed</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}</span>
+<span class="o">...</span>          <span class="c1"># You can also specify &quot;size&quot; for the range of jagged array dimension size.</span>
+<span class="o">...</span>     <span class="p">},</span>
+<span class="o">...</span>     <span class="n">seed</span><span class="o">=</span><span class="mi">123</span> <span class="c1"># omittable</span>
+<span class="o">...</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">inputs</span>
+<span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="mf">11.0</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.93914459</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.06511935</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7460324</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.32443706</span><span class="p">,</span>  <span class="mf">0.99981451</span><span class="p">,</span>
+       <span class="o">-</span><span class="mf">0.24407535</span><span class="p">,</span>  <span class="mf">0.31329469</span><span class="p">,</span>  <span class="mf">0.52206453</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1291936</span> <span class="p">,</span>  <span class="mf">0.30443087</span><span class="p">,</span>
+        <span class="mf">0.53125838</span><span class="p">])}</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.generate_random_instance" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">generate_random_instance</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span>, </span><span class="param"><span class="n">_default</span>, </span><span class="param"><span class="n">_options</span>, </span><span class="param"><span class="n">_seed</span>, </span><span class="param"><span class="n">_hints</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.generate_random_instance"></a>
+    
+            <div class="docstring"><p>Generates random <code>ommx.v1.Instance</code> for a given problem.
+See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
+
+<h2 id="args">Args</h2>
+
+<ul>
+<li><code>options</code> (optional): a dictionary of range parameters for each separate placeholders. The key must be the name of the placeholder and the value must be range parameter (as described in "Range Parameters and Range Syntax" section in <code>~<a href="#Problem.generate_random_dataset">jijmodeling.Problem.generate_random_dataset()</a></code>).</li>
+<li><code>default</code> (optional): default range parameters for placeholders which is not specified in <code>options</code>.</li>
+<li><code>seed</code> (optional): seed for random number generation.</li>
+<li><code>hints</code> (optional): the hints to be detected during compilation see <code>Interpreter.eval_problem</code> for more details.</li>
+</ul>
+
+<h2 id="returns">Returns</h2>
+
+<p><code>instance</code>: The OMMX v1 instance object.</p>
+
+<h2 id="examples">Examples</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jijmodeling</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">builtins</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">ommx.v1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">N</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">INTEGER</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jm</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">BinaryVar</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">belong_to</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">=</span> <span class="n">jm</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="s2">&quot;problem&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span> <span class="o">+=</span> <span class="n">jm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">instance</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">generate_random_instance</span><span class="p">(</span>
+<span class="o">...</span>     <span class="n">options</span><span class="o">=</span><span class="p">{</span>
+<span class="o">...</span>         <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">builtins</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)},</span>
+<span class="o">...</span>         <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">jm</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">closed</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}</span>
+<span class="o">...</span>     <span class="p">},</span>
+<span class="o">...</span>     <span class="n">seed</span><span class="o">=</span><span class="mi">123</span>
+<span class="o">...</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span> <span class="ow">is</span> <span class="n">ommx</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">Instance</span>
+</code></pre>
+</div>
+</div>
+
+
+                            </div>
+                            <div id="DecoratedProblem.type_of" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">type_of</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span>, </span><span class="param"><span class="n">name</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.type_of"></a>
+    
+    
+
+                            </div>
+                            <div id="DecoratedProblem.infer" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">infer</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span>, </span><span class="param"><span class="n">expr</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecoratedProblem.infer"></a>
+    
+    
+
+                            </div>
+                </section>
+                <section id="DesugaredProblemBuilder">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">DesugaredProblemBuilder</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#DesugaredProblemBuilder"></a>
+    
+    
+
                 </section>
     </main>
 <script>
