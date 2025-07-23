@@ -455,25 +455,25 @@
                                 <a class="function" href="#DecisionVar.prod">prod</a>
                         </li>
                         <li>
-                                <a class="variable" href="#DecisionVar.kind">kind</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#DecisionVar.ndim">ndim</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#DecisionVar.lower_bound">lower_bound</a>
                         </li>
                         <li>
-                                <a class="variable" href="#DecisionVar.upper_bound">upper_bound</a>
+                                <a class="variable" href="#DecisionVar.name">name</a>
                         </li>
                         <li>
-                                <a class="variable" href="#DecisionVar.description">description</a>
+                                <a class="variable" href="#DecisionVar.kind">kind</a>
                         </li>
                         <li>
                                 <a class="variable" href="#DecisionVar.shape">shape</a>
                         </li>
                         <li>
-                                <a class="variable" href="#DecisionVar.name">name</a>
+                                <a class="variable" href="#DecisionVar.description">description</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#DecisionVar.upper_bound">upper_bound</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#DecisionVar.ndim">ndim</a>
                         </li>
                 </ul>
 
@@ -566,22 +566,22 @@
                                 <a class="function" href="#Constraint.is_inequality">is_inequality</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Constraint.expression">expression</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Constraint.name">name</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Constraint.is_equality">is_equality</a>
+                                <a class="variable" href="#Constraint.right">right</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Constraint.right">right</a>
+                                <a class="variable" href="#Constraint.is_equality">is_equality</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Constraint.sense">sense</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Constraint.left">left</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Constraint.expression">expression</a>
                         </li>
                 </ul>
 
@@ -739,7 +739,7 @@
                 <section id="__version__">
                     <div class="attr variable">
             <span class="name">__version__</span>        =
-<span class="default_value">&#39;2.0.0-alpha.6&#39;</span>
+<span class="default_value">&#39;2.0.0-alpha.7&#39;</span>
 
         
     </div>
@@ -875,7 +875,11 @@
     </div>
     <a class="headerlink" href="#sum"></a>
     
-    
+            <div class="docstring"><p>Takes a summation of set or tensor-like expression.
+You can use <code>axis</code> to partially reducing the tensor along
+specified axes.</p>
+</div>
+
 
                 </section>
                 <section id="prod">
@@ -2590,28 +2594,6 @@ accessing the 123rd component of it..</p>
     
 
                             </div>
-                            <div id="DecisionVar.kind" class="classattr">
-                                <div class="attr variable">
-            <span class="name">kind</span>
-
-        
-    </div>
-    <a class="headerlink" href="#DecisionVar.kind"></a>
-    
-    
-
-                            </div>
-                            <div id="DecisionVar.ndim" class="classattr">
-                                <div class="attr variable">
-            <span class="name">ndim</span>
-
-        
-    </div>
-    <a class="headerlink" href="#DecisionVar.ndim"></a>
-    
-    
-
-                            </div>
                             <div id="DecisionVar.lower_bound" class="classattr">
                                 <div class="attr variable">
             <span class="name">lower_bound</span>
@@ -2623,24 +2605,24 @@ accessing the 123rd component of it..</p>
     
 
                             </div>
-                            <div id="DecisionVar.upper_bound" class="classattr">
+                            <div id="DecisionVar.name" class="classattr">
                                 <div class="attr variable">
-            <span class="name">upper_bound</span>
+            <span class="name">name</span>
 
         
     </div>
-    <a class="headerlink" href="#DecisionVar.upper_bound"></a>
+    <a class="headerlink" href="#DecisionVar.name"></a>
     
     
 
                             </div>
-                            <div id="DecisionVar.description" class="classattr">
+                            <div id="DecisionVar.kind" class="classattr">
                                 <div class="attr variable">
-            <span class="name">description</span>
+            <span class="name">kind</span>
 
         
     </div>
-    <a class="headerlink" href="#DecisionVar.description"></a>
+    <a class="headerlink" href="#DecisionVar.kind"></a>
     
     
 
@@ -2656,13 +2638,35 @@ accessing the 123rd component of it..</p>
     
 
                             </div>
-                            <div id="DecisionVar.name" class="classattr">
+                            <div id="DecisionVar.description" class="classattr">
                                 <div class="attr variable">
-            <span class="name">name</span>
+            <span class="name">description</span>
 
         
     </div>
-    <a class="headerlink" href="#DecisionVar.name"></a>
+    <a class="headerlink" href="#DecisionVar.description"></a>
+    
+    
+
+                            </div>
+                            <div id="DecisionVar.upper_bound" class="classattr">
+                                <div class="attr variable">
+            <span class="name">upper_bound</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecisionVar.upper_bound"></a>
+    
+    
+
+                            </div>
+                            <div id="DecisionVar.ndim" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ndim</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecisionVar.ndim"></a>
     
     
 
@@ -3478,6 +3482,17 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
 
 
                             </div>
+                            <div id="Constraint.expression" class="classattr">
+                                <div class="attr variable">
+            <span class="name">expression</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.expression"></a>
+    
+    
+
+                            </div>
                             <div id="Constraint.name" class="classattr">
                                 <div class="attr variable">
             <span class="name">name</span>
@@ -3485,6 +3500,17 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
         
     </div>
     <a class="headerlink" href="#Constraint.name"></a>
+    
+    
+
+                            </div>
+                            <div id="Constraint.right" class="classattr">
+                                <div class="attr variable">
+            <span class="name">right</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.right"></a>
     
     
 
@@ -3518,17 +3544,6 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
 
 
                             </div>
-                            <div id="Constraint.right" class="classattr">
-                                <div class="attr variable">
-            <span class="name">right</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.right"></a>
-    
-    
-
-                            </div>
                             <div id="Constraint.sense" class="classattr">
                                 <div class="attr variable">
             <span class="name">sense</span>
@@ -3547,17 +3562,6 @@ See also <code>InstanceDataValue.generate_random_dataset</code>.</p>
         
     </div>
     <a class="headerlink" href="#Constraint.left"></a>
-    
-    
-
-                            </div>
-                            <div id="Constraint.expression" class="classattr">
-                                <div class="attr variable">
-            <span class="name">expression</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.expression"></a>
     
     
 
