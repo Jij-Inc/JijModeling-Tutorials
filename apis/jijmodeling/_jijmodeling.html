@@ -368,25 +368,25 @@
                                 <a class="function" href="#Placeholder.bnot">bnot</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Placeholder.ndim">ndim</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Placeholder.description">description</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Placeholder.jagged">jagged</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Placeholder.ndim">ndim</a>
+                                <a class="variable" href="#Placeholder.dtype">dtype</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Placeholder.name">name</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Placeholder.shape">shape</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Placeholder.custom_latex">custom_latex</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Placeholder.name">name</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Placeholder.dtype">dtype</a>
                         </li>
                 </ul>
 
@@ -482,25 +482,25 @@
                                 <a class="function" href="#DecisionVar.prod">prod</a>
                         </li>
                         <li>
-                                <a class="variable" href="#DecisionVar.upper_bound">upper_bound</a>
+                                <a class="variable" href="#DecisionVar.ndim">ndim</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#DecisionVar.shape">shape</a>
                         </li>
                         <li>
                                 <a class="variable" href="#DecisionVar.kind">kind</a>
                         </li>
                         <li>
-                                <a class="variable" href="#DecisionVar.description">description</a>
+                                <a class="variable" href="#DecisionVar.lower_bound">lower_bound</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#DecisionVar.upper_bound">upper_bound</a>
                         </li>
                         <li>
                                 <a class="variable" href="#DecisionVar.name">name</a>
                         </li>
                         <li>
-                                <a class="variable" href="#DecisionVar.ndim">ndim</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#DecisionVar.lower_bound">lower_bound</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#DecisionVar.shape">shape</a>
+                                <a class="variable" href="#DecisionVar.description">description</a>
                         </li>
                 </ul>
 
@@ -617,25 +617,25 @@
                     <a class="class" href="#Constraint">Constraint</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="variable" href="#Constraint.name">name</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Constraint.sense">sense</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Constraint.left">left</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#Constraint.expression">expression</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Constraint.is_equality">is_equality</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Constraint.right">right</a>
+                                <a class="variable" href="#Constraint.is_inequality">is_inequality</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Constraint.is_inequality">is_inequality</a>
+                                <a class="variable" href="#Constraint.sense">sense</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Constraint.name">name</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Constraint.left">left</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Constraint.right">right</a>
                         </li>
                 </ul>
 
@@ -799,7 +799,7 @@
                 <section id="__version__">
                     <div class="attr variable">
             <span class="name">__version__</span>        =
-<span class="default_value">&#39;2.0.0-alpha.8&#39;</span>
+<span class="default_value">&#39;2.0.0-alpha.9&#39;</span>
 
         
     </div>
@@ -2211,6 +2211,17 @@ It is set to <code><a href="#Placeholder.name">name</a></code> by default.</li>
     
 
                             </div>
+                            <div id="Placeholder.ndim" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ndim</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Placeholder.ndim"></a>
+    
+    
+
+                            </div>
                             <div id="Placeholder.description" class="classattr">
                                 <div class="attr variable">
             <span class="name">description</span>
@@ -2233,13 +2244,24 @@ It is set to <code><a href="#Placeholder.name">name</a></code> by default.</li>
     
 
                             </div>
-                            <div id="Placeholder.ndim" class="classattr">
+                            <div id="Placeholder.dtype" class="classattr">
                                 <div class="attr variable">
-            <span class="name">ndim</span>
+            <span class="name">dtype</span>
 
         
     </div>
-    <a class="headerlink" href="#Placeholder.ndim"></a>
+    <a class="headerlink" href="#Placeholder.dtype"></a>
+    
+    
+
+                            </div>
+                            <div id="Placeholder.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Placeholder.name"></a>
     
     
 
@@ -2262,28 +2284,6 @@ It is set to <code><a href="#Placeholder.name">name</a></code> by default.</li>
         
     </div>
     <a class="headerlink" href="#Placeholder.custom_latex"></a>
-    
-    
-
-                            </div>
-                            <div id="Placeholder.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Placeholder.name"></a>
-    
-    
-
-                            </div>
-                            <div id="Placeholder.dtype" class="classattr">
-                                <div class="attr variable">
-            <span class="name">dtype</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Placeholder.dtype"></a>
     
     
 
@@ -2759,13 +2759,24 @@ accessing the 123rd component of it..</p>
     
 
                             </div>
-                            <div id="DecisionVar.upper_bound" class="classattr">
+                            <div id="DecisionVar.ndim" class="classattr">
                                 <div class="attr variable">
-            <span class="name">upper_bound</span>
+            <span class="name">ndim</span>
 
         
     </div>
-    <a class="headerlink" href="#DecisionVar.upper_bound"></a>
+    <a class="headerlink" href="#DecisionVar.ndim"></a>
+    
+    
+
+                            </div>
+                            <div id="DecisionVar.shape" class="classattr">
+                                <div class="attr variable">
+            <span class="name">shape</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecisionVar.shape"></a>
     
     
 
@@ -2781,13 +2792,24 @@ accessing the 123rd component of it..</p>
     
 
                             </div>
-                            <div id="DecisionVar.description" class="classattr">
+                            <div id="DecisionVar.lower_bound" class="classattr">
                                 <div class="attr variable">
-            <span class="name">description</span>
+            <span class="name">lower_bound</span>
 
         
     </div>
-    <a class="headerlink" href="#DecisionVar.description"></a>
+    <a class="headerlink" href="#DecisionVar.lower_bound"></a>
+    
+    
+
+                            </div>
+                            <div id="DecisionVar.upper_bound" class="classattr">
+                                <div class="attr variable">
+            <span class="name">upper_bound</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DecisionVar.upper_bound"></a>
     
     
 
@@ -2803,35 +2825,13 @@ accessing the 123rd component of it..</p>
     
 
                             </div>
-                            <div id="DecisionVar.ndim" class="classattr">
+                            <div id="DecisionVar.description" class="classattr">
                                 <div class="attr variable">
-            <span class="name">ndim</span>
+            <span class="name">description</span>
 
         
     </div>
-    <a class="headerlink" href="#DecisionVar.ndim"></a>
-    
-    
-
-                            </div>
-                            <div id="DecisionVar.lower_bound" class="classattr">
-                                <div class="attr variable">
-            <span class="name">lower_bound</span>
-
-        
-    </div>
-    <a class="headerlink" href="#DecisionVar.lower_bound"></a>
-    
-    
-
-                            </div>
-                            <div id="DecisionVar.shape" class="classattr">
-                                <div class="attr variable">
-            <span class="name">shape</span>
-
-        
-    </div>
-    <a class="headerlink" href="#DecisionVar.shape"></a>
+    <a class="headerlink" href="#DecisionVar.description"></a>
     
     
 
@@ -3730,39 +3730,6 @@ Use <code>+=</code> operator to register the constraint to the problem.</p>
     
     
 
-                            <div id="Constraint.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.name"></a>
-    
-    
-
-                            </div>
-                            <div id="Constraint.sense" class="classattr">
-                                <div class="attr variable">
-            <span class="name">sense</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.sense"></a>
-    
-    
-
-                            </div>
-                            <div id="Constraint.left" class="classattr">
-                                <div class="attr variable">
-            <span class="name">left</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.left"></a>
-    
-    
-
-                            </div>
                             <div id="Constraint.expression" class="classattr">
                                 <div class="attr variable">
             <span class="name">expression</span>
@@ -3803,17 +3770,6 @@ Use <code>+=</code> operator to register the constraint to the problem.</p>
 
 
                             </div>
-                            <div id="Constraint.right" class="classattr">
-                                <div class="attr variable">
-            <span class="name">right</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Constraint.right"></a>
-    
-    
-
-                            </div>
                             <div id="Constraint.is_inequality" class="classattr">
                                 <div class="attr variable">
             <span class="name">is_inequality</span>
@@ -3841,6 +3797,50 @@ Use <code>+=</code> operator to register the constraint to the problem.</p>
 </div>
 </div>
 
+
+                            </div>
+                            <div id="Constraint.sense" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sense</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.sense"></a>
+    
+    
+
+                            </div>
+                            <div id="Constraint.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.name"></a>
+    
+    
+
+                            </div>
+                            <div id="Constraint.left" class="classattr">
+                                <div class="attr variable">
+            <span class="name">left</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.left"></a>
+    
+    
+
+                            </div>
+                            <div id="Constraint.right" class="classattr">
+                                <div class="attr variable">
+            <span class="name">right</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Constraint.right"></a>
+    
+    
 
                             </div>
                 </section>
