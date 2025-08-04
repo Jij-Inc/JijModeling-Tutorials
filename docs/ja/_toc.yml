@@ -4,35 +4,37 @@
 format: jb-book
 root: introduction
 parts:
-- caption: Switch Language
-  chapters:
-  - url: https://jij-inc.github.io/JijModeling-Tutorials/en/
-    title: English
-- caption: クイックスタート
-  chapters:
-  - file: quickstart/scip
-  - file: quickstart/openjij
-- caption: チュートリアル
-  chapters:
-  - file: tutorials/creating_models
-  - file: tutorials/types_and_bounds
-  - file: tutorials/expressions
-  - file: tutorials/constraint_and_penalty
-- caption: リファレンス
-  chapters:
-  - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
-    title: jijmodeling API Reference
-  - file: references/tips
-  - file: references/cheat_sheet
-- caption: リリースノート
-  chapters:
-  - file: releases/jijmodeling-1.12.4
-  - file: releases/jijmodeling-1.12.3
-  - file: releases/jijmodeling-1.12.2
-  - file: releases/jijmodeling-1.12.1
-  - file: releases/jijmodeling-1.12.0
-  - file: releases/jijmodeling-1.11.0
-  - file: releases/jijmodeling-1.10.1
-  - file: releases/jijmodeling-1.10.0
-  - file: releases/jijmodeling-1.9.0
-  - file: releases/jijmodeling-1.8.0
+  - caption: Switch Language
+    chapters:
+      - url: https://jij-inc.github.io/JijModeling-Tutorials/en/
+        title: English
+  - caption: クイックスタート
+    chapters:
+      - file: quickstart/scip
+      - file: quickstart/openjij
+  - caption: チュートリアル
+    chapters:
+      - file: tutorials/creating_models
+      - file: tutorials/types_and_bounds
+      - file: tutorials/expressions
+      - file: tutorials/constraint_and_penalty
+  - caption: リファレンス
+    chapters:
+      - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
+        title: jijmodeling API Reference
+      - file: references/tips
+      - file: references/cheat_sheet
+  - caption: リリースノート
+    chapters:
+      - file: releases/jijmodeling-1.13.1
+      - file: releases/jijmodeling-1.13.0
+      - file: releases/jijmodeling-1.12.4
+      - file: releases/jijmodeling-1.12.3
+      - file: releases/jijmodeling-1.12.2
+      - file: releases/jijmodeling-1.12.1
+      - file: releases/jijmodeling-1.12.0
+      - file: releases/jijmodeling-1.11.0
+      - file: releases/jijmodeling-1.10.1
+      - file: releases/jijmodeling-1.10.0
+      - file: releases/jijmodeling-1.9.0
+      - file: releases/jijmodeling-1.8.0
