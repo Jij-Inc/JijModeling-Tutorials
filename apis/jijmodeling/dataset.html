@@ -50,6 +50,40 @@
 
 
 
+            <h2>API Documentation</h2>
+                <ul class="memberlist">
+            <li>
+                    <a class="class" href="#Miplib">Miplib</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#Miplib.load">load</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Miplib.instance_statistics">instance_statistics</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Miplib.available_names">available_names</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#Qplib">Qplib</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#Qplib.load">load</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Qplib.available_names">available_names</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Qplib.instance_statistics">instance_statistics</a>
+                        </li>
+                </ul>
+
+            </li>
+    </ul>
+
 
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
@@ -65,10 +99,241 @@
 <a href="./../jijmodeling.html">jijmodeling</a><wbr>.dataset    </h1>
 
                 
-                
-                
-                
+                        <input id="mod-dataset-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+
+                        <label class="view-source-button" for="mod-dataset-view-source"><span>View Source</span></label>
+
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">1</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">._jijmodeling</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataset</span> <span class="k">as</span> <span class="n">_dataset</span>  <span class="c1"># type: ignore</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">2</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">3</span></a>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">4</span></a><span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">_dataset</span><span class="o">.</span><span class="n">__all__</span><span class="p">:</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">5</span></a>    <span class="nb">setattr</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">],</span> <span class="n">component</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_dataset</span><span class="p">,</span> <span class="n">component</span><span class="p">))</span>
+</span></pre></div>
+
+
             </section>
+                <section id="Miplib">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">Miplib</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#Miplib"></a>
+    
+            <div class="docstring"><p>Automatically load problems from the MIPLIB dataset.</p>
+
+<p>Warning: the whole dataset is downloaded and cached in your filesystem when
+first used. It is quite large (~300MB download, ~600MB extracted), so the
+time it takes to download will likely be significant. We recommend first
+trying to use this class in a REPL to assure the dataset has been cached.</p>
+
+<p>The dataset is stored at <code>{data_dir}/jijmodeling/miplib</code>, where
+<code>{data_dir}</code> depends on your operating system:</p>
+
+<table>
+<thead>
+<tr>
+  <th style="text-align:left;">Platform</th>
+  <th style="text-align:left;">{data_dir} location</th>
+  <th style="text-align:left;">Example/System Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left;">Linux</td>
+  <td style="text-align:left;"><code>$XDG_DATA_HOME</code> or <code>$HOME/.local/share</code>|<code>/home/alice/.local/share</code></td>
+</tr>
+<tr>
+  <td style="text-align:left;">macOS</td>
+  <td style="text-align:left;"><code>$HOME/Library/Application Support</code></td>
+  <td style="text-align:left;"><code>/Users/Alice/Library/Application Support</code></td>
+</tr>
+<tr>
+  <td style="text-align:left;">Windows</td>
+  <td style="text-align:left;">`%AppData%</td>
+  <td style="text-align:left;"><code>C:\Users\Alice\AppData\Roaming</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">jijmodeling.dataset</a></span>
+
+<span class="n">Initialize</span> <span class="n">the</span> <span class="n">dataset</span><span class="o">.</span> <span class="n">If</span> <span class="ow">not</span> <span class="n">cached</span> <span class="ow">in</span> <span class="n">your</span> <span class="n">filesystem</span><span class="p">,</span> <span class="n">this</span> <span class="n">will</span> <span class="n">take</span> <span class="n">several</span> <span class="n">minutes</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">miplib</span> <span class="o">=</span> <span class="n"><a href="#Miplib">jijmodeling.dataset.Miplib</a></span><span class="p">()</span>
+
+<span class="n">Show</span> <span class="n">names</span> <span class="n">of</span> <span class="n">each</span> <span class="n">available</span> <span class="n">instance</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">miplib</span><span class="o">.</span><span class="n">available_names</span>  <span class="c1"># doctest: +ELLIPSIS</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+<span class="n">Get</span> <span class="n">basic</span> <span class="n">statistics</span> <span class="n">of</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">instance</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">miplib</span><span class="o">.</span><span class="n">instance_statistics</span><span class="p">[</span><span class="s2">&quot;unitcal_7&quot;</span><span class="p">]</span>
+<span class="p">{</span><span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="mi">25755</span><span class="p">,</span> <span class="s1">&#39;constraint&#39;</span><span class="p">:</span> <span class="mi">48939</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">:</span> <span class="mi">2856</span><span class="p">,</span> <span class="s1">&#39;integer&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;continuous&#39;</span><span class="p">:</span> <span class="mi">22899</span><span class="p">,</span> <span class="s1">&#39;non_zero&#39;</span><span class="p">:</span> <span class="mi">127595</span><span class="p">}</span>
+
+<span class="n">Load</span> <span class="s2">&quot;revised-submissions/miplib2010_pg/instances/pg.mps.gz&quot;</span> <span class="ow">in</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">zip</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span><span class="p">,</span> <span class="n">instance_data</span> <span class="o">=</span> <span class="n">miplib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;pg&quot;</span><span class="p">)</span>
+</code></pre>
+</div>
+</div>
+
+
+                            <div id="Miplib.load" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">load</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span>, </span><span class="param"><span class="n">name</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Miplib.load"></a>
+    
+            <div class="docstring"><p>Load a problem from the MIPLIB dataset.</p>
+</div>
+
+
+                            </div>
+                            <div id="Miplib.instance_statistics" class="classattr">
+                                <div class="attr variable">
+            <span class="name">instance_statistics</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Miplib.instance_statistics"></a>
+    
+            <div class="docstring"><p>Dict of name to problem size, i.e. number of binary/integer/real variable and number of equality/inequality constraints</p>
+</div>
+
+
+                            </div>
+                            <div id="Miplib.available_names" class="classattr">
+                                <div class="attr variable">
+            <span class="name">available_names</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Miplib.available_names"></a>
+    
+            <div class="docstring"><p>List of available problem names.</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="Qplib">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">Qplib</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#Qplib"></a>
+    
+            <div class="docstring"><p>Automatically load problems from the MIPLIB dataset.</p>
+
+<p>Warning: the whole dataset is downloaded and cached in your filesystem when
+first used. It is quite large (~700MB download, ~1.5GB extracted), so the
+time it takes to download will likely be significant. We recommend first
+trying to use this class in a REPL to assure the dataset has been cached.</p>
+
+<p>The dataset is stored at <code>{data_dir}/jijmodeling/qplib</code>, where
+<code>{data_dir}</code> depends on your operating system:</p>
+
+<table>
+<thead>
+<tr>
+  <th style="text-align:left;">Platform</th>
+  <th style="text-align:left;">{data_dir} location</th>
+  <th style="text-align:left;">Example/System Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left;">Linux</td>
+  <td style="text-align:left;"><code>$XDG_DATA_HOME</code> or <code>$HOME/.local/share</code>|<code>/home/alice/.local/share</code></td>
+</tr>
+<tr>
+  <td style="text-align:left;">macOS</td>
+  <td style="text-align:left;"><code>$HOME/Library/Application Support</code></td>
+  <td style="text-align:left;"><code>/Users/Alice/Library/Application Support</code></td>
+</tr>
+<tr>
+  <td style="text-align:left;">Windows</td>
+  <td style="text-align:left;">`%AppData%</td>
+  <td style="text-align:left;"><code>C:\Users\Alice\AppData\Roaming</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">jijmodeling.dataset</a></span>
+
+<span class="n">Initialize</span> <span class="n">the</span> <span class="n">dataset</span><span class="o">.</span> <span class="n">If</span> <span class="ow">not</span> <span class="n">cached</span> <span class="ow">in</span> <span class="n">your</span> <span class="n">filesystem</span><span class="p">,</span> <span class="n">this</span> <span class="n">will</span> <span class="n">take</span> <span class="n">several</span> <span class="n">minutes</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">qplib</span> <span class="o">=</span> <span class="n"><a href="#Qplib">jijmodeling.dataset.Qplib</a></span><span class="p">()</span>
+
+<span class="n">Show</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">each</span> <span class="n">available</span> <span class="n">instance</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">qplib</span><span class="o">.</span><span class="n">available_names</span>  <span class="c1"># doctest: +ELLIPSIS</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+<span class="n">Get</span> <span class="n">basic</span> <span class="n">statistics</span> <span class="n">of</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">instance</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">qplib</span><span class="o">.</span><span class="n">instance_statistics</span><span class="p">[</span><span class="s2">&quot;QPLIB_2205&quot;</span><span class="p">]</span>
+<span class="p">{</span><span class="s1">&#39;variables&#39;</span><span class="p">:</span> <span class="mi">2884</span><span class="p">,</span> <span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="mi">2874</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">:</span> <span class="mi">958</span><span class="p">,</span> <span class="s1">&#39;integer&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;continuous&#39;</span><span class="p">:</span> <span class="mi">1926</span><span class="p">,</span> <span class="s1">&#39;non_zero&#39;</span><span class="p">:</span> <span class="mi">13013</span><span class="p">}</span>
+
+<span class="n">Load</span> <span class="n">a</span> <span class="n">problem</span> <span class="n">instance</span> <span class="kn">from</span><span class="w"> </span><span class="nn">QPLIB.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">problem</span><span class="p">,</span> <span class="n">instance_data</span> <span class="o">=</span> <span class="n">qplib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;QPLIB_1976&quot;</span><span class="p">)</span>
+</code></pre>
+</div>
+</div>
+
+
+                            <div id="Qplib.load" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">load</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="o">/</span>, </span><span class="param"><span class="n">name</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Qplib.load"></a>
+    
+            <div class="docstring"><p>Load a problem from the QPLIB dataset.</p>
+</div>
+
+
+                            </div>
+                            <div id="Qplib.available_names" class="classattr">
+                                <div class="attr variable">
+            <span class="name">available_names</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Qplib.available_names"></a>
+    
+            <div class="docstring"><p>List of available problem names.</p>
+</div>
+
+
+                            </div>
+                            <div id="Qplib.instance_statistics" class="classattr">
+                                <div class="attr variable">
+            <span class="name">instance_statistics</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Qplib.instance_statistics"></a>
+    
+            <div class="docstring"><p>Dict of name to problem size, i.e. number of binary/integer/real variable and number of equality/inequality constraints</p>
+</div>
+
+
+                            </div>
+                </section>
     </main>
 <script>
     function escapeHTML(html) {
