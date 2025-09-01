@@ -1,7 +1,7 @@
 [project]
 name = "jijmodeling-tutorial"
 version = "1.10.1"
-description = "Tutorial for JijModeling"
+description = "Tutorial for JijModeling (TEST)"
 readme = "README.md"
 requires-python = ">=3.9, <3.14"
 dependencies = [
