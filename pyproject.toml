@@ -13,5 +13,5 @@ dependencies = [
     "pytest>=8.3.3",
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = ["nbconvert>=7.16.4", "jupyter-book >= 1.0.0, < 2.0.0"]

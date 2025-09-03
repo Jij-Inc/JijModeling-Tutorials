@@ -27,7 +27,7 @@ jobs:
 
       - name: Set up Python and dependencies
         run: |
-          uv sync --all-extras --dev
+          uv sync --extra dev
 
       - name: Build the book
         env:
