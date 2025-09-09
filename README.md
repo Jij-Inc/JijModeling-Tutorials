@@ -27,7 +27,7 @@ Each notebook is managed independently and translated manually.
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/), [task](https://taskfile.dev/installation/) and [yq](https://mikefarah.gitbook.io/yq) for development.
 
-`task` command can be used to easily execute tasks such as building documentation and adding release notes. To see what `task` commands are available, use the following command:
+`task` commands can be used to easily execute tasks such as building documentation and adding release notes. To see what `task` commands are available, use the following command:
 
 ```shell
 task -l
