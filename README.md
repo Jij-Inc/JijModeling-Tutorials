@@ -31,4 +31,4 @@ Install [uv](https://docs.astral.sh/uv/getting-started/installation/), [task](ht
 
 ```shell
 task -l
-``
+```
