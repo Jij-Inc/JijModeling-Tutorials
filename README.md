@@ -23,29 +23,12 @@ There are Jupyter Books in both Japanese and English.
 
 Each notebook is managed independently and translated manually.
 
-### Build
+### For Developer
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and [task](https://taskfile.dev/installation/).
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), [task](https://taskfile.dev/installation/) and [yq](https://mikefarah.gitbook.io/yq) for development.
+
+`task` commands can be used to easily execute tasks such as building documentation and adding release notes. To see what `task` commands are available, use the following command:
 
 ```shell
-task book_ja
-```
-
-This command builds the Japanese version of the book in `docs/ja/_build/html` and automatically opens it in the browser. To only build the book, use `build_book_ja` task instead. Available tasks are as follows:
-
-```text
-$ task -l
-task: Available tasks for this project:
-* book_en:                 Build and open the English version of the book
-* book_en_all:             Build and open the English version of the book (force rebuild all notebooks)
-* book_ja:                 Build and open the Japanese version of the book
-* book_ja_all:             Build and open the Japanese version of the book (force rebuild all notebooks)
-* build_book_en:           Build the English version of the book
-* build_book_en_all:       Build the English version of the book (force rebuild all notebooks)
-* build_book_ja:           Build the Japanese version of the book
-* build_book_ja_all:       Build the Japanese version of the book (force rebuild all notebooks)
-* open_book_en:            Open the English version of the book
-* open_book_ja:            Open the Japanese version of the book
-* watch_book_en:           Watch English notebooks and auto-rebuild of the book
-* watch_book_ja:           Watch Japanese notebooks and auto-rebuild of the book
+task -l
 ```
