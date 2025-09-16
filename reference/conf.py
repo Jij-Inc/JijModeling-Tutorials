@@ -14,7 +14,6 @@ extensions = [
     "sphinx.ext.autodoc",  # 自動API生成（標準）
     "sphinx.ext.intersphinx",  # 外部ドキュメントへのリンク
     "sphinx.ext.mathjax",  # 数式サポート
-    "myst_parser",  # Markdown docstring サポート
 ]
 
 # --- Autodoc 設定 ---
@@ -26,13 +25,6 @@ autodoc_default_options = {
     "special-members": "__init__",
 }
 autodoc_member_order = "bysource"
-
-# --- MyST Parser 設定 ---
-myst_enable_extensions = [
-    "colon_fence",  # ::: fence
-    "deflist",      # definition lists
-    "html_admonition",  # HTML admonitions
-]
 autodoc_docstring_signature = True
 
 # インタースフィンクス（Python 標準ライブラリなどへリンク）
