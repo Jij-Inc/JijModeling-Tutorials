@@ -166,3 +166,7 @@ cython_debug/
 # Jupyter book
 _build/
 .python-version
+
+# Claude Code configuration
+AGENTS.md
+CLAUDE.md
