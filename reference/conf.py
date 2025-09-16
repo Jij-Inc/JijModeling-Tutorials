@@ -1,4 +1,14 @@
 from datetime import date
+import os
+import sys
+
+# JijModelingパッケージのパスをsys.pathに追加（ReadTheDocs対応）
+try:
+    import jijmodeling
+    # パッケージが正常にインストールされている場合はそのまま使用
+except ImportError:
+    # インストールされていない場合の対処（通常は発生しない）
+    pass
 
 # --- 基本 ---
 project = "JijModeling API"
