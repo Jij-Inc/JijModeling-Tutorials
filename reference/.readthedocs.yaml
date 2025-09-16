@@ -6,7 +6,10 @@ build:
     python: "3.12"
   jobs:
     post_install:
-      - python -c "import jijmodeling, subprocess, os; subprocess.call(['sphinx-apidoc', '-o', 'apidocs/', '--force', '--separate', os.path.dirname(jijmodeling.__file__)])"
+      - |
+        JM_PATH=$(python -c "import jijmodeling, os; print(os.path.dirname(jijmodeling.__file__))")
+        echo "JijModeling path: $JM_PATH"
+        sphinx-apidoc -o apidocs/ --force --separate "$JM_PATH"
 
 python:
   install:
