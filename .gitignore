@@ -167,6 +167,10 @@ cython_debug/
 _build/
 .python-version
 
+# Sphinx build
+apidocs/
+
 # Claude Code configuration
 AGENTS.md
 CLAUDE.md
+.claude/
