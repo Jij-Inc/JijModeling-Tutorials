@@ -3,34 +3,64 @@ JijModeling API Reference
 
 **JijModeling** is a mathematical optimization modeling library that provides an intuitive interface for formulating optimization problems.
 
-Quick Start
-===========
+Core API
+========
 
-.. code-block:: python
+The main ``jijmodeling`` module contains all the essential classes and functions for mathematical optimization modeling.
 
-   import jijmodeling as jm
+.. automodule:: jijmodeling
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :special-members: __init__
 
-   # Create a problem
-   problem = jm.Problem("TSP")
+Dataset Module
+==============
 
-   # Define variables
-   x = jm.BinaryVar("x", shape=(10, 10))
+Utilities for handling optimization data.
 
-   # Add objective and constraints
-   problem += jm.sum((i, j), x[i, j])  # Objective
-   problem += jm.Constraint("example", x.sum() == 1)  # Constraint
+.. automodule:: jijmodeling.dataset
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-API Documentation
-=================
+Experimental Features
+=====================
 
-Complete automatically generated API documentation:
+Experimental and preview features.
 
-.. toctree::
-   :maxdepth: 4
+.. automodule:: jijmodeling.experimental
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-   apidocs/modules
+Range Operations
+================
 
-Indices and Tables
+Tools for working with variable ranges and indices.
+
+.. automodule:: jijmodeling.range
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Range Size Utilities
+---------------------
+
+.. automodule:: jijmodeling.range.size
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Range Value Utilities
+----------------------
+
+.. automodule:: jijmodeling.range.value
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Indices and Search
 ==================
 
 * :ref:`genindex`
