@@ -13,8 +13,9 @@ html_theme = "sphinx_rtd_theme"
 extensions = [
     "sphinx.ext.autodoc",  # 自動API生成（標準）
     "sphinx.ext.intersphinx",  # 外部ドキュメントへのリンク
-    "sphinx.ext.mathjax",  # 数式サポート
+    "sphinxcontrib.katex",  # 数式サポート
 ]
+katex_prerender = True
 
 # --- Autodoc 設定 ---
 autodoc_default_options = {
