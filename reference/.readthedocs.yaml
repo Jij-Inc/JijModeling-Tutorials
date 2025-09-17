@@ -4,7 +4,7 @@ build:
   os: ubuntu-24.04
   tools:
     python: "3.12"
-
+    nodejs: "22"
 python:
   install:
     - requirements: reference/requirements.txt
@@ -12,4 +12,4 @@ python:
 sphinx:
   configuration: reference/conf.py
 
-formats: ["htmlzip", "pdf", "epub"]
+formats: all
