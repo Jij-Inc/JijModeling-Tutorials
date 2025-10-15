@@ -56,13 +56,13 @@
                     <a class="class" href="#Violation">Violation</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="variable" href="#Violation.name">name</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#Violation.total_violation">total_violation</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Violation.expr_values">expr_values</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Violation.name">name</a>
                         </li>
                 </ul>
 
@@ -107,10 +107,10 @@
                                 <a class="function" href="#SparseVarValues.to_dense">to_dense</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SparseVarValues.shape">shape</a>
+                                <a class="variable" href="#SparseVarValues.var_type">var_type</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SparseVarValues.var_type">var_type</a>
+                                <a class="variable" href="#SparseVarValues.shape">shape</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SparseVarValues.name">name</a>
@@ -131,19 +131,19 @@
                                 <a class="variable" href="#SolvingTime.solving_time">solving_time</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SolvingTime.transpiling_time">transpiling_time</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#SolvingTime.postprocess_time">postprocess_time</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#SolvingTime.preprocess_time">preprocess_time</a>
+                                <a class="variable" href="#SolvingTime.decoding_time">decoding_time</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SolvingTime.compiling_time">compiling_time</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SolvingTime.decoding_time">decoding_time</a>
+                                <a class="variable" href="#SolvingTime.transpiling_time">transpiling_time</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#SolvingTime.preprocess_time">preprocess_time</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#SolvingTime.postprocess_time">postprocess_time</a>
                         </li>
                 </ul>
 
@@ -152,16 +152,16 @@
                     <a class="class" href="#SystemTime">SystemTime</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="variable" href="#SystemTime.deserialize_time">deserialize_time</a>
+                                <a class="variable" href="#SystemTime.fetching_result_time">fetching_result_time</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SystemTime.request_queuing_time">request_queuing_time</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SystemTime.fetching_result_time">fetching_result_time</a>
+                                <a class="variable" href="#SystemTime.fetching_problem_time">fetching_problem_time</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SystemTime.fetching_problem_time">fetching_problem_time</a>
+                                <a class="variable" href="#SystemTime.deserialize_time">deserialize_time</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SystemTime.posting_time">posting_time</a>
@@ -203,19 +203,19 @@
                                 <a class="function" href="#Sample.to_dict">to_dict</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Sample.num_occurrences">num_occurrences</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Sample.run_info">run_info</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Sample.run_id">run_id</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Sample.eval">eval</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Sample.num_occurrences">num_occurrences</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#Sample.var_values">var_values</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Sample.run_id">run_id</a>
                         </li>
                 </ul>
 
@@ -245,19 +245,19 @@
                                 <a class="function" href="#SampleSet.lowest">lowest</a>
                         </li>
                         <li>
+                                <a class="variable" href="#SampleSet.set_info">set_info</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#SampleSet.run_info">run_info</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#SampleSet.measuring_time">measuring_time</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#SampleSet.data">data</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SampleSet.set_id">set_id</a>
                         </li>
                         <li>
-                                <a class="variable" href="#SampleSet.set_info">set_info</a>
+                                <a class="variable" href="#SampleSet.data">data</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#SampleSet.measuring_time">measuring_time</a>
                         </li>
                         <li>
                                 <a class="variable" href="#SampleSet.run_times">run_times</a>
@@ -315,17 +315,6 @@
     
     
 
-                            <div id="Violation.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Violation.name"></a>
-    
-    
-
-                            </div>
                             <div id="Violation.total_violation" class="classattr">
                                 <div class="attr variable">
             <span class="name">total_violation</span>
@@ -344,6 +333,17 @@
         
     </div>
     <a class="headerlink" href="#Violation.expr_values"></a>
+    
+    
+
+                            </div>
+                            <div id="Violation.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Violation.name"></a>
     
     
 
@@ -482,17 +482,6 @@
     
 
                             </div>
-                            <div id="SparseVarValues.shape" class="classattr">
-                                <div class="attr variable">
-            <span class="name">shape</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SparseVarValues.shape"></a>
-    
-    
-
-                            </div>
                             <div id="SparseVarValues.var_type" class="classattr">
                                 <div class="attr variable">
             <span class="name">var_type</span>
@@ -500,6 +489,17 @@
         
     </div>
     <a class="headerlink" href="#SparseVarValues.var_type"></a>
+    
+    
+
+                            </div>
+                            <div id="SparseVarValues.shape" class="classattr">
+                                <div class="attr variable">
+            <span class="name">shape</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SparseVarValues.shape"></a>
     
     
 
@@ -563,35 +563,13 @@
     
 
                             </div>
-                            <div id="SolvingTime.transpiling_time" class="classattr">
+                            <div id="SolvingTime.decoding_time" class="classattr">
                                 <div class="attr variable">
-            <span class="name">transpiling_time</span>
+            <span class="name">decoding_time</span>
 
         
     </div>
-    <a class="headerlink" href="#SolvingTime.transpiling_time"></a>
-    
-    
-
-                            </div>
-                            <div id="SolvingTime.postprocess_time" class="classattr">
-                                <div class="attr variable">
-            <span class="name">postprocess_time</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SolvingTime.postprocess_time"></a>
-    
-    
-
-                            </div>
-                            <div id="SolvingTime.preprocess_time" class="classattr">
-                                <div class="attr variable">
-            <span class="name">preprocess_time</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SolvingTime.preprocess_time"></a>
+    <a class="headerlink" href="#SolvingTime.decoding_time"></a>
     
     
 
@@ -607,13 +585,35 @@
     
 
                             </div>
-                            <div id="SolvingTime.decoding_time" class="classattr">
+                            <div id="SolvingTime.transpiling_time" class="classattr">
                                 <div class="attr variable">
-            <span class="name">decoding_time</span>
+            <span class="name">transpiling_time</span>
 
         
     </div>
-    <a class="headerlink" href="#SolvingTime.decoding_time"></a>
+    <a class="headerlink" href="#SolvingTime.transpiling_time"></a>
+    
+    
+
+                            </div>
+                            <div id="SolvingTime.preprocess_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">preprocess_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SolvingTime.preprocess_time"></a>
+    
+    
+
+                            </div>
+                            <div id="SolvingTime.postprocess_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">postprocess_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SolvingTime.postprocess_time"></a>
     
     
 
@@ -631,13 +631,13 @@
     
     
 
-                            <div id="SystemTime.deserialize_time" class="classattr">
+                            <div id="SystemTime.fetching_result_time" class="classattr">
                                 <div class="attr variable">
-            <span class="name">deserialize_time</span>
+            <span class="name">fetching_result_time</span>
 
         
     </div>
-    <a class="headerlink" href="#SystemTime.deserialize_time"></a>
+    <a class="headerlink" href="#SystemTime.fetching_result_time"></a>
     
     
 
@@ -653,17 +653,6 @@
     
 
                             </div>
-                            <div id="SystemTime.fetching_result_time" class="classattr">
-                                <div class="attr variable">
-            <span class="name">fetching_result_time</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SystemTime.fetching_result_time"></a>
-    
-    
-
-                            </div>
                             <div id="SystemTime.fetching_problem_time" class="classattr">
                                 <div class="attr variable">
             <span class="name">fetching_problem_time</span>
@@ -671,6 +660,17 @@
         
     </div>
     <a class="headerlink" href="#SystemTime.fetching_problem_time"></a>
+    
+    
+
+                            </div>
+                            <div id="SystemTime.deserialize_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">deserialize_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SystemTime.deserialize_time"></a>
     
     
 
@@ -846,6 +846,17 @@ that is, <code>[(k1, v1), (k2, v2), ...]</code>.</p>
 
 
                             </div>
+                            <div id="Sample.num_occurrences" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_occurrences</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Sample.num_occurrences"></a>
+    
+    
+
+                            </div>
                             <div id="Sample.run_info" class="classattr">
                                 <div class="attr variable">
             <span class="name">run_info</span>
@@ -853,6 +864,17 @@ that is, <code>[(k1, v1), (k2, v2), ...]</code>.</p>
         
     </div>
     <a class="headerlink" href="#Sample.run_info"></a>
+    
+    
+
+                            </div>
+                            <div id="Sample.run_id" class="classattr">
+                                <div class="attr variable">
+            <span class="name">run_id</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Sample.run_id"></a>
     
     
 
@@ -868,17 +890,6 @@ that is, <code>[(k1, v1), (k2, v2), ...]</code>.</p>
     
 
                             </div>
-                            <div id="Sample.num_occurrences" class="classattr">
-                                <div class="attr variable">
-            <span class="name">num_occurrences</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Sample.num_occurrences"></a>
-    
-    
-
-                            </div>
                             <div id="Sample.var_values" class="classattr">
                                 <div class="attr variable">
             <span class="name">var_values</span>
@@ -886,17 +897,6 @@ that is, <code>[(k1, v1), (k2, v2), ...]</code>.</p>
         
     </div>
     <a class="headerlink" href="#Sample.var_values"></a>
-    
-    
-
-                            </div>
-                            <div id="Sample.run_id" class="classattr">
-                                <div class="attr variable">
-            <span class="name">run_id</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Sample.run_id"></a>
     
     
 
@@ -1072,6 +1072,17 @@ If there are no feasible solutions, this returns an empty list.</p>
 
 
                             </div>
+                            <div id="SampleSet.set_info" class="classattr">
+                                <div class="attr variable">
+            <span class="name">set_info</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SampleSet.set_info"></a>
+    
+    
+
+                            </div>
                             <div id="SampleSet.run_info" class="classattr">
                                 <div class="attr variable">
             <span class="name">run_info</span>
@@ -1079,28 +1090,6 @@ If there are no feasible solutions, this returns an empty list.</p>
         
     </div>
     <a class="headerlink" href="#SampleSet.run_info"></a>
-    
-    
-
-                            </div>
-                            <div id="SampleSet.measuring_time" class="classattr">
-                                <div class="attr variable">
-            <span class="name">measuring_time</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SampleSet.measuring_time"></a>
-    
-    
-
-                            </div>
-                            <div id="SampleSet.data" class="classattr">
-                                <div class="attr variable">
-            <span class="name">data</span>
-
-        
-    </div>
-    <a class="headerlink" href="#SampleSet.data"></a>
     
     
 
@@ -1116,13 +1105,24 @@ If there are no feasible solutions, this returns an empty list.</p>
     
 
                             </div>
-                            <div id="SampleSet.set_info" class="classattr">
+                            <div id="SampleSet.data" class="classattr">
                                 <div class="attr variable">
-            <span class="name">set_info</span>
+            <span class="name">data</span>
 
         
     </div>
-    <a class="headerlink" href="#SampleSet.set_info"></a>
+    <a class="headerlink" href="#SampleSet.data"></a>
+    
+    
+
+                            </div>
+                            <div id="SampleSet.measuring_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">measuring_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SampleSet.measuring_time"></a>
     
     
 
