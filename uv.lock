@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.9, <3.14"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -710,6 +710,7 @@ version = "1.10.1"
 source = { virtual = "." }
 dependencies = [
     { name = "jijmodeling" },
+    { name = "jupyter-book" },
     { name = "ommx" },
     { name = "ommx-openjij-adapter" },
     { name = "ommx-pyscipopt-adapter" },
@@ -726,6 +727,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "jijmodeling", specifier = "==1.13.4" },
+    { name = "jupyter-book", specifier = ">=1.0.4.post1" },
     { name = "jupyter-book", marker = "extra == 'dev'", specifier = ">=1.0.0,<2.0.0" },
     { name = "nbconvert", marker = "extra == 'dev'", specifier = ">=7.16.4" },
     { name = "ommx", specifier = ">=2.0.0,<3.0.0" },
