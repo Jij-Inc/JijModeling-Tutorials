@@ -15,3 +15,6 @@ parts:
         title: jijmodeling API Reference
       - file: references/cheat_sheet
       - file: references/migration_guide_to_jijmodeling2
+  - caption: Release Note
+    chapters:
+      - file: releases/jijmodeling-2.0.0
