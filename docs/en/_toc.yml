@@ -4,41 +4,14 @@
 format: jb-book
 root: introduction
 parts:
+  # TODO: JijModeling2が正式リリースされた際には、latestではなくstableへのリンクに変更すること
   - caption: Switch Language
     chapters:
-      - url: https://jij-inc.github.io/JijModeling-Tutorials/ja/
+      - url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/en/latest/
         title: 日本語
-  - caption: Quick Start
-    chapters:
-      - file: quickstart/scip
-      - file: quickstart/openjij
-  - caption: Tutorial
-    chapters:
-      - file: tutorials/creating_models
-      - file: tutorials/types_and_bounds
-      - file: tutorials/expressions
-      - file: tutorials/constraint_and_penalty
   - caption: Reference
     chapters:
-      - url: https://jij-inc.github.io/JijModeling-Tutorials/apis/jijmodeling.html
+      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/
         title: jijmodeling API Reference
-      - file: references/tips
       - file: references/cheat_sheet
-  - caption: Release Note
-    chapters:
-      - file: releases/jijmodeling-1.14.1
-      - file: releases/jijmodeling-1.14.0
-      - file: releases/jijmodeling-1.13.3
-      - file: releases/jijmodeling-1.13.2
-      - file: releases/jijmodeling-1.13.1
-      - file: releases/jijmodeling-1.13.0
-      - file: releases/jijmodeling-1.12.4
-      - file: releases/jijmodeling-1.12.3
-      - file: releases/jijmodeling-1.12.2
-      - file: releases/jijmodeling-1.12.1
-      - file: releases/jijmodeling-1.12.0
-      - file: releases/jijmodeling-1.11.0
-      - file: releases/jijmodeling-1.10.1
-      - file: releases/jijmodeling-1.10.0
-      - file: releases/jijmodeling-1.9.0
-      - file: releases/jijmodeling-1.8.0
+      - file: references/migration_guide_to_jijmodeling2

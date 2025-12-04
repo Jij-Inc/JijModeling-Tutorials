@@ -1,17 +1,12 @@
 [project]
 name = "jijmodeling-tutorial"
-version = "1.10.1"
+version = "2.0.0"
 description = "Tutorial for JijModeling"
 readme = "README.md"
-requires-python = ">=3.9, <3.14"
+requires-python = ">=3.11, <3.14"
 dependencies = [
-  "jijmodeling == 1.14.1",
+  "jijmodeling == 2.0.0b5",
   "ommx >= 2.0.0, < 3.0.0",
-  "ommx-pyscipopt-adapter >= 2.0.0, < 3.0.0",
-  "ommx-openjij-adapter >= 2.0.0, < 3.0.0",
-  "openjij>=0.9.2",
-  "pytest>=8.3.3",
-  "jupyter-book>=1.0.4.post1",
 ]
 
 [project.optional-dependencies]
