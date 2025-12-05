@@ -7,11 +7,11 @@ parts:
   # TODO: JijModeling2が正式リリースされた際には、latestではなくstableへのリンクに変更すること
   - caption: Switch Language
     chapters:
-      - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/latest/
+      - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/
         title: English
   - caption: リファレンス
     chapters:
-      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/
+      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
         title: jijmodeling API Reference
       - file: references/cheat_sheet
       - file: references/migration_guide_to_jijmodeling2
