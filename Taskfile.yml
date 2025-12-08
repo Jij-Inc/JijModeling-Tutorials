@@ -74,3 +74,37 @@ tasks:
       - cp ./docs/en/releases/template.ipynb ./docs/en/releases/jijmodeling-{{.CLI_ARGS}}.ipynb
       - 'yq -i ''.parts[-1].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .'' docs/ja/_toc.yml'
       - 'yq -i ''.parts[-1].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .'' docs/en/_toc.yml'
+
+  sync_paired_notebooks:
+    desc: Synchronize paired notebooks and markdown files
+    cmds:
+      - find docs -name "*.ipynb" -exec uv run jupytext --sync {} \;
+
+  check_paired_notebooks:
+    desc: Check that all notebooks and markdown files are properly paired and synchronized
+    cmds:
+      - |
+        #!/bin/bash
+        # Check for the existence of corresponding Notebook/Markdown files
+        DOCS=$(find docs -name "*.ipynb" | sed 's|^docs/||; s|.ipynb$||' | sort)
+        MDS=$(find markdowns -name "*.md" | sed 's|^markdowns/||; s|.md$||' | sort)
+        DIFF=$(diff <(echo "$DOCS") <(echo "$MDS")) || true
+        if [ -n "$DIFF" ]; then
+          echo "[FAILED] The following notebooks/md files are not paired:"
+          echo "$DIFF"
+          exit 1
+        fi
+        # Check for the synchronization between Notebooks and Markdown files
+        ERR=0;
+        while read -r TARG; do
+          LOG=$(uv run jupytext --pre-commit-mode --show-changes --sync $TARG) || true;
+          if grep -q "Error:" <<< "$LOG"; then
+            echo "$LOG"
+            ERR=1
+          fi
+        done < <(find docs -name '*.ipynb');
+        if [ $ERR -ne 0 ]; then
+          echo "[FAILED] The notebooks/markdowns are not syncrhonized.";
+          exit 1;
+        fi
+        echo "[SUCCESS] All notebooks/markdowns are properly paired and synchronized.";
