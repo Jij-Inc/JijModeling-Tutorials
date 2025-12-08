@@ -74,3 +74,21 @@ tasks:
       - cp ./docs/en/releases/template.ipynb ./docs/en/releases/jijmodeling-{{.CLI_ARGS}}.ipynb
       - 'yq -i ''.parts[-1].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .'' docs/ja/_toc.yml'
       - 'yq -i ''.parts[-1].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .'' docs/en/_toc.yml'
+
+  sync_paired_notebooks:
+    cmds:
+      - find docs -name "*.ipynb" -exec uv run jupytext --sync {} \;
+
+  check_paired_notebooks:
+    cmds:
+      - |
+        # Check for the existence of corresponding Notebook/Markdown files
+        DOCS=$(find docs -name "*.ipynb" | sed 's|^docs/||; s|.ipynb$||' | sort)
+        MDS=$(find markdowns -name "*.md" | sed 's|^markdowns/||; s|.md$||' | sort)
+        DIFF=$(diff <(echo "$DOCS") <(echo "$MDS")) || true
+        echo "$DIFF"
+        if [ -n "$DIFF" ]; then
+          echo "The following notebooks/md files are not paired:"
+          echo "$DIFF"
+          exit 1
+        fi
