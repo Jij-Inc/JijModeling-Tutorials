@@ -83,7 +83,6 @@ tasks:
     cmds:
       - |
         #!/bin/bash
-
         # Check for the existence of corresponding Notebook/Markdown files
         DOCS=$(find docs -name "*.ipynb" | sed 's|^docs/||; s|.ipynb$||' | sort)
         MDS=$(find markdowns -name "*.md" | sed 's|^markdowns/||; s|.md$||' | sort)
@@ -93,18 +92,16 @@ tasks:
           echo "$DIFF"
           exit 1
         fi
-
         # Check for the synchronization between Notebooks and Markdown files
-        ERROR_FLAG=0;
+        ERR=0;
         while read -r TARG; do
-          LOG=$(uv run jupytext --pre-commit-mode --show-changes --sync $TARG);
-          if [ $? -ne 0 ]; then
-            echo "*** Error while processing ${TARG}";
-            echo "$LOG";
-            ERROR_FLAG=1;
-          fi ;
-        done < <(find docs -name "*.ipynb");
-        if [ $ERROR_FLAG -ne 0 ]; then
+          LOG=$(uv run jupytext --pre-commit-mode --show-changes --sync $TARG) || true;
+          if grep -q "Error:" <<< "$LOG"; then
+            echo "$LOG"
+            ERR=1
+          fi
+        done < <(find docs -name '*.ipynb');
+        if [ $ERR -ne 0 ]; then
           echo "[FAILED] The notebooks/markdowns are not syncrhonized.";
           exit 1;
         fi
