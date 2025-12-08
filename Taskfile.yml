@@ -76,10 +76,12 @@ tasks:
       - 'yq -i ''.parts[-1].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .'' docs/en/_toc.yml'
 
   sync_paired_notebooks:
+    desc: Synchronize paired notebooks and markdown files
     cmds:
       - find docs -name "*.ipynb" -exec uv run jupytext --sync {} \;
 
   check_paired_notebooks:
+    desc: Check that all notebooks and markdown files are properly paired and synchronized
     cmds:
       - |
         #!/bin/bash
