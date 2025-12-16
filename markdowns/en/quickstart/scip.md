@@ -30,7 +30,7 @@ The knapsack problem can be formulated as a mathematical model as follows:
 $$
 \begin{align*}
 \mathrm{maximize} \quad & \sum_{i=0}^{N-1} v_i x_i \\
-\mathrm{s.t.} \quad & \sum_{i=0}^{n-1} w_i x_i \leq W, \\
+\mathrm{s.t.} \quad & \sum_{i=0}^{N-1} w_i x_i \leq W, \\
 & x_{i} \in \{ 0, 1\} 
 \end{align*}
 $$
