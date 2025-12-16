@@ -470,8 +470,8 @@ requires-dist = [
     { name = "jupyter-book", marker = "extra == 'dev'", specifier = ">=1.0.0,<2.0.0" },
     { name = "jupytext", marker = "extra == 'dev'", specifier = ">=1.18.1,<2.0.0" },
     { name = "nbconvert", marker = "extra == 'dev'", specifier = ">=7.16.4" },
-    { name = "ommx", specifier = ">=2.0.0,<3.0.0" },
-    { name = "ommx-pyscipopt-adapter", marker = "extra == 'dev'", specifier = ">=2.0.0,<2.3.0" },
+    { name = "ommx", specifier = ">=2.1.0,<3.0.0" },
+    { name = "ommx-pyscipopt-adapter", marker = "extra == 'dev'", specifier = ">=2.0.0" },
 ]
 provides-extras = ["dev"]
 
@@ -903,7 +903,7 @@ wheels = [
 
 [[package]]
 name = "ommx"
-version = "2.0.5"
+version = "2.3.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -914,14 +914,14 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8b/6f/375d70766240841b9c1e5a348e16518df9488f653aedc21da1201f642c32/ommx-2.0.5-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:356169ffdad99dc5c06f787e6171ad14950938d20cf155efd5bc505bfb891bca", size = 3783856 },
-    { url = "https://files.pythonhosted.org/packages/d2/8e/5db4194aafd678a3ae29890fe79b2c1bd7f0688faa794ed0d6b0c620f5d4/ommx-2.0.5-cp313-cp313t-manylinux_2_28_aarch64.whl", hash = "sha256:9b4b303c0b719e8178c535749b8075eeada341ddd619f7f3aced5a002561fd65", size = 34971839 },
-    { url = "https://files.pythonhosted.org/packages/43/c6/ddec5ddf1251a7ea26b8cc50c85a409c86d61652ca6f150b58888a759585/ommx-2.0.5-cp313-cp313t-manylinux_2_28_x86_64.whl", hash = "sha256:6ead647af5de42f6cbecdc42d1746115df36335c63ae5461b35b114c68795fad", size = 36577685 },
-    { url = "https://files.pythonhosted.org/packages/a0/18/2e6f4e6061894d01dde46699810e2131e34b3cb3e36849914f8fe3547fbc/ommx-2.0.5-cp313-cp313t-win_amd64.whl", hash = "sha256:c265609a6f7457fd1bca80a033fe1fb76f5495cf912f78ffef98b5477a244cc3", size = 3388508 },
-    { url = "https://files.pythonhosted.org/packages/b3/c0/c2cdd945f8bfb9a41d461f111bcf9129597b7829071dcaa5be4842cf0e10/ommx-2.0.5-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:101317aea2f2ac030221b9cc9d04f4fb196e21c107017900643b5c98ac0dea3a", size = 3813143 },
-    { url = "https://files.pythonhosted.org/packages/24/c0/233690f5ca4445366de6a3e9447d5855a373a5681275a5ea8b1bacc45cf9/ommx-2.0.5-cp39-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:6cff3e0a79349df50f7ae47f5e840ab1015ddb4d271126e8c7ee886887682d3d", size = 34798832 },
-    { url = "https://files.pythonhosted.org/packages/12/2f/762a070cbfea53724a930b66c1baf0ae34b89fec93ee301c1940d5bbf180/ommx-2.0.5-cp39-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:5378cde8dd70a90503d836c7dd9f0e75430f4720c73d08268646621e5156236f", size = 36418515 },
-    { url = "https://files.pythonhosted.org/packages/65/8d/a93b32ed33dd8582c244ee7268dbd016787a6e0cac011803be735e675e1a/ommx-2.0.5-cp39-abi3-win_amd64.whl", hash = "sha256:db3711bc81c78e900f189d056fb1d99162727c0f7fecb60a51acdfd226060068", size = 3392877 },
+    { url = "https://files.pythonhosted.org/packages/10/99/2bad0809b32734944ac64932602330d8aa48f14228e84af3963e4f7c43e7/ommx-2.3.2-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:ec21ac4e3d45348a26058d1baeebf0dfe3f993848ba8b71ada735f8b66673158", size = 3912491 },
+    { url = "https://files.pythonhosted.org/packages/3f/33/9bbc03516b746cd4ab7f0ae68107d0b544824e8cfdaa05794619a5439147/ommx-2.3.2-cp310-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:7c7ae0cc098880e515856b507861cc132e8c90ca3f1132063dff327eee836996", size = 37296657 },
+    { url = "https://files.pythonhosted.org/packages/94/57/cec712532e9717841739a3f3d5728d9e90c39b709bae58eaaf05cf25c0ef/ommx-2.3.2-cp310-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:07a2c9ed4c63dc3056d3ef00e1cfc90a4e9c366c3de2f7a09662fa7fa27e6c68", size = 41419925 },
+    { url = "https://files.pythonhosted.org/packages/37/42/65d20758ab78ca531fdc2f441d48a1a4108d82b1569b03f5bf81a913be79/ommx-2.3.2-cp310-abi3-win_amd64.whl", hash = "sha256:e98fd2f2f19660641124055373520782d447e43f1bf7ae054dc37cd51ac03efd", size = 3502188 },
+    { url = "https://files.pythonhosted.org/packages/3c/b3/ae5392f3328dd08174da31f83941fb246152bb20a4858003e1977c4a93e5/ommx-2.3.2-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:9644853680ae17cd104bf387a4357df92c375e8bcca905cecaa06562d7f56a41", size = 3907558 },
+    { url = "https://files.pythonhosted.org/packages/bd/91/b1bd7c30acf3d27c360edfcfb29eac19437e7fe1cee342f12ffaa294fa33/ommx-2.3.2-cp313-cp313t-manylinux_2_28_aarch64.whl", hash = "sha256:0090ac3aba6f3d1e1d70219d986eba46c3bcee44e4cc346289e3ba2e1682280e", size = 37340994 },
+    { url = "https://files.pythonhosted.org/packages/8a/8d/3418554ed444d350086e7c4a3d1d1670d13fcd0b7330d5a5b5fbe5e08c82/ommx-2.3.2-cp313-cp313t-manylinux_2_28_x86_64.whl", hash = "sha256:3274dbef0e7ccd5e1354e13d91b2aef0c62d2b9374ae5f007ca5e762c703c4dc", size = 41481923 },
+    { url = "https://files.pythonhosted.org/packages/82/92/021dfd49028259860d306b99a7091d40b7cc449119dd91e4e36349957432/ommx-2.3.2-cp313-cp313t-win_amd64.whl", hash = "sha256:a31a9e060dfea34cebbeb02d9decd32a6704bc08fa88774926e4357f301083c3", size = 3501208 },
 ]
 
 [[package]]
