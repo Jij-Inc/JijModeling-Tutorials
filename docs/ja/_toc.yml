@@ -11,7 +11,7 @@ parts:
         title: English
   - caption: リファレンス
     chapters:
-      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
+      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/2.0.0-beta.7
         title: jijmodeling API Reference
       - file: references/cheat_sheet
       - file: references/migration_guide_to_jijmodeling2
