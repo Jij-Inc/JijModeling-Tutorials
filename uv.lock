@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 1
 requires-python = ">=3.11, <3.14"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -428,7 +428,7 @@ wheels = [
 
 [[package]]
 name = "jijmodeling"
-version = "2.0.0b5"
+version = "2.0.0b7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -438,13 +438,13 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7f/18/4413975d61095d68e79d9da52d83a63805a1cee1b6b1088403a1452e5a19/jijmodeling-2.0.0b5-cp38-abi3-macosx_10_16_x86_64.whl", hash = "sha256:3eef69d5f031601c8dd92cd471062798b4fe1844b0d1c17f65ee5c1e5b4d2bbd", size = 8373172, upload-time = "2025-11-14T03:58:32.129Z" },
-    { url = "https://files.pythonhosted.org/packages/09/1b/52cd2fb0cc60fec56df982a0c5aea4b9d61101eca4f37f7dcf81fc4c06a2/jijmodeling-2.0.0b5-cp38-abi3-macosx_11_0_x86_64.macosx_11_0_arm64.macosx_11_0_universal2.whl", hash = "sha256:95f76a00c71b5f3e05e93cc9776e9d22d61b14b3d2d1cf884bec22e5bae4ca64", size = 16261831, upload-time = "2025-11-14T03:58:35.164Z" },
-    { url = "https://files.pythonhosted.org/packages/2b/3c/eb53ee411b5ef6f18a95b92f35ea45d9e8d327ac8ab0b9e600d430ddfc0c/jijmodeling-2.0.0b5-cp38-abi3-macosx_12_0_x86_64.macosx_12_0_arm64.macosx_12_0_universal2.whl", hash = "sha256:4aae64baa2c111898d4d931d8d030b986d9c8ed132b52ac30d9d4229f50006ba", size = 16262257, upload-time = "2025-11-14T03:58:37.396Z" },
-    { url = "https://files.pythonhosted.org/packages/a4/41/6f88c016d8e980b967dd340ef59a23538ed1b67f9028a4854cb4eecc98f7/jijmodeling-2.0.0b5-cp38-abi3-macosx_13_0_x86_64.macosx_13_0_arm64.macosx_13_0_universal2.whl", hash = "sha256:cc9575702d6823ff329193f7e1563bc4887e0992c9d7d7d7948884b3a1c6e11a", size = 16262255, upload-time = "2025-11-14T03:58:39.982Z" },
-    { url = "https://files.pythonhosted.org/packages/98/25/b9e9fb707218639294fdbf34f8216bc5eb93b1682c3280f06bda017539b2/jijmodeling-2.0.0b5-cp38-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:30448f1ca7ba389a6d8c0b38c314b40eaefd26523090f7feefc7ade746e56c91", size = 8027182, upload-time = "2025-11-14T03:58:42.775Z" },
-    { url = "https://files.pythonhosted.org/packages/77/35/fd1215213c1e833734ef6fc0ad98f0559c164acc95bf25ef742e01cafdbe/jijmodeling-2.0.0b5-cp38-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:21385baf657b9537245579ab8980aa7b6e29f5f9e01dcdee5128742686a404ae", size = 8761829, upload-time = "2025-11-14T03:58:44.773Z" },
-    { url = "https://files.pythonhosted.org/packages/0d/56/e5f1eb75cdb29444cc57379f4792c69ad40873393bd87dcaaa052ad2ebcf/jijmodeling-2.0.0b5-cp38-abi3-win_amd64.whl", hash = "sha256:0bd3102030be8ed07afb9792874401d071008bebf217b7aa6bccc4820aefcab5", size = 9524181, upload-time = "2025-11-14T03:58:47.016Z" },
+    { url = "https://files.pythonhosted.org/packages/36/ca/95581c0969b9ea945c9926b4b6ce1acc8c5b30379b680197b672d33c6453/jijmodeling-2.0.0b7-cp38-abi3-macosx_10_16_x86_64.whl", hash = "sha256:3828e84ab74df40f2d45584c0fa813790b351a1c86755b17906a8378b6a4ac99", size = 9556447 },
+    { url = "https://files.pythonhosted.org/packages/dc/f1/0f6c991ced7a26d71906b3c167926e5f985f45ee808e9931a35882830fb5/jijmodeling-2.0.0b7-cp38-abi3-macosx_11_0_x86_64.macosx_11_0_arm64.macosx_11_0_universal2.whl", hash = "sha256:c55470c85a91f1283c176653726510ccb3d01b4b29a687e0040a8fc3b8d39957", size = 18680183 },
+    { url = "https://files.pythonhosted.org/packages/d5/7d/52df19770871677d0058adf2d30d3c13e63df1b6ed10e170beeb09ad1bad/jijmodeling-2.0.0b7-cp38-abi3-macosx_12_0_x86_64.macosx_12_0_arm64.macosx_12_0_universal2.whl", hash = "sha256:5933bfef1ddddd813c27963d25b54042c1b275cee4b401260867fbee21228d76", size = 18679911 },
+    { url = "https://files.pythonhosted.org/packages/b7/0b/b040386c96454cf8f6a382268bd6fadcf380934245dbe586ed3406858b36/jijmodeling-2.0.0b7-cp38-abi3-macosx_13_0_x86_64.macosx_13_0_arm64.macosx_13_0_universal2.whl", hash = "sha256:879c1d402318ad9ad50ce8c5d1ce6bc6d78e84082d7c2dc46eacfa45330bcaf4", size = 18679910 },
+    { url = "https://files.pythonhosted.org/packages/cb/16/96f631896eb13b3ba96d736c17d54a9095b4cec51cf1e836ebfb54fc9d11/jijmodeling-2.0.0b7-cp38-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:92b5a37ddaea2680937636f48765d445a976abc2329fbcfb567341b142128864", size = 9270705 },
+    { url = "https://files.pythonhosted.org/packages/43/95/f374b98289c7569a84f78638b7a37f4ed8d75fe9ff52ff2dd65278855f34/jijmodeling-2.0.0b7-cp38-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:0cc979b630cac80573019dd2eb8bcc2b9d688374b94ab4f5726b899a9be21fc7", size = 10006323 },
+    { url = "https://files.pythonhosted.org/packages/45/41/10aa462c8325bd002891b92bf1ec073d74ed49d422a0d06bf10a89b9ca7f/jijmodeling-2.0.0b7-cp38-abi3-win_amd64.whl", hash = "sha256:5d5c8a165a3794f29dcf34436975f8be9b77c59f049e827a14dd4e664a43634d", size = 10796338 },
 ]
 
 [[package]]
@@ -466,7 +466,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "jijmodeling", specifier = "==2.0.0b5" },
+    { name = "jijmodeling", specifier = "==2.0.0b7" },
     { name = "jupyter-book", marker = "extra == 'dev'", specifier = ">=1.0.0,<2.0.0" },
     { name = "jupytext", marker = "extra == 'dev'", specifier = ">=1.18.1,<2.0.0" },
     { name = "nbconvert", marker = "extra == 'dev'", specifier = ">=7.16.4" },
