@@ -65,11 +65,10 @@ $$
 
 ## インスタンスの生成手順
 
-`jijmodeling` を使うと、ソルバーに入力するためのインスタンスを次の3ステップで生成できます：
+`jijmodeling` を使うと、ソルバーに入力するためのインスタンスを次の2ステップで生成できます：
 
 1. `jijmodeling` でナップサック問題を定式化する
-2. `Compiler` オブジェクトにインスタンスデータを登録する
-3. `Compiler` オブジェクトを使って数理モデルをインスタンスに変換する
+2. `Problem` オブジェクトを使って数理モデルをインスタンスに変換する
 
 ![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
 
@@ -110,14 +109,16 @@ knapsack_problem
 
 +++
 
-## Step2. `Compiler` オブジェクトにインスタンスデータを登録する
+## Step2. `Problem` オブジェクトを使って数理モデルをインスタンスに変換する
 
-Step1で定式化した数理モデルの `Placeholder` に入力するインスタンスデータを用意し、 `Compiler` オブジェクトに登録します。
+Step1で定式化した数理モデルの `Placeholder` に入力するインスタンスデータを用意し、数理モデルをインスタンスに変換します。
 
-`Compiler` クラスの `from_problem` の第二引数に、以下のキーと値を持つ辞書を渡すことでインスタンスデータを登録できます：
+`Problem` クラスの `eval` メソッドの引数に、以下のキーと値を持つ辞書を渡すことでインスタンスデータを登録できます：
 
 - キー：`Placeholder` オブジェクトの `name` プロパティに設定した文字列
 - 値：入力するデータ
+
+そして `eval` メソッドはインスタンスデータの登録と同時に、`Problem` オブジェクトが持つ `Placeholder` にインスタンスデータを入力し、インスタンスに変換します。
 
 ```{code-cell} ipython3
 instance_data = {
@@ -126,26 +127,18 @@ instance_data = {
     "W": 47,                       # ナップサックの耐荷重のデータ
 }
 
-compiler = jm.Compiler.from_problem(knapsack_problem, instance_data)
-```
-
-## Step3. `Compiler` オブジェクトを使って数理モデルをインスタンスに変換する
-
-数理モデルをインスタンスに変換するには、`Compiler.eval_problem` メソッドを使用します。インスタンスデータが登録された `Compiler` オブジェクトの `eval_problem` メソッドに `Problem` オブジェクトを渡すと、その `Problem` オブジェクトが持つ `Placeholder` にインスタンスデータを入力され、インスタンスに変換されます:
-
-```{code-cell} ipython3
-instance = compiler.eval_problem(knapsack_problem)
+instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-`Compiler.eval_problem` の返却値は `ommx.v1.Instance` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/instance.html)を参照してください。
+`Problem.eval` の返却値は `ommx.v1.Instance` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/instance.html)を参照してください。
 :::
 
 +++
 
 ## 最適化問題を解く
 
-では、Step3で得られたインスタンスを最適化ソルバーSCIPで解いてみましょう。以下のPythonコードで目的関数の最適値を得ることができます:
+では、Step2で得られたインスタンスを最適化ソルバーSCIPで解いてみましょう。以下のPythonコードで目的関数の最適値を得ることができます:
 
 ```{code-cell} ipython3
 from ommx_pyscipopt_adapter import OMMXPySCIPOptAdapter

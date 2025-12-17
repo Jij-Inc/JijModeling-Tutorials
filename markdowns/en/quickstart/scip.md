@@ -65,11 +65,10 @@ In `jijmodeling`, an instance is a mathematical model with specific values assig
 
 ## Procedure for Generating an Instance
 
-Using `jijmodeling`, you can generate an instance to input into the solver in the following three steps:
+Using `jijmodeling`, you can generate an instance to input into the solver in the following two steps:
 
 1. Formulate the knapsack problem with `jijmodeling`
-2. Register instance data in the `Compiler` object
-3. Convert the mathematical model to an instance using the `Compiler` object
+2. Convert the mathematical model to an instance using the `Problem` object
 
 ![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
 
@@ -110,14 +109,16 @@ For more details on how to formulate with `jijmodeling`, please refer to [here](
 
 +++
 
-## Step2. Register Instance Data in the `Compiler` Object
+## Step2. Convert the Mathematical Model to an Instance Using the `Problem` Object
 
-Prepare the instance data to be input into the `Placeholder`s of the mathematical model formulated in Step1, and register it in the `Compiler` object.
+Prepare the instance data to be assigned to the `Placeholder`s of the mathematical model formulated in Step1, and convert the mathematical model to an instance.
 
-You can register instance data by passing a dictionary with the following keys and values as the second argument to the 'from_problem' method of the 'Compiler' class:
+You can register the instance data by passing a dictionary with the following keys and values to the `eval` method of the `Problem` class:
 
 - Key: String set in the `name` property of the `Placeholder` object
-- Value: Data to be input
+- Value: Data to be assigned
+
+The `eval` method registers the instance data and, at the same time, fills the `Placeholder`s held by the `Problem` object with the instance data to convert it into an instance.
 
 ```{code-cell} ipython3
 instance_data = {
@@ -125,26 +126,18 @@ instance_data = {
     "w": [11, 15, 20, 35, 10, 33], # Data of item weights
     "W": 47,                       # Data of the knapsack's weight capacity
 }
-compiler = jm.Compiler.from_problem(knapsack_problem, instance_data)
-```
-
-## Step3. Convert the Mathematical Model to an Instance Using the `Compiler` Object
-
-To convert the mathematical model to an instance, use the `Compiler.eval_problem` method. By passing the `Problem` object to the `eval_problem` method of the `Compiler` object with registered instance data, the `Placeholder` in the `Problem` object will be filled with the instance data and converted to an instance:
-
-```{code-cell} ipython3
-instance = compiler.eval_problem(knapsack_problem)
+instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-The return value of `Compiler.eval_problem` is an `ommx.v1.Instance` object. For more details about it, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/instance.html).
+The return value of `Problem.eval_problem` is an `ommx.v1.Instance` object. For more details about it, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/instance.html).
 :::
 
 +++
 
 ## Solving the Optimization Problem
 
-Now, let's solve the instance obtained in Step3 with the optimization solver SCIP. The following Python code can be used to obtain the optimal value of the objective function:
+Now, let's solve the instance obtained in Step2 with the optimization solver SCIP. The following Python code can be used to obtain the optimal value of the objective function:
 
 ```{code-cell} ipython3
 from ommx_pyscipopt_adapter import OMMXPySCIPOptAdapter

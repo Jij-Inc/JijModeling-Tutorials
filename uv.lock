@@ -454,6 +454,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "jijmodeling" },
     { name = "ommx" },
+    { name = "ommx-pyscipopt-adapter" },
 ]
 
 [package.optional-dependencies]
@@ -461,7 +462,6 @@ dev = [
     { name = "jupyter-book" },
     { name = "jupytext" },
     { name = "nbconvert" },
-    { name = "ommx-pyscipopt-adapter" },
 ]
 
 [package.metadata]
@@ -471,7 +471,7 @@ requires-dist = [
     { name = "jupytext", marker = "extra == 'dev'", specifier = ">=1.18.1,<2.0.0" },
     { name = "nbconvert", marker = "extra == 'dev'", specifier = ">=7.16.4" },
     { name = "ommx", specifier = ">=2.1.0,<3.0.0" },
-    { name = "ommx-pyscipopt-adapter", marker = "extra == 'dev'", specifier = ">=2.0.0" },
+    { name = "ommx-pyscipopt-adapter", specifier = ">=2.0.0" },
 ]
 provides-extras = ["dev"]
 
