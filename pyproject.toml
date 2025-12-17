@@ -5,7 +5,7 @@ description = "Tutorial for JijModeling"
 readme = "README.md"
 requires-python = ">=3.11, <3.14"
 dependencies = [
-  "jijmodeling == 2.0.0b6",
+  "jijmodeling == 2.0.0b7",
   "ommx >= 2.1.0, < 3.0.0",
   "ommx-pyscipopt-adapter >= 2.0.0",
 ]
