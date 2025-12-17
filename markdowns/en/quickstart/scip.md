@@ -130,7 +130,7 @@ instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-The return value of `Problem.eval_problem` is an `ommx.v1.Instance` object. For more details about it, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/instance.html).
+The return value of `Problem.eval` is an `ommx.v1.Instance` object. For more details about it, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/instance.html).
 :::
 
 +++
