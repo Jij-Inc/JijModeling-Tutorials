@@ -78,7 +78,7 @@ tasks:
   sync_paired_notebooks:
     desc: Synchronize paired notebooks and markdown files
     cmds:
-      - find docs -name "*.ipynb" -exec uv run jupytext --sync {} \;
+      - find docs -name "*.ipynb" -not -path "*/_build/*" -exec uv run jupytext --sync {} \;
 
   check_paired_notebooks:
     desc: Check that all notebooks and markdown files are properly paired and synchronized
@@ -86,7 +86,8 @@ tasks:
       - |
         #!/bin/bash
         # Check for the existence of corresponding Notebook/Markdown files
-        DOCS=$(find docs -name "*.ipynb" | sed 's|^docs/||; s|.ipynb$||' | sort)
+        NOTEBOOKS=$(find docs -name "*.ipynb" -not -path "*/_build/*")
+        DOCS=$(echo "$NOTEBOOKS" | sed 's|^docs/||; s|.ipynb$||' | sort)
         MDS=$(find markdowns -name "*.md" | sed 's|^markdowns/||; s|.md$||' | sort)
         DIFF=$(diff <(echo "$DOCS") <(echo "$MDS")) || true
         if [ -n "$DIFF" ]; then
@@ -102,7 +103,7 @@ tasks:
             echo "$LOG"
             ERR=1
           fi
-        done < <(find docs -name '*.ipynb');
+        done <<< "$NOTEBOOKS";
         if [ $ERR -ne 0 ]; then
           echo "[FAILED] The notebooks/markdowns are not syncrhonized.";
           exit 1;
