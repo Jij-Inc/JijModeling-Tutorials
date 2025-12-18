@@ -58,30 +58,30 @@ In this explanation, we will solve an [instance](what_is_instance) obtained by i
 
 (what_is_instance)=
 :::{admonition} What is an instance?
-In `jijmodeling`, an instance is a mathematical model with specific values assigned to its parameters.
+In `jijmodeling`, a dictionary that stores specific values for the parameters of a mathematical model is called "instance data", and a mathematical model with specific values assigned to its parameters is called an "instance".
 :::
 
 +++
 
 ## Procedure for Generating an Instance
 
-Using `jijmodeling`, you can generate an instance to input into the solver in the following two steps:
+Using `jijmodeling`, you can generate an instance to input into the solver in the following 3 steps:
 
-1. Formulate the knapsack problem with `jijmodeling`
-2. Convert the mathematical model to an instance using the `Problem` object
+1. Formulate the knapsack problem
+2. Prepare instance data
+3. Generate an instance
 
 ![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
 
 +++
 
-## Step1. Formulate the Knapsack Problem with JijModeling
+## Step1. Formulate the Knapsack Problem
 
-The following Python code formulates the knapsack problem using `jijmodeling`:
+Formulating the knapsack problem using `jijmodeling` results in the following Python code:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
-# JijModeling 2 with Decorator API
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
 def knapsack_problem(problem: jm.DecoratedProblem):
     # Value of items
@@ -109,16 +109,9 @@ For more details on how to formulate with `jijmodeling`, please refer to [here](
 
 +++
 
-## Step2. Convert the Mathematical Model to an Instance Using the `Problem` Object
+## Step2. Prepare Instance Data
 
-Prepare the instance data to be assigned to the `Placeholder`s of the mathematical model formulated in Step1, and convert the mathematical model to an instance.
-
-You can register the instance data by passing a dictionary with the following keys and values to the `eval` method of the `Problem` class:
-
-- Key: String set in the `name` property of the `Placeholder` object
-- Value: Data to be assigned
-
-The `eval` method registers the instance data and, at the same time, fills the `Placeholder`s held by the `Problem` object with the instance data to convert it into an instance.
+Next, prepare the instance data for the parameters $v_i, w_i, W$ of the mathematical model formulated in Step1.
 
 ```{code-cell} ipython3
 instance_data = {
@@ -126,6 +119,13 @@ instance_data = {
     "w": [11, 15, 20, 35, 10, 33], # Data of item weights
     "W": 47,                       # Data of the knapsack's weight capacity
 }
+```
+
+## Step3. Convert to an Instance
+
+Finally, let's generate an instance using the formulated mathematical model and the prepared instance data.
+
+```{code-cell} ipython3
 instance = knapsack_problem.eval(instance_data)
 ```
 
