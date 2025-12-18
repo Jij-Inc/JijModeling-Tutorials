@@ -14,7 +14,7 @@ parts:
       - file: quickstart/scip
   - caption: リファレンス
     chapters:
-      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/jm-2.0.0-beta.7/
+      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
         title: jijmodeling API Reference
       - file: references/cheat_sheet
       - file: references/migration_guide_to_jijmodeling2
