@@ -35,6 +35,11 @@ tasks:
       - task: build_book_ja_all
       - task: open_book_ja
 
+  check_book_ja:
+    desc: Confirm that the Japanese version of the book builds without errors or warnings
+    cmds:
+      - uv run jupyter-book build docs/ja --all --warningiserror
+
   build_book_en:
     desc: Build the English version of the book
     cmds:
@@ -66,6 +71,11 @@ tasks:
     cmds:
       - task: build_book_en_all
       - task: open_book_en
+
+  check_book_en:
+    desc: Confirm that the English version of the book builds without errors or warnings
+    cmds:
+      - uv run jupyter-book build docs/en --all --warningiserror
 
   create_release_note:
     desc: Create release notes for the specified version
