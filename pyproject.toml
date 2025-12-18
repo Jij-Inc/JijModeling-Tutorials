@@ -12,7 +12,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "nbconvert>=7.16.4",
   "jupyter-book >= 1.0.0, < 2.0.0",
   "jupytext >= 1.18.1, < 2.0.0",
 ]
