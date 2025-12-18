@@ -9,6 +9,9 @@ parts:
     chapters:
       - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/
         title: English
+  - caption: クイックスタート
+    chapters:
+      - file: quickstart/scip
   - caption: リファレンス
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/jm-2.0.0-beta.7/
