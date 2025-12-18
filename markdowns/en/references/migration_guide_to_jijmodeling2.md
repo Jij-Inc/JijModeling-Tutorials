@@ -85,6 +85,7 @@ After that section, you can read in two ways:
 
 +++
 
+(example-quadratic-tsp-in-jijmodeling-2)=
 ## Example: Quadratic TSP in JijModeling 2
 
 Before diving into the details, let's see an example of quadratic TSP formulated in JijModeling 2 to grasp the intuition.
@@ -155,9 +156,8 @@ If you want to see more example before deep diving, you can skip to [JijModeling
 
 +++
 
+(design-goals-of-jijmodeling-2-why-jijmodeling-2)=
 ## Design Goals of JijModeling 2 - Why JijModeling 2?
-
-<a id="design-goals"></a>
 
 JijModeling 2 is motivated by the following design goals:
 
@@ -402,6 +402,7 @@ For migration to OMMX, see the following OMMX official documentations:
 - [Downloading a MIPLIB Instance](https://jij-inc.github.io/ommx/en/tutorial/download_miplib_instance.html)
 - [Downloading a QPLIB Instance](https://jij-inc.github.io/ommx/en/tutorial/download_qplib_instance.html)
 
+(jijmodeling-2-decorator-api-by-examples)=
 ## JijModeling 2 (Decorator API) by Examples
 
 In this section, we will compare the various patterns in JijModeling 2 with JijModeling 1 to get the intuition of the changes introduced in JijModeling 2.

@@ -19,11 +19,10 @@ jobs:
         os:
           - ubuntu-latest
           - windows-latest
-          # Python-MIP does not support macOS natively
-          # See https://github.com/coin-or/python-mip/issues/167
-          # This issue will be fixed in the next minor release
-          # https://github.com/coin-or/python-mip/releases/tag/1.16-pre
-          # - macos-latest
+          - macos-latest
+        language:
+          - ja
+          - en
 
     steps:
       - uses: actions/checkout@v4
@@ -31,15 +30,20 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v3
 
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ github.token }}
+
       - name: Set up Python
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install the project
         run: uv sync --extra dev
 
-      - name: Run tests
-        run: |
-          uv run jupyter nbconvert --execute --to notebook --inplace docs/**/*.ipynb
+      - name: Check books
+        run: task check_book_${{ matrix.language }}
 
 
   check_paired_notebooks:

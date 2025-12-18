@@ -88,6 +88,7 @@ JijModeling 2ベータで現在欠けている機能のリストは次のとお�
 
 +++
 
+(jijmodeling-2tsp)=
 ## 例：JijModeling 2での二次TSP
 
 詳細に入る前に、以下では簡単な例を通して変更の雰囲気を概観しましょう。
@@ -156,6 +157,7 @@ assert all(instance.constraints[i].function.almost_equal(instance_2.constraints[
 
 +++
 
+(id1)=
 ## JijModeling 2の設計目標
 
 JijModeling 2 は、以下の点を念頭に設計されています：
@@ -406,6 +408,7 @@ OMMXへの移行方法については、以下のOMMX公式ドキュメントを
 - [MIPLIBインスタンスのダウンロード](https://jij-inc.github.io/ommx/ja/tutorial/download_miplib_instance.html)
 - [QPLIBインスタンスのダウンロード](https://jij-inc.github.io/ommx/ja/tutorial/download_qplib_instance.html)
 
+(jijmodeling-2-decorator-api)=
 ## 例で見るJijModeling 2（Decorator API）
 
 本節では、JijModeling 2で導入された変更の雰囲気をつかむため、さまざまなパターンの JijModeling 2 と JijModeling 1 の解法を比較していきます。
