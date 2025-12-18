@@ -58,30 +58,30 @@ $$
 
 (what_is_instance)=
 :::{admonition} インスタンスとは
-`jijmodeling` では、数理モデルのパラメータに具体的な値を入れたものを”インスタンス”と呼んでいます。
+`jijmodeling` では、数理モデルのパラメーターの具体的な値を格納した辞書を"インスタンスデータ"と呼び、数理モデルのパラメーターに具体的な値を入れたものを”インスタンス”と呼んでいます。
 :::
 
 +++
 
 ## インスタンスの生成手順
 
-`jijmodeling` を使うと、ソルバーに入力するためのインスタンスを次の2ステップで生成できます：
+`jijmodeling` を使うと、ソルバーに入力するためのインスタンスを次の3ステップで生成できます：
 
-1. `jijmodeling` でナップサック問題を定式化する
-2. `Problem` オブジェクトを使って数理モデルをインスタンスに変換する
+1. ナップサック問題を定式化する
+2. インスタンスデータを用意する
+2. インスタンスを生成する
 
 ![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
 
 +++
 
-## Step1. JijModelingでナップサック問題を定式化する
+## Step1. ナップサック問題を定式化する
 
 `jijmodeling` を使用してナップサック問題を定式化すると、以下のPythonコードになります：
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
-# JijModeling 2 with Decorator API
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
 def knapsack_problem(problem: jm.DecoratedProblem):
     # アイテムの価値
@@ -109,16 +109,9 @@ knapsack_problem
 
 +++
 
-## Step2. `Problem` オブジェクトを使って数理モデルをインスタンスに変換する
+## Step2. インスタンスデータを用意する
 
-Step1で定式化した数理モデルの `Placeholder` に入力するインスタンスデータを用意し、数理モデルをインスタンスに変換します。
-
-`Problem` クラスの `eval` メソッドの引数に、以下のキーと値を持つ辞書を渡すことでインスタンスデータを登録できます：
-
-- キー：`Placeholder` オブジェクトの `name` プロパティに設定した文字列
-- 値：入力するデータ
-
-そして `eval` メソッドはインスタンスデータの登録と同時に、`Problem` オブジェクトが持つ `Placeholder` にインスタンスデータを入力し、インスタンスに変換します。
+次に、Step1で定式化した数理モデルのパラメーター $v_i, w_i, W$ のインスタンスデータを用意します。
 
 ```{code-cell} ipython3
 instance_data = {
@@ -126,7 +119,13 @@ instance_data = {
     "w": [11, 15, 20, 35, 10, 33], # アイテムの重さのデータ
     "W": 47,                       # ナップサックの耐荷重のデータ
 }
+```
 
+## Step3. インスタンスに変換する
+
+最後に、定式化した数理モデルと用意したインスタンスデータを用いてインスタンスを生成しましょう。
+
+```{code-cell} ipython3
 instance = knapsack_problem.eval(instance_data)
 ```
 
