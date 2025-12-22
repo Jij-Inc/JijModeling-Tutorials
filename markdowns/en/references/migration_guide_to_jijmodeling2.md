@@ -43,14 +43,16 @@ JijModeling 2 introduces several key changes that improve usability and safety:
       * Real: `problem.Float()`.
    - They produce clearer intent, tighter static type checking, and better error messages. Use `Placeholder` only for advanced cases (tuple / custom `dtype`s).
 
-7. **New Datatypes**: JijModeling 2 now shipped with dictionary and category label types!
+7. **Introduction of Dependent Variables**: The newly introduced `problem.DependentVar(..)` declaration allows you to bind and reuse frequently appearing sub-expressions as dependent variables. This resolves the issue in traditional JijModeling where definitions of variables in LaTeX (defined with `with_latex()` or `latex=...`) were unclear.
+
+8. **New Datatypes**: JijModeling 2 now shipped with dictionary and category label types!
    - Many cases formerly written using jagged arrays can now be written more simply with dictionaries!
       * Jagged arrays are notoriously error-prone, so we strongly recommend adopting dictionaries in the long term.
    - Category labels can be used as a non-contiguous or non-zero-origin labels of entities.
 
-8. **Supports Python >=3.11 Only**: We are using the modern language features (type hints and callstacks) of Python >=3.11 to improve user experience.
+9.  **Supports Python >=3.11 Only**: We are using the modern language features (type hints and callstacks) of Python >=3.11 to improve user experience.
 
-9. **Removed Dataset loader**: Since JijModeling 1.14.0, `jijmodeling.dataset` and related dataset loading feature like `load_qplib` has been removed. Use the corresponding features in OMMX.
+10. **Removed Dataset loader**: Since JijModeling 1.14.0, `jijmodeling.dataset` and related dataset loading feature like `load_qplib` has been removed. Use the corresponding features in OMMX.
 
 **Recommendation**: Use the **Decorator API** plus **typed constructors** for virtually all new code; rely on the type system feedback to guide model construction.
 
@@ -59,18 +61,15 @@ JijModeling 2 introduces several key changes that improve usability and safety:
 ### What's Missing in Current Version?
 
 <div class="alert alert-block alert-info">
-<b>Note:</b> This section lists the features that are not available in the current beta version. The code examples in this guide are written for the future stable version and may include features listed here.
+<b>Note:</b> This section lists the features that existed in JijModeling 1 but are not available in the current JijModeling 2.
 </div>
 
-JijModeling 2 is currently in beta stage and several functionalities from JijModeling 1 are missing.
-Here is the list of features currently missing in JijModeling 2 beta:
+Here is the list of features currently missing in JijModeling 2:
 
-1. Serialization of models from/to Protobuf
-2. Complex AST traversal API
-3. Random Instance Generation
+1. Complex AST traversal API
+2. Random Instance Generation
 
-These features will be added to JijModeling 2 during the beta stage and are planned to ship no later than the Release Candidate phase.
-Stay tuned!
+These features are planned to be implemented gradually after the official release of JijModeling 2.
 
 +++
 
@@ -770,7 +769,7 @@ problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     N = problem.Length()
     C = problem.Natural(jagged=True, ndim=2)
-    M = C.len_at(0)
+    M = problem.DependentVar(C.len_at(0))
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(M,))
     x = problem.BinaryVar(shape=(N,))
     
@@ -815,8 +814,8 @@ problem = jm.Problem("CompilerDemo", sense=jm.ProblemSense.MAXIMIZE)
 @problem.update
 def _(problem: jm.DecoratedProblem):
     v = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
-    w = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1) 
-    N = v.len_at(0)
+    w = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
+    N = problem.DependentVar(v.len_at(0))
     W = problem.Float()
     x = problem.BinaryVar(shape=(N,))
     

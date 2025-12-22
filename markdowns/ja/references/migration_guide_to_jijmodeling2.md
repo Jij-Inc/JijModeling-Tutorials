@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: .venv
   language: python
   name: python3
 ---
@@ -44,14 +44,16 @@ JijModeling 2では、数理モデリングに対する核心的な考え方は�
       * 実数値：`problem.Float()`
     - これらの利用により意図がより明確になり、また正確な型チェックによる精度の高いエラーメッセージが得られるようになります。高度なケース（タプルなどのカスタム`dtype`）にのみ`Placeholder`を使用してください。
 
-7. **新しいデータ型**: JijModeling 2 では辞書型とカテゴリラベル型が追加されました！
+7. **従属変数の導入**：新たに導入された`problem.DependentVar(..)`宣言により、頻出する部分式を従属変数として束縛・再利用できるようになりました。これにより、従来のJijModelingで`with_latex()`や`latex=...`で定義された$\LaTeX$上の変数の定義がわからなくなる問題が解消されます。
+
+8. **新しいデータ型**: JijModeling 2 では辞書型とカテゴリラベル型が追加されました！
    - 従来 Jagged Array で書いていた多くのケースが、辞書を使ってより簡潔に記述できるようになりました！
       * Jagged Arrayはエラーの温床になるため、長期的には辞書型の利用を強く推奨します。
    - カテゴリラベルは、連続でないまたはゼロ起点でないラベルとして利用できます。
 
-8. **Python 3.11以降のみのサポート**：型ヒントや詳細なコールスタックなどの現代的なPythonの言語機能によるユーザ体験の向上を達成するため、JijModeling 2では Python 3.11 以降のみをサポートしています。
+9.  **Python 3.11以降のみのサポート**：型ヒントや詳細なコールスタックなどの現代的なPythonの言語機能によるユーザ体験の向上を達成するため、JijModeling 2では Python 3.11 以降のみをサポートしています。
 
-9. **データセット読み込み機能の廃止**: JijModeling 1.14.0以降、`jijmodeling.dataset` や `load_qplib` などのデータセット読み込み機能は削除されました。データセットの読み込みには OMMX の該当機能をご利用ください。
+10. **データセット読み込み機能の廃止**: JijModeling 1.14.0以降、`jijmodeling.dataset` や `load_qplib` などのデータセット読み込み機能は削除されました。データセットの読み込みには OMMX の該当機能をご利用ください。
 
 
 **推奨事項**: 新しいコードを書く際には、**Decorator API**と**型付きコンストラクタ**の利用を推奨します。
@@ -61,19 +63,15 @@ JijModeling 2では、数理モデリングに対する核心的な考え方は�
 ### 現在のバージョンで欠けているものは？
 
 <div class="alert alert-block alert-info">
-<b>注意:</b> このセクションでは、現在のベータ版で利用できない機能を列挙しています。
-次節以降のコード例は将来リリースされる安定版を念頭に書かれており、以下の機能を利用している場合があります。
+<b>注意:</b> このセクションでは、JijModeling 1系統では存在したが、現在のJijModeling 2で利用できない機能を列挙しています。
 </div>
 
-JijModeling 2は現在ベータ段階にあり、JijModeling 1のいくつかの機能が欠けています。
-JijModeling 2ベータで現在欠けている機能のリストは次のとおりです：
+現時点のJijModeling 2で欠けている機能のは次のとおりです：
 
-1. Protobufによるモデルのシリアライゼーション
-2. 複雑な構文木書き換えAPI
-3. ランダムインスタンス生成機能
+1. 複雑な構文木書き換えAPI
+2. ランダムインスタンス生成機能
 
-これらの機能は段階的に JijModeling 2に追加されていき、最初の Release Candidate までには搭載される予定です。
-今後の更新にご期待ください！
+これらの機能はJijModeling 2正式リリース後に随時実装されていく予定です。
 
 +++
 
@@ -775,7 +773,7 @@ problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     N = problem.Length()
     C = problem.Natural(jagged=True, ndim=2)
-    M = C.len_at(0)
+    M = problem.DependentVar(C.len_at(0))
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(M,))
     x = problem.BinaryVar(shape=(N,))
     
@@ -821,12 +819,14 @@ problem = jm.Problem("CompilerDemo", sense=jm.ProblemSense.MAXIMIZE)
 def _(problem: jm.DecoratedProblem):
     v = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
     w = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
-    N = v.len_at(0)
+    N = problem.DependentVar(v.len_at(0))
     W = problem.Float()
     x = problem.BinaryVar(shape=(N,))
 
     problem += (v * x).sum()  # 目的関数
     problem += problem.Constraint("weight", (w * x).sum() <= W)
+
+display(problem)
 
 # サンプルデータ
 instance_data = {
