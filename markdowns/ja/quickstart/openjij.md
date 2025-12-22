@@ -11,14 +11,14 @@ kernelspec:
   name: python3
 ---
 
-# SCIPで最適化問題を解く
+# OpenJijで最適化問題を解く
 
-`jijmodeling` の使い方を理解するために、このページではナップサック問題を解いてみましょう。ただし、`jijmodeling` は数理モデルを記述するためのツールであるため、単独では最適化問題を解くことはできません。なので、数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせて解くこととします。
+`jijmodeling` の使い方を理解するために、このページではナップサック問題を解いてみましょう。ただし、`jijmodeling` は数理モデルを記述するためのツールであるため、単独では最適化問題を解くことはできません。なので、数理最適化サンプラー[OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせて解くこととします。
 
-`jijmodeling` とSCIPを組み合わせて使うには、 `ommx-pyscipopt-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-pyscipopt-adapter), [PyPI](https://pypi.org/project/ommx-pyscipopt-adapter/)) というPythonパッケージをインストールする必要があります。以下のコマンドでインストールしてください。
+`jijmodeling` とOpenJijを組み合わせて使うには、 `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/openjij/)) というPythonパッケージをインストールする必要があります。以下のコマンドでインストールしてください。
 
 ```bash
-pip install ommx-pyscipopt-adapter
+pip install ommx-openjij-adapter
 ```
 
 +++
@@ -137,23 +137,21 @@ instance = knapsack_problem.eval(instance_data)
 
 ## 最適化問題を解く
 
-では、Step3で得られたインスタンスを最適化ソルバーSCIPで解いてみましょう。以下のPythonコードで目的関数の最適値を得ることができます:
+では、Step3で得られたインスタンスを最適化サンプラーOpenJijで解いてみましょう。以下のPythonコードで目的関数の最適値を得ることができます:
 
 ```{code-cell} ipython3
-from ommx_pyscipopt_adapter import OMMXPySCIPOptAdapter
+from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
-# SCIPを介して問題を解き、ommx.v1.Solutionとして解を取得
-solution = OMMXPySCIPOptAdapter.solve(instance)
+# OpenJijを介して問題を解き、ommx.v1.SampleSetとしてサンプルセットを取得
+sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=5)
 
-print(f"目的関数の最適値: {solution.objective}")
+sample_set.summary
 ```
 
-また、`solution` の `decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
+上記のコードは`openjij`のシミュレーテッドアニーリングを使用しており、`num_reads=5`は5回だけサンプリングすることを示しています。`num_reads`の値を増やすことで複数回サンプリングできます。
 
-```{code-cell} ipython3
-solution.decision_variables_df[["name", "subscripts", "value"]]
-```
++++
 
 :::{hint}
-`OMMXPySCIPOptAdapter.solve` の返却値は `ommx.v1.Solution` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/solution.html)を参照してください。
+`OMMXOpenJijSAAdapter.sample` の返却値は `ommx.v1.SampleSet` です。詳しくは [こちら](https://jij-inc.github.io/ommx/python/ommx/autoapi/ommx/v1/index.html#ommx.v1.SampleSet)を参照してください。
 :::

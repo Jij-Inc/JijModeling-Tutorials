@@ -11,14 +11,14 @@ kernelspec:
   name: python3
 ---
 
-# Solving Optimization Problems with SCIP
+# Solving Optimization Problems with OpenJij
 
-To understand how to use `jijmodeling`, let's solve the knapsack problem on this page. However, since `jijmodeling` is a tool for describing mathematical models, it cannot solve optimization problems on its own. Therefore, we will solve it in combination with the mathematical optimization solver [SCIP](https://www.scipopt.org/).
+To understand how to use `jijmodeling`, let's solve the knapsack problem on this page. However, since `jijmodeling` is a tool for describing mathematical models, it cannot solve optimization problems on its own. Therefore, we will solve it in combination with the mathematical optimization sampler [OpenJij](https://tutorial.openjij.org/en/intro.html).
 
-To use `jijmodeling` with SCIP, you need to install a Python package called `ommx-pyscipopt-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-pyscipopt-adapter), [PyPI](https://pypi.org/project/ommx-pyscipopt-adapter/)). Please install it with the following command:
+To use `jijmodeling` with OpenJij, you need to install a Python package called `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/openjij/)). Please install it with the following command:
 
 ```bash
-pip install ommx-pyscipopt-adapter
+pip install ommx-openjij-adapter
 ```
 
 +++
@@ -69,7 +69,7 @@ Using `jijmodeling`, you can generate an instance to input into the solver in th
 
 1. Formulate the knapsack problem
 2. Prepare instance data
-3. Generate an instance
+2. Generate an instance
 
 ![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
 
@@ -137,23 +137,21 @@ The return value of `Problem.eval` is an `ommx.v1.Instance` object. For more det
 
 ## Solving the Optimization Problem
 
-Now, let's solve the instance obtained in Step3 with the optimization solver SCIP. The following Python code can be used to obtain the optimal value of the objective function:
+Now, let's solve the instance obtained in Step3 with the optimization sampler OpenJij. The following Python code can be used to obtain the optimal value of the objective function:
 
 ```{code-cell} ipython3
-from ommx_pyscipopt_adapter import OMMXPySCIPOptAdapter
+from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
-# Solve through SCIP and retrieve results as an ommx.v1.Solution
-solution = OMMXPySCIPOptAdapter.solve(instance)
+# Solve with OpenJij and retrieve the sample set as an ommx.v1.SampleSet
+sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=5)
 
-print(f"Optimal value of the objective function: {solution.objective}")
+sample_set.summary
 ```
 
-In addition, you can display the state of the decision variables as a `pandas.DataFrame` object using the `decision_variables_df` property of `solution`:
+The above code uses simulated annealing in `openjij`, and `num_reads=5` indicates that it samples only five times. You can sample multiple times by increasing the value of `num_reads`.
 
-```{code-cell} ipython3
-solution.decision_variables_df[["name", "subscripts", "value"]]
-```
++++
 
 :::{hint}
-`OMMXPySCIPOptAdapter.solve` returns an `ommx.v1.Solution` object. For more information, see [here](https://jij-inc.github.io/ommx/en/user_guide/solution.html).
+The return value of `OMMXOpenJijSAAdapter.sample` is an `ommx.v1.SampleSet`. For more information, see [here](https://jij-inc.github.io/ommx/python/ommx/autoapi/ommx/v1/index.html#ommx.v1.SampleSet).
 :::
