@@ -137,7 +137,7 @@ The return value of `Problem.eval` is an `ommx.v1.Instance` object. For more det
 
 ## Solving the Optimization Problem
 
-Now, let's solve the instance obtained in Step3 with the optimization sampler OpenJij. The following Python code can be used to obtain the sample set (multiple solutions) for the objective function:
+Now, let's solve the instance obtained in Step3 with the optimization sampler OpenJij. The following Python code can be used to obtain multiple solutions (the sample set) for the objective function:
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
@@ -154,4 +154,28 @@ The above code uses simulated annealing in `openjij`, and `num_reads=5` indicate
 
 :::{hint}
 The return value of `OMMXOpenJijSAAdapter.sample` is an `ommx.v1.SampleSet`. For more information, see [here](https://jij-inc.github.io/ommx/python/ommx/autoapi/ommx/v1/index.html#ommx.v1.SampleSet).
+:::
+
++++
+
+Using `ommx.v1.SampleSet.best_feasible`, we select the solution with the smallest objective value among the feasible solutions that satisfy the constraints in the instance.
+
+You can obtain the optimal value of time with the following Python code:
+
+```{code-cell} ipython3
+# Retrieve the best feasible solution from the sample set
+solution = sample_set.best_feasible_unrelaxed
+
+print(f"Optimal objective value: {solution.objective}")
+```
+
+In addition, you can use the `decision_variables_df` property of `solution` to display the state of decision variables as a `pandas.DataFrame` object:
+
+```{code-cell} ipython3
+df = solution.decision_variables_df
+df[df["name"] == "x"][["name", "subscripts", "value"]]
+```
+
+:::{hint}
+The return value of `ommx.v1.SampleSet.best_feasible` is an `ommx.v1.Solution` object. For more information, see [here](https://jij-inc.github.io/ommx/en/user_guide/solution.html).
 :::

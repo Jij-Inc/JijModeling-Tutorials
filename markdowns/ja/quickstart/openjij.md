@@ -137,7 +137,7 @@ instance = knapsack_problem.eval(instance_data)
 
 ## 最適化問題を解く
 
-では、Step3で得られたインスタンスを最適化サンプラーOpenJijで解いてみましょう。以下のPythonコードで目的関数のサンプルセット（複数の解）を得ることができます:
+では、Step3で得られたインスタンスを最適化サンプラーOpenJijで解いてみましょう。以下のPythonコードで目的関数の複数の解（サンプルセット）を得ることができます:
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
@@ -154,4 +154,28 @@ sample_set.summary
 
 :::{hint}
 `OMMXOpenJijSAAdapter.sample` の返却値は `ommx.v1.SampleSet` です。詳しくは [こちら](https://jij-inc.github.io/ommx/python/ommx/autoapi/ommx/v1/index.html#ommx.v1.SampleSet)を参照してください。
+:::
+
++++
+
+`ommx.v1.SampleSet.best_feasible`をもちいてインスタンスに入っている制約条件を満たす解 (実行可能解)の中で最も目的関数が小さいものを選びます。
+
+以下のPythonコードでtimeの最適値を得ることができます:
+
+```{code-cell} ipython3
+# サンプルセットから最良の実行結果を取得
+solution = sample_set.best_feasible_unrelaxed
+
+print(f"目的関数の最適値: {solution.objective}")
+```
+
+また、`solution` の `decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
+
+```{code-cell} ipython3
+df = solution.decision_variables_df
+df[df["name"] == "x"][["name", "subscripts", "value"]]
+```
+
+:::{hint}
+`ommx.v1.SampleSet.best_feasible` の返却値は `ommx.v1.Solution` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/solution.html)を参照してください。
 :::
