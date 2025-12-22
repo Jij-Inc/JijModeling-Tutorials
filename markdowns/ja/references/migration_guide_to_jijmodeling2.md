@@ -63,13 +63,17 @@ JijModeling 2では、数理モデリングに対する核心的な考え方は�
 ### 現在のバージョンで欠けているものは？
 
 <div class="alert alert-block alert-info">
-<b>注意:</b> このセクションでは、JijModeling 1系統では存在したが、現在のJijModeling 2で利用できない機能を列挙しています。
+<b>注意:</b> このセクションでは、現在のJijModeling 2で利用できない機能を列挙しています。
 </div>
 
-現時点のJijModeling 2で欠けている機能のは次のとおりです：
+JijModeling 1に存在し、現時点のJijModeling 2で欠けている機能のは次のとおりです：
 
 1. 複雑な構文木書き換えAPI
 2. ランダムインスタンス生成機能
+
+また、JijModeling 2正式リリース後に予定されている変更は以下の通りです：
+
+1. 従属変数情報の評価機構・OMMXへの保存機能
 
 これらの機能はJijModeling 2正式リリース後に随時実装されていく予定です。
 
@@ -86,7 +90,6 @@ JijModeling 2では、数理モデリングに対する核心的な考え方は�
 
 +++
 
-(jijmodeling-2tsp)=
 ## 例：JijModeling 2での二次TSP
 
 詳細に入る前に、以下では簡単な例を通して変更の雰囲気を概観しましょう。

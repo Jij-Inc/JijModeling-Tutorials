@@ -61,13 +61,17 @@ JijModeling 2 introduces several key changes that improve usability and safety:
 ### What's Missing in Current Version?
 
 <div class="alert alert-block alert-info">
-<b>Note:</b> This section lists the features that existed in JijModeling 1 but are not available in the current JijModeling 2.
+<b>Note:</b> This section lists the features that are not available in the current JijModeling 2.
 </div>
 
-Here is the list of features currently missing in JijModeling 2:
+Here is the list of features currently missing in JijModeling 2 that existed in JijModeling 1:
 
 1. Complex AST traversal API
 2. Random Instance Generation
+
+These changes are planned after the official release of JijModeling 2:
+
+1. Evaluation mechanism on dependent variables and encoding feature of dependent variable information into OMMX
 
 These features are planned to be implemented gradually after the official release of JijModeling 2.
 
@@ -84,7 +88,6 @@ After that section, you can read in two ways:
 
 +++
 
-(example-quadratic-tsp-in-jijmodeling-2)=
 ## Example: Quadratic TSP in JijModeling 2
 
 Before diving into the details, let's see an example of quadratic TSP formulated in JijModeling 2 to grasp the intuition.
