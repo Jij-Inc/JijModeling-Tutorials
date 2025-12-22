@@ -88,6 +88,7 @@ After that section, you can read in two ways:
 
 +++
 
+(example-quadratic-tsp-in-jijmodeling-2)=
 ## Example: Quadratic TSP in JijModeling 2
 
 Before diving into the details, let's see an example of quadratic TSP formulated in JijModeling 2 to grasp the intuition.

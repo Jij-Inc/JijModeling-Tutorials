@@ -90,6 +90,7 @@ JijModeling 1に存在し、現時点のJijModeling 2で欠けている機能の
 
 +++
 
+(example-quadratic-tsp-in-jijmodeling-2)=
 ## 例：JijModeling 2での二次TSP
 
 詳細に入る前に、以下では簡単な例を通して変更の雰囲気を概観しましょう。
