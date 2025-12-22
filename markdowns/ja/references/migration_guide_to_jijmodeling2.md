@@ -81,7 +81,7 @@ JijModeling 1に存在し、現時点のJijModeling 2で欠けている機能の
 
 ### おすすめの読み進め方
 
-次節 [例：JijModeling 2での二次TSP](#jijmodeling-2tsp)では巡回セールスマン問題の例を通じて、JijModeling 2の雰囲気を簡単に説明します。
+次節 [例：JijModeling 2での二次TSP](#example-quadratic-tsp-in-jijmodeling-2)では巡回セールスマン問題の例を通じて、JijModeling 2の雰囲気を簡単に説明します。
 
 その節の後は、以下の二通りの読み進め方ができます：
 
