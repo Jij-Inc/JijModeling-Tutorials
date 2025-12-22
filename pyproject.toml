@@ -1,7 +1,3 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "jijmodeling-tutorial"
 version = "2.0.0"
@@ -9,9 +5,9 @@ description = "Tutorial for JijModeling"
 readme = "README.md"
 requires-python = ">=3.11, <3.14"
 dependencies = [
-  "jijmodeling == 2.0.0b7",
-  "ommx >= 2.1.0, < 3.0.0",
+  "jijmodeling == 2.0.0b8",
   "ommx-pyscipopt-adapter >= 2.0.0",
+  "ommx >= 2.1.0, < 3.0.0",
 ]
 
 [project.optional-dependencies]
@@ -20,9 +16,13 @@ dev = [
   "jupytext >= 1.18.1, < 2.0.0",
 ]
 
-[tool.setuptools]
-packages = []
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
 [tool.jupytext.formats]
 "docs/" = "ipynb"
 "markdowns/" = "md:myst"
+
+[tool.setuptools]
+packages = []
