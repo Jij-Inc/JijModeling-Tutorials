@@ -158,7 +158,7 @@ The return value of `OMMXOpenJijSAAdapter.sample` is an `ommx.v1.SampleSet`. For
 
 +++
 
-Using `ommx.v1.SampleSet.best_feasible`, we select the solution with the smallest objective value among the feasible solutions that satisfy the constraints in the instance.
+Using `ommx.v1.SampleSet.best_feasible`, we select the feasible solution with the best objective value (largest for maximization problems, smallest for minimization problems) among those that satisfy the constraints in the instance.
 
 You can obtain the optimal value of time with the following Python code:
 
