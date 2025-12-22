@@ -163,17 +163,35 @@ sample_set.summary
 以下のPythonコードで目的関数の最適値を得ることができます:
 
 ```{code-cell} ipython3
-# サンプルセットから最良の実行結果を取得
-solution = sample_set.best_feasible_unrelaxed
+# サンプルセットから最良の実行結果を取得（実行可能解が得られない場合がある）
+print("セル実行: best_feasible_unrelaxed")
+try:
+    solution = sample_set.best_feasible_unrelaxed
+except Exception as exc:
+    print(f"エラー: best_feasible_unrelaxed 取得に失敗しました: {exc}")
+    print("実行可能解が見つからなかったため、best_feasible を使用します。")
+    try:
+        solution = sample_set.best_feasible
+    except Exception as exc2:
+        print(f"エラー: best_feasible 取得に失敗しました: {exc2}")
+        solution = None
+        print("実行可能解が得られませんでした。num_reads を増やすなどを試してください。")
 
-print(f"目的関数の最適値: {solution.objective}")
+if solution is not None:
+    print(f"目的関数の最適値: {solution.objective}")
 ```
 
 また、`solution` の `decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
 
 ```{code-cell} ipython3
-df = solution.decision_variables_df
-df[df["name"] == "x"][["name", "subscripts", "value"]]
+print("セル実行: decision_variables_df")
+if solution is None:
+    print("実行可能解が得られていないため、決定変数の表示をスキップします。")
+else:
+    from IPython.display import display
+
+    df = solution.decision_variables_df
+    display(df[df["name"] == "x"][["name", "subscripts", "value"]])
 ```
 
 :::{hint}

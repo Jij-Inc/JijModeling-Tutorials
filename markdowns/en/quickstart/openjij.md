@@ -163,17 +163,35 @@ Using `ommx.v1.SampleSet.best_feasible`, we select, for a maximization problem l
 You can obtain the optimal value of the objective function with the following Python code:
 
 ```{code-cell} ipython3
-# Retrieve the best feasible solution from the sample set
-solution = sample_set.best_feasible_unrelaxed
+# Retrieve the best feasible solution from the sample set (a feasible solution may not be found)
+print("Cell: best_feasible_unrelaxed")
+try:
+    solution = sample_set.best_feasible_unrelaxed
+except Exception as exc:
+    print(f"Error: failed to get best_feasible_unrelaxed: {exc}")
+    print("No feasible solution found in unrelaxed samples; using best_feasible instead.")
+    try:
+        solution = sample_set.best_feasible
+    except Exception as exc2:
+        print(f"Error: failed to get best_feasible: {exc2}")
+        solution = None
+        print("No feasible solution found. Try increasing num_reads or adjusting parameters.")
 
-print(f"Optimal objective value: {solution.objective}")
+if solution is not None:
+    print(f"Optimal objective value: {solution.objective}")
 ```
 
 In addition, you can use the `decision_variables_df` property of `solution` to display the state of decision variables as a `pandas.DataFrame` object:
 
 ```{code-cell} ipython3
-df = solution.decision_variables_df
-df[df["name"] == "x"][["name", "subscripts", "value"]]
+print("Cell: decision_variables_df")
+if solution is None:
+    print("No feasible solution available; skipping decision variable display.")
+else:
+    from IPython.display import display
+
+    df = solution.decision_variables_df
+    display(df[df["name"] == "x"][["name", "subscripts", "value"]])
 ```
 
 :::{hint}
