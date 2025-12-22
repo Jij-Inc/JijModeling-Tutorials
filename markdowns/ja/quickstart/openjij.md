@@ -160,7 +160,7 @@ sample_set.summary
 
 `ommx.v1.SampleSet.best_feasible`をもちいてインスタンスに入っている制約条件を満たす解 (実行可能解)の中で、最大化問題である本例では最も目的関数が大きいものを選びます。
 
-以下のPythonコードでtimeの最適値を得ることができます:
+以下のPythonコードで目的関数の最適値を得ることができます:
 
 ```{code-cell} ipython3
 # サンプルセットから最良の実行結果を取得
