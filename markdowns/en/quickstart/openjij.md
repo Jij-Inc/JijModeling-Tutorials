@@ -158,9 +158,9 @@ The return value of `OMMXOpenJijSAAdapter.sample` is an `ommx.v1.SampleSet`. For
 
 +++
 
-Using `ommx.v1.SampleSet.best_feasible`, we select the feasible solution with the best objective value (largest for maximization problems, smallest for minimization problems) among those that satisfy the constraints in the instance.
+Using `ommx.v1.SampleSet.best_feasible`, we select, for a maximization problem like this one, the feasible solution with the largest objective value (and for a minimization problem, the feasible solution with the smallest objective value) among the solutions that satisfy the constraints in the instance.
 
-You can obtain the optimal objective value with the following Python code:
+You can obtain the optimal value of the objective function with the following Python code:
 
 ```{code-cell} ipython3
 # Retrieve the best feasible solution from the sample set
