@@ -25,7 +25,7 @@ kernelspec:
 - The symbolic structure of an optimization problem can be detected and utilized to automatically speed up solving.
 - The described expressions are type-checked as needed, so most modeling mistakes—such as index mismatches—can be detected before providing data.
 
-JijModeling is a mathematical optimization modeler and a tool for describing mathematical models in Python code. It does not include a specific solver. After you formulate a model with JijModeling, you provide real parameters, convert the model into an intermediate format called an OMMX message, and pass it to various solvers to obtain solutions.
+JijModeling is a mathematical optimization modeler, that is, a tool for describing mathematical models in Python code. It does not include a specific solver. After you formulate a model with JijModeling, you provide real parameters, convert the model into an intermediate format called an OMMX message, and pass it to various solvers to obtain solutions.
 By separating the algebraic structure of a mathematical model from its input data, you can reason about, validate, and modify the model more quickly. Because each model can swap input data, it also serves as a schema for generating solver inputs from parameters.
 
 To solve a model described in JijModeling with a solver, combine it with actual instance data and convert it into the solver's input format using tools provided by [JijZept services](https://www.jijzept.com), such as the [OMMX Adapter](https://jij-inc.github.io/ommx/ja/introduction.html).
