@@ -15,7 +15,7 @@ kernelspec:
 
 To understand how to use `jijmodeling`, let's solve the knapsack problem on this page. However, since `jijmodeling` is a tool for describing mathematical models, it cannot solve optimization problems on its own. Therefore, we will solve it in combination with the mathematical optimization sampler [OpenJij](https://tutorial.openjij.org/en/intro.html).
 
-To use `jijmodeling` with OpenJij, you need to install a Python package called `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/openjij/)). Please install it with the following command:
+To use `jijmodeling` with OpenJij, you need to install a Python package called `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/ommx-openjij-adapter/)). Please install it with the following command:
 
 ```bash
 pip install ommx-openjij-adapter
@@ -69,7 +69,7 @@ Using `jijmodeling`, you can generate an instance to input into the solver in th
 
 1. Formulate the knapsack problem
 2. Prepare instance data
-2. Generate an instance
+3. Generate an instance
 
 ![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
 
@@ -137,7 +137,7 @@ The return value of `Problem.eval` is an `ommx.v1.Instance` object. For more det
 
 ## Solving the Optimization Problem
 
-Now, let's solve the instance obtained in Step3 with the optimization sampler OpenJij. The following Python code can be used to obtain the optimal value of the objective function:
+Now, let's solve the instance obtained in Step3 with the optimization sampler OpenJij. The following Python code can be used to obtain the sample set (multiple solutions) for the objective function:
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter

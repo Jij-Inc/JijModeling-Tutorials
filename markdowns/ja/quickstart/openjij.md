@@ -15,7 +15,7 @@ kernelspec:
 
 `jijmodeling` の使い方を理解するために、このページではナップサック問題を解いてみましょう。ただし、`jijmodeling` は数理モデルを記述するためのツールであるため、単独では最適化問題を解くことはできません。なので、数理最適化サンプラー[OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせて解くこととします。
 
-`jijmodeling` とOpenJijを組み合わせて使うには、 `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/openjij/)) というPythonパッケージをインストールする必要があります。以下のコマンドでインストールしてください。
+`jijmodeling` とOpenJijを組み合わせて使うには、 `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/ommx-openjij-adapter/)) というPythonパッケージをインストールする必要があります。以下のコマンドでインストールしてください。
 
 ```bash
 pip install ommx-openjij-adapter
@@ -69,7 +69,7 @@ $$
 
 1. ナップサック問題を定式化する
 2. インスタンスデータを用意する
-2. インスタンスを生成する
+3. インスタンスを生成する
 
 ![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
 
@@ -137,7 +137,7 @@ instance = knapsack_problem.eval(instance_data)
 
 ## 最適化問題を解く
 
-では、Step3で得られたインスタンスを最適化サンプラーOpenJijで解いてみましょう。以下のPythonコードで目的関数の最適値を得ることができます:
+では、Step3で得られたインスタンスを最適化サンプラーOpenJijで解いてみましょう。以下のPythonコードで目的関数のサンプルセット（複数の解）を得ることができます:
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
