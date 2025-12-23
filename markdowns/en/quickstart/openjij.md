@@ -143,7 +143,7 @@ Now, let's solve the instance obtained in Step3 with the optimization sampler Op
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
 # Solve with OpenJij and retrieve the sample set as an ommx.v1.SampleSet
-sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=5)
+sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=10, uniform_penalty_weight=5)
 
 sample_set.summary
 ```
@@ -163,27 +163,17 @@ Using `ommx.v1.SampleSet.best_feasible`, we select, for a maximization problem l
 You can obtain the optimal value of the objective function with the following Python code:
 
 ```{code-cell} ipython3
-# Retrieve the best feasible solution from the sample set (a feasible solution may not be found)
-try:
-    solution = sample_set.best_feasible_unrelaxed
-except Exception as exc:
-    solution = None
-    print(f"Error: failed to get best_feasible_unrelaxed: {exc}")
+# Retrieve the best feasible solution from the sample set
+solution = sample_set.best_feasible_unrelaxed
 
-if solution is not None:
-    print(f"Optimal objective value: {solution.objective}")
+print(f"Optimal objective value: {solution.objective}")
 ```
 
 In addition, you can use the `decision_variables_df` property of `solution` to display the state of decision variables as a `pandas.DataFrame` object:
 
 ```{code-cell} ipython3
-if solution is None:
-    print("No feasible solution available; skipping decision variable display.")
-else:
-    from IPython.display import display
-
-    df = solution.decision_variables_df
-    display(df[df["name"] == "x"][["name", "subscripts", "value"]])
+df = solution.decision_variables_df
+df[df["name"] == "x"][["name", "subscripts", "value"]]
 ```
 
 :::{hint}

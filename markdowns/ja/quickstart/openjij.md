@@ -143,12 +143,12 @@ instance = knapsack_problem.eval(instance_data)
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
 # OpenJijを介して問題を解き、ommx.v1.SampleSetとしてサンプルセットを取得
-sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=5)
+sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=10, uniform_penalty_weight=5)
 
 sample_set.summary
 ```
 
-上記のコードは`openjij`のシミュレーテッドアニーリングを使用しており、`num_reads=5`は5回だけサンプリングすることを示しています。`num_reads`の値を増やすことで複数回サンプリングできます。
+上記のコードは`openjij`のシミュレーテッドアニーリングを使用しており、`num_reads=10`は10回サンプリングすることを示しています。`num_reads`の値を増やすことで複数回サンプリングできます。
 
 +++
 
@@ -163,27 +163,18 @@ sample_set.summary
 以下のPythonコードで目的関数の最適値を得ることができます:
 
 ```{code-cell} ipython3
-# サンプルセットから最良の実行結果を取得（実行可能解が得られない場合がある）
-try:
-    solution = sample_set.best_feasible_unrelaxed
-except Exception as exc:
-    solution = None
-    print(f"エラー: best_feasible_unrelaxed 取得に失敗しました: {exc}")
+# サンプルセットから最良の実行結果を取得
+solution = sample_set.best_feasible_unrelaxed
 
-if solution is not None:
-    print(f"目的関数の最適値: {solution.objective}")
+print(f"目的関数の最適値: {solution.objective}")
 ```
 
 また、`solution` の `decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
 
 ```{code-cell} ipython3
-if solution is None:
-    print("実行可能解が得られていないため、決定変数の表示をスキップします。")
-else:
-    from IPython.display import display
 
-    df = solution.decision_variables_df
-    display(df[df["name"] == "x"][["name", "subscripts", "value"]])
+df = solution.decision_variables_df
+df[df["name"] == "x"][["name", "subscripts", "value"]]
 ```
 
 :::{hint}
