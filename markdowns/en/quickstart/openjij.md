@@ -143,12 +143,12 @@ Now, let's solve the instance obtained in Step3 with the optimization sampler Op
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
 # Solve with OpenJij and retrieve the sample set as an ommx.v1.SampleSet
-sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=10, uniform_penalty_weight=5)
+sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=50, uniform_penalty_weight=1.6)
 
 sample_set.summary
 ```
 
-The above code uses simulated annealing in `openjij`, and `num_reads=10` indicates that it samples 10 times. You can sample multiple times by increasing the value of `num_reads`.
+The above code uses simulated annealing in `openjij`, and `num_reads=50` indicates that it samples 50 times. You can sample multiple times by increasing the value of `num_reads`.
 
 +++
 
