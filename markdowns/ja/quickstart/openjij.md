@@ -143,12 +143,12 @@ instance = knapsack_problem.eval(instance_data)
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
 # OpenJijを介して問題を解き、ommx.v1.SampleSetとしてサンプルセットを取得
-sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=50, uniform_penalty_weight=1.6)
+sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=100, num_sweeps=10, uniform_penalty_weight=1.6)
 
 sample_set.summary
 ```
 
-上記のコードは`openjij`のシミュレーテッドアニーリングを使用しており、`num_reads=50`は50回サンプリングすることを示しています。`num_reads`の値を増やすことで複数回サンプリングできます。
+上記のコードは`openjij`のシミュレーテッドアニーリングを使用しており、`num_reads=100`は100回サンプリングすることを示しています。`num_reads`の値を増やすことで複数回サンプリングできます。
 
 +++
 
