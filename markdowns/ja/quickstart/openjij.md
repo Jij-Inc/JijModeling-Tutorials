@@ -172,7 +172,6 @@ print(f"目的関数の最適値: {solution.objective}")
 また、`solution` の `decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
 
 ```{code-cell} ipython3
-
 df = solution.decision_variables_df
 df[df["name"] == "x"][["name", "subscripts", "value"]]
 ```
