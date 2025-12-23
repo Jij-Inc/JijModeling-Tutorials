@@ -148,7 +148,7 @@ sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=10, uniform_penalty
 sample_set.summary
 ```
 
-The above code uses simulated annealing in `openjij`, and `num_reads=5` indicates that it samples only five times. You can sample multiple times by increasing the value of `num_reads`.
+The above code uses simulated annealing in `openjij`, and `num_reads=10` indicates that it samples 10 times. You can sample multiple times by increasing the value of `num_reads`.
 
 +++
 
