@@ -5,15 +5,17 @@ description = "Tutorial for JijModeling"
 readme = "README.md"
 requires-python = ">=3.11, <3.14"
 dependencies = [
-  "jijmodeling == 2.0.0rc",
-  "ommx-pyscipopt-adapter >= 2.0.0",
+  "jijmodeling == 2.0.0b8",
   "ommx >= 2.1.0, < 3.0.0",
+  "ommx-pyscipopt-adapter >= 2.0.0, < 3.0.0",
+  "ommx-openjij-adapter >= 2.0.0, < 3.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
   "jupyter-book >= 1.0.0, < 2.0.0",
   "jupytext >= 1.18.1, < 2.0.0",
+  "nbconvert>=7.16.6, <8.0.0",
 ]
 
 [build-system]

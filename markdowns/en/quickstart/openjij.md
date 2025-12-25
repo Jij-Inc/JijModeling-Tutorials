@@ -11,14 +11,14 @@ kernelspec:
   name: python3
 ---
 
-# Solving Optimization Problems with SCIP
+# Solving Optimization Problems with OpenJij
 
-To understand how to use `jijmodeling`, let's solve the knapsack problem on this page. However, since `jijmodeling` is a tool for describing mathematical models, it cannot solve optimization problems on its own. Therefore, we will solve it in combination with the mathematical optimization solver [SCIP](https://www.scipopt.org/).
+To understand how to use `jijmodeling`, let's solve the knapsack problem on this page. However, since `jijmodeling` is a tool for describing mathematical models, it cannot solve optimization problems on its own. Therefore, we will solve it in combination with the mathematical optimization sampler [OpenJij](https://tutorial.openjij.org/en/intro.html).
 
-To use `jijmodeling` with SCIP, you need to install a Python package called `ommx-pyscipopt-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-pyscipopt-adapter), [PyPI](https://pypi.org/project/ommx-pyscipopt-adapter/)). Please install it with the following command:
+To use `jijmodeling` with OpenJij, you need to install a Python package called `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/ommx-openjij-adapter/)). Please install it with the following command:
 
 ```bash
-pip install ommx-pyscipopt-adapter
+pip install ommx-openjij-adapter
 ```
 
 +++
@@ -137,23 +137,34 @@ The return value of `Problem.eval` is an `ommx.v1.Instance` object. For more det
 
 ## Solving the Optimization Problem
 
-Now, let's solve the instance obtained in Step3 with the optimization solver SCIP. The following Python code can be used to obtain the optimal value of the objective function:
+Now, let's solve the instance obtained in Step3 with OpenJij's simulated annealing.
 
 ```{code-cell} ipython3
-from ommx_pyscipopt_adapter import OMMXPySCIPOptAdapter
+from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
-# Solve through SCIP and retrieve results as an ommx.v1.Solution
-solution = OMMXPySCIPOptAdapter.solve(instance)
-
-print(f"Optimal value of the objective function: {solution.objective}")
+# Solve the problem via OpenJij and get the solution as ommx.v1.Solution
+solution = OMMXOpenJijSAAdapter.solve(
+    instance,
+    num_reads=100,
+    num_sweeps=10,
+    uniform_penalty_weight=1.6,
+)
 ```
 
-In addition, you can display the state of the decision variables as a `pandas.DataFrame` object using the `decision_variables_df` property of `solution`:
+Using `OMMXOpenJijSAAdapter`, you can easily convert an instance defined by `ommx.v1.Instance` to QUBO/HUBO format using the penalty method or log encoding, and solve it.
+Also, the obtained solution can be displayed as a `pandas.DataFrame` object using the `decision_variables_df` property:
 
 ```{code-cell} ipython3
-solution.decision_variables_df[["name", "subscripts", "value"]]
+df = solution.decision_variables_df
+df[df["name"] == "x"][["name", "subscripts", "value"]]
 ```
+
+:::{note}
+Since `OMMXOpenJijSAAdapter` internally performs conversion to QUBO/HUBO format, decision variables may be added from the input instance or the objective function may be changed. Therefore, filtering elements using `pandas.DataFrame` as shown above is necessary.
+:::
+
++++
 
 :::{hint}
-`OMMXPySCIPOptAdapter.solve` returns an `ommx.v1.Solution` object. For more information, see [here](https://jij-inc.github.io/ommx/en/user_guide/solution.html).
+The return value of `OMMXPySCIPOptAdapter.solve` is an `ommx.v1.Solution` object. For more details, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/solution.html).
 :::

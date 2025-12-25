@@ -6,19 +6,19 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: .venv
+  display_name: jijmodeling-tutorial
   language: python
   name: python3
 ---
 
-# SCIPで最適化問題を解く
+# OpenJijで最適化問題を解く
 
-`jijmodeling` の使い方を理解するために、このページではナップサック問題を解いてみましょう。ただし、`jijmodeling` は数理モデルを記述するためのツールであるため、単独では最適化問題を解くことはできません。なので、数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせて解くこととします。
+`jijmodeling` の使い方を理解するために、このページではナップサック問題を解いてみましょう。ただし、`jijmodeling` は数理モデルを記述するためのツールであるため、単独では最適化問題を解くことはできません。なので、数理最適化サンプラー[OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせて解くこととします。
 
-`jijmodeling` とSCIPを組み合わせて使うには、 `ommx-pyscipopt-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-pyscipopt-adapter), [PyPI](https://pypi.org/project/ommx-pyscipopt-adapter/)) というPythonパッケージをインストールする必要があります。以下のコマンドでインストールしてください。
+`jijmodeling` とOpenJijを組み合わせて使うには、 `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/ommx-openjij-adapter/)) というPythonパッケージをインストールする必要があります。以下のコマンドでインストールしてください。
 
 ```bash
-pip install ommx-pyscipopt-adapter
+pip install ommx-openjij-adapter
 ```
 
 +++
@@ -69,7 +69,7 @@ $$
 
 1. ナップサック問題を定式化する
 2. インスタンスデータを用意する
-2. インスタンスを生成する
+3. インスタンスを生成する
 
 ![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
 
@@ -137,22 +137,33 @@ instance = knapsack_problem.eval(instance_data)
 
 ## 最適化問題を解く
 
-では、Step3で得られたインスタンスを最適化ソルバーSCIPで解いてみましょう。以下のPythonコードで目的関数の最適値を得ることができます:
+では、Step3で得られたインスタンスをOpenJijのシュミレーテッドアニーリングで解いてみましょう。
 
 ```{code-cell} ipython3
-from ommx_pyscipopt_adapter import OMMXPySCIPOptAdapter
+from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
-# SCIPを介して問題を解き、ommx.v1.Solutionとして解を取得
-solution = OMMXPySCIPOptAdapter.solve(instance)
-
-print(f"目的関数の最適値: {solution.objective}")
+# OpenJijを介して問題を解き、ommx.v1.Solutionとして解を取得
+solution = OMMXOpenJijSAAdapter.solve(
+    instance,
+    num_reads=100,
+    num_sweeps=10,
+    uniform_penalty_weight=1.6,
+)
 ```
 
-また、`solution` の `decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
+`OMMXOpenJijSAAdapter` を使えば、`ommx.v1.Instance` で定義されたインスタンスをペナルティ法やログエンコーディングでQUBO/HUBO形式に変換して解く、という操作を簡単に行うことができます。
+また、得られた解は `decision_variable_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして確認することができます:
 
 ```{code-cell} ipython3
-solution.decision_variables_df[["name", "subscripts", "value"]]
+df = solution.decision_variables_df
+df[df["name"] == "x"][["name", "subscripts", "value"]]
 ```
+
+:::{note}
+`OMMXOpenJijSAAdapter` は内部でQUBO/HUBO形式への変換を行うため、入力値のインスタンスから決定変数が追加されたり、目的関数が変化しています。そのため、上記のような `pandas.DataFrame` による要素の絞り込みが必要になっています。
+:::
+
++++
 
 :::{hint}
 `OMMXPySCIPOptAdapter.solve` の返却値は `ommx.v1.Solution` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/solution.html)を参照してください。

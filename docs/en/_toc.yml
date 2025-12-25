@@ -11,6 +11,7 @@ parts:
   - caption: Quick Start
     chapters:
       - file: quickstart/scip
+      - file: quickstart/openjij
   - caption: Reference
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
