@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: .venv
+  display_name: jijmodeling-tutorial
   language: python
   name: python3
 ---
@@ -137,45 +137,34 @@ instance = knapsack_problem.eval(instance_data)
 
 ## 最適化問題を解く
 
-では、Step3で得られたインスタンスを最適化サンプラーOpenJijで解いてみましょう。以下のPythonコードで目的関数の複数の解（サンプルセット）を得ることができます:
+では、Step3で得られたインスタンスをOpenJijのシュミレーテッドアニーリングで解いてみましょう。
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
-# OpenJijを介して問題を解き、ommx.v1.SampleSetとしてサンプルセットを取得
-sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=100, num_sweeps=10, uniform_penalty_weight=1.6)
-
-sample_set.summary
+# OpenJijを介して問題を解き、ommx.v1.Solutionとして解を取得
+solution = OMMXOpenJijSAAdapter.solve(
+    instance,
+    num_reads=100,
+    num_sweeps=10,
+    uniform_penalty_weight=1.6,
+)
 ```
 
-上記のコードは`openjij`のシミュレーテッドアニーリングを使用しており、`num_reads=100`は100回サンプリングすることを示しています。`num_reads`の値を増やすことで複数回サンプリングできます。
-
-+++
-
-:::{hint}
-`OMMXOpenJijSAAdapter.sample` の返却値は `ommx.v1.SampleSet` です。詳しくは [こちら](https://jij-inc.github.io/ommx/python/ommx/autoapi/ommx/v1/index.html#ommx.v1.SampleSet)を参照してください。
-:::
-
-+++
-
-`ommx.v1.SampleSet.best_feasible`をもちいてインスタンスに入っている制約条件を満たす解 (実行可能解)の中で目的関数の値が最大 (最も大きい) となるものを選びます。
-
-以下のPythonコードで目的関数の最適値を得ることができます:
-
-```{code-cell} ipython3
-# サンプルセットから最良の実行結果を取得
-solution = sample_set.best_feasible_unrelaxed
-
-print(f"目的関数の最適値: {solution.objective}")
-```
-
-また、`solution` の `decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
+`OMMXOpenJijSAAdapter` を使えば、`ommx.v1.Instance` で定義されたインスタンスをペナルティ法やログエンコーディングでQUBO/HUBO形式に変換して解く、という操作を簡単に行うことができます。
+また、得られた解は `decision_variable_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして確認することができます:
 
 ```{code-cell} ipython3
 df = solution.decision_variables_df
 df[df["name"] == "x"][["name", "subscripts", "value"]]
 ```
 
+:::{note}
+`OMMXOpenJijSAAdapter` は内部でQUBO/HUBO形式への変換を行うため、入力値のインスタンスから決定変数が追加されたり、目的関数が変化しています。そのため、上記のような `pandas.DataFrame` による要素の絞り込みが必要になっています。
+:::
+
++++
+
 :::{hint}
-`ommx.v1.SampleSet.best_feasible` の返却値は `ommx.v1.Solution` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/solution.html)を参照してください。
+`OMMXPySCIPOptAdapter.solve` の返却値は `ommx.v1.Solution` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/solution.html)を参照してください。
 :::

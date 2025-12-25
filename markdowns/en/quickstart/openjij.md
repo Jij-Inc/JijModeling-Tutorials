@@ -137,45 +137,34 @@ The return value of `Problem.eval` is an `ommx.v1.Instance` object. For more det
 
 ## Solving the Optimization Problem
 
-Now, let's solve the instance obtained in Step3 with the optimization sampler OpenJij. The following Python code can be used to obtain multiple solutions (the sample set) for the objective function:
+Now, let's solve the instance obtained in Step3 with OpenJij's simulated annealing.
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
 
-# Solve with OpenJij and retrieve the sample set as an ommx.v1.SampleSet
-sample_set = OMMXOpenJijSAAdapter.sample(instance, num_reads=100, num_sweeps=10, uniform_penalty_weight=1.6)
-
-sample_set.summary
+# Solve the problem via OpenJij and get the solution as ommx.v1.Solution
+solution = OMMXOpenJijSAAdapter.solve(
+    instance,
+    num_reads=100,
+    num_sweeps=10,
+    uniform_penalty_weight=1.6,
+)
 ```
 
-The above code uses simulated annealing in `openjij`, and `num_reads=100` indicates that it samples 100 times. You can sample multiple times by increasing the value of `num_reads`.
-
-+++
-
-:::{hint}
-The return value of `OMMXOpenJijSAAdapter.sample` is an `ommx.v1.SampleSet`. For more information, see [here](https://jij-inc.github.io/ommx/python/ommx/autoapi/ommx/v1/index.html#ommx.v1.SampleSet).
-:::
-
-+++
-
-Using `ommx.v1.SampleSet.best_feasible`, we select, for a maximization problem like this one, the feasible solution with the largest objective value (and for a minimization problem, the feasible solution with the smallest objective value) among the solutions that satisfy the constraints in the instance.
-
-You can obtain the optimal value of the objective function with the following Python code:
-
-```{code-cell} ipython3
-# Retrieve the best feasible solution from the sample set
-solution = sample_set.best_feasible_unrelaxed
-
-print(f"Optimal objective value: {solution.objective}")
-```
-
-In addition, you can use the `decision_variables_df` property of `solution` to display the state of decision variables as a `pandas.DataFrame` object:
+Using `OMMXOpenJijSAAdapter`, you can easily convert an instance defined by `ommx.v1.Instance` to QUBO/HUBO format using the penalty method or log encoding, and solve it.
+Also, the obtained solution can be displayed as a `pandas.DataFrame` object using the `decision_variables_df` property:
 
 ```{code-cell} ipython3
 df = solution.decision_variables_df
 df[df["name"] == "x"][["name", "subscripts", "value"]]
 ```
 
+:::{note}
+Since `OMMXOpenJijSAAdapter` internally performs conversion to QUBO/HUBO format, decision variables may be added from the input instance or the objective function may be changed. Therefore, filtering elements using `pandas.DataFrame` as shown above is necessary.
+:::
+
++++
+
 :::{hint}
-The return value of `ommx.v1.SampleSet.best_feasible` is an `ommx.v1.Solution` object. For more information, see [here](https://jij-inc.github.io/ommx/en/user_guide/solution.html).
+The return value of `OMMXPySCIPOptAdapter.solve` is an `ommx.v1.Solution` object. For more details, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/solution.html).
 :::
