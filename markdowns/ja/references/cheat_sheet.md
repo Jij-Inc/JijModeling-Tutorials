@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: .venv
   language: python
   name: python3
 ---
@@ -56,7 +56,7 @@ problem
 ```{code-cell} ipython3
 problem = jm.Problem("WeightedSum", sense=jm.ProblemSense.MINIMIZE)
 a = problem.Float("a", ndim=1)
-N = a.len_at(0)
+N = problem.DependentVar("N", a.len_at(0))
 x = problem.BinaryVar("x", shape=(N,))
 
 # Weighted sum
@@ -72,7 +72,7 @@ problem = jm.Problem("WeightedSum", sense=jm.ProblemSense.MINIMIZE)
 @problem.update
 def _(problem: jm.DecoratedProblem):
     a = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
-    N = a.len_at(0)
+    N = problem.DependentVar(a.len_at(0))
     x = problem.BinaryVar(shape=(N,))
 
     # Weighted sum
@@ -299,7 +299,10 @@ problem = jm.Problem("DependentSum", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 x = problem.BinaryVar("x", shape=(N,))
 a = problem.Natural("a", ndim=1)
-M = a.len_at(0)
+# 今回は M を従属変数として定義する。
+# 任意の式を DependentVar として束縛でき、変数名で表示される。
+# problem を print すると、M の定義も確認できる。
+M = problem.DependentVar("M", a.len_at(0))
 jm.sum(jm.flat_map(lambda i: a[i].map(lambda j: x[j]), M))
 ```
 
@@ -313,8 +316,8 @@ def _(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     x = problem.BinaryVar(shape=(N,))
     a = problem.Placeholder(ndim=1, dtype=jm.DataType.NATURAL)
-    M = a.len_at(0)
-    
+    M = problem.DependentVar(a.len_at(0))
+
     objective = jm.sum(x[j] for i in M for j in a[i])
     problem += objective
 
@@ -383,7 +386,8 @@ problem
 ```{code-cell} ipython3
 problem = jm.Problem("2D K-Hot", sense=jm.ProblemSense.MINIMIZE)
 K = problem.Natural("K", ndim=1)
-N = K.len_at(0)
+# 従属変数には説明文やカスタム LaTeX 表記も指定できる。
+N = problem.DependentVar("N", K.len_at(0), description=r"\# of rows", latex=r"\#K")
 M = problem.Natural("M")
 
 x = problem.BinaryVar("x", shape=(N, M))
@@ -399,7 +403,7 @@ problem = jm.Problem("2D K-Hot", sense=jm.ProblemSense.MINIMIZE)
 @problem.update
 def _(problem: jm.DecoratedProblem):
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, ndim=1)
-    N = K.len_at(0)
+    N = problem.DependentVar(K.len_at(0), description=r"\# of rows", latex=r"\#K")
     M = problem.Placeholder(dtype=jm.DataType.NATURAL)
 
     x = problem.BinaryVar(shape=(N, M))
@@ -417,7 +421,7 @@ problem
 problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 C = problem.Natural("C", jagged=True, ndim=2)
-M = C.len_at(0)
+M = problem.DependentVar("M", C.len_at(0))
 K = problem.Natural("K", shape=(M,))
 x = problem.BinaryVar("x", shape=(N,))
 problem.Constraint(
@@ -434,10 +438,10 @@ problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     C = problem.Placeholder(jagged=True, ndim=2, dtype=jm.DataType.NATURAL)
-    M = C.len_at(0)
+    M = problem.DependentVar(C.len_at(0))
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(M,))
     x = problem.BinaryVar(shape=(N,), description="Random binary variable")
-    
+
     constr = problem.Constraint(
         "k-hot_constraint", (jm.sum(x[i] for i in C[a]) == K[a] for a in M),
         description="K-hot constraint over sets; $C_a$ is constrained to have exactly $K_a$ ones.",
@@ -453,7 +457,7 @@ problem
 problem = jm.Problem("KnapsackConstraint", sense=jm.ProblemSense.MAXIMIZE)
 
 w = problem.Float("w", ndim=1)
-N = w.len_at(0)
+N = problem.DependentVar("N", w.len_at(0))
 W = problem.Float("W")
 x = problem.BinaryVar("x", shape=(N,))
 
@@ -503,7 +507,7 @@ problem = jm.Problem("KnapsackConstraint", sense=jm.ProblemSense.MAXIMIZE)
 @problem.update
 def _(problem: jm.DecoratedProblem):
     w = problem.Float(ndim=1)
-    N = w.len_at(0)
+    N = problem.DependentVar(w.len_at(0))
     W = problem.Float()
     x = problem.BinaryVar(shape=(N,))
 

@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: .venv
   language: python
   name: python3
 ---
@@ -56,7 +56,7 @@ problem
 ```{code-cell} ipython3
 problem = jm.Problem("WeightedSum", sense=jm.ProblemSense.MINIMIZE)
 a = problem.Float("a", ndim=1)
-N = a.len_at(0)
+N = problem.DependentVar("N", a.len_at(0))
 x = problem.BinaryVar("x", shape=(N,))
 
 # Weighted sum
@@ -72,7 +72,7 @@ problem = jm.Problem("WeightedSum", sense=jm.ProblemSense.MINIMIZE)
 @problem.update
 def _(problem: jm.DecoratedProblem):
     a = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
-    N = a.len_at(0)
+    N = problem.DependentVar(a.len_at(0))
     x = problem.BinaryVar(shape=(N,))
 
     # Weighted sum
@@ -300,7 +300,10 @@ problem = jm.Problem("DependentSum", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 x = problem.BinaryVar("x", shape=(N,))
 a = problem.Natural("a", ndim=1)
-M = a.len_at(0)
+# This time, we define M as a dependent variable.
+# Any expression can be bound as a dependentVar, and they are printed by
+# the variable name. If you print problem, you can also see that the definition of M.
+M = problem.DependentVar("M", a.len_at(0))
 jm.sum(jm.flat_map(lambda i: a[i].map(lambda j: x[j]), M))
 ```
 
@@ -314,7 +317,7 @@ def _(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     x = problem.BinaryVar(shape=(N,))
     a = problem.Placeholder(ndim=1, dtype=jm.DataType.NATURAL)
-    M = a.len_at(0)
+    M = problem.DependentVar(a.len_at(0))
     
     objective = jm.sum(x[j] for i in M for j in a[i])
     problem += objective
@@ -385,7 +388,8 @@ problem
 ```{code-cell} ipython3
 problem = jm.Problem("2D K-Hot", sense=jm.ProblemSense.MINIMIZE)
 K = problem.Natural("K", ndim=1)
-N = K.len_at(0)
+# Dependent vars can also be have description and custom latex.
+N = problem.DependentVar("N", K.len_at(0), description=r"\# of rows", latex=r"\#K")
 M = problem.Natural("M")
 
 x = problem.BinaryVar("x", shape=(N, M))
@@ -401,7 +405,7 @@ problem = jm.Problem("2D K-Hot", sense=jm.ProblemSense.MINIMIZE)
 @problem.update
 def _(problem: jm.DecoratedProblem):
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, ndim=1)
-    N = K.len_at(0)
+    N = problem.DependentVar(K.len_at(0), description=r"\# of rows", latex=r"\#K")
     M = problem.Placeholder(dtype=jm.DataType.NATURAL)
 
     x = problem.BinaryVar(shape=(N, M))
@@ -420,7 +424,7 @@ In previous versions you specified an Element at the end via `forall=`; in JijMo
 problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 C = problem.Natural("C", jagged=True, ndim=2)
-M = C.len_at(0)
+M = problem.DependentVar("M", C.len_at(0))
 K = problem.Natural("K", shape=(M,))
 x = problem.BinaryVar("x", shape=(N,))
 problem.Constraint(
@@ -437,7 +441,7 @@ problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     C = problem.Placeholder(jagged=True, ndim=2, dtype=jm.DataType.NATURAL)
-    M = C.len_at(0)
+    M = problem.DependentVar(C.len_at(0))
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(M,))
     x = problem.BinaryVar(shape=(N,), description="Random binary variable")
     
@@ -456,7 +460,7 @@ problem
 problem = jm.Problem("KnapsackConstraint", sense=jm.ProblemSense.MAXIMIZE)
 
 w = problem.Float("w", ndim=1)
-N = w.len_at(0)
+N = problem.DependentVar("N", w.len_at(0))
 W = problem.Float("W")
 x = problem.BinaryVar("x", shape=(N,))
 
@@ -506,7 +510,7 @@ problem = jm.Problem("KnapsackConstraint", sense=jm.ProblemSense.MAXIMIZE)
 @problem.update
 def _(problem: jm.DecoratedProblem):
     w = problem.Float(ndim=1)
-    N = w.len_at(0)
+    N = problem.DependentVar(w.len_at(0))
     W = problem.Float()
     x = problem.BinaryVar(shape=(N,))
 
