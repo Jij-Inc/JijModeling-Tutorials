@@ -88,7 +88,7 @@ tasks:
   sync_paired_notebooks:
     desc: Synchronize paired notebooks and markdown files
     cmds:
-      - find docs -name "*.ipynb" -not -path "*/_build/*" -exec uv run jupytext --sync {} \;
+      - find docs -name "*.ipynb" -not -path "*/_build/*" -exec uv run jupytext --sync --execute {} \;
 
   check_paired_notebooks:
     desc: Check that all notebooks and markdown files are properly paired and synchronized
