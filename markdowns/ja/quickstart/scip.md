@@ -71,7 +71,7 @@ $$
 2. インスタンスデータを用意する
 2. インスタンスを生成する
 
-![Diagram of the process to generate an instance from a mathematical model](./assets/scip_01.png)
+![Diagram of the process to generate an instance from a mathematical model](../images/model-and-instance-illustrated.svg)
 
 +++
 

@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: .venv
   language: python
   name: python3
 ---
@@ -15,20 +15,106 @@ kernelspec:
 
 ## What is JijModeling?
 
-**JijModeling** is a Python package designed to describe optimization problems intuitively. Its main characteristics include:
+**JijModeling** is a mathematical optimization modeler that lets you describe mathematical models in Python code.
+Using polynomials and other mathematical expressions, you can express many kinds of optimization problems.
 
-- You can describe the definition of a mathematical model separately from its parameters, which accelerates model validation and makes reuse easier. The size of each instance does not affect the performance of writing or manipulating the model description.
-- It serves as a common interface for a variety of optimization problems—such as linear programming, mixed-integer programming, and nonlinear programming—so you can describe problems in a solver-agnostic way.
-- Mathematical models can be manipulated programmatically, allowing you to build them step by step or capture more complex problems more easily.
-- It integrates into the existing Python ecosystem and works seamlessly with tools such as Jupyter, NumPy, and pandas.
-- LaTeX output is supported, and when used together with Jupyter you can quickly and interactively verify that a model is constructed as intended.
-- The symbolic structure of an optimization problem can be detected and utilized to automatically speed up solving.
-- The described expressions are type-checked as needed, so most modeling mistakes—such as index mismatches—can be detected before providing data.
+## Main features
 
-JijModeling is a mathematical optimization modeler, that is, a tool for describing mathematical models in Python code. It does not include a specific solver. After you formulate a model with JijModeling, you provide real parameters, convert the model into an intermediate format called an OMMX message, and pass it to various solvers to obtain solutions.
-By separating the algebraic structure of a mathematical model from its input data, you can reason about, validate, and modify the model more quickly. Because each model can swap input data, it also serves as a schema for generating solver inputs from parameters.
+### 1. Separation of mathematical models and parameters
 
-To solve a model described in JijModeling with a solver, combine it with actual instance data and convert it into the solver's input format using tools provided by [JijZept services](https://www.jijzept.com), such as the [OMMX Adapter](https://jij-inc.github.io/ommx/en/introduction.html).
+
+JijModeling separates the symbolic definition of a mathematical model from input parameters (**instance data**).
+Instance data corresponds to coefficients and other inputs besides decision variables, and a mathematical model is **compiled** into solver input (an **instance**) only after instance data is provided.
+
+:::{figure-md}
+<img src="./images/model-and-instance-illustrated.svg" alt="When instance data is supplied to a symbolic model, solver input data (an instance) is generated" class="mb1" width="75%">
+
+Provide parameters (**instance data**) to a mathematical model to obtain an instance
+:::
+
+In this way, each model serves as a schema that produces instances from individual instance data, and you can modify the model *without* being affected by the size of the instance data.
+
+### 2. Solver-independent modeling
+
+:::{figure-md}
+<img src="./images/jijmodeling-workflow.svg" alt="Models defined in JijModeling are passed to solvers via OMMX" class="mb1" width="75%">
+
+Workflow of solving optimization problems with JijModeling and OMMX
+:::
+
+Mathematical models defined in JijModeling are ultimately **compiled** into instances expressed in the [OMMX Message format](https://jij-inc.github.io/ommx/en/introduction.html).
+OMMX Message is a solver-independent data exchange format for mathematical optimization, so you can **switch solvers freely** among those provided by Jij (such as JijZeptSolver and OpenJij, etc.) and other solvers (such as SCIP, Gurobi, and FixstarsAmplify, etc.).
+
+### 3. Early error detection with type checking
+
+JijModeling has its own type system to catch errors such as mismatched index dimensions while writing models.
+You can detect mistakes immediately, especially before inputting large instance data, which speeds up formulation.
+
+### 4. Automatic detection of constraint patterns
+
+Some mathematical optimization solvers offer faster algorithms for specific constraint structures.
+Typically, users must explicitly identify and invoke these optimizations.
+JijModeling can **automatically detect** such constraints and pass the information to the solver through OMMX, speeding up solution without user intervention.
+In the example below, simply enabling detection yields dramatic speedups.
+
+:::{figure-md}
+<img src="./images/detection-speedup.svg" alt="Without detection, solve time grows quadratically or exponentially in input size; with constraint detection, the growth becomes much more gradual and linear" class="mb1" width="100%">
+
+Speedup from constraint detection in the two-region plant location problem
+:::
+
+### 5. $\LaTeX$ rendering of models
+
+JijModeling provides powerful $\LaTeX$ output, allowing you to inspect model definitions intuitively in the [JijZept IDE](https://www.jijzept.com/en/products/ide/), [Google Colab](https://colab.google/), or standard [Jupyter Notebook](https://jupyter.org/) environments.
+With this, you can quickly and interactively confirm that your model is built as expected.
+Below is an example of a formulation of Knapsack Problem and its $\LaTeX$ output.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Knapsack Problem", sense=jm.ProblemSense.MAXIMIZE)
+def knapsack(problem: jm.DecoratedProblem):
+    N = problem.Length(description="Number of items")
+    W = problem.Float(description="Capacity")
+    w = problem.Float(shape=N, description="Weight of each item")
+    v = problem.Float(shape=N, description="Value of each item")
+    x = problem.BinaryVar(shape=N, description="Set $x_i=1$ iff item $i$ is in the knapsack")
+
+    problem += problem.Constraint(
+        "weight",
+        jm.sum(w[i] * x[i] for i in N) <= W,
+        description="Total weight does not exceed the capacity"
+    )
+    problem += jm.sum(v[i] * x[i] for i in N)
+
+knapsack
+```
+
+## Intuitive syntax with the Decorator API
+
+Starting from JijModeling 2.0.0, in addition to the traditional ("Plain") API, it supports a shorthand syntax called the **Decorator API** that is available only inside `@`-prefixed function definitions (**decorators**).
+This enables a more "Pythonic" modeling style, such as omitting explicit variable names and expressing symbolic summations with comprehensions.
+
+### Comparison of syntax
+
+**Plain API**:
+
+```python
+my_problem = jm.Problem("My Problem")
+N = problem.Length("N")
+x = problem.BinaryVar("x", shape=N)
+problem += jm.sum(N.filter(lambda i: i % 2 == 0).map(lambda i: x[i]))
+```
+
+**Decorator API**:
+
+```python
+@jm.Problem.define("My Problem")
+def my_problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    x = problem.BinaryVar(shape=N)
+    problem += jm.sum(x[i] for i in N if i % 2 == 0)
+```
 
 +++
 
