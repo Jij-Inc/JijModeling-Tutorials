@@ -133,7 +133,7 @@ uvを利用している場合、以下のようにして依存関係に追加で
 uv add 'jijmodeling>=2.0.0b8'
 ```
 
-`jijmodeling`はPython 3.11以上が必要であることに注意してください。
+`jijmodeling`の利用にはPython 3.11以上が必要であることに注意してください。
 
 ```{code-cell} ipython3
 import jijmodeling
