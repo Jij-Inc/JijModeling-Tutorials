@@ -84,14 +84,14 @@ import jijmodeling as jm
 
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
 def knapsack_problem(problem: jm.DecoratedProblem):
+    # アイテムの総数
+    N = problem.Natural("N")
     # アイテムの価値
-    v = problem.Natural("v", ndim=1)
+    v = problem.Natural("v", shape=N)
     # アイテムの重さ
-    w = problem.Natural("w", ndim=1)
+    w = problem.Natural("w", shape=N)
     # ナップサックの耐荷重
     W = problem.Natural("W")
-    # アイテムの総数
-    N = v.len_at(0, latex="N")
     # アイテムiをナップサックに入れる場合は1, 入れない場合は0を取る決定変数
     x = problem.BinaryVar("x", shape=(N,)) 
 
@@ -115,6 +115,7 @@ knapsack_problem
 
 ```{code-cell} ipython3
 instance_data = {
+    "N": 6,
     "v": [10, 13, 18, 31, 7, 15],  # アイテムの価値のデータ
     "w": [11, 15, 20, 35, 10, 33], # アイテムの重さのデータ
     "W": 47,                       # ナップサックの耐荷重のデータ
