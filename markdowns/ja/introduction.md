@@ -147,13 +147,13 @@ jijmodeling.__version__
 ## 本ドキュメントの構成
 
 本ドキュメントは数理最適化問題をJijModelingで解くために必要な情報を提供します。
-数理最適化そのものについては、JijZeptの資料『[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)』などをご参照ください。
+数理最適化そのものについては、JijZeptの資料「[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)」などをご参照ください。
 
 1. **クイックスタート**：ナップザック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModelingの利用方法はどちらも同じですので、お好みの方をお読みください。
     - [**SCIPで最適化問題を解く**](./quickstart/scip): 数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせる方法を取り扱っています。
     - [**OpenJijで最適化問題を解く**](./quickstart/openjij): [OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせる方法を取り扱っています。
 2. **[JijModelingの基本](./basics/overview)**：JijModelingを用いたモデリングの基本構成要素を解説します。
-3. **発展的な話題**（工事中）：JijModelingでより高度な数理最適化モデリングを行うための発展的な機能を紹介します。
+3. **発展的な話題**（近日公開）：JijModelingでより高度な数理最適化モデリングを行うための発展的な機能を紹介します。
 4. **リファレンス**：JijModelingの詳細な利用方法などについて触れています。
    - [**jijmodeling API Reference**](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/): JijModeling の Python API で利用可能な全関数・クラス等の網羅的なリファレンスマニュアルです。
    - [**Cheat Sheet**](./references/cheat_sheet): 典型的な制約条件・最適化問題などのJijModelingでの定式化例を示した事例集です。

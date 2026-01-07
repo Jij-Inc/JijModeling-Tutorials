@@ -16,6 +16,7 @@ parts:
   - caption: JijModelingの基本
     chapters:
       - file: basics/overview
+      - file: basics/problem
       - file: basics/variables
   - caption: リファレンス
     chapters:
