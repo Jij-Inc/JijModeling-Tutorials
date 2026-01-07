@@ -43,7 +43,7 @@ JijModelingとOMMXによる数理最適化問題の求解の流れ
 :::
 
 JijModelingで定義された数理モデルは、最終的に[OMMX Message形式](https://jij-inc.github.io/ommx/ja/introduction.html)で表現されたインスタンスへと**コンパイル**されます。
-OMMXはソルバーに依存しない数理最適化用データ交換形式であり、これによりOMMX Adapterを介して[JijZept](https://www.jijzept.com/ja/)が提供するソルバーや他の既存のソルバーなど、**自由にソルバーを切り替えて**問題を解くことができます。
+OMMX Messageはソルバーに依存しない数理最適化用のデータ交換形式であるため、Jijが提供しているソルバー（JijZeptSolver, OpenJijなど）やその他のソルバー（SCIP, Gurobi, FixstarsAmplifyなど）を**自由に切り替えて**問題を解くことができます。
 
 ### 3. 型検査による記述の誤りの早期発見
 

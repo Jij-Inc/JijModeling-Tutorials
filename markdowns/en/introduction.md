@@ -43,7 +43,7 @@ Workflow of solving optimization problems with JijModeling and OMMX
 :::
 
 Mathematical models defined in JijModeling are ultimately **compiled** into instances expressed in the [OMMX Message format](https://jij-inc.github.io/ommx/en/introduction.html).
-OMMX is a solver-independent data exchange format for mathematical optimization, letting you **switch solvers freely**, such as those provided by [JijZept](https://www.jijzept.com/en/) or other existing solvers.
+OMMX Message is a solver-independent data exchange format for mathematical optimization, so you can **switch solvers freely** among those provided by Jij (such as JijZeptSolver and OpenJij, etc.) and other solvers (such as SCIP, Gurobi, and FixstarsAmplify, etc.).
 
 ### 3. Early error detection with type checking
 
