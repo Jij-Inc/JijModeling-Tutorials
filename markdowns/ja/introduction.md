@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: .venv
   language: python
   name: python3
 ---
@@ -15,36 +15,89 @@ kernelspec:
 
 ## JijModelingとは
 
-**JijModeling**は数理最適化モデラーであり、Pythonコードを使用して数理モデルを記述するためのツールです。
-特定のソルバを内蔵しているわけではなく、JijModelingで定式化した数理モデルに実際のパラメータを入力し、OMMXメッセージと呼ばれる中間形式に変換して種々のソルバーに渡して初めて解を求めることができます。
-このように数理モデルの代数構造と入力データを分離することで、数理モデルを俯瞰的に考察し、検証し、より迅速に変更できるようになります。また、個々の数理モデルは入力データを差し替えることができるため、パラメータからソルバーへの入力を生成するためのスキーマとしても機能します。
+**JijModeling**は、Pythonコードを使用して数理モデルを記述するための数理最適化モデラーです。
+多項式などを用いて、さまざまな種類の最適化問題を記述することができます。
 
-JijModelingで記述した数理モデルをソルバーで解くには、実際のインスタンスデータと組み合わせて、[OMMX Adapter](https://jij-inc.github.io/ommx/ja/introduction.html)などの[JijZeptサービス](https://www.jijzept.com)で提供されるツールでソルバー用の入力形式に変換する必要があります。
+## 主な特徴
 
-JijModelingの主な特徴は次のとおりです。
+### 1. 数理モデルとパラメータの分離
 
-### 数理モデルの定義とパラメータの分離
 
-定義とデータを分離することで数理モデルの検証が迅速になり、モデルの再利用も容易になります。インスタンスのサイズが数理モデルの記述や操作のパフォーマンスに影響を与えることはありません。
+JijModeling では、数理モデルの記号的な定義と、入力されるパラメータ（**インスタンスデータ**）を分離しています。
+インスタンスデータは数理モデルにおける決定変数以外の係数などに相当し、数理モデルはインスタンスデータを入力されて初めてソルバーへの入力（**インスタンス**）へと変換（コンパイル）されます。
 
-### ソルバに依存しない汎用モデラー
+:::{figure-md}
+<img src="./images/model-and-instance-illustrated.svg" alt="記号的に記述された数理モデルに「インスタンスデータ」を入力すると、ソルバへの入力データ（＝インスタンス）が生成される" class="mb1" width="75%">
 
-JijModelingは汎用のモデラーとして設計されており、線形計画問題、混合整数計画問題、非線形計画問題など、さまざまな種類の最適化問題に対する共通のインターフェースとして機能します。
-また、JijModelingは最終的に[OMMX形式](https://jij-inc.github.io/ommx/ja/introduction.html)にコンパイルされるため、ソルバに依存しない記述が可能になります。
+数理モデルにパラメータ（**インスタンスデータ**）を入力してインスタンスを得る
+:::
 
-### 記号的なモデルの取り扱い
+このように、JijModelingでは個々の数理モデルは個別のインスタンスデータからインスタンスを生成するためのスキーマとして機能し、インスタンスデータのサイズに影響されずに数理モデルを変更することが可能になっています。
 
-数理モデルは記号的に記述されるため、数理モデルを段階的に構築したり、既存のモデルを記号的に変換する機能を実装するなど、より複雑な問題の記述をしやすくなっています。
-また、JijModelingは数理最適化問題の構造を記号的に検出する機能を備えており、ソルバーによる求解の自動加速に利用できます。
-更に、記述された数式は適宜型検査されるため、データを入力する前の段階で添え字の食い違いなど大部分のモデル記述のミスを検出できます。
+### 2. ソルバーに依存しないモデリング
 
-### Python エコシステムとの統合
+:::{figure-md}
+<img src="./images/jijmodeling-workflow.svg" alt="JijModelingで記述された数理モデルは、OMMXを経て各種ソルバーに渡される" class="mb1" width="75%">
 
-JupyterやNumpy、Pandasなどとシームレスに連携できます。
-Jupyterでは、LaTeX出力機能により数理モデルが期待通りに構築されているかどうかを迅速かつ対話的に確認できます。
+JijModelingとOMMXによる数理最適化問題の求解の流れ
+:::
 
-また、JijModeling はバージョン2.0より通常の API に加えて、`@` つきの関数定義（デコレータ）による **Decorator API** と呼ばれる**略記法**をサポートしており、**変数名の省略**や**内包表記による記号的な総和の記述**など、より「Pythonらしい」コード記述が可能になりました。
-Decorator API を使わない次のような記述例を考えます：
+JijModelingで定義された数理モデルは、最終的に[OMMX Message形式](https://jij-inc.github.io/ommx/ja/introduction.html)で表現されたインスタンスへと**コンパイル**されます。
+OMMXはソルバに依存しない数理最適化用データ交換形式であり、これによりJijModelingは**特定のソルバーに依存しない**形で数理モデルを定義できます。
+これにより、[JijZept](https://www.jijzept.com/ja/)が提供するソルバや他の既存のソルバなど、**自由にソルバーを切り替えて**問題を解くことができます。
+
+### 3. 型検査による記述の誤りの早期発見
+
+JijModelingは独自の型システムを搭載しており、添え字の成分数の食い違いなどの誤りを、モデル記述時に発見できるようになっています。
+特に、大規模なインスタンスデータを入力する前に間違いを即座に検出することができ、定式化の加速が図られます。
+
+### 4. 制約条件のパターンの検出機能
+
+数理最適化ソルバには、特定の形をした制約条件に対してより高速な求解アルゴリズムを提供しているものがあります。
+こうした高速化用の機能は、通常ユーザが意識的に明示して呼び出す必要があります。
+一方、JijModelingは**自動でこうした制約条件の存在を検出**し、OMMX Messageを介してソルバにその情報を渡すことで、ユーザの介在なしに自動的に求解を高速化します。
+以下の例では、検出機能を有効化しただけで圧倒的な速度改善が見られています。
+
+:::{figure-md}
+<img src="./images/detection-speedup.svg" alt="検出を行わない場合、求解時間が入力サイズに対し自乗または指数オーダーで悪化しているのに対し、制約検出を有効化すると非常に緩やかな線型の変化になっている" class="mb1" width="100%">
+
+二地区工場配置問題の制約検出による高速化
+:::
+
+### 5. 数理モデルの $\LaTeX$ 表示
+
+JijModelingは非常に強力な$\LaTeX$出力機能を備えており、[JijZept IDE](https://www.jijzept.com/ja/products/ide/) や [Google Colab](https://colab.google/)、あるいは一般の [Jupyter Notebook](https://jupyter.org/) 上で数理モデルの定義を直感的に把握でき、数理モデルが期待通りに構築されているかどうかを迅速かつ対話的に確認できます。
+以下は、ナップザック問題の定式化と、その$\LaTeX$出力の例です。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Knapsack Problem", sense=jm.ProblemSense.MAXIMIZE)
+def knapsack(problem: jm.DecoratedProblem):
+    N = problem.Length(description="アイテム数")
+    W = problem.Float(description="耐荷重")
+    w = problem.Float(shape=N, description="各アイテムの重さ")
+    v = problem.Float(shape=N, description="各アイテムの価値")
+    x = problem.BinaryVar(shape=N, description="アイテム $i$ をナップザックに入れるときのみ $x_i=1$")
+
+    problem += problem.Constraint(
+        "weight",
+        jm.sum(w[i] * x[i] for i in N) <= W,
+        description="重さの総和が耐荷重を越えない"
+    )
+    problem += jm.sum(v[i] * x[i] for i in N)
+
+knapsack
+```
+
+## Decorator API による直感的な記法
+
+JijModeling 2.0.0から、旧来の記法に相当する Plain API に加えて、`@` つきの関数定義（**デコレータ**）内でのみ利用できる **Decorator API** と呼ばれる**略記法**をサポートしています。
+これにより、**変数名の省略**や**内包表記による記号的な総和の記述**など、より「Pythonらしい」自然なコード記述が可能になりました。
+
+### 記述例の比較
+
+**Plain API による記述**：
 
 ```python
 my_problem = jm.Problem("My Problem")
@@ -53,7 +106,7 @@ x = problem.BinaryVar("x", shape=N)
 problem += jm.sum(N.filter(lambda i: i % 2 == 0).map(lambda i: x[i]))
 ```
 
-Decorator API を使うと、次のようにより自然に表すことができます：
+**Decorator API による記述**：
 
 ```python
 @jm.Problem.define("My Problem")
