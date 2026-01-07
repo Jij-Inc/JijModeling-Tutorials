@@ -61,7 +61,7 @@ In the example below, simply enabling detection yields dramatic speedups.
 :::{figure-md}
 <img src="./images/detection-speedup.svg" alt="Without detection, solve time grows quadratically or exponentially in input size; with constraint detection, the growth becomes much more gradual and linear" class="mb1" width="100%">
 
-Speedup from constraint detection in the two-region facility location problem
+Speedup from constraint detection in the two-region plant location problem
 :::
 
 ### 5. $\LaTeX$ rendering of models
