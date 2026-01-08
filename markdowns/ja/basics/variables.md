@@ -120,11 +120,16 @@ Decorator API 内での変数名の省略は義務ではなく、上のセルで
 | [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
 | [`CategoryLabel`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) | - | 辞書型などで使われるカテゴリラベル。後の節「[添え字づけられた変数の族の宣言](#family)」を参照。 | - |
 
-:::{attention}
+決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、変数が宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないという違いがあります。。
 基本的には、決定変数から `*Var` を取ったものがプレースホルダとしてだと思っておけばよいですが、`Float` のみ名前が違うことに留意してください。
-:::
 
-決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、変数が宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないことに注意してください。
+:::{tip}
+プレースホルダーの種類については、`Natural` と `Float` だけ覚えておけば簡単なモデルの記述には十分でしょう。
+特に、以下の基準を念頭に置いておくと使い分けがわかりやすいでしょう：
+
+1. **配列のサイズやアイテムの個数**などを表すものは**自然数**として宣言し、`Natural` やよりわかりやすい `Dim`, `Length` といった別名で宣言する。
+2. **それ以外の数値**は `Float` や、場合によってより細分された型の宣言を使えばよい。
+:::
 
 例を見てみましょう。
 
@@ -148,13 +153,9 @@ deco_problem
 ```
 
 :::{tip}
-プレースホルダーの種類については、`Natural` と `Float` だけ覚えておけば簡単なモデルの記述には十分でしょう。
-特に、以下の基準を念頭に置いておくと使い分けがわかりやすいでしょう：
-
-1. **配列のサイズやアイテムの個数**などを表すものは**自然数**として宣言し、`Natural` やよりわかりやすい `Dim`, `Length` といった別名で宣言する。
-2. **それ以外の数値**は `Float` や、場合によってより細分された型の宣言を使えばよい。
+上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な [`problem.Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) 構築子の特別な場合になっています。
+次節で触れるタプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。
 :::
-
 
 (family)=
 ## 添え字づけられた変数の族の宣言
