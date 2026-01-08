@@ -30,9 +30,9 @@ import jijmodeling as jm
 
 ```{code-cell} ipython3
 plain_problem = jm.Problem(
-    "Knapsack Problem",
+    "Empty Problem",
     sense=jm.ProblemSense.MAXIMIZE,
-    description="荷重制限の下で価値を最大化する",
+    description="何の目的関数も制約条件も設定されていない、説明目的の最適化問題",
 )
 ```
 
@@ -51,9 +51,9 @@ plain_problem
 
 ```{code-cell} ipython3
 @jm.Problem.define(
-    "Knapsack Problem",
+    "Empty Problem",
     sense=jm.ProblemSense.MAXIMIZE,
-    description="荷重制限の下で価値を最大化する",
+    description="何の目的関数も制約条件も設定されていない、説明目的の最適化問題",
 )
 def deco_problem(problem: jm.DecoratedProblem):
     pass # 何もしない
