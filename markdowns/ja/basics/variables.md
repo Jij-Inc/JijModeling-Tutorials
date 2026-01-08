@@ -48,13 +48,13 @@ $N$や$d$はコンパイル時にインスタンスデータが代入される�
 
 ### 決定変数
 
-決定変数は各種ソルバーが制約条件と目的関数に基づいて値を決定する変数です。ソルバーにより扱える変数の種類は変わってきますが、JijModelingは汎用モデラーであるため、代表的な以下の種類をサポートしています：
+決定変数は各種ソルバーが制約条件と目的関数に基づいて値を決定する変数です。JijModelingは汎用モデラーであるため、代表的な以下の種類をサポートしています：
 
 
 | 構築子 | 数式 |説明  | 
-| ----: | :--: | :--- |
-| `BinaryVar`  | $\{0, 1\}$ | $0$ または $1$ の値を取る二値変数。上下界の設定は不要。 |
-| `IntegerVar` | $\mathbb{Z}$ | 整数変数。上下界の設定が必要。 |
-| `ContinuousVar` | $\mathbb{R}$ | 実数値を取る連続変数。上下界の設定が必要。 |
-| `SemiIntegerVar` | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
-| `SemiContinuiousVar` | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
+| :---- | :--: | :--- |
+| [`BinaryVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.BinaryVar)  | $\{0, 1\}$ | $0$ または $1$ の値を取る二値変数。上下界の設定は不要。 |
+| [`IntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.IntegerVar) | $\mathbb{Z}$ | 整数変数。上下界の設定が必要。 |
+| [`ContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.ContinuousVar) | $\mathbb{R}$ | 実数値を取る連続変数。上下界の設定が必要。 |
+| [`SemiIntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.SemiIntegerVar) | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
+| [`SemiContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.SemiContinuousVar) | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
