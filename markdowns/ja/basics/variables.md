@@ -60,14 +60,14 @@ $N$や$d$はコンパイル時にインスタンスデータが代入される�
 | [`SemiContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.SemiContinuousVar) | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
 
 特定の種類の決定変数を宣言するには、その変数を登録する `Problem` オブジェクトに対して対応する「構築子」の名前のメソッドを呼び出してやれば大丈夫です。
-それでは、二値変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $W \in [-5, 10.5]$ を持つ数理モデルを定義してみましょう。
+それでは、二値変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $W' \in [-5, 10.5]$ を持つ数理モデルを定義してみましょう。
 Plain API では次のように定義できます：
 
 ```{code-cell} ipython3
 problem = jm.Problem("Model with Variables")
 x = problem.BinaryVar("x", description="適当な二値変数")
 W = problem.ContinuousVar(
-    "W",
+    "W'",
     lower_bound=-5,
     upper_bound=10.5,
     description="これまた適当な連続変数",
@@ -93,7 +93,7 @@ def deco_problem(deco_problem: jm.DecoratedProblem):
     x = deco_problem.BinaryVar(description="適当な二値変数")
     # Decorator API 内であっても、名前を明示することもできる
     W = deco_problem.ContinuousVar(
-        "W",
+        "W'",
         lower_bound=-5,
         upper_bound=10.5,
         description="これまた適当な連続変数",
@@ -103,4 +103,4 @@ deco_problem
 ```
 
 この例では、$x$ の変数名を省略して宣言していますが、ちゃんと期待通りの $x$ として出力されています。
-Decorator API 内での変数名の省略は義務ではなく、上のセルでの $W$ のように名前を明示したり、あるいはPythonでの変数名と異なる変数名を指定したりしても構いません。
+Decorator API 内での変数名の省略は義務ではなく、上のセルでの $W'$ のように名前を明示することもできます。
