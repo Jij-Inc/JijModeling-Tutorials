@@ -16,7 +16,7 @@ kernelspec:
 JijModelingでは、変数や制約条件などはすべて特定の数理モデルに紐付けて扱われます。
 そこで、本節では個別の要素に入っていく前に数理モデルを宣言する方法について簡単に触れておきます。
 
-## 数理モデルを表す `Problem` オブジェクト
+## 数理モデルを表す `Problem` オブジェクトの作成
 
 JijModeling で特定の数理モデルに対応するのは、[`Problem` オブジェクト](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem)であり、数理モデルの構築時には最初に宣言することになります。
 まずは、JijModeling ライブラリを `jm` という名前で参照できるようにインポートしておきましょう。
@@ -24,6 +24,8 @@ JijModeling で特定の数理モデルに対応するのは、[`Problem` オブ
 ```{code-cell} ipython3
 import jijmodeling as jm
 ```
+
+### Plain API でのオブジェクトの作成
 
 `Problem` を作成する方法には、Plain API と Decorator API を使う二種類の方法があります。
 一つめは、Plain APIを使って直接 `Problem` オブジェクトを作成する方法です。
@@ -46,6 +48,8 @@ plain_problem
 ```
 
 この時点では目的関数を設定していないため、ここでは $0$ が目的変数として表示されています。
+
+### Decorator API による Problem オブジェクトの作成
 
 次は同様の問題を [`@jm.Problem.define()` 関数](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.define)を使って Decorator API により定義している例です：
 
@@ -73,15 +77,18 @@ deco_problem
 :::
 
 今回のように何の変更もしない場合、このような書式はやや冗長に見えるかもしれません。
-しかし、`@jm.Problem.define` でデコレートされた関数内では特に変数名の省略や内包表記を用いた総和・総積など、Decorator API の自然で直感的な記法を使うことができ、以下で見る実際の問題定義の際には非常に便利です。
+しかし、`@jm.Problem.define` でデコレートされた関数内では特に変数名の省略や内包表記を用いた総和・総積など、Decorator API の自然で直感的な記法を使うことができ、以降の節で見るように実際の問題定義の際には非常に便利です。
 
-Plain API で定義された数理モデルも Decorator API で定義された数理モデルも同じように扱うことができるため、どちらで定義したものであるかを後から意識する必要は全くありません。
+また、Plain / Decorator どちらの API で定義された数理モデルであっても同じように扱うことができるため、どちらで定義したものであるかを意識する必要は全くありません。
 実際、上で定義した二つの `plain_problem` も `deco_problem` も「同じ問題」であることが判定できます：
 
 ```{code-cell} ipython3
 jm.is_same(plain_problem, deco_problem)
 ```
 
+## `Problem` オブジェクトの更新
+
+ここではほとんど空の Problem オブジェクトを作成しましたが、実際には決定変数や制約条件、目的関数などを追加し、`Problem` オブジェクトを逐次的に更新してモデルを構築していくのが実際の流れになります。
 いずれのAPIで定義された数理モデルも Plain API で更新することもできますし、既存の `Problem`オブジェクト `problem` に対して [`@problem.update` デコレータ](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.update)を使えば Decorator API を用いて更新することもできます。
 試しに、先ほど定義した問題たちに変数を追加してみましょう。
 
