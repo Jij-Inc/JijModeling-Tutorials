@@ -51,7 +51,7 @@ $N$や$d$はコンパイル時にインスタンスデータが代入される�
 
 決定変数は各種ソルバーが制約条件と目的関数に基づいて値を決定する変数です。JijModelingは汎用モデラーであるため、代表的な以下の種類をサポートしています：
 
-| 構築子 | 数式 |説明  | 
+| 構築子 | 数式 | 説明 | 
 | :---- | :--: | :--- |
 | [`BinaryVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.BinaryVar)  | $\{0, 1\}$ | $0$ または $1$ の値を取る二値変数。上下界の設定は不要。 |
 | [`IntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.IntegerVar) | $\mathbb{Z}$ | 整数変数。上下界の設定が必要。 |
@@ -64,9 +64,43 @@ $N$や$d$はコンパイル時にインスタンスデータが代入される�
 Plain API では次のように定義できます：
 
 ```{code-cell} ipython3
-problem = jm.Problem("Model with Variable")
-x = problem.BinaryVar("x")
-W = problem.ContinuousVar("W", lower_bound=-5, upper_bound=10.5)
+problem = jm.Problem("Model with Variables")
+x = problem.BinaryVar("x", description="適当な二値変数")
+W = problem.ContinuousVar(
+    "W",
+    lower_bound=-5,
+    upper_bound=10.5,
+    description="これまた適当な連続変数",
+)
 
 problem
 ```
+
+第1引数は変数の名前を表す必須引数です。また、`upper_bound`および`lower_bound`は変数の上下界を表すキーワード引数であり、二値変数以外は必ず指定しなければいけません。
+
+:::{tip}
+`upper_bound`および`lower_bound`には、型が合っていて決定変数を含まない任意の JijModeling の式を書くことができます。
+どのような式が書けるのかは次節「**式の構築**（近日公開）」を参考にしてください。
+:::
+
+更に、Decorator API を使うと Python としての変数名と数理モデルとしての変数名が同じ場合、第1引数を省略できます。
+次は Decorator API で同様のモデルを定義している例です。
+
+```{code-cell} ipython3
+@jm.Problem.define("Model with Variables")
+def deco_problem(deco_problem: jm.DecoratedProblem):
+    # Decorator API の内側なので、 x の名前を省略している
+    x = deco_problem.BinaryVar(description="適当な二値変数")
+    # Decorator API 内であっても、名前を明示することもできる
+    W = deco_problem.ContinuousVar(
+        "W",
+        lower_bound=-5,
+        upper_bound=10.5,
+        description="これまた適当な連続変数",
+    )
+
+deco_problem
+```
+
+この例では、$x$ の変数名を省略して宣言していますが、ちゃんと期待通りの $x$ として出力されています。
+Decorator API 内での変数名の省略は義務ではなく、上のセルでの $W$ のように名前を明示したり、あるいはPythonでの変数名と異なる変数名を指定したりしても構いません。
