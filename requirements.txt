@@ -180,8 +180,10 @@ prometheus-client==0.23.1
     # via jupyter-server
 prompt-toolkit==3.0.52
     # via ipython
-protobuf==5.28.3
-    # via ommx
+protobuf==5.29.5
+    # via
+    #   jijmodeling-tutorial (pyproject.toml)
+    #   ommx
 psutil==7.2.1
     # via ipykernel
 ptyprocess==0.7.0
