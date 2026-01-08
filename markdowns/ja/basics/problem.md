@@ -31,7 +31,8 @@ import jijmodeling as jm
 ```{code-cell} ipython3
 plain_problem = jm.Problem(
     "Knapsack Problem",
-    sense=jm.ProblemSense.MAXIMIZE, description="荷重制限の下で価値を最大化する"
+    sense=jm.ProblemSense.MAXIMIZE,
+    description="荷重制限の下で価値を最大化する",
 )
 ```
 
@@ -46,12 +47,13 @@ plain_problem
 
 この時点では目的関数を設定していないため、ここでは $0$ が目的変数として表示されています。
 
-次は同様の問題を `Problem.define()` 関数を使って Decorator API により定義している例です：
+次は同様の問題を [`@jm.Problem.define()` 関数](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.define)を使って Decorator API により定義している例です：
 
 ```{code-cell} ipython3
 @jm.Problem.define(
     "Knapsack Problem",
-    sense=jm.ProblemSense.MAXIMIZE, description="荷重制限の下で価値を最大化する"
+    sense=jm.ProblemSense.MAXIMIZE,
+    description="荷重制限の下で価値を最大化する",
 )
 def deco_problem(problem: jm.DecoratedProblem):
     pass # 何もしない
@@ -76,7 +78,7 @@ deco_problem
 しかし、`@jm.Problem.define` でデコレートされた関数内では特に変数名の省略や内包表記を用いた総和・総積など、Decorator API の自然で直感的な記法を使うことができ、以下で見る実際の問題定義の際には非常に便利です。
 
 Plain API で定義された数理モデルも Decorator API で定義された数理モデルも同じように扱うことができるため、どちらで定義したものであるかを後から意識する必要は全くありません。
-Decorator API Plain APIで定義された数理モデルを Plain API のみで扱うこともできますし、既存の `Problem`オブジェクト `problem` に対して `@problem.update` デコレータを使えば Plain API / Decorator API いずれで作成されたモデルの内容も、Decorator API を用いて更新することができます。
+Decorator API Plain APIで定義された数理モデルを Plain API のみで扱うこともできますし、既存の `Problem`オブジェクト `problem` に対して [`@problem.update` デコレータ](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.update)を使えば Plain API / Decorator API いずれで作成されたモデルの内容も、Decorator API を用いて更新することができます。
 試しに、先程定義した問題たちに変数を追加してみましょう。
 
 ```{code-cell} ipython3
