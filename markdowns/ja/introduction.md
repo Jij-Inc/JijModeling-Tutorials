@@ -147,7 +147,7 @@ jijmodeling.__version__
 ## 本ドキュメントの構成
 
 本ドキュメントは数理最適化問題をJijModelingで解くために必要な情報を提供します。
-数理最適化そのものについては、JijZeptの資料「[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)」などをご参照ください。
+数理最適化そのものについては、JijZeptの資料『[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)』などをご参照ください。
 
 1. **クイックスタート**：ナップザック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModelingの利用方法はどちらも同じですので、お好みの方をお読みください。
     - [**SCIPで最適化問題を解く**](./quickstart/scip): 数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせる方法を取り扱っています。
