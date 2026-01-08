@@ -58,28 +58,32 @@ plain_problem
 def deco_problem(problem: jm.DecoratedProblem):
     pass # 何もしない
 
-assert jm.is_same(plain_problem, deco_problem)
-
 deco_problem
 ```
 
 `@jm.Problem.define` は `jm.Problem()` と全く同じ引数を取り、同様の省略が可能ですが、直接変数に束縛するのではなく、直後に関数定義（ここでは `def deco_problem(...)`）を与えるという違いがあります。
 `@jm.Problem.define` では、関数定義を抜けた段階で宣言されている関数名と同じ名前（ここでは `deco_problem`）の変数に実際の Problem の定義が束縛されます。実際、上の例では関数定義を終えた直後に `deco_problem`と先に定義した `plain_problem` の定義が同値であることを確認し、最後に `deco_problem`を（Python変数として）呼び出してその内容を印字させています。
 このように、直前に `@` ではじまる式が付された関数は、その式により **デコレートされる**ているといいます。
-実際には、このデコレートされた関数定義内では関数の第1引数（ここでは `problem`）に対して種々の関数を呼び出して様々な変更・更新を行ってモデルを構築していくことになります。
+実際には、このデコレートされた関数定義内では関数の第1引数 `problem` に対して種々の関数を呼び出して様々な変更・更新を行ってモデルを構築していくことになります。
 
 :::{caution}
-ここで注意が必要なのは、デコレータされた関数の第1引数は **`DecoratedProblem` オブジェクトであって `Problem` オブジェクトではない**、ということです。
-`DecoratedProblem` はデコレートされた関数の内側にしか登場し得ない `Problem` の亜種であり、Decorator APIにあわせてPythonの型ヒントが指定されたダミーのクラスです。
-`DecoratedProblem` のかわりに `Problem` を引数の型として宣言することもできますが、その場合エディタによる補完や型検査の恩恵を受けづらくなるため、意識的に `DecoratedProblem` を指定するようにしてください。
+デコレートされた関数の第1引数は `Problem` オブジェクトではなく **`DecoratedProblem` オブジェクトである**ことに注意しましょう。
+`DecoratedProblem` はデコレートされた関数の内側にしか登場し得ない `Problem` ダミーのクラスです。
+`DecoratedProblem` は Decorator API にあわせてPythonの型ヒントが指定されており、エディタ上での補完や型検査の恩恵が受けられるように用意されています。
 :::
 
 今回のように何の変更もしない場合、このような書式はやや冗長に見えるかもしれません。
 しかし、`@jm.Problem.define` でデコレートされた関数内では特に変数名の省略や内包表記を用いた総和・総積など、Decorator API の自然で直感的な記法を使うことができ、以下で見る実際の問題定義の際には非常に便利です。
 
 Plain API で定義された数理モデルも Decorator API で定義された数理モデルも同じように扱うことができるため、どちらで定義したものであるかを後から意識する必要は全くありません。
-Decorator API Plain APIで定義された数理モデルを Plain API のみで扱うこともできますし、既存の `Problem`オブジェクト `problem` に対して [`@problem.update` デコレータ](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.update)を使えば Plain API / Decorator API いずれで作成されたモデルの内容も、Decorator API を用いて更新することができます。
-試しに、先程定義した問題たちに変数を追加してみましょう。
+実際、上で定義した二つの `plain_problem` も `deco_problem` も「同じ問題」であることが判定できます：
+
+```{code-cell} ipython3
+jm.is_same(plain_problem, deco_problem)
+```
+
+いずれのAPIで定義された数理モデルも Plain API で更新することもできますし、既存の `Problem`オブジェクト `problem` に対して [`@problem.update` デコレータ](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.update)を使えば Decorator API を用いて更新することもできます。
+試しに、先ほど定義した問題たちに変数を追加してみましょう。
 
 ```{code-cell} ipython3
 # 先程 Plain API で定義した `plain_problem` を Decorator API で更新する：
@@ -104,7 +108,7 @@ deco_problem += x + y
 deco_problem
 ```
 
-ここでは `@problem.update` にデコレートされる関数の名前を `_` としていますが、`update` では関数名は結果に影響がないため任意の名前を設定して構いません。
+ここでは `@problem.update` にデコレートされる関数の名前を `_` としていますが、`@problem.update` がデコレートする関数の名前は結果に影響がないため、任意の名前を設定して構いません。
 
 それでは、次の節から具体的に問題の構築に必要な機能の各論に入っていきましょう。
 
