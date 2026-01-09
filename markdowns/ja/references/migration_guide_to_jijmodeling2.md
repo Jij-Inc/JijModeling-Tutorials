@@ -51,7 +51,7 @@ JijModeling 2 では、数理モデリングに対する核心的な考え方は
       * Jagged Array はエラーの温床になるため、長期的には辞書型の利用を強く推奨します。
    - カテゴリラベルは、連続でないまたはゼロ起点でないラベルとして利用できます。
 
-9.  **Python 3.11以降のみのサポート**：型ヒントや詳細なコールスタックなどの現代的な Python の言語機能によるユーザ体験の向上を達成するため、JijModeling 2 では Python 3.11 以降のみをサポートしています。
+9.  **Python 3.11以降のみのサポート**：型ヒントや詳細なコールスタックなどの現代的な Python の言語機能によるユーザー体験の向上を達成するため、JijModeling 2 では Python 3.11 以降のみをサポートしています。
 
 10. **データセット読み込み機能の廃止**: JijModeling 1.14.0 以降、`jijmodeling.dataset` や `load_qplib` などのデータセット読み込み機能は削除されました。データセットの読み込みには OMMX の該当機能をご利用ください。
 
@@ -993,7 +993,7 @@ TypeError: 'jijmodeling.Placeholder' object is not iterable
 多くの場合、こうした例外次の場合に発生します：
 
 1. デコレータ（例：`@problem.update`や`@jm.Problem.define`）が**指定されていない**文脈で、内包表記（例：`jm.sum(x[i] for i in N)`または`problem.Constraint("MyConstraint", [x[i] <= w[i] * v[i - 1] for i in N])`）が使用されている
-2. `jm.sum`の代わりに Python の組み込み`sum`を呼び出している。
+2. `jm.sum`のかわりに Python の組み込み`sum`を呼び出している。
 
 ### 落とし穴6：Pythonの組み込み`sum`の使用
 

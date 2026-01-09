@@ -1,7 +1,7 @@
 {
   "rules": {
     "@textlint-ja/no-synonyms": {
-      "preferWords": ["ユーザー"]
+      "preferWords": ["ユーザー", "かわり"]
     },
     "preset-ja-spacing": {
       "ja-space-between-half-and-full-width": {
