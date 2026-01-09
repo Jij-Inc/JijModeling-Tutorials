@@ -1,0 +1,30 @@
+name: Textlint
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  textlint:
+    name: textlint (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language:
+          - ja
+          - en
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run textlint
+        run: npx textlint "markdowns/${{ matrix.language }}/**/*.md"
