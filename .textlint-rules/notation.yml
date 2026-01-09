@@ -9,3 +9,5 @@ rules:
       to: プレースホルダー
   - expected: たとえば
     pattern: 例えば
+  - expected: シェイプ
+    pattern: 形状

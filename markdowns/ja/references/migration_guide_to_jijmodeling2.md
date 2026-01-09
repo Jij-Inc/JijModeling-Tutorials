@@ -226,7 +226,7 @@ JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽
 
 `Element` を介してインデックスをねじ曲げながら決定変数の各成分に上下限を与えていたケースも、JijModeling 2 では `Set` ベースの API と `Problem.*Var` の構築時引数だけで表現できます。上下限は以下の 2 通りで与えられます：
 
-- **同じ形状の多重配列・辞書を渡す**：決定変数が多重配列である場合（`shape`が指定されている場合）、同じ形状の多重配列に評価される式を `lower_bound`・`upper_bound` に渡すことで成分ごとの上下界を指定できます。辞書型変数（`dict_keys`が指定されている場合）についても同様で、同じキー集合を持つ（全域な）辞書を渡せば期待通り設定されます。
+- **同じシェイプの多重配列・辞書を渡す**：決定変数が多重配列である場合（`shape`が指定されている場合）、同じシェイプの多重配列に評価される式を `lower_bound`・`upper_bound` に渡すことで成分ごとの上下界を指定できます。辞書型変数（`dict_keys`が指定されている場合）についても同様で、同じキー集合を持つ（全域な）辞書を渡せば期待通り設定されます。
 - **インデックス→値のラムダ式を渡す**：`lambda i, j: L[i, j] - U[j, i]` のように、添字を受け取って境界値を返す関数を指定することもできます。これにより、従来 `Element` を生成して `L[i, j] - U[j, i]` のように書いていたロジックを純粋な Python のラムダで置き換えられます。
 
 以下は、以前 `Element` を使っていたコードを新しい記法へ置き換えた例です：
@@ -876,7 +876,7 @@ JijModeling 1 から 2 へコードを移行するには、以下の段階的な
     - 例 ❌ `x = jm.BinaryVar("x", shape=(N,))` → ✅ `x = problem.BinaryVar("x", shape=(N,))`
 - プレースホルダー（型付きを優先）：
     - ❌ `N = jm.Placeholder("N", dtype=jm.DataType.NATURAL)` → ✅ `N = problem.Natural("N")` または `N = problem.Length()`
-    - ❌ `a = jm.Placeholder("a", ndim=1)` → ✅ `a = problem.Float("a", shape=(N,))`（必要に応じて形状を指定）
+    - ❌ `a = jm.Placeholder("a", ndim=1)` → ✅ `a = problem.Float("a", shape=(N,))`（必要に応じてシェイプを指定）
     - Decorator API では、変数名を省略することもできます。
 
 ### ステップ3：Element使用の置き換え
