@@ -56,9 +56,9 @@ $N$や$d$はコンパイル時にインスタンスデータが代入される�
 
 決定変数は各種ソルバーが制約条件と目的関数に基づいて値を決定する変数です。JijModeling は汎用モデラーであるため、代表的な以下の種類をサポートしています：
 
-| 種類 | 数式 | 説明 | 
+| 種類 | 数式 | 説明 |
 | :---- | :--: | :--- |
-| [`BinaryVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.BinaryVar)  | $\{0, 1\}$ | $0$ または $1$ の値を取る二値変数。上下界の設定は不要。 |
+| [`BinaryVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.BinaryVar) | $\{0, 1\}$ | $0$ または $1$ の値を取る二値変数。上下界の設定は不要。 |
 | [`IntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.IntegerVar) | $\mathbb{Z}$ | 整数変数。上下界の設定が必要。 |
 | [`ContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.ContinuousVar) | $\mathbb{R}$ | 実数値を取る連続変数。上下界の設定が必要。 |
 | [`SemiIntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.SemiIntegerVar) | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
@@ -84,7 +84,9 @@ problem
 第 1 引数は変数の名前を表す必須引数です。また、`upper_bound`および`lower_bound`は変数の上下界を表すキーワード引数であり、二値変数以外は必ず指定しなければいけません。
 `description`は `Problem` のものと同様、人間があとでみてわかりやすい説明を書くた省略可能なキーワード引数です。
 
-:::{tip}
+:::{admonition} 単独の決定変数の上下界
+:class: tip
+
 `upper_bound`および`lower_bound`には、**決定変数を含まない**任意の JijModeling の式を書くことができます。
 どのような式が書けるのかは次節「**式の構築**（近日公開）」を参考にしてください。
 :::
@@ -111,7 +113,9 @@ deco_problem
 この例では、$x$ の変数名を省略して宣言していますが、ちゃんと期待通りの $x$ として出力されています。
 Decorator API 内での変数名の省略は義務ではなく、上のセルでの $W'$ のように名前を明示することもできます。
 
-:::{caution}
+:::{admonition} 変数名省略の条件
+:class: caution
+
 Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` のように「変数一つ `=` Var の宣言一つ」のような形をしているときのみです。
 `x, y = (problem.BinaryVar(), problem.BinaryVar())` のように複数同時に宣言した場合などはエラーとなりますので注意してください。
 :::
@@ -135,7 +139,9 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、変数が宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないという違いがあります。。
 基本的には、決定変数から `*Var` を取ったものがプレースホルダーとしてだと思っておけばよいですが、`Float` のみ名前が違うことに留意してください。
 
-:::{hint}
+:::{admonition} プレースホルダーの使い分け
+:class: hint
+
 プレースホルダーの種類については、`Natural` と `Float` だけ覚えておけば簡単なモデルの記述には十分でしょう。
 特に、以下の基準を念頭に置いておくと使い分けがわかりやすいでしょう：
 
@@ -164,9 +170,11 @@ def deco_problem(problem: jm.DecoratedProblem):
 deco_problem
 ```
 
-:::{tip}
+:::{admonition} [`Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) 構築子
+:class: tip
+
 上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な [`problem.Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。
-次節で触れるタプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。
+次節で触れるタプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、`Placeholder` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
 :::
 
 (var_info)=
@@ -218,7 +226,9 @@ JijModeling では、決定変数やプレースホルダーについて、以�
 
 これらには専用の構築子も用意されていますが、多くは「[単独の変数の宣言](#single_vars)」で見た構築子に追加でキーワード引数を指定することで宣言することができます。
 
-:::{hint}
+:::{admonition} 配列と辞書の使い分け
+:class: hint
+
 配列と辞書はそれぞれかわりに使うこともできますが、以下のような基準で使い分けると良いでしょう。
 
 - **配列**を使うとよい場面
@@ -230,7 +240,9 @@ JijModeling では、決定変数やプレースホルダーについて、以�
   3. 添え字の並び順に特に意味がない場合
 :::
 
-:::{important}
+:::{admonition} 決定変数の「個数」
+:class: important
+
 決定変数もプレースホルダーもほぼ同じような方法で配列・辞書を定義することができますが、一点重要な違いがあります。
 
 それは、決定変数はソルバーによって値が決定されるという性質上、コンパイル後のインスタンスにおいて**決定変数の個数が完全に確定している必要がある**という点です。
@@ -281,11 +293,55 @@ N = partial_tsp.Length("N", description="都市数") # Plain API なので変数
 x = partial_tsp.BinaryVar(
     "x",
     shape=(N,N),
-    description="時刻 $t$ に都市 $i$ に訪れるときのみ $x_{t,i} = 1$"
+    description="時刻 $t$ に都市 $i$ に訪れるときのみ $x_{t,i} = 1$",
 )
 
 partial_tsp
 ```
+
+#### 決定変数配列の上下界の指定
+
+決定変数の配列に対しては、次に該当するような式を `upper_bound` / `lower_bound` に指定することができます：
+
+1. スカラー値
+2. スカラーを要素に持ち、同じシェイプの配列の式
+3. 添え字から上下界を表すスカラー値への関数式
+
+ただし、いずれも決定変数を含まない式である必要があります。
+
+これらの指定方法は、上下界でそれぞれ別のものを使うことができます。次は (1) と (2) を使って上下界が与えられている例です。
+
+```python
+N = problem.Length("N")
+lb = problem.Integer("lb")
+ubs = problem.Integer("ub", shape=N)
+a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ub)
+```
+
+ `lb` はゼロ次元のスカラー値、 `ub` は長さ $N$ の一次元配列として宣言されたプレースホルダーです。
+これらを基に、長さ $N$ の一次元決定変数配列 $a$ は次のような上下界が設定されています：
+
+- 下界：添え字によらず $a_i \geq \mathit{lb} + 1$（上記の (1) に相当）
+- 上界：添え字 $i = 0, \ldots, N - 1$ ごとに $a_i \leq \mathit{ub}_i$（上記の (2) に相当）
+
+(3) の添え字からの関数式として与える例としては、やや人工的ですが次のような例が考えられます：
+
+```python
+N = problem.Length("N")
+M = problem.Length("M")
+s = problem.ContinuousVar(
+    shape=(N,M),
+    lower_bound=0,
+    upper_bound=lambda i, j: i + j,
+)
+```
+
+この例では、シェイプ $N \times M$ の二次元配列 $s$ に対し、以下のように上下界が設定されることになります：
+
+- 下界：添え字 $i$ によらず、$s_{i,j} \geq 0$（上記の (1) に相当）
+- 上界：添え字 $i = 0, \ldots, N - 1$ および $j = 0, \ldots, M - 1$ ごとに、$s_{i,j} \leq i + j$（上記の (3) に相当）
+
+このように、同一シェイプの配列を用意したり、複雑な式には添え字からの関数を使うことによって、決定変数の配列に対しても柔軟に上下界を指定することができます。
 
 #### プレースホルダーの配列
 
@@ -309,7 +365,9 @@ partial_knapsack
 もう一つの方法は、**`ndim` キーワード引数**を用いるものです。
 プレースホルダーの構築子の `ndim` キーワード引数として自然数の定数リテラルを渡すことで、次元のみ指定し、各次元の具体的な長さはコンパイル時にインスタンスデータを与えた時に確定するようなプレースホルダー配列が宣言できます。
 
-:::{tip}
+:::{admonition} `shape` と `ndim` の同時指定について
+:class: tip
+
 `ndim` と `shape` キーワード引数を同時に指定することもできますが、この場合 `shape`の成分数と `ndim` の値が正確に一致している必要があります。
 :::
 
@@ -358,9 +416,11 @@ v = problem.Float(ndim=1, description="各アイテムの価値")
 w = problem.Float(ndim=1, description="各アイテムの重量")
 ```
 
-しかし、これでは $v, w$ の間の形状の関係が表現できないため、JijModeling 2 以降ではこのような**長さの一致性が強制できない定義は強く非推奨**としており、**シェイプの間に非自明な関係がある場合は必ずどこかで `shape` を指定する**ことを強く推奨します。
+しかし、これでは $v, w$ の間のシェイプの関係が表現できないため、JijModeling 2 以降ではこのような**長さの一致性が強制できない定義は強く非推奨**としており、**シェイプの間に非自明な関係がある場合は必ずどこかで `shape` を指定する**ことを強く推奨します。
 
-:::{tip}
+:::{admonition} タプルの配列としてのグラフ
+:class: tip
+
 JijModeling では、有向グラフ構造に相当する [`Graph` プレースホルダー構築子](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Graph)を提供しています。
 たとえば、`G = problem.Graph()` とすると、$G$ は適当な頂点数を持つグラフにあたるプレースホルダーとして宣言されます。
 実は、この構築子は一次元配列と「[単独のプレースホルダー](#single_ph)」で触れたタプルの組み合わせで表現されており、次のように書いたのと同値です：
@@ -373,13 +433,10 @@ G = problem.Placeholder(dtype=jm.DataType.NATURAL, ndim=1)
 このように、JijModeling ではタプルと配列を組み合わせて、複雑な構造を表現できるようになっているのです。
 :::
 
-:::{important}
+:::{deprecated} 2.0.0 **Jagged Array は強く非推奨**
 JijModeling 1 系統には、シェイプが均一ではない Jagged Array というコレクションも用意されていました。
 しかし、Jagged Array はその不均一性から型システムなどによる検証をうけづらいため、JijModeling 2 では**Jagged Array は強く非推奨**となっており、将来のリリースで取り除くことが計画されています。
 こうした配列とタプルの組み合わせや後述する辞書を使うと、グラフ構造や $0$ 起点でなかったり疎な構造を表すことができますので、移行の際にはこうした新たな構成要素を用いて Jagged Array を用いない記述へと置き換えることを強く推奨します。
 :::
 
 ### 変数の辞書
-
-
-<!-- TODO: タプルについてはリストのところで触れる。 -->

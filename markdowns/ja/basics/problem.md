@@ -70,7 +70,9 @@ deco_problem
 このように、直前に `@` ではじまる式が付された関数は、その式により **デコレートされる**ているといいます。
 実際には、このデコレートされた関数定義内では関数の第 1 引数 `problem` に対して種々の関数を呼び出して様々な変更・更新を行ってモデルを構築していくことになります。
 
-:::{caution}
+:::{admonition} `DecoratedProblem` オブジェクトとは？
+:class: caution
+
 デコレートされた関数の第 1 引数は `Problem` オブジェクトではなく **`DecoratedProblem` オブジェクトである**ことに注意しましょう。
 `DecoratedProblem` はデコレートされた関数の内側にしか登場し得ない `Problem` ダミーのクラスです。
 `DecoratedProblem` は Decorator API にあわせて Python の型ヒントが指定されており、エディタ上での補完や型検査の恩恵が受けられるように用意されています。
@@ -117,8 +119,9 @@ deco_problem
 
 ここでは `@problem.update` にデコレートされる関数の名前を `_` としていますが、`@problem.update` がデコレートする関数の名前は結果に影響がないため、任意の名前を設定して構いません。
 
+:::{admonition} デコレートされた関数と変数スコープ
+:class: caution
 
-:::{caution}
 `@jm.Problem.define()` デコレータや `@problem.update` デコレータで定義されている Python 変数は、関数定義の外側から参照することはできません。
 より正確には、数理モデルとしての変数や制約条件などは対応する `Problem` オブジェクトに登録されますが、その登録されたアイテムに対応する Python 変数は関数スコープの外には漏れない、ということです。
 
