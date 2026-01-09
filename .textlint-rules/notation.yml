@@ -7,3 +7,5 @@ rules:
       to: プレースホルダー
     - from: プレースホルダ
       to: プレースホルダー
+  - expected: たとえば
+    pattern: 例えば
