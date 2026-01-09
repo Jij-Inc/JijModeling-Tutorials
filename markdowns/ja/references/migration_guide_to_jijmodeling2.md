@@ -206,7 +206,7 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 ### Setとラムダ式・内包表記による Element の代替
 
 JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽に宣言する必要があり、特に高次テンソルを扱う際にコーディングが複雑になりました。
-代わりに、JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として`Set`（（多重）集合）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
+かわりに、JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として`Set`（（多重）集合）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
 
 具体的には、以下を `Set` として扱うことができます：
 
@@ -285,7 +285,7 @@ JijModeling 2 では、**単一の比較式**（1 つの制約）または**比�
 problem.Constraint("cap", [C[a] <= N for a in A])
 ```
 
-ジェネレータ式（つまり、`[]`の代わりに`()`）も使用できます：
+ジェネレータ式（つまり、`[]`のかわりに`()`）も使用できます：
 
 ```python
 problem.Constraint("cap", (C[a] <= N for a in A))
@@ -956,7 +956,7 @@ jijmodeling.TypeError: Traceback (most recent last):
 Type Error: Could not match actual type `float' with expected `natural'
 ~~~
 
-総称的な `Placeholder` の代わりに、`N = problem.Length("N")` を使用することで、このエラーは回避できます。
+総称的な `Placeholder` のかわりに、`N = problem.Length("N")` を使用することで、このエラーは回避できます。
 
 ### 落とし穴3：デコレータを忘れる
 
