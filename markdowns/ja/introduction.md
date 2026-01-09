@@ -122,7 +122,7 @@ def my_problem(problem: jm.DecoratedProblem):
 `pip`を使用している場合、次のコマンドで`jijmodeling`をインストールできます：
 
 ```bash
-pip install 'jijmodeling>=2.0.0b8'
+pip install 'jijmodeling>=2.0.0rc'
 ```
 
 uv を利用している場合、以下のようにして依存関係に追加できます：
@@ -148,6 +148,7 @@ jijmodeling.__version__
 
 本ドキュメントは数理最適化問題を JijModeling で解くために必要な情報を提供します。
 数理最適化そのものについては、JijZept の資料『[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)』などをご参照ください。
+本稿の各章の内容は以下の通りです：
 
 1. **クイックスタート**：ナップザック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModeling の利用方法はどちらも同じですので、お好みの方をお読みください。
     - [**SCIPで最適化問題を解く**](./quickstart/scip): 数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせる方法を取り扱っています。

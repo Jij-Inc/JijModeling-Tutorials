@@ -131,7 +131,7 @@ If you are using uv, run:
 <!-- FIXME: After the official release, drop the version spec >=2.0.0b8 -->
 
 ```bash
-uv add 'jijmodeling>=2.0.0b8'
+uv add 'jijmodeling>=2.0.0rc'
 ```
 
 Note that `jijmodeling` requires Python 3.11 or later.
@@ -144,3 +144,20 @@ jijmodeling.__version__
 :::{caution}
 When running the code in this document, we strongly recommend using the same version of `jijmodeling` as shown above.
 :::
+
+## Structure of this document
+
+This document provides the information you need to formulate mathematical optimization problems with JijModeling.
+For mathematical optimization itself, refer to materials such as JijZept's “[Mathematical Optimization Basics](https://www.jijzept.com/en/docs/tutorials/optimization_basics/01-introduction/)”.
+This document is organized as follows:
+
+1. **Quick Start**: Learn how to formulate and solve optimization problems in JijModeling through the knapsack example. There are two variants depending on the solver, but the JijModeling usage is the same, so choose whichever you prefer.
+    - [**Solve optimization problems with SCIP**](./quickstart/scip): Covers using the mathematical optimization solver [SCIP](https://www.scipopt.org/).
+    - [**Solve optimization problems with OpenJij**](./quickstart/openjij): Covers using [OpenJij](https://tutorial.openjij.org/ja/intro.html).
+2. **[JijModeling basics](./basics/overview)**: Explains the basic building blocks of modeling with JijModeling.
+3. **Advanced topics** (coming soon): Introduces more advanced features for mathematical optimization modeling in JijModeling.
+4. **Reference**: Detailed usage information for JijModeling.
+   - [**jijmodeling API Reference**](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/): A comprehensive reference manual of all functions and classes in the JijModeling Python API.
+   - [**Cheat Sheet**](./references/cheat_sheet): A collection of example formulations of typical constraints and optimization problems in JijModeling.
+   - [**JijModeling 2 migration guide**](./references/migration_guide_to_jijmodeling2): A comprehensive guide to changes from JijModeling 1 to 2. Refer to it when migrating from older versions.
+5. **Release notes**: Change history for each JijModeling version.
