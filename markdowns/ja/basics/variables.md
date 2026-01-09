@@ -133,7 +133,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 | [`Natural`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Natural) | $\mathbb{N}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。 | [`Dim`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Dim), [`Length`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Length) |
 | [`Integer`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Integer) | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
 | [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
-| [`CategoryLabel`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) | - | 辞書型などで使われるカテゴリラベル。後の節「[添え字つき変数の宣言](#family)」を参照。 | - |
+| [`CategoryLabel`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) | - | 辞書型などで使われるカテゴリーラベル。後の節「[添え字つき変数の宣言](#family)」を参照。 | - |
 | これらのタプル | - | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
 
 決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、変数が宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないという違いがあります。。
@@ -173,7 +173,7 @@ deco_problem
 :::{admonition} [`Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) 構築子
 :class: tip
 
-上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な [`problem.Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。
+上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な [`problem.Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。`dtype`に対しては、`jm.DataType`列挙体のバリアントの他、Python 組み込みの型指定子 `float`, `int` や、Numpy の型指定子 `numpy.uint*`, `numpy.int*` などが使えます（`*` 以下のビット数の情報は単純に無視されます）。
 次節で触れるタプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、`Placeholder` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
 :::
 
@@ -222,7 +222,7 @@ $$
 JijModeling では、決定変数やプレースホルダーについて、以下の二種類のコレクションを定義することができます：
 
 1. 変数の**配列**。$0$ から連続的にインデックスがついた配列。Numpy のような多次元配列も対応。
-2. 変数の**辞書**。整数や文字列、あるいはカテゴリラベルのタプルをキーとする離散的な辞書（連想配列）。
+2. 変数の**辞書**。整数や文字列、あるいはカテゴリーラベルのタプルをキーとする離散的な辞書（連想配列）。
 
 これらには専用の構築子も用意されていますが、多くは「[単独の変数の宣言](#single_vars)」で見た構築子に追加でキーワード引数を指定することで宣言することができます。
 
@@ -242,12 +242,13 @@ JijModeling では、決定変数やプレースホルダーについて、以�
 
 :::{admonition} 決定変数の「個数」
 :class: important
+:name: dec-var-count
 
 決定変数もプレースホルダーもほぼ同じような方法で配列・辞書を定義することができますが、一点重要な違いがあります。
 
 それは、決定変数はソルバーによって値が決定されるという性質上、コンパイル後のインスタンスにおいて**決定変数の個数が完全に確定している必要がある**という点です。
 言い方を変えれば、**プレースホルダーの値によってインスタンスに含まれる決定変数の個数が完全に決まる必要がある**ということです。
-この要請は、たとえばプレースホルダーとして与えられる配列は次元のみの指定だけでよかったり、辞書も部分的にしか定義されていない場合も許容するのに対し、決定変数の配列・辞書はそれぞれシェイプと鍵の集合が（他のプレースホルダーへの参照を含みつつ）完全に指定されている必要がある、という違いに現れています。
+この要請は、たとえばプレースホルダーとして与えられる配列は次元のみの指定だけでよかったり、辞書も部分的にしか定義されていない場合も許容するのに対し、決定変数の配列・辞書はそれぞれシェイプとキーの集合が（他のプレースホルダーへの参照を含みつつ）完全に指定されている必要がある、という違いに現れています。
 :::
 
 それでは、配列と辞書についてそれぞれの宣言方法について見ていきましょう。
@@ -299,6 +300,7 @@ x = partial_tsp.BinaryVar(
 partial_tsp
 ```
 
+(dec_var_array_bounds)=
 #### 決定変数配列の上下界の指定
 
 決定変数の配列に対しては、次に該当するような式を `upper_bound` / `lower_bound` に指定することができます：
@@ -439,4 +441,181 @@ JijModeling 1 系統には、シェイプが均一ではない Jagged Array と�
 こうした配列とタプルの組み合わせや後述する辞書を使うと、グラフ構造や $0$ 起点でなかったり疎な構造を表すことができますので、移行の際にはこうした新たな構成要素を用いて Jagged Array を用いない記述へと置き換えることを強く推奨します。
 :::
 
-### 変数の辞書
+### 変数の辞書とカテゴリーラベル
+
+JijModeling では、配列に加えて変数の辞書（または連想配列）を宣言することができます。
+配列がゼロから始まる連続的な添え字を持つ構造の記述に有効であったのに対し、辞書は疎であったり部分的にしか定義されていない添え字や、あるいは自然数以外の値を添え字を表現するのに使われます。
+
+JijModeling の辞書には、辞書の「定義域」に関する制約により `PartialDict` と `TotalDict` という二種類が存在します：
+
+| 辞書の種類 | 説明 |
+| :------- | :--- |
+| `PartialDict[K, V]` | 型 `K` の値をキーとし、各キーに型 `V` の値が割り当てられた辞書。キーの集合は `K` の部分集合でよい。 |
+| `TotalDict[K, V]` | 型 `K` の**全てのあり得る値**に対して、それに対応する `V` 型の値が**全域で**割り当てられた辞書。`PartialDict`と違い、辞書は型 `K` 全域で定義されている必要がある |
+
+これを踏まえて、辞書のキーとして使うことができる型を見ていきましょう。基本的には、以下の四種類のみです：
+
+1. 整数（決定変数を含まない）
+2. 文字列
+3. カテゴリーラベル
+4. 各成分が(1)から(3)のいずれかから成るタプル
+
+このうち、(3) **カテゴリーラベル**は JijModeling に固有の概念であり、「辞書のキーとして使うことができ、具体的な値の候補はコンパイル時に与えられるラベルの集合」に相当します。
+個別のカテゴリーラベルは、互いの等値性の比較（`==` / `!=`）以外に何の構造ももたないものとして扱われ、コンパイル時には文字列または整数値の集合を与えることで初めて実体化されます。
+
+:::{admonition} カテゴリーラベルの使いどころ
+:class: hint
+
+以下のような場合、添え字にカテゴリーラベルを使うとよいでしょう：
+
+1. 添え字の間の順序関係が本質的でない場合
+2. 添え字上の数値演算が必要でない場合
+3. 文字列の名前など、人間にとってわかりやすい名前を割り当てたい場合
+:::
+
+加えて、`TotalDict` は全ての値が列挙されているような型 `K` に対してのみ使える必要があるため、ある意味で「有界」な範囲が定まっているもののみとなります。
+具体的には、各辞書では以下の表に示すようなキーを使うことができます。
+
+| | 整数 | 文字列 | カテゴリーラベル | タプル |
+| -----------: | :--: | :---: | :------------: | :---: |
+| `PartialDict` | ○ | ○ | ○ | 左から成るものなら何でも |
+| `TotalDict` | 決定変数を含まない自然数 $n$ 未満の自然数全体 $\mathbb{N}_{<n}$ | 予め指定された（一意な）文字列のリスト | ○ | 左から成るものなら何でも |
+
+ここで、「○」は「この型として振る舞うものであれば何でもキー型として指定できる」という意味です。
+
+以上は変数の辞書以外の一般の辞書にも適用される一般的な条件です。
+以下では、簡単にカテゴリーラベルの宣言方法と、決定変数とプレースホルダーの辞書の定義方法を配列の場合の類推で手短かに採り上げ、その後に実際の定義の例を紹介しましょう。
+
+#### カテゴリーラベルの宣言
+
+カテゴリーラベルの宣言方法はプレースホルダーとほぼ同様であり、数理モデルに対して [`CategoryLabel()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) 関数を呼び出して登録することで宣言します。
+Plain API でのカテゴリーラベルの宣言方法は以下のようになります：
+
+```{code-cell} ipython3
+problem_catlab_plain = jm.Problem("Category Label Only")
+L_plain = problem_catlab_plain.CategoryLabel(
+    "L",
+    description="適当なカテゴリーラベル"
+)
+
+problem_catlab_plain
+```
+
+プレースホルダーと同様、名前を表す必須引数と、必要に応じて人間向けの説明を書く省略可能な `description` キーワード引数を取ります。
+また、Decorator API を使うとプレースホルダーの場合と同様にカテゴリーラベル名を省略できます（もちろん明示することもできます）：
+
+```{code-cell} ipython3
+@jm.Problem.define("Category Label Only")
+def problem_catlab_deco(problem: jm.DecoratedProblem):
+   L = problem.CategoryLabel(description="適当なカテゴリーラベル")
+
+problem_catlab_deco
+```
+
+#### 決定変数の辞書
+
+決定変数の辞書に関しては、『[決定変数の「個数」](#dec-var-count)』で触れたようにコンパイル後に個数が確定している必要があるため、`TotalDict` のみしか宣言できないようになっています。
+決定変数の辞書を宣言するには、`BinaryVar`, `IntegerVar`, ... などの構築子に対して、`dict_keys` キーワード引数を渡すことで宣言できます。
+これは、決定変数の配列の宣言に `shape` を渡す必要があったのと同じです。
+
+決定変数の辞書を宣言する際に、`dict_keys` に渡すことができるのは次の式です：
+
+1. 決定変数を含まない自然数式 $n$（$n$ 未満の自然数の集合 $\mathbb{N}_{<n} = \{0, \ldots, n - 1\}$ と同一視）
+2. Python 上の文字列のリスト
+3. `problem.CategoryLabel` によって定義されたカテゴリーラベル
+4. (1)-(3) を要素に持つタプル
+
+:::{caution}
+決定変数構築子に `ndim` または `shape`の少なくとも一方と、`dict_keys` を同時に指定すると、コンテナの種類が確定できないためエラーとなります。
+:::
+
+以下は、カテゴリーラベルと自然数の集合のタプルをキーに持つ決定変数の辞書を定義している例です：
+
+```{code-cell} ipython3
+problem_for_dict = jm.Problem("Dec Var Keys demonstration")
+N = problem_for_dict.Length("N")
+L = problem_for_dict.CategoryLabel("L")
+x = problem_for_dict.BinaryVar("x", dict_keys=(L, N))
+
+problem_for_dict
+```
+
+また、決定変数辞書の `lower_bound` および `upper_bound` の設定についても、「[決定変数配列の上下界](#dec_var_array_bounds)」の節で紹介したのと同様に、以下の値を指定することができます：
+
+1. スカラー値
+2. スカラーを要素に持ち、同じキー集合を持つ `TotalDict`
+3. 添え字から上下界を表すスカラー値への関数式
+
+#### プレースホルダーの辞書
+
+プレースホルダーの辞書の宣言も、同様に `Float` や `Length` などの構築子に `shape` のかわりに `dict_keys` キーワード引数を渡すことで宣言できます。
+決定変数の挙動と合わせるため、`dict_keys`のみが指定された場合そのプレースホルダー辞書は `TotalDict` として宣言されますが、同時に `partial_dict=True` 引数を渡すと `PartialDict` として宣言されるようになります。
+
+`TotalDict` として宣言されている場合（つまり、`partial_dict` が指定されていないか `False` に設定されている場合）、`dict_keys` に指定できるものは決定変数の場合と同様以下の通りです：
+
+1. 決定変数を含まない自然数式 $n$
+2. Python 上の文字列のリスト
+3. `problem.CategoryLabel` によって定義されたカテゴリーラベル
+4. (1)-(3) を要素に持つタプル
+
+一方で、`PartialDict` として宣言されている場合、以下が指定できるようになります：
+
+1. `jm.DataType.INTEGER`、Python の型識別子 `int`、または `numpy.int*`（整数を表す識別子）
+2. `jm.DataType.NATURAL` または `numpy.uint*`
+3. 決定変数を含まない自然数式 $n$（$n$ 未満の自然数の集合 $\mathbb{N}_{<n} = \{0, \ldots, n - 1\}$ と同一視）
+4. Python の型識別子 `str`
+5. Python 上の文字列のリスト
+6. `problem.CategoryLabel` によって定義されたカテゴリーラベル
+7. (1)-(6) を要素に持つタプル
+
+また、[`TotalDict(name, dtype=..., dict_keys=...)`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.TotalDict) 構築子や [`PartialDict(name, dtype=..., dict_keys=...)`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.PartialDict) を `Problem` オブジェクトに対して呼び出すことでもプレースホルダーの辞書を宣言できます。
+
+:::{admonition} プレースホルダー辞書に `ndim` 相当がない理由
+:class: caution
+
+プレースホルダー配列における `ndim` 相当の引数は存在しません。これは、キーの型を省略して成分数だけ与えた場合、インスタンスデータへのアクセスなしに具体的なキーの型を確定することができないためです。
+:::
+
+具体的な記述例は次節で見ていきましょう。
+
+#### 辞書とカテゴリーラベルを使った問題定義の例
+
+以下はナップザック問題をカテゴリーラベルを使って定式化しなおしたものです：
+
+```{code-cell} ipython3
+@jm.Problem.define("Knapsack (vars only, CATEGORY LABEL)")
+def knapsack_cat_dict(problem: jm.DecoratedProblem):
+    L = problem.CategoryLabel()
+    # TotalDict 構築子を使ってみる
+    v = problem.TotalDict("v", dtype=float, dict_keys=L, description="各アイテムの価値")
+    # dict_keys を使ってみる
+    w = problem.Float(dict_keys=L, description="各アイテムの重量")
+    x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
+
+knapsack_cat_dict
+```
+
+これだけだと、$N$のかわりに$L$を定義しているだけですね。
+そこで、更に「一部のアイテムの組 $(i, j)$に対して、ナップザックに同時に詰めると追加の価値（シナジーボーナス）$s_{i, j}$が発生する」という追加条件を考えてみます。
+このような場合に、`PartialDict` は大きな効力を発揮します：
+
+```{code-cell} ipython3
+@jm.Problem.define("Knapsack (vars only, with synergy)")
+def knapsack_synergy(problem: jm.DecoratedProblem):
+    L = problem.CategoryLabel()
+    v = problem.TotalDict("v", dtype=float, dict_keys=L, description="各アイテムの価値")
+    w = problem.Float(dict_keys=L, description="各アイテムの重量")
+    x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
+    # PartialDict を使ってシナジーボーナスを表現！
+    s = problem.PartialDict(
+        "s",
+        dtype=float,
+        dict_keys=(L, L),
+        description="一部のアイテム間のシナジーボーナス"
+    )
+
+knapsack_synergy
+```
+
+$s$ が "A *partial* dictionary of placeholders..." と説明されているのが重要です。これにより、「$s$ は一部の$L$の組み合わせについてだけ定義されている」という条件が表現されているのです。
+こうした定義はタプルのリストとそれと同じ長さの実数配列の組を使えば表現できなくもありませんが、辞書を使うことでより素直で自然な記述が可能になっています。
