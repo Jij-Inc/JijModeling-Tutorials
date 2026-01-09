@@ -123,7 +123,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 | [`Natural`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Natural) | $\mathbb{N}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。 | [`Dim`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Dim), [`Length`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Length) |
 | [`Integer`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Integer) | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
 | [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
-| [`CategoryLabel`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) | - | 辞書型などで使われるカテゴリラベル。後の節「[添え字づけられた変数の族の宣言](#family)」を参照。 | - |
+| [`CategoryLabel`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) | - | 辞書型などで使われるカテゴリラベル。後の節「[添え字つき変数の宣言](#family)」を参照。 | - |
 
 決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、変数が宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないという違いがあります。。
 基本的には、決定変数から `*Var` を取ったものがプレースホルダとしてだと思っておけばよいですが、`Float` のみ名前が違うことに留意してください。
@@ -163,7 +163,7 @@ deco_problem
 :::
 
 (family)=
-## 添え字づけられた変数の族の宣言
+## 添え字つき変数の宣言
 
 前節まででは、単独の決定変数・プレースホルダーを定義する方法を見てきました。
 しかし、一般に数理最適化問題の定式化の際には、添え字づけられた複数の変数から成る族を定義することが必須になってきます。
@@ -179,7 +179,7 @@ $$
 
 それぞれ価値$v_i \in \mathbb{R}$、重さ$w_i \in \mathbb{R}$の$N$個のアイテムを、ナップザックの容量$W$を越えない範囲で価値を最大化するように詰める問題です。
 ここで、アイテムの個数$N$は入力されるインスタンスデータによって変更できることが望ましく、したがって $v_0 x_0 + v_1 x_1 + v_2 x_2$ のような固定された項数の和ではなく、範囲がプレースホルダー$N$に依存した総和$\sum$の形で表現できると嬉しいです。
-こういった「入力するインスタンスデータによって項数の変わりうる変数一式」を表現するのに使われるのが、本節で説明する**添え字づけられた変数の族**になります。
+こういった「入力するインスタンスデータによって項数の変わりうる変数一式」を表現するのに使われるのが、本節で説明する**添え字つき変数**になります。
 
 JijModelingでは、決定変数やプレースホルダーについて、以下の二種類の族を定義することができます：
 
@@ -205,6 +205,10 @@ JijModeling 1系統には、シェイプが均一ではない配列である Jag
 :::
 
 それでは、変数の配列と辞書についてそれぞれ宣言方法を見ていきましょう。
+
+### 変数の配列
+
+### 変数の辞書
 
 ## 変数の情報の取得
 
