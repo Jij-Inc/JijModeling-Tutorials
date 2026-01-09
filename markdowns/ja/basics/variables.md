@@ -42,15 +42,15 @@ $N$や$d$はコンパイル時にインスタンスデータが代入される�
 
 以上を踏まえて、決定変数・プレースホルダーそれぞれの種類と宣言方法について見ていきましょう。
 
+:::{hint}
+以下では構成の都合上決定変数→プレースホルダーの順に宣言方法を見ていきますが、変数間の依存関係さえ守られていれば定義する順番に特に制限はありません。
+:::
+
 (single_vars)=
 ## 単独の変数の宣言
 
 この節では、決定変数・プレースホルダーの種類と、単独の（添え字がついていない）変数の宣言方法について学びます。
 「[概要](./overview)」や「[数理モデルの宣言](./problem)」でも説明したように、JijModeling ではこれらの決定変数は特定の数理モデルに紐付けて登録・宣言されます。
-
-:::{hint}
-変数の間の依存関係さえ破れていなければ、決定変数やプレースホルダーを定義する順番
-:::
 
 ### 単独の決定変数
 
@@ -116,6 +116,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 `x, y = (problem.BinaryVar(), problem.BinaryVar())` のように複数同時に宣言した場合などはエラーとなりますので注意してください。
 :::
 
+(single_ph)=
 ### 単独のプレースホルダー
 
 決定変数にも種類があるように、プレースホルダーにも種類があり、宣言時に指定する必要があります。
@@ -129,6 +130,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 | [`Integer`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Integer) | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
 | [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
 | [`CategoryLabel`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) | - | 辞書型などで使われるカテゴリラベル。後の節「[添え字つき変数の宣言](#family)」を参照。 | - |
+| これらのタプル | - | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
 
 決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、変数が宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないという違いがあります。。
 基本的には、決定変数から `*Var` を取ったものがプレースホルダーとしてだと思っておけばよいですが、`Float` のみ名前が違うことに留意してください。
@@ -163,8 +165,31 @@ deco_problem
 ```
 
 :::{tip}
-上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な [`problem.Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) 構築子の特別な場合になっています。
+上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な [`problem.Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。
 次節で触れるタプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。
+:::
+
+(var_info)=
+## 変数の情報の取得
+
+上記のようにして数理モデルに登録された決定変数・プレースホルダーの一覧は、`Problem` オブジェクトの [`decision_vars`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.DecoratedProblem.decision_vars) プロパティおよび [`placeholders`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.DecoratedProblem.placeholders) プロパティにより取得できます。
+また、これらの一覧には、以下で扱う添え字つき変数の情報も含まれています。
+
+両者は変数名をキーとし、それぞれのメタデータを値とする辞書を返します。
+
+```{code-cell} ipython3
+deco_problem.decision_vars
+```
+
+```{code-cell} ipython3
+deco_problem.placeholders
+```
+
+こうした変数のメタデータは、変数式としても振る舞います。
+そのため、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
+
+:::{tip}
+将来的には `@problem.update` が定義済の変数たちを引数として取れるようにする変更が予定されています。期待してお待ちください！
 :::
 
 (family)=
@@ -218,7 +243,7 @@ JijModeling では、決定変数やプレースホルダーについて、以�
 ### 変数の配列
 
 JijModeling では、変数から成るものに限らず一次元やより高次元の配列を扱うことができます。また、実は[単独の変数の宣言](#single_vars)で宣言されたような、単なるスカラー値も内部的にはゼロ次元の配列として扱われています。
-JijModeling では、各配列の次元の長さについては入力されたプレースホルダーの値に依存することができますが、**次元（成分数）自体はゼロを含む自然数の固定値**である必要があります。
+JijModeling では、配列の各軸の長さについては入力されたプレースホルダーの値に依存することができますが、**次元（成分数）自体はゼロを含む自然数の定数リテラル**である必要があります。
 
 (array_of_dec_vars)=
 #### 決定変数の配列
@@ -226,6 +251,8 @@ JijModeling では、各配列の次元の長さについては入力された�
 決定変数の配列は、Plain API / Decorator API ともに、`BinaryVar`, `IntegerVar` などの既存の構築子に新たに `shape=` 引数を渡すことで宣言できます。
 `shape`キーワード引数には、自然数から成る固定長のタプルを表す式を指定することができます。また、次元が$1$の場合は単に自然数を表す式で与えることもできます。
 試しに、ナップザック問題に必要な変数たちを定義してみましょう。
+
+(partial_knapsack_def)=
 
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only)", sense=jm.ProblemSense.MAXIMIZE)
@@ -246,6 +273,8 @@ partial_knapsack
 
 多次元配列の例として、今度は Plain API で巡回セールスマン問題（TSP）の二次定式化の決定変数も用意してみましょう。
 
+(tsp_def)=
+
 ```{code-cell} ipython3
 partial_tsp = jm.Problem("TSP (vars only)", sense=jm.ProblemSense.MINIMIZE)
 N = partial_tsp.Length("N", description="都市数") # Plain API なので変数名を指定している
@@ -260,19 +289,97 @@ partial_tsp
 
 #### プレースホルダーの配列
 
-プレースホルダーの配列についても、決定変数の場合と同様に `shape` キーワード引数を追加することで宣言できます。
-ここでは、まず[前節](#array_of_dec_vars)で定義した部分的なナップザック問題に、各アイテムの価値と重量を表すプレースホルダーを追加してみましょう。
+プレースホルダーの配列を宣言する方法は二つあります。
+
+一つは、決定変数の場合と同様に `shape` キーワード引数を使うここです。
+ここでは、まず[前節](#array_of_dec_vars)で定義した部分的なナップザック問題に、それぞれ各アイテムの価値と重量を表すプレースホルダー $v_i$, $w_i$ を追加してみましょう。
+
+(partial_knapsack_update)=
+
+```{code-cell} ipython3
+@partial_knapsack.update
+def _(problem: jm.DecoratedProblem):
+    N = problem.placeholders["N"]
+    v = problem.Float(shape=(N,), description="各アイテムの価値")
+    w = problem.Float(shape=(N,), description="各アイテムの重さ")
+
+partial_knapsack
+```
+
+もう一つの方法は、**`ndim` キーワード引数**を用いるものです。
+プレースホルダーの構築子の `ndim` キーワード引数として自然数の定数リテラルを渡すことで、次元のみ指定し、各次元の具体的な長さはコンパイル時にインスタンスデータを与えた時に確定するようなプレースホルダー配列が宣言できます。
+
+:::{tip}
+`ndim` と `shape` キーワード引数を同時に指定することもできますが、この場合 `shape`の成分数と `ndim` の値が正確に一致している必要があります。
+:::
+
+たとえば、上で定義した `partial_knapsack` は `ndim` と次節で触れる [`len_at()` 関数](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Expression.len_at)を使って次のように定義することができます：
+
+(partial_knapsack_ndim)=
+
+```{code-cell} ipython3
+@jm.Problem.define("Knapsack (vars only, with ndim)", sense=jm.ProblemSense.MAXIMIZE)
+def partial_knapsack_ndim(problem: jm.DecoratedProblem):
+    W = problem.Float(description="ナップザックの耐荷重")
+    v = problem.Float(ndim=1, description="各アイテムの価値")
+    N = v.len_at(0)
+    w = problem.Float(shape=N, description="各アイテムの重さ")
+    x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
+
+partial_knapsack_ndim
+```
+
+[`array.len_at(i)`関数](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Expression.len_at)は、与えられた配列 `array` の $i$ 番目の軸の長さを返す関数です。
+$w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配列として宣言しておき、残る $w$, $x$ はその長さを使って `shape` を指定する形にしているのです。
+このように、最初に $N$ を独立して定義する方法と、配列の長さから復元する方法とでは、定義される数理モデルは意味的には同じですが、インスタンスデータの与え方が異なります。
+たとえば、最初の `partial_knapsack` の例（[定義](#partial_knapsack_def)およびその[更新](#partial_knapsack_update)）では、$N$ も `Length` プレースホルダーとして宣言しているため、**インスタンスの作成**（近日公開）時に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
+一方で、$N$ をプレースホルダーではなく `len_at` を使って別の式として構築している [`partial_knapsack_ndim`](#partial_knapsack_ndim) では、$N$の値は入力値 `v` から推論されるため、コンパイル時には `W`, `v`, `w` の値のみを指定するだけで済みます。
+
+どういう時に長さに相当するプレースホルダーを導入し、どういう時に `ndim` + `len_at` を使うべきでしょうか？
+一つの目安は、**単一の配列内の複数軸の長さの間に依存関係がある場合**、長さに相当するプレースホルダーを定義するべき、というものです。
+
+例として、TSP の部分的な定義[`partial_tsp`](#tsp_def)に対して、距離行列を表すシェイプ $N \times N$ の多次元配列 $d$ を足すことを考えます：
+
+```{code-cell} ipython3
+@partial_tsp.update
+def _(problem: jm.DecoratedProblem):
+    N = problem.placeholders["N"]
+    d = problem.Float(shape=(N, N))
+
+partial_tsp
+```
+
+この例では、二次元配列$d$の二つの軸はどちらも長さ$N$を持つ必要があり、この制約は `ndim=2` という指定では表現できず、まず$N$を定義し `shape` に指定する必要があるのです。
+
+また、旧来の JijModeling 1 系統では、Placeholder には永らく `ndim` 宣言しか存在しなかったため、たとえば上の `partial_knapsack_ndim` は次のように定義されることが多くありました：
+
+```python
+v = problem.Float(ndim=1, description="各アイテムの価値")
+w = problem.Float(ndim=1, description="各アイテムの重量")
+```
+
+しかし、これでは $v, w$ の間の形状の関係が表現できないため、JijModeling 2 以降ではこのような**長さの一致性が強制できない定義は強く非推奨**としており、**シェイプの間に非自明な関係がある場合は必ずどこかで `shape` を指定する**ことを強く推奨します。
+
+:::{tip}
+JijModeling では、有向グラフ構造に相当する [`Graph` プレースホルダー構築子](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Graph)を提供しています。
+たとえば、`G = problem.Graph()` とすると、$G$ は適当な頂点数を持つグラフにあたるプレースホルダーとして宣言されます。
+実は、この構築子は一次元配列と「[単独のプレースホルダー](#single_ph)」で触れたタプルの組み合わせで表現されており、次のように書いたのと同値です：
+
+```python
+G = problem.Placeholder(dtype=jm.DataType.NATURAL, ndim=1)
+```
+
+ですので、`N = G.len_at(0)` とすることで $G$ の頂点数を取得することができますし、配列に関する種々の演算を使ってグラフを操作することができるようになります。
+このように、JijModeling ではタプルと配列を組み合わせて、複雑な構造を表現できるようになっているのです。
+:::
 
 :::{important}
 JijModeling 1 系統には、シェイプが均一ではない Jagged Array というコレクションも用意されていました。
 しかし、Jagged Array はその不均一性から型システムなどによる検証をうけづらいため、JijModeling 2 では**Jagged Array は強く非推奨**となっており、将来のリリースで取り除くことが計画されています。
-0 起点でなかったり疎な構造を表す場合には辞書が使え、グラフ構造の表現にはタプルを要素に持つ（一次元）配列が使えますので、移行の際にはこうした新たな構成要素を用いて Jagged Array を用いない記述へと置き換えることを強く推奨します。
+こうした配列とタプルの組み合わせや後述する辞書を使うと、グラフ構造や $0$ 起点でなかったり疎な構造を表すことができますので、移行の際にはこうした新たな構成要素を用いて Jagged Array を用いない記述へと置き換えることを強く推奨します。
 :::
-
-#### 配列
 
 ### 変数の辞書
 
-## 変数の情報の取得
 
 <!-- TODO: タプルについてはリストのところで触れる。 -->
