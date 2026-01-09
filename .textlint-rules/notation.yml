@@ -1,0 +1,9 @@
+version: 1
+rules:
+  - expected: プレースホルダー
+    pattern: /プレースホルダー?/
+    specs:
+    - from: プレースホルダー
+      to: プレースホルダー
+    - from: プレースホルダ
+      to: プレースホルダー

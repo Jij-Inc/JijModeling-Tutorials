@@ -15,7 +15,7 @@ kernelspec:
 
 `jijmodeling` の使い方を理解するために、このページではナップサック問題を解いてみましょう。ただし、`jijmodeling` は数理モデルを記述するためのツールであるため、単独では最適化問題を解くことはできません。なので、数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせて解くこととします。
 
-`jijmodeling` とSCIPを組み合わせて使うには、 `ommx-pyscipopt-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-pyscipopt-adapter), [PyPI](https://pypi.org/project/ommx-pyscipopt-adapter/)) というPythonパッケージをインストールする必要があります。以下のコマンドでインストールしてください。
+`jijmodeling` と SCIP を組み合わせて使うには、 `ommx-pyscipopt-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-pyscipopt-adapter), [PyPI](https://pypi.org/project/ommx-pyscipopt-adapter/)) という Python パッケージをインストールする必要があります。以下のコマンドでインストールしてください。
 
 ```bash
 pip install ommx-pyscipopt-adapter
@@ -65,7 +65,7 @@ $$
 
 ## インスタンスの生成手順
 
-`jijmodeling` を使うと、ソルバーに入力するためのインスタンスを次の3ステップで生成できます：
+`jijmodeling` を使うと、ソルバーに入力するためのインスタンスを次の 3 ステップで生成できます：
 
 1. ナップサック問題を定式化する
 2. インスタンスデータを用意する
@@ -77,7 +77,7 @@ $$
 
 ## Step1. ナップサック問題を定式化する
 
-`jijmodeling` を使用してナップサック問題を定式化すると、以下のPythonコードになります：
+`jijmodeling` を使用してナップサック問題を定式化すると、以下の Python コードになります：
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -111,7 +111,7 @@ knapsack_problem
 
 ## Step2. インスタンスデータを用意する
 
-次に、Step1で定式化した数理モデルのパラメーター $v_i, w_i, W$ のインスタンスデータを用意します。
+次に、Step1 で定式化した数理モデルのパラメーター $v_i, w_i, W$ のインスタンスデータを用意します。
 
 ```{code-cell} ipython3
 instance_data = {
@@ -138,7 +138,7 @@ instance = knapsack_problem.eval(instance_data)
 
 ## 最適化問題を解く
 
-では、Step3で得られたインスタンスを最適化ソルバーSCIPで解いてみましょう。以下のPythonコードで目的関数の最適値を得ることができます:
+では、Step3 で得られたインスタンスを最適化ソルバーSCIP で解いてみましょう。以下の Python コードで目的関数の最適値を得ることができます:
 
 ```{code-cell} ipython3
 from ommx_pyscipopt_adapter import OMMXPySCIPOptAdapter

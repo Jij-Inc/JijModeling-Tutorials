@@ -5,5 +5,6 @@
         { "when": "markdowns/ja/**", "value": "${workspaceFolder}/docs/ja" }
       ]
     }
-  }
+  },
+  "textlint.autoFixOnSave": true
 }

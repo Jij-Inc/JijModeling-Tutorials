@@ -15,7 +15,7 @@ kernelspec:
 
 ## JijModelingとは
 
-**JijModeling**は、Pythonコードを使用して数理モデルを記述するための数理最適化モデラーです。
+**JijModeling**は、Python コードを使用して数理モデルを記述するための数理最適化モデラーです。
 多項式などを用いて、さまざまな種類の最適化問題を記述することができます。
 
 ## 主な特徴
@@ -32,29 +32,29 @@ JijModeling では、数理モデルの記号的な定義と、入力される�
 数理モデルにパラメータ（**インスタンスデータ**）を入力してインスタンスを得る
 :::
 
-このように、JijModelingでは個々の数理モデルは個別のインスタンスデータからインスタンスを生成するためのスキーマとして機能し、インスタンスデータのサイズに影響されずに数理モデルを変更することが可能になっています。
+このように、JijModeling では個々の数理モデルは個別のインスタンスデータからインスタンスを生成するためのスキーマとして機能し、インスタンスデータのサイズに影響されずに数理モデルを変更することが可能になっています。
 
 ### 2. ソルバーに依存しないモデリング
 
 :::{figure-md}
 <img src="./images/jijmodeling-workflow.svg" alt="JijModelingで記述された数理モデルは、OMMXを経て各種ソルバーに渡される" class="mb1" width="75%">
 
-JijModelingとOMMXによる数理最適化問題の求解の流れ
+JijModeling と OMMX による数理最適化問題の求解の流れ
 :::
 
-JijModelingで定義された数理モデルは、最終的に[OMMX Message形式](https://jij-inc.github.io/ommx/ja/introduction.html)で表現されたインスタンスへと**コンパイル**されます。
-OMMX Messageはソルバーに依存しない数理最適化用のデータ交換形式であるため、Jijが提供しているソルバー（JijZeptSolver, OpenJijなど）やその他のソルバー（SCIP, Gurobi, FixstarsAmplifyなど）を**自由に切り替えて**問題を解くことができます。
+JijModeling で定義された数理モデルは、最終的に[OMMX Message形式](https://jij-inc.github.io/ommx/ja/introduction.html)で表現されたインスタンスへと**コンパイル**されます。
+OMMX Message はソルバーに依存しない数理最適化用のデータ交換形式であるため、Jij が提供しているソルバー（JijZeptSolver, OpenJij など）やその他のソルバー（SCIP, Gurobi, FixstarsAmplify など）を**自由に切り替えて**問題を解くことができます。
 
 ### 3. 型検査による記述の誤りの早期発見
 
-JijModelingは独自の型システムを搭載しており、添え字の成分数の食い違いなどの誤りを、数理モデルの記述時に発見できるようになっています。
+JijModeling は独自の型システムを搭載しており、添え字の成分数の食い違いなどの誤りを、数理モデルの記述時に発見できるようになっています。
 特に、大規模なインスタンスデータを入力する前に間違いを即座に検出することができ、定式化の加速が図られます。
 
 ### 4. 制約条件のパターンの検出機能
 
 数理最適化ソルバーには、特定の形をした制約条件に対してより高速な求解アルゴリズムを提供しているものがあります。
-こうした高速化用の機能は、通常ユーザが意識的に明示して呼び出す必要があります。
-一方、JijModelingは**自動でこうした制約条件の存在を検出**し、OMMX Messageを介してソルバーにその情報を渡すことで、ユーザの介在なしに自動的に求解を高速化します。
+こうした高速化用の機能は、通常ユーザーが意識的に明示して呼び出す必要があります。
+一方、JijModeling は**自動でこうした制約条件の存在を検出**し、OMMX Message を介してソルバーにその情報を渡すことで、ユーザーの介在なしに自動的に求解を高速化します。
 以下の例では、検出機能を有効化しただけで圧倒的な速度改善が見られています。
 
 :::{figure-md}
@@ -65,7 +65,7 @@ JijModelingは独自の型システムを搭載しており、添え字の成分
 
 ### 5. 数理モデルの $\LaTeX$ 表示
 
-JijModelingは非常に強力な$\LaTeX$出力機能を備えており、[JijZept IDE](https://www.jijzept.com/ja/products/ide/) や [Google Colab](https://colab.google/)、あるいは一般の [Jupyter Notebook](https://jupyter.org/) 上で数理モデルの定義を直感的に把握でき、数理モデルが期待通りに構築されているかどうかを迅速かつ対話的に確認できます。
+JijModeling は非常に強力な$\LaTeX$出力機能を備えており、[JijZept IDE](https://www.jijzept.com/ja/products/ide/) や [Google Colab](https://colab.google/)、あるいは一般の [Jupyter Notebook](https://jupyter.org/) 上で数理モデルの定義を直感的に把握でき、数理モデルが期待通りに構築されているかどうかを迅速かつ対話的に確認できます。
 以下は、ナップザック問題の定式化と、その$\LaTeX$出力の例です。
 
 ```{code-cell} ipython3
@@ -91,8 +91,8 @@ knapsack
 
 ## Decorator API による直感的な記法
 
-JijModeling 2.0.0から、旧来の記法に相当する Plain API に加えて、`@` つきの関数定義（**デコレータ**）内でのみ利用できる **Decorator API** と呼ばれる**略記法**をサポートしています。
-これにより、**変数名の省略**や**内包表記による記号的な総和の記述**など、より「Pythonらしい」自然なコード記述が可能になりました。
+JijModeling 2.0.0 から、旧来の記法に相当する Plain API に加えて、`@` つきの関数定義（**デコレータ**）内でのみ利用できる **Decorator API** と呼ばれる**略記法**をサポートしています。
+これにより、**変数名の省略**や**内包表記による記号的な総和の記述**など、より「Python らしい」自然なコード記述が可能になりました。
 
 ### 記述例の比較
 
@@ -125,7 +125,7 @@ def my_problem(problem: jm.DecoratedProblem):
 pip install 'jijmodeling>=2.0.0b8'
 ```
 
-uvを利用している場合、以下のようにして依存関係に追加できます：
+uv を利用している場合、以下のようにして依存関係に追加できます：
 
 <!-- FIXME: 正式リリース後、バージョン指定 >=2.0.0b8 を落とす -->
 
@@ -133,7 +133,7 @@ uvを利用している場合、以下のようにして依存関係に追加で
 uv add 'jijmodeling>=2.0.0b8'
 ```
 
-`jijmodeling`の利用にはPython 3.11以上が必要であることに注意してください。
+`jijmodeling`の利用には Python 3.11 以上が必要であることに注意してください。
 
 ```{code-cell} ipython3
 import jijmodeling
@@ -146,16 +146,16 @@ jijmodeling.__version__
 
 ## 本ドキュメントの構成
 
-本ドキュメントは数理最適化問題をJijModelingで解くために必要な情報を提供します。
-数理最適化そのものについては、JijZeptの資料『[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)』などをご参照ください。
+本ドキュメントは数理最適化問題を JijModeling で解くために必要な情報を提供します。
+数理最適化そのものについては、JijZept の資料『[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)』などをご参照ください。
 
-1. **クイックスタート**：ナップザック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModelingの利用方法はどちらも同じですので、お好みの方をお読みください。
+1. **クイックスタート**：ナップザック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModeling の利用方法はどちらも同じですので、お好みの方をお読みください。
     - [**SCIPで最適化問題を解く**](./quickstart/scip): 数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせる方法を取り扱っています。
     - [**OpenJijで最適化問題を解く**](./quickstart/openjij): [OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせる方法を取り扱っています。
-2. **[JijModelingの基本](./basics/overview)**：JijModelingを用いたモデリングの基本構成要素を解説します。
-3. **発展的な話題**（近日公開）：JijModelingでより高度な数理最適化モデリングを行うための発展的な機能を紹介します。
-4. **リファレンス**：JijModelingの詳細な利用方法などについて触れています。
+2. **[JijModelingの基本](./basics/overview)**：JijModeling を用いたモデリングの基本構成要素を解説します。
+3. **発展的な話題**（近日公開）：JijModeling でより高度な数理最適化モデリングを行うための発展的な機能を紹介します。
+4. **リファレンス**：JijModeling の詳細な利用方法などについて触れています。
    - [**jijmodeling API Reference**](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/): JijModeling の Python API で利用可能な全関数・クラス等の網羅的なリファレンスマニュアルです。
-   - [**Cheat Sheet**](./references/cheat_sheet): 典型的な制約条件・最適化問題などのJijModelingでの定式化例を示した事例集です。
+   - [**Cheat Sheet**](./references/cheat_sheet): 典型的な制約条件・最適化問題などの JijModeling での定式化例を示した事例集です。
    - [**JijModeling 2 移行ガイド**](./references/migration_guide_to_jijmodeling2): JijModeling 1 から 2 への変更点について網羅的に解説した移行ガイドです。旧バージョンからの移行の際に参考にしてください。
 5. **リリースノート**：JijModeling の各バージョンごとの変更履歴が紹介されています。
