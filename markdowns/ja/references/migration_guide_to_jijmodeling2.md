@@ -46,10 +46,10 @@ JijModeling 2 では、数理モデリングに対する核心的な考え方は
 
 7. **従属変数の導入**：新たに導入された`problem.DependentVar(..)`宣言により、頻出する部分式を従属変数として束縛・再利用できるようになりました。これにより、従来の JijModeling で`with_latex()`や`latex=...`で定義された$\LaTeX$上の変数の定義がわからなくなる問題が解消されます。
 
-8. **新しいデータ型**: JijModeling 2 では辞書型とカテゴリラベル型が追加されました！
+8. **新しいデータ型**: JijModeling 2 では辞書型とカテゴリーラベル型が追加されました！
    - 従来 Jagged Array で書いていた多くのケースが、辞書を使ってより簡潔に記述できるようになりました！
       * Jagged Array はエラーの温床になるため、長期的には辞書型の利用を強く推奨します。
-   - カテゴリラベルは、連続でないまたはゼロ起点でないラベルとして利用できます。
+   - カテゴリーラベルは、連続でないまたはゼロ起点でないラベルとして利用できます。
 
 9.  **Python 3.11以降のみのサポート**：型ヒントや詳細なコールスタックなどの現代的な Python の言語機能によるユーザー体験の向上を達成するため、JijModeling 2 では Python 3.11 以降のみをサポートしています。
 
@@ -187,7 +187,7 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 
 要約すれば以下のようになります：
 
-| カテゴリ | 目的 | 典型的なコンストラクタ | 注記 |
+| カテゴリー | 目的 | 典型的なコンストラクタ | 注記 |
 |----------|---------|----------------------|----------|
 | Problem  | 名前空間/モデルルート | `jm.Problem(name, sense=...)` | すべてのパラメータと制約の情報を保持 |
 | Placeholders | パラメータテンソル（評価時に与えられる） | `problem.Placeholder(...)`、`problem.Natural(...)`、`problem.Float(...)` | `@problem.update`や`@jm.Problem.define`で名前を省略可能。`Natural`等は型付きショートカット。Problemに対し構築する必要がある |
@@ -629,7 +629,7 @@ def _(problem: jm.DecoratedProblem):
 problem
 ```
 
-#### パターン6：辞書とカテゴリラベルによる疎データの表現
+#### パターン6：辞書とカテゴリーラベルによる疎データの表現
 
 ```{code-cell} ipython3
 problem = jm.Problem("QuadraticKnapsackLogistics", sense=jm.ProblemSense.MAXIMIZE)

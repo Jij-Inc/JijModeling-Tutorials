@@ -11,3 +11,10 @@ rules:
     pattern: 例えば
   - expected: シェイプ
     pattern: 形状
+  - expected: カテゴリー
+    pattern: /カテゴリー?/
+    specs:
+    - from: カテゴリー
+      to: カテゴリー
+    - from: カテゴリ
+      to: カテゴリー
