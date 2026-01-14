@@ -18,5 +18,14 @@ rules:
       to: カテゴリー
     - from: カテゴリ
       to: カテゴリー
+  - expected: ソルバー
+    pattern: /ソルバー?/
+    specs:
+    - from: ソルバー
+      to: ソルバー
+    - from: ソルバ
+      to: ソルバー
+  - expected: データ
+    pattern: データー
   - expected: Decorator API
     pattern: Decorated API
