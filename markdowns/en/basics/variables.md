@@ -290,20 +290,20 @@ Here we first define placeholders $W$ (capacity) and $N$ (number of items), and 
 This example uses the Decorator API, but the `shape` argument works the same in the Plain API (except that you cannot omit the variable name).
 :::
 
-As a multi-dimensional example, let's define the decision variables for the quadratic formulation of the traveling salesman problem (TSP) using the Plain API.
+As another example, here is a two-dimensional array declared by passing a tuple to `shape`:
 
-(tsp_def)=
+(multidim_arrays)=
 
 ```{code-cell} ipython3
-partial_tsp = jm.Problem("TSP (vars only)", sense=jm.ProblemSense.MINIMIZE)
-N = partial_tsp.Length("N", description="Number of cities") # Plain API, so the name is required.
-x = partial_tsp.BinaryVar(
+multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
+N = multidim_arrays.Length("N") # Plain API, so the name is required.
+M = multidim_arrays.Length("M")
+x = multidim_arrays.BinaryVar(
     "x",
-    shape=(N, N),
-    description="$x_{t,i} = 1$ only when visiting city $i$ at time $t$",
+    shape=(N,M), # N x M array
 )
 
-partial_tsp
+multidim_arrays
 ```
 
 (dec_var_array_bounds)=
@@ -338,7 +338,7 @@ As an example of (3), consider the following artificial but illustrative case:
 N = problem.Length("N")
 M = problem.Length("M")
 s = problem.ContinuousVar(
-    shape=(N, M),
+    shape=(N,M),
     lower_bound=0,
     upper_bound=lambda i, j: i + j,
 )
@@ -405,15 +405,15 @@ In `partial_knapsack_ndim`, where $N$ is derived via `len_at`, the value of $N$ 
 So when should you introduce a length placeholder, and when should you use `ndim` + `len_at`?
 A good rule of thumb is: **if there are dependencies between the lengths of multiple axes in a single array**, then you should explicitly define a length placeholder.
 
-As an example, consider adding a distance matrix $d$ of shape $N \times N$ to the partial TSP model [`partial_tsp`](#tsp_def):
+As an example, consider defining a distance matrix $d$ of shape $N \times N$:
 
 ```{code-cell} ipython3
-@partial_tsp.update
-def _(problem: jm.DecoratedProblem):
-    N = problem.placeholders["N"]
+@jm.Problem.define("Distance matrix")
+def dist_matrix(problem: jm.DecoratedProblem):
+    N = problem.Length()
     d = problem.Float(shape=(N, N))
 
-partial_tsp
+dist_matrix
 ```
 
 Here both axes of the two-dimensional array $d$ must have length $N$, and this constraint cannot be expressed with `ndim=2`; you need to define $N$ and use it in `shape`.
@@ -436,7 +436,10 @@ For example, `G = problem.Graph()` declares a placeholder graph with some number
 This constructor is actually equivalent to a one-dimensional array of tuples described in "[Single placeholders](#single_ph)" and can be written as:
 
 ```python
-G = problem.Placeholder(dtype=jm.DataType.NATURAL, ndim=1)
+G = problem.Placeholder(
+    dtype=typing.Tuple[jm.DataType.NATURAL, jm.DataType.NATURAL],
+    ndim=1
+)
 ```
 
 Therefore, you can obtain the number of vertices via `N = G.len_at(0)` and use array operations to work with graphs.

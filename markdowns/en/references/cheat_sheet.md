@@ -706,6 +706,7 @@ def _(problem: jm.DecoratedProblem):
     # The number of decision variables has to be determined statically from placeholders,
     # so dictionaries of decision variables must be defined on the entire key domain (total).
     x = problem.BinaryVar(
+        "x",
         dict_keys=(I, J),
         description="x[i,j] = 1 if parcel i is assigned to truck j, else 0",
     )
