@@ -284,20 +284,20 @@ partial_knapsack
 ここでは Decorator API を使って定義していますが、`shape`の指定方法は（変数名が省略できない点を除けば）Plain API でも同様です。
 :::
 
-多次元配列の例として、今度は Plain API で巡回セールスマン問題（TSP）の二次定式化の決定変数も用意してみましょう。
+次は `shape` にタプルを渡して二次元配列を定義している例です：
 
-(tsp_def)=
+(multidim_arrays)=
 
 ```{code-cell} ipython3
-partial_tsp = jm.Problem("TSP (vars only)", sense=jm.ProblemSense.MINIMIZE)
-N = partial_tsp.Length("N", description="都市数") # Plain API なので変数名を指定している
-x = partial_tsp.BinaryVar(
+multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
+N = multidim_arrays.Length("N") # Plain API なので変数名を指定している
+M = multidim_arrays.Length("M")
+x = multidim_arrays.BinaryVar(
     "x",
-    shape=(N,N),
-    description="時刻 $t$ に都市 $i$ に訪れるときのみ $x_{t,i} = 1$",
+    shape=(N,M), # N x M 配列
 )
 
-partial_tsp
+multidim_arrays
 ```
 
 (dec_var_array_bounds)=
@@ -398,15 +398,15 @@ $w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配�
 どういう時に長さに相当するプレースホルダーを導入し、どういう時に `ndim` + `len_at` を使うべきでしょうか？
 一つの目安は、**単一の配列内の複数軸の長さの間に依存関係がある場合**、長さに相当するプレースホルダーを定義するべき、というものです。
 
-例として、TSP の部分的な定義[`partial_tsp`](#tsp_def)に対して、距離行列を表すシェイプ $N \times N$ の多次元配列 $d$ を足すことを考えます：
+例として、距離行列を表すシェイプ $N \times N$ の多次元配列 $d$ を定義することを考えます：
 
 ```{code-cell} ipython3
-@partial_tsp.update
-def _(problem: jm.DecoratedProblem):
-    N = problem.placeholders["N"]
+@jm.Problem.define("Distance matrix")
+def dist_matrix(problem: jm.DecoratedProblem):
+    N = problem.Length()
     d = problem.Float(shape=(N, N))
 
-partial_tsp
+dist_matrix
 ```
 
 この例では、二次元配列$d$の二つの軸はどちらも長さ$N$を持つ必要があり、この制約は `ndim=2` という指定では表現できず、まず$N$を定義し `shape` に指定する必要があるのです。
