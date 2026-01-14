@@ -65,7 +65,7 @@ def deco_problem(problem: jm.DecoratedProblem):
 deco_problem
 ```
 
-`@jm.Problem.define` は `jm.Problem()` と全く同じ引数を取ますが、直接変数に束縛するのではなく、直後に関数定義（ここでは `def deco_problem(...)`）を与えるという違いがあります。
+`@jm.Problem.define` は `jm.Problem()` と全く同じ引数を取りますが、直接変数に束縛するのではなく、直後に関数定義（ここでは `def deco_problem(...)`）を与えるという違いがあります。
 `@jm.Problem.define` では、関数定義を抜けた段階で宣言されている関数名と同じ名前（ここでは `deco_problem`）の変数に実際の Problem の定義が束縛されます。実際、上の例では関数定義を終えた直後に `deco_problem`を（Python 変数として）呼び出してその内容を印字させています。
 このように、直前に `@` ではじまる式が付された関数は、その式により **デコレートされる**ているといいます。
 実際には、このデコレートされた関数定義内では関数の第 1 引数 `problem` に対して種々の関数を呼び出して様々な変更・更新を行ってモデルを構築していくことになります。
