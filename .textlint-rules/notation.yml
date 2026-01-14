@@ -29,3 +29,12 @@ rules:
     pattern: データー
   - expected: Decorator API
     pattern: Decorated API
+  - expected: バイナリ
+    pattern: /バイナリー?/
+    specs:
+    - from: バイナリー
+      to: バイナリ
+    - from: バイナリ
+      to: バイナリ
+  - expected: バイナリー変数
+    pattern: 二値変数

@@ -58,14 +58,14 @@ $N$や$d$はコンパイル時にインスタンスデータが代入される�
 
 | 種類 | 数式 | 説明 |
 | :---- | :--: | :--- |
-| [`BinaryVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.BinaryVar) | $\{0, 1\}$ | $0$ または $1$ の値を取る二値変数。上下界の設定は不要。 |
+| [`BinaryVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.BinaryVar) | $\{0, 1\}$ | $0$ または $1$ の値を取るバイナリ変数。上下界の設定は不要。 |
 | [`IntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.IntegerVar) | $\mathbb{Z}$ | 整数変数。上下界の設定が必要。 |
 | [`ContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.ContinuousVar) | $\mathbb{R}$ | 実数値を取る連続変数。上下界の設定が必要。 |
 | [`SemiIntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.SemiIntegerVar) | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
 | [`SemiContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.SemiContinuousVar) | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
 
 特定の種類の決定変数を宣言するには、その変数を登録する `Problem` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
-それでは、二値変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $W' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
+それでは、バイナリ変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $W' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
 Plain API では次のように定義できます：
 
 ```{code-cell} ipython3
@@ -81,7 +81,7 @@ W = problem.ContinuousVar(
 problem
 ```
 
-第 1 引数は変数の名前を表す必須引数です。また、`upper_bound`および`lower_bound`は変数の上下界を表すキーワード引数であり、二値変数以外は必ず指定しなければいけません。
+第 1 引数は変数の名前を表す必須引数です。また、`upper_bound`および`lower_bound`は変数の上下界を表すキーワード引数であり、バイナリ変数以外は必ず指定しなければいけません。
 `description`は `Problem` のものと同様、人間があとでみてわかりやすい説明を書くた省略可能なキーワード引数です。
 
 :::{admonition} 単独の決定変数の上下界
