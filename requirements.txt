@@ -6,7 +6,7 @@ dimod==0.12.21
     #   openjij
 jij-cimod==1.7.3
     # via openjij
-jijmodeling==2.0.0rc0
+jijmodeling==2.0.0rc1
     # via jijmodeling-tutorial (pyproject.toml)
 numpy==1.26.4
     # via
