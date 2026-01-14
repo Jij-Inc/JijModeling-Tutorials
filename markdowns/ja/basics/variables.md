@@ -428,7 +428,10 @@ JijModeling では、有向グラフ構造に相当する [`Graph` プレース�
 実は、この構築子は一次元配列と「[単独のプレースホルダー](#single_ph)」で触れたタプルの組み合わせで表現されており、次のように書いたのと同値です：
 
 ```python
-G = problem.Placeholder(dtype=jm.DataType.NATURAL, ndim=1)
+G = problem.Placeholder(
+    dtype=typing.Tuple[jm.DataType.NATURAL, jm.DataType.NATURAL],
+    ndim=1
+)
 ```
 
 ですので、`N = G.len_at(0)` とすることで $G$ の頂点数を取得することができますし、配列に関する種々の演算を使ってグラフを操作することができるようになります。
