@@ -23,8 +23,11 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ github.token }}
 
-      - name: Run textlint
-        run: npx textlint "markdowns/${{ matrix.language }}/**/*.md"
+      - name: Install dependencies
+        run: LANG=${{ matrix.language }} task textlint

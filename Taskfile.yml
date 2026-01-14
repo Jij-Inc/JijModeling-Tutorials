@@ -119,3 +119,54 @@ tasks:
           exit 1;
         fi
         echo "[SUCCESS] All notebooks/markdowns are properly paired and synchronized.";
+
+  textlint:
+    desc: Run textlint on Japanese markdown files
+    cmds:
+      - npm i
+      - npx textlint "markdowns/{{.LANG}}/**/*.md"
+
+  textlint_all:
+    desc: Run textlint on Japanese markdown files
+    cmds:
+      - task: textlint_ja
+      - task: textlint_en
+
+  textlint_ja:
+    desc: Run textlint on Japanese markdown files
+    cmds:
+      - task: textlint
+        vars:
+          LANG: ja
+
+  textlint_en:
+    desc: Run textlint on English markdown files
+    cmds:
+      - task: textlint
+        vars:
+          LANG: en
+
+  textlint_fix:
+    desc: Run textlint --fix on markdown files
+    cmds:
+      - npm i
+      - npx textlint --fix "markdowns/{{.LANG}}/**/*.md"
+  
+
+  textlint_fix_all:
+    desc: Run textlint --fix on markdown files
+    cmds:
+      - task: textlint_fix_ja
+      - task: textlint_fix_en
+  
+  textlint_fix_ja:
+    desc: Run textlint --fix on Japanese markdown files
+    cmds:
+      - task: textlint_fix
+        vars: {LANG: ja}
+  
+  textlint_fix_en:
+    desc: Run textlint --fix on English markdown files
+    cmds:
+      - task: textlint_fix
+        vars: {LANG: en}
