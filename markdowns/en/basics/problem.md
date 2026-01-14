@@ -93,6 +93,7 @@ jm.is_same(plain_problem, deco_problem)
 
 We created almost empty `Problem` objects above, but in practice you update the `Problem` incrementally as you build a model, adding decision variables, constraints, and objectives to the model.
 Regardless of how a model is defined, you can always update it with the Plain API, and you can also update an existing `Problem` object `problem` using the Decorator API via the [`@problem.update` decorator](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.update).
+You can also mix the two styles freely.
 Let's add variables to the two problems we defined earlier.
 
 ```{code-cell} ipython3

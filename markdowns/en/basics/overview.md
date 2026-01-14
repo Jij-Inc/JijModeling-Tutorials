@@ -15,6 +15,7 @@ kernelspec:
 
 In the following sections, we will go through the essential basics for working with mathematical optimization problems in JijModeling.
 We will also introduce the Plain API and the Decorator API side by side when it is helpful, as mentioned in the "[Introduction](../introduction)" section.
+Before moving on, it helps to skim at least one of the quickstarts ([SCIP](../quickstart/scip) or [OpenJij](../quickstart/openjij)) to get a feel for the overall workflow.
 
 :::{seealso}
 For a general introduction to mathematical optimization, see other references such as JijZept's "[Basics of Mathematical Optimization](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)".

@@ -123,7 +123,7 @@ def my_problem(problem: jm.DecoratedProblem):
 If you use `pip`, install `jijmodeling` with the following command:
 
 ```bash
-pip install 'jijmodeling>=2.0.0b8'
+pip install 'jijmodeling>=2.0.0rc.1'
 ```
 
 If you are using uv, run:
@@ -131,7 +131,7 @@ If you are using uv, run:
 <!-- FIXME: After the official release, drop the version spec >=2.0.0b8 -->
 
 ```bash
-uv add 'jijmodeling>=2.0.0rc'
+uv add 'jijmodeling>=2.0.0rc.1'
 ```
 
 Note that `jijmodeling` requires Python 3.11 or later.

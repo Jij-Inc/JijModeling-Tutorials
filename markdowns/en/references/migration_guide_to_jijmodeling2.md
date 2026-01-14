@@ -826,6 +826,8 @@ def _(problem: jm.DecoratedProblem):
     problem += (v * x).sum()  # objective
     problem += problem.Constraint("weight", (w * x).sum() <= W)
 
+display(problem)
+
 # Sample data
 instance_data = {
     "v": [10, 13, 18, 31, 7, 15],
@@ -955,12 +957,12 @@ You can fix this situation by using `N = problem.Length("N")` instead of generic
 ```python
 # ❌ Wrong - missing decorator
 def define_model(problem: jm.DecoratedProblem):
-    N = problem.Natural()
+    N = problem.Length()
 
 # ✅ Correct
 @problem.update
 def define_model(problem: jm.DecoratedProblem):
-    N = problem.Natural()
+    N = problem.Length()
 ```
 
 ### Pitfall 4: Incorrect Comprehension Syntax
