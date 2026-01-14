@@ -1,0 +1,10 @@
+{
+  "path-autocomplete.pathMappings": {
+    "$root": {
+      "conditions": [
+        { "when": "markdowns/ja/**", "value": "${workspaceFolder}/docs/ja" }
+      ]
+    }
+  },
+  "textlint.autoFixOnSave": true
+}

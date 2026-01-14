@@ -12,6 +12,11 @@ parts:
     chapters:
       - file: quickstart/scip
       - file: quickstart/openjij
+  - caption: Basics
+    chapters:
+      - file: basics/overview
+      - file: basics/problem
+      - file: basics/variables
   - caption: Reference
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/

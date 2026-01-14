@@ -15,7 +15,7 @@ kernelspec:
 
 `jijmodeling` の使い方を理解するために、このページではナップサック問題を解いてみましょう。ただし、`jijmodeling` は数理モデルを記述するためのツールであるため、単独では最適化問題を解くことはできません。なので、数理最適化サンプラー[OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせて解くこととします。
 
-`jijmodeling` とOpenJijを組み合わせて使うには、 `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/ommx-openjij-adapter/)) というPythonパッケージをインストールする必要があります。以下のコマンドでインストールしてください。
+`jijmodeling` と OpenJij を組み合わせて使うには、 `ommx-openjij-adapter` ([GitHub](https://github.com/Jij-Inc/ommx/tree/main/python/ommx-openjij-adapter), [PyPI](https://pypi.org/project/ommx-openjij-adapter/)) という Python パッケージをインストールする必要があります。以下のコマンドでインストールしてください。
 
 ```bash
 pip install ommx-openjij-adapter
@@ -65,7 +65,7 @@ $$
 
 ## インスタンスの生成手順
 
-`jijmodeling` を使うと、ソルバーに入力するためのインスタンスを次の3ステップで生成できます：
+`jijmodeling` を使うと、ソルバーに入力するためのインスタンスを次の 3 ステップで生成できます：
 
 1. ナップサック問題を定式化する
 2. インスタンスデータを用意する
@@ -77,21 +77,21 @@ $$
 
 ## Step1. ナップサック問題を定式化する
 
-`jijmodeling` を使用してナップサック問題を定式化すると、以下のPythonコードになります：
+`jijmodeling` を使用してナップサック問題を定式化すると、以下の Python コードになります：
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
 def knapsack_problem(problem: jm.DecoratedProblem):
+    # アイテムの総数
+    N = problem.Natural("N")
     # アイテムの価値
-    v = problem.Natural("v", ndim=1)
+    v = problem.Natural("v", shape=N)
     # アイテムの重さ
-    w = problem.Natural("w", ndim=1)
+    w = problem.Natural("w", shape=N)
     # ナップサックの耐荷重
     W = problem.Natural("W")
-    # アイテムの総数
-    N = v.len_at(0, latex="N")
     # アイテムiをナップサックに入れる場合は1, 入れない場合は0を取る決定変数
     x = problem.BinaryVar("x", shape=(N,)) 
 
@@ -111,10 +111,11 @@ knapsack_problem
 
 ## Step2. インスタンスデータを用意する
 
-次に、Step1で定式化した数理モデルのパラメーター $v_i, w_i, W$ のインスタンスデータを用意します。
+次に、Step1 で定式化した数理モデルのパラメーター $v_i, w_i, W$ のインスタンスデータを用意します。
 
 ```{code-cell} ipython3
 instance_data = {
+    "N": 6,
     "v": [10, 13, 18, 31, 7, 15],  # アイテムの価値のデータ
     "w": [11, 15, 20, 35, 10, 33], # アイテムの重さのデータ
     "W": 47,                       # ナップサックの耐荷重のデータ
@@ -137,7 +138,7 @@ instance = knapsack_problem.eval(instance_data)
 
 ## 最適化問題を解く
 
-では、Step3で得られたインスタンスをOpenJijのシュミレーテッドアニーリングで解いてみましょう。
+では、Step3 で得られたインスタンスを OpenJij のシュミレーテッドアニーリングで解いてみましょう。
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
@@ -151,7 +152,7 @@ solution = OMMXOpenJijSAAdapter.solve(
 )
 ```
 
-`OMMXOpenJijSAAdapter` を使えば、`ommx.v1.Instance` で定義されたインスタンスをペナルティ法やログエンコーディングでQUBO/HUBO形式に変換して解く、という操作を簡単に行うことができます。
+`OMMXOpenJijSAAdapter` を使えば、`ommx.v1.Instance` で定義されたインスタンスをペナルティ法やログエンコーディングで QUBO/HUBO 形式に変換して解く、という操作を簡単に行うことができます。
 また、得られた解は `decision_variable_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして確認することができます:
 
 ```{code-cell} ipython3
@@ -160,7 +161,7 @@ df[df["name"] == "x"][["name", "subscripts", "value"]]
 ```
 
 :::{note}
-`OMMXOpenJijSAAdapter` は内部でQUBO/HUBO形式への変換を行うため、入力値のインスタンスから決定変数が追加されたり、目的関数が変化しています。そのため、上記のような `pandas.DataFrame` による要素の絞り込みが必要になっています。
+`OMMXOpenJijSAAdapter` は内部で QUBO/HUBO 形式への変換を行うため、入力値のインスタンスから決定変数が追加されたり、目的関数が変化しています。そのため、上記のような `pandas.DataFrame` による要素の絞り込みが必要になっています。
 :::
 
 +++

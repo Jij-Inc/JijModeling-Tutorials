@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "@textlint-ja/no-synonyms": {
+      "preferWords": ["ユーザー", "かわり"]
+    },
+    "preset-ja-spacing": {
+      "ja-space-between-half-and-full-width": {
+        "space": "always"
+      }
+    },
+    "prh": {
+      "checkEmphasis": true,
+      "rulePaths": [".textlint-rules/notation.yml"]
+    }
+  }
+}

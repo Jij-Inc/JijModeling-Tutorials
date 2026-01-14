@@ -13,6 +13,11 @@ parts:
     chapters:
       - file: quickstart/scip
       - file: quickstart/openjij
+  - caption: JijModelingの基本
+    chapters:
+      - file: basics/overview
+      - file: basics/problem
+      - file: basics/variables
   - caption: リファレンス
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/

@@ -1,0 +1,40 @@
+version: 1
+rules:
+  - expected: プレースホルダー
+    pattern: /プレースホルダー?/
+    specs:
+    - from: プレースホルダー
+      to: プレースホルダー
+    - from: プレースホルダ
+      to: プレースホルダー
+  - expected: たとえば
+    pattern: 例えば
+  - expected: シェイプ
+    pattern: 形状
+  - expected: カテゴリー
+    pattern: /カテゴリー?/
+    specs:
+    - from: カテゴリー
+      to: カテゴリー
+    - from: カテゴリ
+      to: カテゴリー
+  - expected: ソルバー
+    pattern: /ソルバー?/
+    specs:
+    - from: ソルバー
+      to: ソルバー
+    - from: ソルバ
+      to: ソルバー
+  - expected: データ
+    pattern: データー
+  - expected: Decorator API
+    pattern: Decorated API
+  - expected: バイナリ
+    pattern: /バイナリー?/
+    specs:
+    - from: バイナリー
+      to: バイナリ
+    - from: バイナリ
+      to: バイナリ
+  - expected: バイナリー変数
+    pattern: 二値変数

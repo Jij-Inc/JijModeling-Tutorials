@@ -84,21 +84,21 @@ import jijmodeling as jm
 
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
 def knapsack_problem(problem: jm.DecoratedProblem):
+    # Total number of items
+    N = problem.Natural("N")
     # Value of items
-    v = problem.Natural("v", ndim=1)
+    v = problem.Natural("v", shape=N)
     # Weight of items
-    w = problem.Natural("w", ndim=1)
+    w = problem.Natural("w", shape=N)
     # Weight capacity of the knapsack
     W = problem.Natural("W")
-    # Total number of items
-    N = v.len_at(0, latex="N")
     # Decision variable: 1 if item i is in the knapsack, 0 otherwise
     x = problem.BinaryVar("x", shape=(N,)) 
 
     # Objective function
     problem += jm.sum(v[i] * x[i] for i in N)
     # Constraint: Do not exceed the weight capacity of the knapsack
-    problem += problem.Constraint("Weight Constraint", jm.sum(w[i] * x[i] for i in N) <= W)
+    problem += problem.Constraint("Weight Limit", jm.sum(w[i] * x[i] for i in N) <= W)
 
 knapsack_problem
 ```
@@ -115,6 +115,7 @@ Next, prepare the instance data for the parameters $v_i, w_i, W$ of the mathemat
 
 ```{code-cell} ipython3
 instance_data = {
+    "N": 6,
     "v": [10, 13, 18, 31, 7, 15],  # Data of item values
     "w": [11, 15, 20, 35, 10, 33], # Data of item weights
     "W": 47,                       # Data of the knapsack's weight capacity

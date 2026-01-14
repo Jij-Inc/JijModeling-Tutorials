@@ -1,0 +1,11 @@
+{
+    "Code Cell": {
+      "scope": "markdown",
+      "prefix": "cell",
+      "body": [
+        "```{code-cell} ipython3",
+        "$0",
+        "```"
+      ]
+    }
+}
