@@ -82,7 +82,7 @@ deco_problem
 しかし、`@jm.Problem.define()` でデコレートされた関数内では特に変数名の省略や内包表記を用いた総和・総積など、Decorator API の自然で直感的な記法を使うことができ、以降の節で見るように実際の問題定義の際には非常に便利です。
 
 また、Plain / Decorator どちらの API で定義された数理モデルであっても同じように扱うことができるため、どちらで定義したものであるかを意識する必要は全くありません。
-実際、上で定義した二つの `plain_problem` も `deco_problem` も「同じ問題」であることが判定できます：
+実際、上で定義した二つの `plain_problem` も `deco_problem` も `Problem`オブジェクトとして「同じ問題」であることが判定できます：
 
 ```{code-cell} ipython3
 jm.is_same(plain_problem, deco_problem)
