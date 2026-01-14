@@ -51,7 +51,7 @@ plain_problem
 
 ### Decorator API による Problem オブジェクトの作成
 
-次は同様の問題を [`@jm.Problem.define()` 関数](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.define)を使って Decorator API により定義している例です：
+次に、Decorator API を使って `Problem` オブジェクトを作成する方法を見てみましょう:
 
 ```{code-cell} ipython3
 @jm.Problem.define(
