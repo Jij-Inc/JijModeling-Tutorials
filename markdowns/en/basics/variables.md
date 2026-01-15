@@ -227,7 +227,7 @@ To represent such a collection of variables whose size can change with input dat
 In JijModeling, both decision variables and placeholders can be defined as two kinds of collections:
 
 1. **Arrays** of variables, indexed continuously from $0$. Multi-dimensional arrays are supported.
-2. **Dictionaries** of variables, indexed by integers, strings, or tuples of category labels.
+2. **Dictionaries** of variables, indexed by an integer, string, category label, or a tuple of them.
 
 Dedicated constructors exist, but in many cases you can declare them by passing additional keyword arguments to the constructors shown in "[Declaring single variables](#single_vars)".
 
