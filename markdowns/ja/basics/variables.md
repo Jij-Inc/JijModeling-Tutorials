@@ -133,7 +133,6 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 | [`Natural`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Natural) | $\mathbb{N}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。 | [`Dim`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Dim), [`Length`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Length) |
 | [`Integer`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Integer) | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
 | [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
-| [`CategoryLabel`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) | - | 辞書型などで使われるカテゴリーラベル。後の節「[添え字つき変数の宣言](#family)」を参照。 | - |
 | これらのタプル | - | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
 
 決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、プレースホルダーが宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないという違いがあります。
@@ -465,6 +464,8 @@ JijModeling の辞書には、辞書の「定義域」に関する制約によ�
 
 このうち、(3) **カテゴリーラベル**は JijModeling に固有の概念であり、「辞書のキーとして使うことができ、具体的な値の候補はコンパイル時に与えられるラベルの集合」に相当します。
 個別のカテゴリーラベルは、互いの等値性の比較（`==` / `!=`）以外に何の構造ももたないものとして扱われ、コンパイル時には文字列または整数値の集合を与えることで初めて実体化されます。
+カテゴリーラベルはプレースホルダーと似た概念であり、インスタンス生成時にもインスタンスデータとして同時に指定しますが、厳密には**プレースホルダーとは異なる概念**です。
+というのも、各カテゴリーラベルはプレースホルダーとして使える**値の種類を新たに追加**するための機能であり、ある意味で Python などの言語で**ユーザーが新たに定義したクラスや型に相当**するものだからです。
 
 :::{admonition} カテゴリーラベルの使いどころ
 :class: hint
@@ -514,6 +515,9 @@ def problem_catlab_deco(problem: jm.DecoratedProblem):
 
 problem_catlab_deco
 ```
+
+Problem オブジェクトに登録されているカテゴリーラベルの一覧は、[`prbolem.category_labels`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.category_labels) プロパティにより取得できます。
+また、個別のカテゴリーラベルに属する値の個数を表す式は [`jm.count()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.count) 関数や [`CategoryLabel.count`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.CategoryLabel.count) メソッドにより取得できます。
 
 #### 決定変数の辞書
 
@@ -611,7 +615,6 @@ def knapsack_synergy(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
     # PartialDict を使ってシナジーボーナスを表現！
     s = problem.PartialDict(
-        "s",
         dtype=float,
         dict_keys=(L, L),
         description="一部のアイテム間のシナジーボーナス"
