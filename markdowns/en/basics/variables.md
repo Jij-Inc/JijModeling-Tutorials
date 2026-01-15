@@ -471,9 +471,14 @@ Now let's look at the key types that can be used for dictionaries. There are onl
 4. Tuples whose components are any of (1) to (3)
 
 Among these, (3) **category labels** are unique to JijModeling: they are "labels that can be used as dictionary keys, where the set of possible values is provided at compile time".
-Each category label is treated as an atom that has no structure beyond equality (`==` / `!=`), and it becomes concrete only when you supply a set of strings or integers at compile time.
-Category labels are similar to placeholders and are also provided as instance data when creating an instance, but strictly they are a different concept.
+Each category label is treated as an atom that has no structure beyond equality (`==` / `!=`), and it becomes concrete only when you supply a set of strings or integers **as part of instance data at compile time**.
+
+:::{admonition} Category labels vs placeholders
+:class: note
+
+Category labels are similar to placeholders in that they are provided as part of instance data, but strictly they are a different concept.
 This is because each category label adds a new kind of value that can be used as a placeholder, in a sense corresponding to a user-defined class or type in languages like Python.
+:::
 
 :::{admonition} When to use category labels
 :class: hint
