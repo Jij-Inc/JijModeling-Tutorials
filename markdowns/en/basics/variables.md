@@ -134,7 +134,6 @@ Representative placeholder types include:
 | [`Natural`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Natural) | $\mathbb{N}$ | Natural numbers including zero. Used for array sizes and indices. | [`Dim`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Dim), [`Length`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Length) |
 | [`Integer`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Integer) | $\mathbb{Z}$ | An integer value, including negatives. | - |
 | [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | A general real-valued (floating point) placeholder. | - |
-| [`CategoryLabel`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) | - | Category labels used for dictionaries. See the later section "[Declaring indexed variables](#family)". | - |
 | Tuples of the above | - | Fixed-length tuples with per-component types, often used with lists. | - |
 
 As with decision variables, you declare placeholders by calling methods on `Problem` with the same names as the types above.
@@ -473,6 +472,8 @@ Now let's look at the key types that can be used for dictionaries. There are onl
 
 Among these, (3) **category labels** are unique to JijModeling: they are "labels that can be used as dictionary keys, where the set of possible values is provided at compile time".
 Each category label is treated as an atom that has no structure beyond equality (`==` / `!=`), and it becomes concrete only when you supply a set of strings or integers at compile time.
+Category labels are similar to placeholders and are also provided as instance data when creating an instance, but strictly they are a different concept.
+This is because each category label adds a new kind of value that can be used as a placeholder, in a sense corresponding to a user-defined class or type in languages like Python.
 
 :::{admonition} When to use category labels
 :class: hint
