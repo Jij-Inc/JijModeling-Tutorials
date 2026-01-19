@@ -27,9 +27,10 @@ One is the **decision variable**, a core component of mathematical optimization 
 In addition, JijModeling has variables called **placeholders**, whose values are substituted with instance data at compile time.
 This concept of placeholders, which separates input data from the model definition, is a key feature of JijModeling and enables type checking, constraint detection, and concise LaTeX output.
 
-:::{figure-md} two-kinds-of-vars
-
-<img src="./images/decision-vars-and-placeholders.svg" alt="Placeholder receives instance data at compile time; decision variables remain for the solver" class="mb1" width="100%">
+:::{figure} ./images/decision-vars-and-placeholders.svg
+:name: two-kinds-of-vars
+:alt: Placeholder receives instance data at compile time; decision variables remain for the solver
+:width: 100%
 
 Placeholders and decision variables
 :::
@@ -270,8 +271,6 @@ To declare an array of decision variables, pass a `shape=` argument to existing 
 The `shape` keyword argument takes an expression that evaluates to a fixed-length tuple of natural numbers. When the dimension is $1$, you can pass a natural-number expression directly.
 Let's define the variables needed for the knapsack problem.
 
-(partial_knapsack_def)=
-
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only)", sense=jm.ProblemSense.MAXIMIZE)
 def partial_knapsack(problem: jm.DecoratedProblem):
@@ -290,8 +289,6 @@ This example uses the Decorator API, but the `shape` argument works the same in 
 :::
 
 As another example, here is a two-dimensional array declared by passing a tuple to `shape`:
-
-(multidim_arrays)=
 
 ```{code-cell} ipython3
 multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
@@ -357,8 +354,6 @@ There are two ways to declare arrays of placeholders.
 One is to use the `shape` keyword argument, just like decision variables.
 Here we add placeholders $v_i$ and $w_i$ for item values and weights to the partial knapsack problem defined above in [the previous section](#array_of_dec_vars).
 
-(partial_knapsack_update)=
-
 ```{code-cell} ipython3
 @partial_knapsack.update
 def _(problem: jm.DecoratedProblem):
@@ -379,8 +374,6 @@ You can specify `ndim` and `shape` together, but in that case the number of comp
 :::
 
 For example, the `partial_knapsack` above can be defined using `ndim` and the [`len_at()` function](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Expression.len_at) as follows:
-
-(partial_knapsack_ndim)=
 
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only, with ndim)", sense=jm.ProblemSense.MAXIMIZE)
@@ -445,7 +438,9 @@ Therefore, you can obtain the number of vertices via `N = G.len_at(0)` and use a
 In this way, JijModeling lets you represent complex structures by combining tuples and arrays.
 :::
 
-:::{deprecated} 2.0.0 **Jagged arrays are strongly discouraged**
+:::{warning}
+**Jagged arrays are strongly discouraged (since 2.0.0)**
+
 In JijModeling 1, a jagged array collection was available, where shapes are not uniform.
 However, due to its irregularity, jagged arrays are difficult to validate with type systems, so in JijModeling 2 they are **strongly discouraged** and planned to be removed in a future release.
 You can express graphs, non-zero-based indices, or sparse structures using combinations of arrays, tuples, and dictionaries, so we strongly recommend migrating away from jagged arrays.

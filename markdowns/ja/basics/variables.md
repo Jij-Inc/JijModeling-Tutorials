@@ -27,9 +27,10 @@ JijModeling では、二種類の**変数**が存在します。
 これに加え、JijModeling ではインスタンスへのコンパイル時にインスタンスデータの値が代入される**プレースホルダー**と呼ばれる種類の変数が存在します。
 後者のプレースホルダーの概念は、入力データと数理モデルの定義を分離している JijModeling 特有の概念であり、これによって型検査による誤りの検出や制約検出、簡潔な$\LaTeX$出力などの機能が実現されています。
 
-:::{figure-md} two-kinds-of-vars
-
-<img src="./images/decision-vars-and-placeholders.svg" alt="コンパイル時にインスタンスデータが代入されるのがPlaceholder、コンパイル後も残りソルバーによって決定されるのが決定変数" class="mb1" width="100%">
+:::{figure} ./images/decision-vars-and-placeholders.svg
+:name: two-kinds-of-vars
+:alt: コンパイル時にインスタンスデータが代入されるのがPlaceholder、コンパイル後も残りソルバーによって決定されるのが決定変数
+:width: 100%
 
 プレースホルダーと決定変数
 :::
@@ -264,8 +265,6 @@ JijModeling では、配列の各軸の長さについては入力されたプ�
 `shape`キーワード引数には、自然数から成る固定長のタプルを表す式を指定することができます。また、次元が$1$の場合は単に自然数を表す式で与えることもできます。
 試しに、ナップザック問題に必要な変数たちを定義してみましょう。
 
-(partial_knapsack_def)=
-
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only)", sense=jm.ProblemSense.MAXIMIZE)
 def partial_knapsack(problem: jm.DecoratedProblem):
@@ -284,8 +283,6 @@ partial_knapsack
 :::
 
 次は `shape` にタプルを渡して二次元配列を定義している例です：
-
-(multidim_arrays)=
 
 ```{code-cell} ipython3
 multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
@@ -351,8 +348,6 @@ s = problem.ContinuousVar(
 一つは、決定変数の場合と同様に `shape` キーワード引数を使うことです。
 ここでは、まず[前節](#array_of_dec_vars)で定義した部分的なナップザック問題に、それぞれ各アイテムの価値と重量を表すプレースホルダー $v_i$, $w_i$ を追加してみましょう。
 
-(partial_knapsack_update)=
-
 ```{code-cell} ipython3
 @partial_knapsack.update
 def _(problem: jm.DecoratedProblem):
@@ -374,8 +369,6 @@ partial_knapsack
 
 たとえば、上で定義した `partial_knapsack` は `ndim` と次節で触れる [`len_at()` 関数](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Expression.len_at)を使って次のように定義することができます：
 
-(partial_knapsack_ndim)=
-
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only, with ndim)", sense=jm.ProblemSense.MAXIMIZE)
 def partial_knapsack_ndim(problem: jm.DecoratedProblem):
@@ -391,7 +384,7 @@ partial_knapsack_ndim
 [`array.len_at(i)`関数](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Expression.len_at)は、与えられた配列 `array` の $i$ 番目の軸の長さを返す関数です。
 $w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配列として宣言しておき、残る $w$, $x$ はその長さを使って `shape` を指定する形にしているのです。
 このように、最初に $N$ を独立して定義する方法と、配列の長さから復元する方法とでは、定義される数理モデルは意味的には同じですが、インスタンスデータの与え方が異なります。
-たとえば、最初の `partial_knapsack` の例（[定義](#partial_knapsack_def)およびその[更新](#partial_knapsack_update)）では、$N$ も `Length` プレースホルダーとして宣言しているため、**インスタンスの作成**（近日公開）時に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
+たとえば、最初の `partial_knapsack` の例([定義](#partial_knapsack_def)およびその[更新](#partial_knapsack_update))では、$N$ も `Length` プレースホルダーとして宣言しているため、**インスタンスの作成**(近日公開)時に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
 一方で、$N$ をプレースホルダーではなく `len_at` を使って別の式として構築している [`partial_knapsack_ndim`](#partial_knapsack_ndim) では、$N$の値は入力値 `v` から推論されるため、コンパイル時には `W`, `v`, `w` の値のみを指定するだけで済みます。
 
 どういう時に長さに相当するプレースホルダーを導入し、どういう時に `ndim` + `len_at` を使うべきでしょうか？
@@ -437,7 +430,9 @@ G = problem.Placeholder(
 このように、JijModeling ではタプルと配列を組み合わせて、複雑な構造を表現できるようになっているのです。
 :::
 
-:::{deprecated} 2.0.0 **Jagged Array は強く非推奨**
+:::{warning}
+**Jagged Array は強く非推奨（2.0.0以降）**
+
 JijModeling 1 系統には、シェイプが均一ではない Jagged Array というコレクションも用意されていました。
 しかし、Jagged Array はその不均一性から型システムなどによる検証をうけづらいため、JijModeling 2 では**Jagged Array は強く非推奨**となっており、将来のリリースで取り除くことが計画されています。
 こうした配列とタプルの組み合わせや後述する辞書を使うと、グラフ構造や $0$ 起点でなかったり疎な構造を表すことができますので、移行の際にはこうした新たな構成要素を用いて Jagged Array を用いない記述へと置き換えることを強く推奨します。
