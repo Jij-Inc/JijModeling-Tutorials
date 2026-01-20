@@ -1,0 +1,49 @@
+version: 1
+project:
+  title: JijModeling
+  # authors:
+  #   - name: Jij Inc.
+  github: Jij-Inc/JijModeling-Tutorials
+  # thebe:
+  #   binder:
+  #     repo: Jij-Inc/JijModeling-Tutorials
+  #     provider: github
+  #     url: https://mybinder.org
+  #     ref: jijmodeling2
+  bibliography:
+    - references.bib
+  exports:
+    - format: pdf
+      template: plain_latex_book
+      output: exports/book.pdf
+  toc:
+    - file: introduction.ipynb
+    - title: Switch Language
+      children:
+        - url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/
+          title: 日本語
+    - title: Quick Start
+      children:
+        - file: quickstart/scip.ipynb
+        - file: quickstart/openjij.ipynb
+    - title: Basics
+      children:
+        - file: basics/overview.ipynb
+        - file: basics/problem.ipynb
+        - file: basics/variables.ipynb
+    - title: Reference
+      children:
+        - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
+          title: jijmodeling API Reference
+        - file: references/cheat_sheet.ipynb
+        - file: references/migration_guide_to_jijmodeling2.ipynb
+    - title: Release Note
+      children:
+        - file: releases/jijmodeling-2.0.0.ipynb
+site:
+  options:
+    logo: logo.png
+    favicon: ./logo.png
+    analytics_google: GA4_TRACKING_ID
+    folders: true
+  template: book-theme
