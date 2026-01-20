@@ -71,7 +71,9 @@ Using `jijmodeling`, you can generate an instance to input into the solver in th
 2. Prepare instance data
 3. Generate an instance
 
-![Diagram of the process to generate an instance from a mathematical model](../images/model-and-instance-illustrated.svg)
+:::{figure} ../images/model-and-instance-illustrated.svg
+:alt: Diagram of the process to generate an instance from a mathematical model
+:::
 
 +++
 

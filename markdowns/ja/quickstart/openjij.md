@@ -71,7 +71,9 @@ $$
 2. インスタンスデータを用意する
 3. インスタンスを生成する
 
-![Diagram of the process to generate an instance from a mathematical model](../images/model-and-instance-illustrated.svg)
+:::{figure} ../images/model-and-instance-illustrated.svg
+:alt: Diagram of the process to generate an instance from a mathematical model
+:::
 
 +++
 
