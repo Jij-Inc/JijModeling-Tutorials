@@ -24,14 +24,16 @@ import jijmodeling as jm
 
 ## 式とは
 
-既に触れてきた通り、JijModeling は数理モデルの定義と入力データを分離することで種々の機能や効率性を達成しています。
+JijModeling では数理モデルの定義と入力データを分離することで種々の機能や効率性を達成しています。
 そのため、JijModeling による数理モデルの構築は、数理モデルを直接数式を組み上げるのではなく、まず「入力データを与えられてはじめて具体的な数理モデルになるプログラム」を構築し、そこに入力データを与えて数理モデルの具体例＝インスタンスへとコンパイルする、という流れを取ります。
 この「入力データを与えられてはじめて具体的な数理モデルになるプログラム」を、JijModeling では**式**と呼んでいます。
 
 より詳しく言えば、JijModeling の式は具体的な値ではなく、決定変数やプレースホルダー、定数などからはじめてそれらを演算によって繋ぎ合わせた「構文木」の形で保持されています。
-次のプログラムを考えましょう：
+次の例を考えましょう：
 
 ```{code-cell} ipython3
+:label: test-problem
+
 @jm.Problem.define("Test Problem")
 def ast_examples(problem: jm.DecoratedProblem):
     N = problem.Length()
@@ -78,3 +80,124 @@ JijModeling が搭載している式の型はいくつかありますが、代�
 - タプル型
 
 これらを念頭に、以下では数理モデルの定式化でよく現れる演算について順に見ていきましょう。
+
+:::{admonition} エラーになるタイミング
+:class: important
+
+JijModeling 内蔵の型検査は、式が**構築された直後ではなく**、以下のタイミングで行われます：
+
+1. 数理モデルの目的関数に項が追加されたとき
+2. {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` により制約条件が宣言されたとき
+3. `ndim`, `shape` や `dict_keys` の成分として現れたとき
+4. {py:meth}`Problem.eval() <jijmodeling.Problem.eval>`関数や{py:class}`~jijmodeling.Compiler`によりインスタンスへコンパイルされるとき
+5. {py:meth}`Problem.infer () <jijmodeling.Problem.infer>`関数により明示的に型推論を行わせたとき
+
+これは、式が文脈に置かれて初めて適切な「型」が定まるためです。
+そのため、以下で見ていく式の構築方法について「不正」な記述であっても、単に式を構築した段階でエラーになるとは限らないことに注意してください。
+:::
+
+## 式としてのプレースホルダー、決定変数
+
+前節で見たように、JijModeling では {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` や {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>` などによって、決定変数やプレースホルダーを定義します。
+この際に返されるのは、それぞれの変数のメタデータを保持する {py:class}`DecisionVar <jijmodeling.DecisionVar>` や {py:class}`Placeholder <jijmodeling.Placeholder>` オブジェクトですが、これらは式の構築中に現れると、自動的に {py:class}`Expression <jijmodeling.Expression>` オブジェクトへと変換されます。
+`Test Problem`の例でも、Python 変数 `x` や `y` はそれぞれ {py:class}`DecisionVar <jijmodeling.DecisionVar>` オブジェクトですが、それを用いて `z = x + y[0]` などのように構築されると、 `x`, `y` はそれぞれ決定変数と決定変数の配列を表す式に変換されています。
+また、`z` の定義中に現れる `0` は通常の Python の数値ですが、このような定数も JijModeling の式中に現れると自動で変換されるようになっています。
+
+## 算術演算
+
+Python 組込みの算術演算（{py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, {py:meth}`% <jijmodeling.Expression.__mod__>` などの加減乗除）は、JijModeling の式に対して用いることができます。
+数値同士の演算は期待通り動作するのに加え、（高次元）配列同士や、キー集合が一致する {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` に対しても、一定の条件を満たせば演算を行うことができます。
+具体的には、以下の組み合わせ（左右問わず）に対して算術演算がサポートされています：
+
+1. スカラー同士の算術演算
+2. スカラーと高次元配列の算術演算
+3. スカラーと辞書の算術演算
+4. 同じシェイプを持つ高次元配列同士の算術演算
+5. 同じキー集合を持つ全域辞書（{py:meth}`TotalDict <jijmodeling.Problem.TotalDict>`）同士の算術演算
+
+:::{admonition} JijModeling におけるブロードキャスト
+:class: note
+
+(2)-(4) は Numpy などで見られる**ブロードキャスト演算**に相当します。
+Numpy ではより一般のシェイプ間の演算（たとえば $(N, M, L)$ と $(M, L)$ の間の演算など）もサポートされています。
+このような Numpy の一般化されたブロードキャスト演算は簡潔な略記が可能になる一方で、後ほど読み返す際に意図が不明確になることが多々あります。
+このため、JijModeling では意図的にブロードキャストの範囲を制限し、誰にとっても曖昧性がないと思われる場合にのみサポートしています。
+:::
+
+言葉だとわかりづらいと思いますので、例を見てみましょう。
+
+```{code-cell} ipython3
+problem = jm.Problem("Arithmetic Operations")
+x = problem.BinaryVar("x", description="スカラーの決定変数")
+N = problem.Length("N")
+M = problem.Length("M")
+y = problem.IntegerVar(
+    "y",
+    lower_bound=0, upper_bound=10,
+    shape=(N,M), description="2次元配列の決定変数"
+)
+z = problem.ContinuousVar(
+    "z", lower_bound=-1, upper_bound=42, 
+    shape=(N,M,N), description="2次元配列の決定変数"
+)
+S = problem.TotalDict("S", dtype=float, dict_keys=N, description="スカラーの全域辞書")
+s = problem.ContinuousVar("s", lower_bound=0, upper_bound=10, dict_keys=N)
+W = problem.Float("w", shape=(N, M))
+
+problem
+```
+
+このとき許容される算術演算の例は以下の通りです：
+
+```{code-cell} ipython3
+problem.infer(x + 1) # OK! （スカラー同士の加算）
+```
+
+```{code-cell} ipython3
+problem.infer(y - x) # OK! （多重配列とスカラーの減算）
+```
+
+```{code-cell} ipython3
+:tags: [raises-exception]
+
+problem.infer(S * x) # OK! （スカラーと辞書の乗算）
+```
+
+<!-- TODO: 例外になるべきでない！ -->
+
+```{code-cell} ipython3
+problem.infer(y / W) # OK! （同一形状 (N, M) の配列同士の除算）
+```
+
+<!-- TODO: max じゃなくて完全一致にならないとだめ！ -->
+
+```{code-cell} ipython3
+:tags: [raises-exception]
+
+problem.infer(S + s) # OK! （同一キー集合を持つ全域辞書同士の加算）
+```
+
+<!-- TODO: 例外になるべきでない！ -->
+
+一方、以下はエラーとなる例です：
+
+```{code-cell} ipython3
+:tags: [raises-exception]
+
+problem.infer(S * y) # ERROR!（辞書と配列の乗算）
+```
+
+```{code-cell} ipython3
+:tags: [raises-exception]
+
+problem.infer(y + z) # ERROR!（形状が異なる配列どうしの演算）
+```
+
+:::{admonition} 決定変数による除算について
+:class: caution
+
+モデルの構築の時点では、決定変数が現れうる式は加減乗除の左右どちらの辺にも現れることができます。
+一方、これをインスタンスへとコンパイルする際には、決定変数が除法の右辺に現れる（上の例では `N / x` など）場合、現時点ではエラーになります。
+これは、ソルバーによっては決定変数による除法を（特定のエンコードにより）サポートしている場合もあるので記法としては許容したい一方、現時点において JijModeling や OMMX がそうしたエンコード方法に対応していないためです。
+将来的には、JijModeling や OMMX がこのようなエンコード方法の指定に対応し、一部のケースでは実際にインスタンスへとコンパイルできるようになる予定です。
+:::
