@@ -20,6 +20,8 @@ JijModeling はこの式の型の情報を Python の型ヒントに加え、独
 
 :::{tip}
 以下では頻出と思われるパターンに絞って説明するため、式の構築に使える網羅的な一覧については、API リファレンスの {py:class}`~jijmodeling.Expression` クラスや {py:mod}`~jijmodeling` モジュールのトップレベル関数一覧を参照してください。
+
+また、本サイトの [`Cheat Sheet`](../references/cheat_sheet)には、更に複雑な事例集がまとめられていますので、本節を読んだ後にそちらも参照するとよいでしょう。
 :::
 
 ```{code-cell} ipython3
@@ -322,6 +324,11 @@ JijModeling 2 からは、こうした振る舞いは廃止され、要素を順
 ### 集合の総和・総積
 
 JijModeling は Python 標準ライブラリの {py:func}`~map` 関数に対応する、{py:func}`jijmodeling.map` 関数を提供しており、これらと {py:func}`jijmodeling.sum` 関数や {py:func}`jijmodeling.prod` 関数を組み合わせることで、集合に渡る総和・総積を表現することができます。
+
+:::{note}
+簡単のため以下では {py:func}`jijmodeling.sum`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jijmodeling.prod` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>` を使った総積も同様に記述できます。
+:::
+
 更に、Decorator API を使えば、こうした高階関数を直接かかずに、直感的な{external+python:ref}`内包表記 <comprehensions>`の形で集合を構築することができます。
 
 たとえば、決定変数とプレースホルダーの積の総和は、Decorator API を使えば以下のように内包表記で記述することができます：
@@ -354,7 +361,7 @@ sum_example_plain += jm.sum(
 sum_example_plain
 ```
 
-このような単純な総和の場合は、更に以下のように {py:func}`~jijmodeling.sum` や {py:func}`~jijmodeling.prod` 関数に定義域と和を取る項を返す関数の二つの引数を渡すことで総和を表現することもできます：
+このような単純な総和の場合、{py:func}`~jijmodeling.sum` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現することもできます：
 
 ```{code-cell} ipython3
 sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
@@ -366,8 +373,10 @@ sum_example_plain_alt += jm.sum(N, lambda i: a[i] * x[i])
 sum_example_plain_alt
 ```
 
+このように、Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
+
 :::{tip}
-また、{py:func}`~jijmodeling.sum` / {py:func}`~jijmodeling.prod` 関数は集合を取るため、単に `x` の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。
+{py:func}`~jijmodeling.sum` / {py:func}`~jijmodeling.prod` が一引数関数やメソッドとして呼ばれた場合は集合の総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
 :::
 
 ### 条件つき総和・総積
@@ -404,8 +413,91 @@ even_sum_example_plain
 
 ### 複数の添え字に渡る総和・総積
 
-集合のタプル `(A1, .., An)` は全成分の直積集合 $A_1 \times \ldots \times A_n$ に変換されますが、これを直接構築する際には {py:func}`~jijmodeling.product` 関数を使うこともできます。
+Decorator API の内包表記はネストされた `for` や `if` をサポートしていますので、複数の添え字を渡るような総和についても単純に `for` を重ねることで書くことができます：
 
-### 集合の論理演算
+```{code-cell} ipython3
+@jm.Problem.define("Double Sum Example")
+def double_sum_example(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    Q = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(Q[i, j] for i in N for j in M)
 
-集合に対しては、和集合（{py:func}`~jijmodeling.band`）・共通部分集合（{py:func}`~jijmodeling.bor`）・差集合（{py:func}`~jijmodeling.diff`）を取る操作を提供しており、これにより既存の集合を組み合わせて新たな集合を構築することができます。
+double_sum_example
+```
+
+あるいは、{py:func}`jijmodeling.product` 関数により直積集合 $A_1 \times \ldots \times A_n$ を取ることができますので、以下のように書いても同じことです：
+
+```{code-cell} ipython3
+@jm.Problem.define("Double Sum Example (Alt)")
+def double_sum_example_alt(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    Q = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(Q[i, j] for (i, j) in jm.product(N, M))
+
+double_sum_example_alt
+```
+
+`if`文を使えば、更に以下のような複雑な例も書くことができます：
+
+```{code-cell} ipython3
+@jm.Problem.define("Filtered Double Sum Example")
+def filtered_double_sum_example(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    Q = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(
+        Q[i, j]
+        for i in N for j in M
+        if (i + j) % 2 == 0 # 和が偶数のときのみ和を取る
+    )
+
+filtered_double_sum_example
+```
+
+このような例を Plain API のみで書く場合は、次のように書くことになります：
+
+```{code-cell} ipython3
+filtered_double_sum_example_plain = jm.Problem("Filtered Double Sum Example (Plain)")
+N = filtered_double_sum_example_plain.Length("N")
+M = filtered_double_sum_example_plain.Length("M")
+Q = filtered_double_sum_example_plain.Float("Q", shape=(N, M))
+x = filtered_double_sum_example_plain.BinaryVar("x", shape=(N, M))
+filtered_double_sum_example_plain += jm.sum(
+    jm.product(N, M).filter(lambda i, j: (i + j) % 2 == 0),
+    lambda i, j: Q[i, j]
+)
+
+filtered_double_sum_example_plain
+```
+
+あるいは、 {py:func}`jijmodeling.flat_map`（またはメソッド形式の {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`）を使うと返値が集合となるような関数をつかって `map` することができるため、以下のように書くこともできます：
+
+```{code-cell} ipython3
+jm.sum(
+    N.flat_map(
+        lambda i: jm.map(lambda j: (i, j), M),
+    ).filter(
+        lambda i, j: (i + j) % 2 == 0
+    ),
+    lambda i, j: Q[i, j]
+)
+```
+
+このように、Decorator API を使わずとも原理的に全てのモデルを記述することはできますが、複雑でよみづらくなるため、Decorator API の利用をお勧めしています。
+
+## 論理演算
+
+上では内包表記の `if` や {py:func}`~jijmodeling.filter` 関数の中で使われる条件式は、単純な条件のみでしたが、一般には論理式として「かつ」や「または」を使って指定したい場合があります。
+残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりに{py:func}`jijmodeling.band`（かつ）、{py:func}`jijmodeling.bor`（または）、{py:func}`jijmodeling.bnot`や、ビット演算子 `&`（かつ）、`|`（または）を使って論理演算を表現します。
+
+:::{admonition} ビット演算の優先順位
+:class: caution
+
+`and`, `or` などと異なり、`&` や `|` は `==` や `!=` よりも優先順位が低いため、たとえば `a == b & c == d` のように書くと `a == (b & c) == d` と解釈されてしまいます。
+このため、`&` や `|` を使う場合は、常に各比較式を `(a == b) & (c == d)` のように常に括弧で囲むようにしてください。
+:::
