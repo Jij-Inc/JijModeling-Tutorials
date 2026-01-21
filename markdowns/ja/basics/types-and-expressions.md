@@ -293,19 +293,22 @@ problem
 
 ## 集合演算と内包表記による総和・総積
 
-JijModeling では、「特定の型の値からなる一連の値」を表す概念である**集合**をサポートしています。
+### JijModeling における「集合」
+
+JijModeling では、「特定の型の値からなる一連の値」を表す概念である**集合**をサポートしています。前節の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字の集合**を表す式を返します。
 この集合の概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
 
 :::{admonition} JijModeling の集合はストリーム
 :class: note
 
 他のモデラーに倣い JijModeling でも「集合」と呼んでいますが、数学的には「集合」は重複を持たず、列挙する順番も関係ないものです。
+一方で、**JijModeling の「集合」は要素の重複も許容し、要素の順番も保持**します。
 厳密には、JijModeling の「集合」は一般のプログラミング言語では**ストリーム**や**イテレーター**（反復子）と呼ばれるものに相当します。
 :::
 
 一部の型の値は自動的に集合へと変換されます。たとえば、多次元配列は、要素を行優先順で走査する集合に、自然数$N$は集合 $\{0, 1, \ldots, N-1\}$ に自動的に変換されます。
 
-:::{admonition} JijModeling 1 系統からの変更
+:::{admonition} JijModeling 1 系統からの変更点：配列の「集合」としての振る舞い
 :class: caution
 
 JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に現れていた場合、内側の行を順に走査する集合のように振る舞っていました。
@@ -314,6 +317,95 @@ JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に�
 JijModeling 2 からは、こうした振る舞いは廃止され、要素を順に走査する挙動になります。旧来の挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い`jm.rows(A)` または `A.rows()` と明示的に変換してください。
 :::
 
+基本的に集合への変換は自動的に行われますが、明示的に集合に変換したい場合は {py:func}`~jijmodeling.set` 関数を使うことができます。
+
+### 集合の総和・総積
+
+JijModeling は Python 標準ライブラリの {py:func}`~map` 関数に対応する、{py:func}`jijmodeling.map` 関数を提供しており、これらと {py:func}`jijmodeling.sum` 関数や {py:func}`jijmodeling.prod` 関数を組み合わせることで、集合に渡る総和・総積を表現することができます。
+更に、Decorator API を使えば、こうした高階関数を直接かかずに、直感的な{external+python:ref}`内包表記 <comprehensions>`の形で集合を構築することができます。
+
+たとえば、決定変数とプレースホルダーの積の総和は、Decorator API を使えば以下のように内包表記で記述することができます：
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def sum_example(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    a = problem.Float(shape=(N,))
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(a[i] * x[i] for i in N)
+
+sum_example
+```
+
+同じものを、`map` を使って Plain API で書いたものは次のようになります：
+
+```{code-cell} ipython3
+sum_example_plain = jm.Problem("Sum Example (Plain)")
+N = sum_example_plain.Length("N")
+a = sum_example_plain.Float("a", shape=(N,))
+x = sum_example_plain.BinaryVar("x", shape=(N,))
+sum_example_plain += jm.sum(
+    jm.map(
+        lambda i: a[i] * x[i],
+        N
+    )
+)
+
+sum_example_plain
+```
+
+このような単純な総和の場合は、更に以下のように {py:func}`~jijmodeling.sum` や {py:func}`~jijmodeling.prod` 関数に定義域と和を取る項を返す関数の二つの引数を渡すことで総和を表現することもできます：
+
+```{code-cell} ipython3
+sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
+N = sum_example_plain_alt.Length("N")
+a = sum_example_plain_alt.Float("a", shape=(N,))
+x = sum_example_plain_alt.BinaryVar("x", shape=(N,))
+sum_example_plain_alt += jm.sum(N, lambda i: a[i] * x[i])
+
+sum_example_plain_alt
+```
+
+:::{tip}
+また、{py:func}`~jijmodeling.sum` / {py:func}`~jijmodeling.prod` 関数は集合を取るため、単に `x` の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。
+:::
+
 ### 条件つき総和・総積
 
+Decorator API の内包表記では `if` を使うことができますので、たとえば、偶数であるような `i`についてだけ `a[i] * x[i]` の総和を取りたかった場合、Decorator API では次のように書くことができます：
+
+```{code-cell} ipython3
+@jm.Problem.define("Even Sum Example")
+def even_sum_example(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    a = problem.Float(shape=(N,))
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(
+        a[i] * x[i] for i in N if (i % 2) == 0
+    )
+
+even_sum_example
+```
+
+また、JijModeling は Python 標準の {py:func}`filter` 関数に対応する {py:func}`~jijmodeling.filter` 関数を提供していますので、上のモデルに対応するものは Plain API でも次のように書くことができます：
+
+```{code-cell} ipython3
+even_sum_example_plain = jm.Problem("Even Sum Example (Plain)")
+N = even_sum_example_plain.Length("N")
+a = even_sum_example_plain.Float("a", shape=(N,))
+x = even_sum_example_plain.BinaryVar("x", shape=(N,))
+even_sum_example_plain += jm.sum(
+    N.filter(lambda i: (i % 2) == 0),
+    lambda i: a[i] * x[i],
+)
+
+even_sum_example_plain
+```
+
 ### 複数の添え字に渡る総和・総積
+
+集合のタプル `(A1, .., An)` は全成分の直積集合 $A_1 \times \ldots \times A_n$ に変換されますが、これを直接構築する際には {py:func}`~jijmodeling.product` 関数を使うこともできます。
+
+### 集合の論理演算
+
+集合に対しては、和集合（{py:func}`~jijmodeling.band`）・共通部分集合（{py:func}`~jijmodeling.bor`）・差集合（{py:func}`~jijmodeling.diff`）を取る操作を提供しており、これにより既存の集合を組み合わせて新たな集合を構築することができます。
