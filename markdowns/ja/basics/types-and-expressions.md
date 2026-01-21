@@ -16,7 +16,11 @@ kernelspec:
 本節では、JijModeling における色々な式の記述方法について説明していきます。
 また、JijModeling の式は、幾つかの種類＝型に分類されます。
 JijModeling はこの式の型の情報を Python の型ヒントに加え、独自のより詳細な検査を行う型システムを搭載しており、モデルの構築時に典型的な記述のミスを検出することが可能になっています。
-以下では、JijModeling の「型」システムの概要について触れたあと、頻出するパターンの式の構築方法について学んでいきます。
+以下では、JijModeling の「型」の概要について触れたあと、頻出するパターンの式の構築方法について学んでいきます。
+
+:::{tip}
+以下では頻出と思われるパターンに絞って説明するため、式の構築に使える網羅的な一覧については、API リファレンスの {py:class}`~jijmodeling.Expression` クラスや {py:mod}`~jijmodeling` モジュールのトップレベル関数一覧を参照してください。
+:::
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -42,6 +46,8 @@ def ast_examples(problem: jm.DecoratedProblem):
 
     z = x + y[0]
     w = jm.sum(y[i] for i in N)
+    display(repr(z))
+    display(repr(w))
 ```
 
 :::{figure-md} expression-as-an-ast
@@ -147,7 +153,7 @@ W = problem.Float("w", shape=(N, M))
 problem
 ```
 
-このとき許容される算術演算の例は以下の通りです：
+### 許容される例
 
 ```{code-cell} ipython3
 problem.infer(x + 1) # OK! （スカラー同士の加算）
@@ -179,20 +185,22 @@ problem.infer(S + s) # OK! （同一キー集合を持つ全域辞書同士の�
 
 <!-- TODO: 例外になるべきでない！ -->
 
-一方、以下はエラーとなる例です：
+### 許容されない例
 
 ```{code-cell} ipython3
-:tags: [raises-exception]
-
-# ERROR!（辞書と配列の乗算）
-problem.infer(S * y)
+try:
+    # ERROR!（辞書と配列の乗算）
+    problem.infer(S * y)
+except Exception as e:
+    print(e)
 ```
 
 ```{code-cell} ipython3
-:tags: [raises-exception]
-
-# ERROR!（形状が異なる配列どうしの演算）
-problem.infer(y + z)
+try:
+    # ERROR!（形状が異なる配列どうしの演算）
+    problem.infer(y + z)
+except Exception as e:
+    print(e)
 ```
 
 :::{admonition} 決定変数による除算について
@@ -203,3 +211,41 @@ problem.infer(y + z)
 これは、ソルバーによっては決定変数による除法を（特定のエンコードにより）サポートしている場合もあるので記法としては許容したい一方、現時点において JijModeling や OMMX がそうしたエンコード方法に対応していないためです。
 将来的には、JijModeling や OMMX がこのようなエンコード方法の指定に対応し、一部のケースでは実際にインスタンスへとコンパイルできるようになる予定です。
 :::
+
+:::{admonition} 初等超越関数
+:class: tips
+
+JijModeling の式では、加減乗除だけではなく、三角関数（{py:meth}`~jijmodeling.Expression.sin`, {py:meth}`~jijmodeling.Expression.cos`, {py:meth}`~jijmodeling.Expression.tan`など）や対数関数（{py:meth}`~jijmodeling.Expression.log2`, {py:meth}`~jijmodeling.Expression.log10`, {py:meth}`~jijmodeling.Expression.ln`）などの初等超越関数もサポートしています。
+これらの関数も決定変数の有無に関わらず式に適用できますが、現時点ではインスタンスへのコンパイル時に決定変数を含む式に適用されている場合はエラーになります。
+:::
+
+## 比較演算
+
+<!-- markdownlint-disable -->
+等値演算子（{py:meth}`== <jijmodeling.Expression.__eq__>`, {py:meth}` != <jijmodeling.Expression.__ne__>`）や順序比較演算子（{py:meth}`< <jijmodeling.Expression.__lt__>`, {py:meth}`<= <jijmodeling.Expression.__le__>`, {py:meth}`> <jijmodeling.Expression.__gt__>`, {py:meth}`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
+<!-- markdownlint-enable -->
+
+これら比較演算子の**両辺が共に決定変数を含まない**場合、値は真偽値型 `Bool` の式として評価されます。一方、両辺の少なくとも一方が決定変数を含みうる場合、これは特別な**比較型**として扱われます。これは、次節で触れる制約条件の定義では決定変数を現れる式同士を比較できる必要がある一方、本節で触れる内包表記などで使われる場合は真偽値が確定する比較式が使える必要があるためです。
+
+現状では、比較演算子はスカラーやカテゴリーラベル、またはそれらから成る配列・辞書に対して用いることができます。
+配列や辞書に対する比較演算子の仕様条件は、算術演算のオーバーロード規則と同様です。
+
+```{code-cell} ipython3
+problem.infer(x == y) # OK! （スカラーと配列の等値比較）
+```
+
+```{code-cell} ipython3
+problem.infer(N <= N) # OK! （スカラー同士の順序比較）
+```
+
+```{code-cell} ipython3
+problem.infer(y > W) # OK! （同一形状配列同士の比較）
+```
+
+## 添え字（インデックス）
+
+## 集合演算と内包表記による総和・総積
+
+### 条件つき総和・総積
+
+### 複数の添え字に渡る総和・総積
