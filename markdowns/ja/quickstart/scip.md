@@ -31,7 +31,7 @@ $$
 \begin{align*}
 \mathrm{maximize} \quad & \sum_{i=0}^{N-1} v_i x_i \\
 \mathrm{s.t.} \quad & \sum_{i=0}^{N-1} w_i x_i \leq W, \\
-& x_{i} \in \{ 0, 1\} 
+& x_{i} \in \{ 0, 1\}
 \end{align*}
 $$
 
@@ -43,7 +43,7 @@ $$
 
 | パラメーター | 説明 |
 | --- | --- |
-| $N$ |	アイテムの総数 |
+| $N$ | アイテムの総数 |
 | $v_{i}$ | アイテム $i$ の価値 |
 | $w_{i}$ | アイテム $i$ の重さ |
 | $W$ | ナップサックの耐荷重 |
@@ -69,7 +69,7 @@ $$
 
 1. ナップサック問題を定式化する
 2. インスタンスデータを用意する
-2. インスタンスを生成する
+3. インスタンスを生成する
 
 :::{figure} ../images/model-and-instance-illustrated.svg
 :alt: Diagram of the process to generate an instance from a mathematical model
