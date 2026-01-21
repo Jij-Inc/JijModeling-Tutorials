@@ -446,7 +446,9 @@ Therefore, you can obtain the number of vertices via `N = G.len_at(0)` and use a
 In this way, JijModeling lets you represent complex structures by combining tuples and arrays.
 :::
 
-:::{danger}
+:::{admonition} **Since 2.0.0: Jagged Array is strongly discouraged**
+:class: danger
+
 In JijModeling 1, a jagged array collection was available, where shapes are not uniform.
 However, due to its irregularity, jagged arrays are difficult to validate with type systems, so in JijModeling 2 they are **strongly discouraged** and planned to be removed in a future release.
 You can express graphs, non-zero-based indices, or sparse structures using combinations of arrays, tuples, and dictionaries, so we strongly recommend migrating away from jagged arrays.
