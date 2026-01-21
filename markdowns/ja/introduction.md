@@ -38,7 +38,7 @@ JijModeling では、数理モデルの記号的な定義と、入力される�
 ### 2. ソルバーに依存しないモデリング
 
 :::{figure} ./images/jijmodeling-workflow.svg
-:alt: JijModelingで記述された数理モデルは、OMMXを経て各種ソルバーに渡される
+:alt: JijModeling で記述された数理モデルは、OMMX を経て各種ソルバーに渡される
 :width: 75%
 
 JijModeling と OMMX による数理最適化問題の求解の流れ

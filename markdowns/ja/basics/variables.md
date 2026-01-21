@@ -29,7 +29,7 @@ JijModeling では、二種類の**変数**が存在します。
 
 :::{figure} ./images/decision-vars-and-placeholders.svg
 :name: two-kinds-of-vars
-:alt: コンパイル時にインスタンスデータが代入されるのがPlaceholder、コンパイル後も残りソルバーによって決定されるのが決定変数
+:alt: コンパイル時にインスタンスデータが代入されるのが Placeholder、コンパイル後も残りソルバーによって決定されるのが決定変数
 :width: 100%
 
 プレースホルダーと決定変数
