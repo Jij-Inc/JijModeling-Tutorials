@@ -27,9 +27,10 @@ One is the **decision variable**, a core component of mathematical optimization 
 In addition, JijModeling has variables called **placeholders**, whose values are substituted with instance data at compile time.
 This concept of placeholders, which separates input data from the model definition, is a key feature of JijModeling and enables type checking, constraint detection, and concise LaTeX output.
 
-:::{figure-md} two-kinds-of-vars
-
-<img src="./images/decision-vars-and-placeholders.svg" alt="Placeholder receives instance data at compile time; decision variables remain for the solver" class="mb1" width="100%">
+:::{figure} ./images/decision-vars-and-placeholders.svg
+:name: two-kinds-of-vars
+:alt: Placeholder receives instance data at compile time; decision variables remain for the solver
+:width: 100%
 
 Placeholders and decision variables
 :::
@@ -445,7 +446,7 @@ Therefore, you can obtain the number of vertices via `N = G.len_at(0)` and use a
 In this way, JijModeling lets you represent complex structures by combining tuples and arrays.
 :::
 
-:::{deprecated} 2.0.0 **Jagged arrays are strongly discouraged**
+:::{danger}
 In JijModeling 1, a jagged array collection was available, where shapes are not uniform.
 However, due to its irregularity, jagged arrays are difficult to validate with type systems, so in JijModeling 2 they are **strongly discouraged** and planned to be removed in a future release.
 You can express graphs, non-zero-based indices, or sparse structures using combinations of arrays, tuples, and dictionaries, so we strongly recommend migrating away from jagged arrays.

@@ -48,7 +48,7 @@ $$
 | $w_{i}$ | アイテム $i$ の重さ |
 | $W$ | ナップサックの耐荷重 |
 
-今回の説明では、上記の数理モデルのパラメーター $v_{i}, w_{i}, W$ に、次の値を入力して得られる[インスタンス](what_is_instance)を解くことを考えます：
+今回の説明では、上記の数理モデルのパラメーター $v_{i}, w_{i}, W$ に、次の値を入力して得られる[インスタンス](what_is_instance_scip)を解くことを考えます：
 
 | パラメーター | 値 |
 | --- | --- |
@@ -56,7 +56,7 @@ $$
 | $w_{i}$ | `[11, 15, 20, 35, 10, 33]` |
 | $W$ | `47` |
 
-(what_is_instance)=
+(what_is_instance_scip)=
 :::{admonition} インスタンスとは
 `jijmodeling` では、数理モデルのパラメーターの具体的な値を格納した辞書を"インスタンスデータ"と呼び、数理モデルのパラメーターに具体的な値を入れたものを”インスタンス”と呼んでいます。
 :::
@@ -71,7 +71,9 @@ $$
 2. インスタンスデータを用意する
 2. インスタンスを生成する
 
-![Diagram of the process to generate an instance from a mathematical model](../images/model-and-instance-illustrated.svg)
+:::{figure} ../images/model-and-instance-illustrated.svg
+:alt: Diagram of the process to generate an instance from a mathematical model
+:::
 
 +++
 
