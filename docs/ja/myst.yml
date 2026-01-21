@@ -4,6 +4,8 @@ project:
   # authors:
   #   - name: Jij Inc.
   github: Jij-Inc/JijModeling-Tutorials
+  # TODO: Fix the branch name before merge to `jijmodeling2` branch
+  binder: https://mybinder.org/v2/gh/Jij-Inc/JijModeling-Tutorials/feature/migrate_jb2
   # thebe:
   #   binder:
   #     repo: Jij-Inc/JijModeling-Tutorials
@@ -18,10 +20,6 @@ project:
       output: exports/book.pdf
   toc:
     - file: introduction.ipynb
-    - title: Switch Language
-      children:
-        - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/
-          title: English
     - title: クイックスタート
       children:
         - file: quickstart/scip.ipynb
@@ -43,7 +41,11 @@ project:
 site:
   options:
     logo: logo.png
+    logo_text: JijModeling
     favicon: ./logo.png
     analytics_google: GA4_TRACKING_ID
     folders: true
   template: book-theme
+  actions:
+    - title: English
+      url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/
