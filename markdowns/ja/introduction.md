@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: .venv
+  display_name: jijmodeling-tutorial
   language: python
   name: python3
 ---
@@ -99,26 +99,26 @@ JijModeling 2.0.0 から、旧来の記法に相当する Plain API に加えて
 
 ### 記述例の比較
 
++++
+
 **Plain API による記述**：
 
-```python
+```{code-cell} ipython3
 my_problem = jm.Problem("My Problem")
-N = problem.Length("N")
-x = problem.BinaryVar("x", shape=N)
-problem += jm.sum(N.filter(lambda i: i % 2 == 0).map(lambda i: x[i]))
+N = my_problem.Length("N")
+x = my_problem.BinaryVar("x", shape=N)
+my_problem += jm.sum(N.filter(lambda i: i % 2 == 0).map(lambda i: x[i]))
 ```
 
 **Decorator API による記述**：
 
-```python
+```{code-cell} ipython3
 @jm.Problem.define("My Problem")
 def my_problem(problem: jm.DecoratedProblem):
     N = problem.Length()
     x = problem.BinaryVar(shape=N)
     problem += jm.sum(x[i] for i in N if i % 2 == 0)
 ```
-
-+++
 
 ## インストール
 

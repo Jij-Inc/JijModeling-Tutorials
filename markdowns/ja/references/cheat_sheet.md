@@ -6,19 +6,17 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.18.1
 kernelspec:
-  display_name: .venv
+  display_name: jijmodeling-tutorial
   language: python
   name: python3
 ---
 
-# Cheat Sheet (JijModeling 2 beta)
-
-## 現状
+# Cheat Sheet
 
 ```{code-cell} ipython3
 import jijmodeling as jm
-import ommx.v1
 import numpy as np
+import ommx.v1
 from typing import Tuple
 ```
 
@@ -27,14 +25,14 @@ from typing import Tuple
 ### 決定変数の総和
 
 ```{code-cell} ipython3
-ns = jm.Problem('basic-sum')
 problem = jm.Problem("BasicSum", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 x = problem.BinaryVar("x", shape=(N,))
-
 # Basic sum
 objective = x.sum()
-objective
+problem += objective
+
+problem
 ```
 
 ### Decorator API の例
@@ -43,7 +41,7 @@ objective
 @jm.Problem.define("BasicSum", sense=jm.ProblemSense.MINIMIZE)
 def problem(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
-    x = problem.BinaryVar("x", shape=(N,))
+    x = problem.BinaryVar(shape=(N,))
     # Basic sum
     objective = x.sum()
     problem += objective
@@ -58,23 +56,21 @@ problem = jm.Problem("WeightedSum", sense=jm.ProblemSense.MINIMIZE)
 a = problem.Float("a", ndim=1)
 N = problem.DependentVar("N", a.len_at(0))
 x = problem.BinaryVar("x", shape=(N,))
-
 # Weighted sum
 objective = jm.sum(a * x)
-objective
+problem += objective
+
+problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("WeightedSum", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("WeightedSum", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     a = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
     N = problem.DependentVar(a.len_at(0))
     x = problem.BinaryVar(shape=(N,))
-
     # Weighted sum
     objective = (a * x).sum()
     problem += objective
@@ -92,16 +88,16 @@ x = problem.BinaryVar("x", shape=(N,))
 C = problem.Natural("C", ndim=1)
 # or, equivalently:
 # C = problem.Placeholder("C", ndim=1, dtype=np.dtype("u8"))
-jm.sum(jm.map(lambda i: x[i], C))
+problem += jm.sum(jm.map(lambda i: x[i], C))
+
+problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("SumAlongSet", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("SumAlongSet", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     x = problem.BinaryVar(shape=(N,))
     C = problem.Placeholder(ndim=1, dtype=np.uint64)
@@ -121,12 +117,13 @@ JijModeling 2 ではタプルを要素にもつ Placeholder をサポートし�
 ```{code-cell} ipython3
 problem = jm.Problem("SumAlongEdgeSet", sense=jm.ProblemSense.MINIMIZE)
 V = problem.Natural("V")
-
 E = problem.Graph("E")
 # 以下の略記法：
 # E = problem.Placeholder("E", dtype=Tuple[jm.DataType.NATURAL, jm.DataType.NATURAL], ndim=1)
 x = problem.BinaryVar("x", shape=(V,))
-jm.map(lambda i, j: x[i] * x[j], E).sum()
+problem += jm.map(lambda i, j: x[i] * x[j], E).sum()
+
+problem
 ```
 
 デフォルトでは `Graph` は自然数を頂点に持つものとして宣言されますが、`vertex` キーワード引数により型を変更できます：`Graph(vertex=jm.DataType.FLOAT)`。
@@ -141,7 +138,6 @@ def problem(problem: jm.DecoratedProblem):
     V = problem.Placeholder(dtype=jm.DataType.NATURAL)
     E = problem.Graph()
     x = problem.BinaryVar(shape=(V,))
-    
     problem += jm.sum(x[i] * x[j] for (i, j) in E)
 
 problem
@@ -158,16 +154,16 @@ N = problem.Natural("N")
 V = problem.Natural("V")
 E = problem.Natural("E", shape=(N, 2))
 x = problem.BinaryVar("x", shape=(V,))
-jm.map(lambda i, j: x[i] * x[j], E.rows()).sum()
+problem += jm.map(lambda i, j: x[i] * x[j], E.rows()).sum()
+
+problem
 ```
 
 ##### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("SumAlongEdgeSet", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("SumAlongEdgeSet", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     V = problem.Placeholder(dtype=np.uint)
     N = problem.Natural()
     # 本当は dtype=V と書けるようにしたい
@@ -188,7 +184,9 @@ V = problem.Placeholder("V", dtype=np.uint) # jm.Natural("V") と同値
 N = problem.Natural("N")
 E = problem.Natural("E", shape=(N, 2))
 x = problem.BinaryVar("x", shape=(V,))
-jm.sum(jm.map(lambda i: x[E[i, 0]] * x[E[i, 1]], N))
+problem += jm.sum(jm.map(lambda i: x[E[i, 0]] * x[E[i, 1]], N))
+
+problem
 
 # 将来的に次のようにも書けるかもしれない：
 # jm.sum(x[E[:, 0]]  + x[E[:, 1]])
@@ -197,10 +195,8 @@ jm.sum(jm.map(lambda i: x[E[i, 0]] * x[E[i, 1]], N))
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("SumAlongEdgeSet1", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("SumAlongEdgeSet1", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     V = problem.Placeholder(dtype=np.uint)
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     E = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(N, 2))
@@ -219,32 +215,37 @@ N = problem.Natural("N")
 J = problem.Float("J", shape=(N, N))
 x = problem.BinaryVar("x", shape=(N,))
 # This shoule be
-jm.map(
+problem += jm.map(
     lambda i: jm.map(lambda j: J[i, j] * x[i] * x[j], i).sum(),
     N
 ).sum()
+
+problem
 ```
 
 あるいは、 `flat_map` 演算子を使って以下のようにも書ける：
 
 ```{code-cell} ipython3
-jm.flat_map(
+problem = jm.Problem("ConditionalSum", sense=jm.ProblemSense.MINIMIZE)
+N = problem.Natural("N")
+J = problem.Float("J", shape=(N, N))
+x = problem.BinaryVar("x", shape=(N,))
+problem += jm.flat_map(
     lambda i: i.map(lambda j: J[i, j] * x[i] * x[j]),
     N
 ).sum()
+
+problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("ConditionalSum", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("ConditionalSum", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     J = problem.Placeholder(dtype=jm.DataType.FLOAT, shape=(N, N))
     x = problem.BinaryVar(shape=(N,))
-    
     # Conditional sum with index filtering
     objective = jm.sum(J[i, j] * x[i] * x[j] for i in N for j in i)
     problem += objective
@@ -258,22 +259,21 @@ problem
 problem = jm.Problem("NonDiagonalSum", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 J = problem.Float("J", shape=(N, N))
-jm.map(
+problem += jm.map(
     lambda i: jm.filter(lambda j: i != j, N).map(lambda j: J[i, j]).sum(),
     N
 ).sum()
+
+problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("NonDiagonalSum", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("NonDiagonalSum", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     J = problem.Placeholder(dtype=jm.DataType.FLOAT, shape=(N, N))
-    
     objective = jm.sum(J[i, j] for i in N for j in N if i != j)
     problem += objective
 
@@ -286,10 +286,12 @@ problem
 problem = jm.Problem("NonDiagonalSum", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 J = problem.Float("J", shape=(N, N))
-jm.flat_map(
+problem += jm.flat_map(
     lambda i: jm.filter(lambda j: i != j, N).map(lambda j: J[i, j]),
     N
 ).sum()
+
+problem
 ```
 
 ### 別のインデックスに依存した総和
@@ -303,15 +305,15 @@ a = problem.Natural("a", ndim=1)
 # 任意の式を DependentVar として束縛でき、変数名で表示される。
 # problem を print すると、M の定義も確認できる。
 M = problem.DependentVar("M", a.len_at(0))
-jm.sum(jm.flat_map(lambda i: a[i].map(lambda j: x[j]), M))
+problem += jm.sum(jm.flat_map(lambda i: a[i].map(lambda j: x[j]), M))
+
+problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("DependentSum", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
+@jm.Problem.define("DependentSum", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     x = problem.BinaryVar(shape=(N,))
@@ -331,21 +333,19 @@ problem
 problem = jm.Problem("OneHot", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 x = problem.BinaryVar("x", shape=(N,))
-
 # One-hot constraint
-problem.Constraint("onehot", x.sum() == 1)
+problem += problem.Constraint("onehot", x.sum() == 1)
+
+problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("OneHot", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("OneHot", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     x = problem.BinaryVar(shape=(N,))
-
     # One-hot constraint
     problem += problem.Constraint("onehot", x.sum() == 1)
 
@@ -359,7 +359,6 @@ problem = jm.Problem("KHot", sense=jm.ProblemSense.MINIMIZE)
 N = problem.Natural("N")
 K = problem.Natural("K")
 x = problem.BinaryVar("x", shape=(N,))
-
 # K-hot constraint
 problem.Constraint("k_hot", x.sum() == K)
 ```
@@ -367,14 +366,11 @@ problem.Constraint("k_hot", x.sum() == K)
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("KHot", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("KHot", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     K = problem.Placeholder(dtype=jm.DataType.NATURAL)
     x = problem.BinaryVar(shape=(N,))
-
     # K-hot constraint
     problem += problem.Constraint("k_hot", x.sum() == K)
 
@@ -389,23 +385,21 @@ K = problem.Natural("K", ndim=1)
 # 従属変数には説明文やカスタム LaTeX 表記も指定できる。
 N = problem.DependentVar("N", K.len_at(0), description=r"\# of rows", latex=r"\#K")
 M = problem.Natural("M")
-
 x = problem.BinaryVar("x", shape=(N, M))
 
-problem.Constraint("2d k-hot", x.sum(axis=1) == K)
+problem += problem.Constraint("2d k-hot", x.sum(axis=1) == K)
+
+problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("2D K-Hot", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("2D K-Hot", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, ndim=1)
     N = problem.DependentVar(K.len_at(0), description=r"\# of rows", latex=r"\#K")
     M = problem.Placeholder(dtype=jm.DataType.NATURAL)
-
     x = problem.BinaryVar(shape=(N, M))
 
     problem += problem.Constraint("2d k-hot", x.sum(axis=1) == K)
@@ -419,22 +413,24 @@ problem
 
 ```{code-cell} ipython3
 problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
+
 N = problem.Natural("N")
 C = problem.Natural("C", jagged=True, ndim=2)
 M = problem.DependentVar("M", C.len_at(0))
 K = problem.Natural("K", shape=(M,))
 x = problem.BinaryVar("x", shape=(N,))
-problem.Constraint(
+
+problem += problem.Constraint(
     "k-hot_constraint", lambda a: C[a].map(lambda i: x[i]).sum() == K[a], domain=M
 )
+
+problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
+@jm.Problem.define("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     C = problem.Placeholder(jagged=True, ndim=2, dtype=jm.DataType.NATURAL)
@@ -442,11 +438,10 @@ def _(problem: jm.DecoratedProblem):
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(M,))
     x = problem.BinaryVar(shape=(N,), description="Random binary variable")
 
-    constr = problem.Constraint(
+    problem += problem.Constraint(
         "k-hot_constraint", (jm.sum(x[i] for i in C[a]) == K[a] for a in M),
         description="K-hot constraint over sets; $C_a$ is constrained to have exactly $K_a$ ones.",
     )
-    problem += constr
 
 problem
 ```
@@ -462,50 +457,15 @@ W = problem.Float("W")
 x = problem.BinaryVar("x", shape=(N,))
 
 # Knapsack constraint
-constraint = problem.Constraint("weight", (w * x).sum() <= W)
-constraint
-```
-
-```{code-cell} ipython3
-problem += constraint
-
-v = problem.Float("v", shape=(N,))
-problem += (v * x).sum()
+problem += problem.Constraint("weight", (w * x).sum() <= W)
 problem
-```
-
-```{code-cell} ipython3
-v_data = [10, 13, 18, 31, 7, 15]
-w_data = [11, 15, 20, 35, 10, 33]
-W_data = 47
-instance_data = {"v": v_data, "w": w_data, "W": W_data}
-
-# There are two ways to evaluate problem.
-
-# Alternative 1: Directly call eval_* on namespace with instance data.
-# Behind the scene, it just creates interpreter, call eval_*.
-instance = problem.eval(instance_data)
-
-# Alternative 2: Creating Compiler out of problem and data,
-# and call eval_* on interp.
-compiler = jm.Compiler.from_problem(problem, instance_data)
-instance_2 = compiler.eval_problem(problem)
-
-# The advantage of using compiler is that 
-# you can use helper functions like compiler.get_constraint_id_by_name().
-
-assert instance_2.objective.almost_equal(instance.objective)
-assert instance_2.sense == instance.sense
-assert len(instance.constraints) == len(instance_2.constraints)
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("KnapsackConstraint", sense=jm.ProblemSense.MAXIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("KnapsackConstraint", sense=jm.ProblemSense.MAXIMIZE)
+def problem(problem: jm.DecoratedProblem):
     w = problem.Float(ndim=1)
     N = problem.DependentVar(w.len_at(0))
     W = problem.Float()
@@ -602,26 +562,20 @@ e = problem.Float("e", shape=(N,))
 l = problem.Float("l", shape=(N,))
 t = problem.IntegerVar("t", shape=(N,), lower_bound=e, upper_bound=l)
 non_diagonals = jm.product(N, N).filter(lambda i, j: i != j)
-constraint = problem.Constraint(
+problem += problem.Constraint(
     "Big-M",
     lambda i, j: t[i] + c[i, j] - M * (1 - x[i, j]) <= t[j],
     domain=non_diagonals,
 )
-constraint
-```
 
-```{code-cell} ipython3
-problem += constraint
 problem
 ```
 
 #### Decorator API の例
 
 ```{code-cell} ipython3
-problem = jm.Problem("BigM", sense=jm.ProblemSense.MINIMIZE)
-
-@problem.update
-def _(problem: jm.DecoratedProblem):
+@jm.Problem.define("BigM", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
     N = problem.Placeholder(dtype=jm.DataType.NATURAL)
     c = problem.Float(shape=(N, N))
     M = problem.Float()
