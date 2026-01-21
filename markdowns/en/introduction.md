@@ -26,8 +26,9 @@ Using polynomials and other mathematical expressions, you can express many kinds
 JijModeling separates the symbolic definition of a mathematical model from input parameters (**instance data**).
 Instance data corresponds to coefficients and other inputs besides decision variables, and a mathematical model is **compiled** into solver input (an **instance**) only after instance data is provided.
 
-:::{figure-md}
-<img src="./images/model-and-instance-illustrated.svg" alt="When instance data is supplied to a symbolic model, solver input data (an instance) is generated" class="mb1" width="75%">
+:::{figure} ./images/model-and-instance-illustrated.svg
+:alt: When instance data is supplied to a symbolic model, solver input data (an instance) is generated
+:width: 75%
 
 Provide parameters (**instance data**) to a mathematical model to obtain an instance
 :::
@@ -36,8 +37,9 @@ In this way, each model serves as a schema that produces instances from individu
 
 ### 2. Solver-independent modeling
 
-:::{figure-md}
-<img src="./images/jijmodeling-workflow.svg" alt="Models defined in JijModeling are passed to solvers via OMMX" class="mb1" width="75%">
+:::{figure} ./images/jijmodeling-workflow.svg
+:alt: Models defined in JijModeling are passed to solvers via OMMX
+:width: 75%
 
 Workflow of solving optimization problems with JijModeling and OMMX
 :::
@@ -57,8 +59,9 @@ Typically, users must explicitly identify and invoke these optimizations.
 JijModeling can **automatically detect** such constraints and pass the information to the solver through OMMX, speeding up solution without user intervention.
 In the example below, simply enabling detection yields dramatic speedups.
 
-:::{figure-md}
-<img src="./images/detection-speedup.svg" alt="Without detection, solve time grows quadratically or exponentially in input size; with constraint detection, the growth becomes much more gradual and linear" class="mb1" width="100%">
+:::{figure} ./images/detection-speedup.svg
+:alt: Without detection, solve time grows quadratically or exponentially in input size; with constraint detection, the growth becomes much more gradual and linear
+:width: 100%
 
 Speedup from constraint detection in the two-region plant location problem
 :::

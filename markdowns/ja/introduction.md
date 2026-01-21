@@ -26,8 +26,9 @@ kernelspec:
 JijModeling では、数理モデルの記号的な定義と、入力されるパラメータ（**インスタンスデータ**）を分離しています。
 インスタンスデータは数理モデルにおける決定変数以外の係数などに相当し、数理モデルはインスタンスデータを入力されて初めてソルバーへの入力（**インスタンス**）へと変換（コンパイル）されます。
 
-:::{figure-md}
-<img src="./images/model-and-instance-illustrated.svg" alt="記号的に記述された数理モデルに「インスタンスデータ」を入力すると、ソルバーへの入力データ（＝インスタンス）が生成される" class="mb1" width="75%">
+:::{figure} ./images/model-and-instance-illustrated.svg
+:alt: 記号的に記述された数理モデルに「インスタンスデータ」を入力すると、ソルバーへの入力データ（＝インスタンス）が生成される
+:width: 75%
 
 数理モデルにパラメータ（**インスタンスデータ**）を入力してインスタンスを得る
 :::
@@ -36,8 +37,9 @@ JijModeling では、数理モデルの記号的な定義と、入力される�
 
 ### 2. ソルバーに依存しないモデリング
 
-:::{figure-md}
-<img src="./images/jijmodeling-workflow.svg" alt="JijModelingで記述された数理モデルは、OMMXを経て各種ソルバーに渡される" class="mb1" width="75%">
+:::{figure} ./images/jijmodeling-workflow.svg
+:alt: JijModelingで記述された数理モデルは、OMMXを経て各種ソルバーに渡される
+:width: 75%
 
 JijModeling と OMMX による数理最適化問題の求解の流れ
 :::
@@ -57,8 +59,9 @@ JijModeling は独自の型システムを搭載しており、添え字の成�
 一方、JijModeling は**自動でこうした制約条件の存在を検出**し、OMMX Message を介してソルバーにその情報を渡すことで、ユーザーの介在なしに自動的に求解を高速化します。
 以下の例では、検出機能を有効化しただけで圧倒的な速度改善が見られています。
 
-:::{figure-md}
-<img src="./images/detection-speedup.svg" alt="検出を行わない場合、求解時間が入力サイズに対し自乗または指数オーダーで悪化しているのに対し、制約検出を有効化すると非常に緩やかな線型の変化になっている" class="mb1" width="100%">
+:::{figure} ./images/detection-speedup.svg
+:alt: 検出を行わない場合、求解時間が入力サイズに対し自乗または指数オーダーで悪化しているのに対し、制約検出を有効化すると非常に緩やかな線型の変化になっている
+:width: 100%
 
 二地区工場配置問題の制約検出による高速化
 :::
