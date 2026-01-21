@@ -5,6 +5,7 @@ project:
   #   - name: Jij Inc.
   github: Jij-Inc/JijModeling-Tutorials
   # TODO: Fix the branch name before merge to `jijmodeling2` branch
+  jupyter: true
   binder: https://mybinder.org/v2/gh/Jij-Inc/JijModeling-Tutorials/feature/migrate_jb2
   # thebe:
   #   binder:
