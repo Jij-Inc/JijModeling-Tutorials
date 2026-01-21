@@ -495,7 +495,7 @@ jm.sum(
 上では内包表記の `if` や {py:func}`~jijmodeling.filter` 関数の中で使われる条件式は、単純な条件のみでしたが、一般には論理式として「かつ」や「または」を使って指定したい場合があります。
 残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりにビット演算子 `&`（かつ）、`|`（または）、`~`（否定）や、関数{py:func}`jijmodeling.band`（かつ）、{py:func}`jijmodeling.bor`（または）、{py:func}`jijmodeling.bnot` を使って論理演算を表現します。
 
-:::{admonition} ビット演算の優先順位
+:::{admonition} ビット演算の優先順位に注意！
 :class: caution
 
 `and`, `or` などと異なり、`&` や `|` は `==` や `!=` よりも優先順位が低いため、たとえば `a == b & c == d` のように書くと `a == (b & c) == d` と解釈されてしまいます。
