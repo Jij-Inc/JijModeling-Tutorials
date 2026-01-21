@@ -44,6 +44,7 @@ launch_buttons:
   colab_url: "https://colab.research.google.com"
 
 sphinx:
+  recursive_update: true
   config:
     html_theme_options:
       show_toc_level: 5
