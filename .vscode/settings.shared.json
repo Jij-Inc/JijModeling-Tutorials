@@ -8,7 +8,8 @@
   },
   "textlint.autoFixOnSave": true,
   "markdownlint.config": {
-    "MD033": false
+    "MD033": false,
+    "MD013": false
   },
   "files.exclude": {
     "**/.git": true,
