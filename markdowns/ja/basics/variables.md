@@ -27,9 +27,10 @@ JijModeling では、二種類の**変数**が存在します。
 これに加え、JijModeling ではインスタンスへのコンパイル時にインスタンスデータの値が代入される**プレースホルダー**と呼ばれる種類の変数が存在します。
 後者のプレースホルダーの概念は、入力データと数理モデルの定義を分離している JijModeling 特有の概念であり、これによって型検査による誤りの検出や制約検出、簡潔な$\LaTeX$出力などの機能が実現されています。
 
-:::{figure-md} two-kinds-of-vars
-
-<img src="./images/decision-vars-and-placeholders.svg" alt="コンパイル時にインスタンスデータが代入されるのがPlaceholder、コンパイル後も残りソルバーによって決定されるのが決定変数" class="mb1" width="100%">
+:::{figure} ./images/decision-vars-and-placeholders.svg
+:name: two-kinds-of-vars
+:alt: コンパイル時にインスタンスデータが代入されるのが Placeholder、コンパイル後も残りソルバーによって決定されるのが決定変数
+:width: 100%
 
 プレースホルダーと決定変数
 :::
@@ -437,7 +438,7 @@ G = problem.Placeholder(
 このように、JijModeling ではタプルと配列を組み合わせて、複雑な構造を表現できるようになっているのです。
 :::
 
-:::{deprecated} 2.0.0 **Jagged Array は強く非推奨**
+:::{danger}
 JijModeling 1 系統には、シェイプが均一ではない Jagged Array というコレクションも用意されていました。
 しかし、Jagged Array はその不均一性から型システムなどによる検証をうけづらいため、JijModeling 2 では**Jagged Array は強く非推奨**となっており、将来のリリースで取り除くことが計画されています。
 こうした配列とタプルの組み合わせや後述する辞書を使うと、グラフ構造や $0$ 起点でなかったり疎な構造を表すことができますので、移行の際にはこうした新たな構成要素を用いて Jagged Array を用いない記述へと置き換えることを強く推奨します。

@@ -48,7 +48,7 @@ The meaning of each parameter in this mathematical model is as follows:
 | $w_{i}$ | Weight of item $i$ |
 | $W$ | Weight capacity of the knapsack |
 
-In this explanation, we will solve an [instance](what_is_instance) obtained by inputting the following values into the parameters $v_{i}, w_{i}, W$ of the above mathematical model:
+In this explanation, we will solve an [instance](what_is_instance_scip) obtained by inputting the following values into the parameters $v_{i}, w_{i}, W$ of the above mathematical model:
 
 | Parameter | Value |
 | --- | --- |
@@ -56,7 +56,7 @@ In this explanation, we will solve an [instance](what_is_instance) obtained by i
 | $w_{i}$ | `[11, 15, 20, 35, 10, 33]` |
 | $W$ | `47` |
 
-(what_is_instance)=
+(what_is_instance_scip)=
 :::{admonition} What is an instance?
 In `jijmodeling`, a dictionary that stores specific values for the parameters of a mathematical model is called "instance data", and a mathematical model with specific values assigned to its parameters is called an "instance".
 :::
@@ -71,7 +71,9 @@ Using `jijmodeling`, you can generate an instance to input into the solver in th
 2. Prepare instance data
 3. Generate an instance
 
-![Diagram of the process to generate an instance from a mathematical model](../images/model-and-instance-illustrated.svg)
+:::{figure} ../images/model-and-instance-illustrated.svg
+:alt: Diagram of the process to generate an instance from a mathematical model
+:::
 
 +++
 
