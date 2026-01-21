@@ -184,13 +184,15 @@ problem.infer(S + s) # OK! （同一キー集合を持つ全域辞書同士の�
 ```{code-cell} ipython3
 :tags: [raises-exception]
 
-problem.infer(S * y) # ERROR!（辞書と配列の乗算）
+# ERROR!（辞書と配列の乗算）
+problem.infer(S * y)
 ```
 
 ```{code-cell} ipython3
 :tags: [raises-exception]
 
-problem.infer(y + z) # ERROR!（形状が異なる配列どうしの演算）
+# ERROR!（形状が異なる配列どうしの演算）
+problem.infer(y + z)
 ```
 
 :::{admonition} 決定変数による除算について
