@@ -9,7 +9,7 @@
   "textlint.autoFixOnSave": true,
   "markdownlint.config": {
     "MD033": false,
-    "MD013": false
+    "MD013": { "line_length": 150 }
   },
   "files.exclude": {
     "**/.git": true,

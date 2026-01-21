@@ -49,8 +49,11 @@ sphinx:
       show_toc_level: 5
     intersphinx_mapping:
       api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/, null]
+      numpy: [https://numpy.org/doc/stable, null]
+      python: ["https://docs.python.org/3", null]
 
 parse:
+  recursive_update: true
   myst_enable_extensions:
   - deflist
   - amsmath
@@ -62,8 +65,3 @@ parse:
   - html_image
   - linkify
   - strikethrough
-
-myst:
-  project:
-    references:
-      api_ref: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest
