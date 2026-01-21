@@ -64,7 +64,8 @@ $x, y, N$ といった数理モデルに含まれる決定変数・プレース�
 :::{admonition} 式に対する関数呼び出しとメソッド呼び出しは同値
 :class: tip
 
-JijModeling では、{py:class}`~jijmodeling.Expression` オブジェクト `A` に対する単項演算は、`jm.log(A)` のように前置式の関数呼び出しとして書くこともできますし、`A.log()` のように後置式のメソッド呼び出しで書くこともでき、どちらも全く同じ式になるようになっており、好きな方を使って書くことができます。
+JijModeling では、{py:class}`~jijmodeling.Expression` オブジェクト `A` に対する単項演算は、`jm.log(A)` のように前置式の関数呼び出しとして書くこともできますし、`A.log()` のように後置式のメソッド呼び出しで書くこともできます。
+どちらも全く同じ式が構築されるようになっているため、好きな方を使って書くとよいでしょう。{py:class}`~jijmodeling.DecisionVar` や {py:class}`~jijmodeling.Placeholder` に対しても同様です。
 ただし、Python の組込み数値などに対してはメソッド呼び出しによるができないため、こうした場合は関数呼び出しを用いて `jm.log(2)` のように書く必要があります。
 :::
 
