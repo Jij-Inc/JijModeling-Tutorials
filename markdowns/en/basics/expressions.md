@@ -328,7 +328,7 @@ By contrast, **JijModeling "sets" allow duplicates and preserve order**.
 Strictly speaking, JijModeling sets correspond to **streams** or **iterators** in general programming terms.
 :::
 
-Some values are automatically converted to sets. For example, a multi-dimensional array becomes a set that scans elements in row-major order, and a natural number $N$ becomes the set $\{0, 1, \ldots, N-1\}$.
+Some values are automatically converted to sets. For example, a multi-dimensional array becomes a set that scans elements in row-major order, a natural number $N$ becomes the set $\{0, 1, \ldots, N-1\}$, and a category label `L` becomes the set of all values of `L` given at compile time.
 
 :::{admonition} Change from JijModeling 1: arrays as "sets"
 :class: caution
