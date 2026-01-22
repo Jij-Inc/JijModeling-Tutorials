@@ -607,7 +607,7 @@ Here is a knapsack formulation using category labels:
 def knapsack_cat_dict(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
     # Use the TotalDict constructor.
-    v = problem.TotalDict("v", dtype=float, dict_keys=L, description="Value of each item")
+    v = problem.TotalDict(dtype=float, dict_keys=L, description="Value of each item")
     # Use dict_keys on a placeholder constructor.
     w = problem.Float(dict_keys=L, description="Weight of each item")
     x = problem.BinaryVar(dict_keys=L, description="$x_i = 1$ only when item $i$ is included")
@@ -623,7 +623,7 @@ In such cases, `PartialDict` is very useful:
 @jm.Problem.define("Knapsack (vars only, with synergy)")
 def knapsack_synergy(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
-    v = problem.TotalDict("v", dtype=float, dict_keys=L, description="Value of each item")
+    v = problem.TotalDict(dtype=float, dict_keys=L, description="Value of each item")
     w = problem.Float(dict_keys=L, description="Weight of each item")
     x = problem.BinaryVar(dict_keys=L, description="$x_i = 1$ only when item $i$ is included")
     # Use PartialDict to represent synergy bonuses.

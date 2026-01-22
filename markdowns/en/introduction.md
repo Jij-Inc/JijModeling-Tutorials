@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.0
 kernelspec:
-  display_name: .venv
+  display_name: jijmodeling-tutorial
   language: python
   name: python3
 ---
@@ -100,18 +100,20 @@ This enables a more "Pythonic" modeling style, such as omitting explicit variabl
 
 ### Comparison of syntax
 
++++
+
 **Plain API**:
 
-```python
+```{code-cell} ipython3
 my_problem = jm.Problem("My Problem")
-N = problem.Length("N")
-x = problem.BinaryVar("x", shape=N)
-problem += jm.sum(N.filter(lambda i: i % 2 == 0).map(lambda i: x[i]))
+N = my_problem.Length("N")
+x = my_problem.BinaryVar("x", shape=N)
+my_problem += jm.sum(N.filter(lambda i: i % 2 == 0).map(lambda i: x[i]))
 ```
 
 **Decorator API**:
 
-```python
+```{code-cell} ipython3
 @jm.Problem.define("My Problem")
 def my_problem(problem: jm.DecoratedProblem):
     N = problem.Length()
@@ -119,14 +121,12 @@ def my_problem(problem: jm.DecoratedProblem):
     problem += jm.sum(x[i] for i in N if i % 2 == 0)
 ```
 
-+++
-
 ## Installation
 
 If you use `pip`, install `jijmodeling` with the following command:
 
 ```bash
-pip install 'jijmodeling>=2.0.0rc.1'
+pip install 'jijmodeling>=2.0.0rc.3'
 ```
 
 If you are using uv, run:

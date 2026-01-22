@@ -602,7 +602,7 @@ problem_for_dict
 def knapsack_cat_dict(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
     # TotalDict 構築子を使ってみる
-    v = problem.TotalDict("v", dtype=float, dict_keys=L, description="各アイテムの価値")
+    v = problem.TotalDict(dtype=float, dict_keys=L, description="各アイテムの価値")
     # dict_keys を使ってみる
     w = problem.Float(dict_keys=L, description="各アイテムの重量")
     x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
@@ -618,7 +618,7 @@ knapsack_cat_dict
 @jm.Problem.define("Knapsack (vars only, with synergy)")
 def knapsack_synergy(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
-    v = problem.TotalDict("v", dtype=float, dict_keys=L, description="各アイテムの価値")
+    v = problem.TotalDict(dtype=float, dict_keys=L, description="各アイテムの価値")
     w = problem.Float(dict_keys=L, description="各アイテムの重量")
     x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
     # PartialDict を使ってシナジーボーナスを表現！
