@@ -41,6 +41,4 @@ rules:
   - expected: 多次元
     pattern: 高次元
   - expected: 多次元配列
-    pattern: 高次元配列
-  - expected: 多次元配列
-    pattern: 多重配列
+    pattern: /高次元配列|多重配列|テンソル/
