@@ -236,7 +236,7 @@ These functions can be applied regardless of whether the expression contains dec
 ## Comparison operators
 
 <!-- markdownlint-disable -->
-Equality operators ({py:meth}`== <jijmodeling.Expression.__eq__>`, {py:meth}`!= <jijmodeling.Expression.__ne__>`) and order comparison operators ({py:meth}`< <jijmodeling.Expression.__lt__>`, {py:meth}`<= <jijmodeling.Expression.__le__>`, {py:meth}`> <jijmodeling.Expression.__gt__>`, {py:meth}`>= <jijmodeling.Expression.__ge__>`) can also be used with JijModeling expressions.
+Equality operators ({py:meth}`== <jijmodeling.Expression.__eq__>`, {py:meth}` != <jijmodeling.Expression.__ne__>`) and order comparison operators ({py:meth}`< <jijmodeling.Expression.__lt__>`, {py:meth}`<= <jijmodeling.Expression.__le__>`, {py:meth}`> <jijmodeling.Expression.__gt__>`, {py:meth}`>= <jijmodeling.Expression.__ge__>`) can also be used with JijModeling expressions.
 <!-- markdownlint-enable -->
 
 If **neither side contains decision variables**, the result is a Boolean expression (`Bool`).
