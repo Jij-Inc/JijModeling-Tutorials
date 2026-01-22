@@ -18,7 +18,6 @@ parts:
       - file: basics/overview
       - file: basics/problem
       - file: basics/variables
-      - file: basics/expressions
   - caption: リファレンス
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
