@@ -134,7 +134,7 @@ If you are using uv, run:
 <!-- FIXME: After the official release, drop the version spec >=2.0.0b8 -->
 
 ```bash
-uv add 'jijmodeling>=2.0.0rc.1'
+uv add 'jijmodeling>=2.0.0rc.2'
 ```
 
 Note that `jijmodeling` requires Python 3.11 or later.

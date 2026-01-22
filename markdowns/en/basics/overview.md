@@ -25,7 +25,7 @@ This section covers the following topics:
 
 1. [**Declaring mathematical models**](./problem): In JijModeling, variables and constraints are always registered into a specific mathematical model. We start with how to declare a model.
 2. [**Defining variables**](./variables): We discuss decision variables and placeholders (parameters that are substituted with instance data), along with their families and how to declare them.
-3. **Building expressions** (coming soon): How to build expressions in JijModeling, used for objectives, constraints, and variable shapes.
+3. [**Constructing Expressions**](./expressions): How to build expressions in JijModeling, used for objectives, constraints, and variable shapes.
 4. **Mathematical model formulation** (coming soon): How to set objectives and constraints using the elements above.
 5. **Creating instances** (coming soon): How to provide instance data and generate instances, with a brief note on the configuration of constraint detection.
 

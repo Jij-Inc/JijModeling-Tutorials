@@ -35,7 +35,7 @@ This concept of placeholders, which separates input data from the model definiti
 Placeholders and decision variables
 :::
 
-[Figure 1](#two-kinds-of-vars) shows a simple example of both.
+{numref}`Figure %s <two-kinds-of-vars>` shows a simple example of both.
 $N$ and $d$ are parameters whose values are assigned at compile time, i.e., **placeholders**, and are replaced by concrete values in an instance.
 On the other hand, each $x_i$ is a **decision variable** whose value is chosen by the solver, and they remain in the instance.
 In this example, the $x_n$ are indexed by the placeholder $N$, so their length is unknown at the modeling stage.
