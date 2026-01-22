@@ -38,6 +38,8 @@ rules:
       to: バイナリ
   - expected: バイナリー変数
     pattern: 二値変数
+  - expected: 多次元
+    pattern: 高次元
   - expected: 多次元配列
     pattern: 高次元配列
   - expected: 多次元配列

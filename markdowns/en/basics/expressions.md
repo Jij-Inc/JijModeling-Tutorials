@@ -119,6 +119,28 @@ This is because expression types are determined only when placed in context.
 So even if an expression is "invalid", it does not necessarily throw an error at construction time.
 :::
 
+Below, we use {py:meth}`Problem.infer() <jijmodeling.Problem.infer>` to show valid and invalid examples.
+This method infers the type of a given expression based on the decision variables and placeholders defined in the `Problem`, and it raises a type error for invalid expressions.
+Let's look at an example. Here, we add a binary variable $x$ and an integer $N$, so $x + N$ is inferred as an integer-type expression $\mathbb{Z}$.
+
+```{code-cell} ipython3
+problem = jm.Problem("Type Inference Example")
+x = problem.BinaryVar("x", description="Scalar decision variable")
+N = problem.Integer("N")
+
+problem.infer(x + N) # OK! (scalar addition)
+```
+
+On the other hand, a scalar value cannot be added to a string, so the following example raises an error.
+
+```{code-cell} ipython3
+try:
+    # ERROR! (string and scalar cannot be added)
+    problem.infer(x + "hoge")
+except Exception as e:
+    print(e)
+```
+
 ## Placeholders and decision variables as expressions
 
 As described in the previous section, decision variables and placeholders are defined with methods like {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` and {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>`.
@@ -129,11 +151,11 @@ Constants like `0` are plain Python numbers, but they are also automatically con
 ## Arithmetic operations
 
 Python's builtin arithmetic operators (add/subtract/multiply/divide/mod: {py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, {py:meth}`% <jijmodeling.Expression.__mod__>`, etc.) can be used with JijModeling expressions.
-Besides numeric scalars, you can also apply these operations to (higher-dimensional) arrays or to {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` objects with matching key sets, subject to some conditions.
+Besides numeric scalars, you can also apply these operations to (multidimensional) arrays or to {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` objects with matching key sets, subject to some conditions.
 Specifically, the following combinations (left or right) are supported:
 
 1. Scalar with scalar
-2. Scalar with higher-dimensional array
+2. Scalar with multidimensional array
 3. Scalar with dictionary
 4. Arrays with the same shape
 5. Total dictionaries with the same key set
@@ -181,8 +203,6 @@ problem.infer(y - x) # OK! (array minus scalar)
 ```
 
 ```{code-cell} ipython3
-:tags: [raises-exception]
-
 problem.infer(S * x) # OK! (scalar times dictionary)
 ```
 
@@ -195,8 +215,6 @@ problem.infer(y / W) # OK! (division of arrays with the same shape (N, M))
 <!-- TODO: should require exact matching, not max -->
 
 ```{code-cell} ipython3
-:tags: [raises-exception]
-
 problem.infer(S + s) # OK! (addition of total dictionaries with the same key set)
 ```
 
@@ -265,10 +283,10 @@ problem.infer(y > W) # OK! (comparison of arrays with the same shape)
 
 ### Element access and images by indexing
 
-Like Python lists, dictionaries, or {py:class}`numpy.ndarray`, JijModeling expressions support multi-dimensional indexing such as `x[i]`.
+Like Python lists, dictionaries, or {py:class}`numpy.ndarray`, JijModeling expressions support multi-dimensional indexing such as `x[i, j]`.
 Specifically, you can index expressions of the following types:
 
-1. (Higher-dimensional) arrays
+1. (Multidimensional) arrays
    + **Allowed indices**: natural-number expressions that do not include decision variables
 2. Dictionaries
    + **Allowed indices**: category labels in the dictionary key set, or arbitrary integer expressions (including decision variables)
@@ -292,8 +310,6 @@ For arrays, use {py:meth}`~jijmodeling.Expression.indices`; for dictionaries, us
 For example, you can define a dictionary decision variable with the same domain as a `PartialDict` placeholder as follows:
 
 ```{code-cell} ipython3
-:tags: [raises-exception]
-
 problem = jm.Problem("Index and Keys Example")
 N = problem.Length("N")
 L = problem.CategoryLabel("L")

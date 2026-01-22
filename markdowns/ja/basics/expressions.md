@@ -115,7 +115,26 @@ JijModeling 内蔵の型検査は、式が**構築された直後ではなく**�
 :::
 
 以下では、妥当な用例や妥当でない用例を例示するために、{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` メソッドを用いています。
-これは、
+このメソッドは、`Problem`の持っている決定変数・プレースホルダーの情報を基に、与えられた式の型を推論するメソッドであり、不正な式を与えると型エラーを発生させます。
+例を見てみましょう。ここでは、バイナリ変数 $x$ と整数 $N$ を足しているので、$x + N$ は整数型 $\mathbb{Z}$を持つものとして推論されています。
+
+```{code-cell} ipython3
+problem = jm.Problem("Type Inference Example")
+x = problem.BinaryVar("x", description="スカラーの決定変数")
+N = problem.Integer("N")
+
+problem.infer(x + N) # OK! スカラー同士の足し算
+```
+
+一方で、スカラー値と文字列は足し算できないため、次の例はエラーとなります。
+
+```{code-cell} ipython3
+try:
+    # エラー！文字列とスカラーは足し算できない
+    problem.infer(x + "hoge")
+except Exception as e:
+    print(e)
+```
 
 ## 式としてのプレースホルダー、決定変数
 
@@ -127,7 +146,7 @@ JijModeling 内蔵の型検査は、式が**構築された直後ではなく**�
 ## 算術演算
 
 Python 組込みの算術演算（{py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, {py:meth}`% <jijmodeling.Expression.__mod__>` などの加減乗除）は、JijModeling の式に対して用いることができます。
-数値同士の演算は期待通り動作するのに加え、（高次元）配列同士や、キー集合が一致する {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` に対しても、一定の条件を満たせば演算を行うことができます。
+数値同士の演算は期待通り動作するのに加え、（多次元）配列同士や、キー集合が一致する {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` に対しても、一定の条件を満たせば演算を行うことができます。
 具体的には、以下の組み合わせ（左右問わず）に対して算術演算がサポートされています：
 
 1. スカラー同士の算術演算
@@ -179,8 +198,6 @@ problem.infer(y - x) # OK! （多次元配列とスカラーの減算）
 ```
 
 ```{code-cell} ipython3
-:tags: [raises-exception]
-
 problem.infer(S * x) # OK! （スカラーと辞書の乗算）
 ```
 
@@ -193,8 +210,6 @@ problem.infer(y / W) # OK! （同一シェイプ (N, M) の配列同士の除算
 <!-- TODO: max じゃなくて完全一致にならないとだめ！ -->
 
 ```{code-cell} ipython3
-:tags: [raises-exception]
-
 problem.infer(S + s) # OK! （同一キー集合を持つ全域辞書同士の加算）
 ```
 
@@ -261,10 +276,10 @@ problem.infer(y > W) # OK! （同一シェイプ配列同士の比較）
 
 ### 添え字による要素アクセスと像
 
-Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndarray` と同様、JijModeling の式でも `x[i]のような多次元の添え字（インデックス）を用いることができます。
+Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndarray` と同様、JijModeling の式でも `x[i, j]` のような多次元の添え字（インデックス）を用いることができます。
 具体的には、JijModeling では次の型を持つ式に対して添え字を用いることができます：
 
-1. （高次元）配列
+1. （多次元）配列
    + **許容される添え字**：決定変数を含まない自然数型の式
 2. 辞書
    + **許容される添え字**：辞書のキー集合に含まれるカテゴリーラベル型や、決定変数を含む任意の整数式。
@@ -286,8 +301,6 @@ Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndar
 これを使うと、たとえば `PartialDict` プレースホルダーと同じ定義域を持つような辞書型の決定変数を以下のようにして定義することができます。
 
 ```{code-cell} ipython3
-:tags: [raises-exception]
-
 problem = jm.Problem("Index and Keys Example")
 N = problem.Length("N")
 L = problem.CategoryLabel("L")
