@@ -365,6 +365,26 @@ def sum_example(problem: jm.DecoratedProblem):
 sum_example
 ```
 
+:::{admonition} Caution: Do not use Python's built-in `sum`
+:class: caution
+
+To write sums with comprehensions, you can only use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>` function or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>` method.
+If you accidentally use Python's built-in {py:func}`sum`, or call {py:func}`jm.sum() <jijmodeling.sum>` outside the Decorator API, you will get an error like the following:
+:::
+
+```{code-cell} ipython3
+try:
+    @jm.Problem.define("Wrong Sum Example")
+    def wrong_sum_example(problem: jm.DecoratedProblem):
+        N = problem.Length()
+        a = problem.Float(shape=(N,))
+        x = problem.BinaryVar(shape=(N,))
+        # ERROR! Using Python's builtin sum instead of jm.sum()
+        problem += sum(a[i] * x[i] for i in N)
+except Exception as e:
+    print(e)
+```
+
 JijModeling provides {py:func}`jijmodeling.map`, corresponding to Python's builtin {py:func}`~map`, so you can write the same thing using only the Plain API as follows:
 
 ```{code-cell} ipython3

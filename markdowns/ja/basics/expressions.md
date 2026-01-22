@@ -354,6 +354,26 @@ def sum_example(problem: jm.DecoratedProblem):
 sum_example
 ```
 
+:::{admonition} Python 組込みの `sum` 関数を使わないように注意！
+:class: caution
+
+内包表記を用いた総和の記述に使えるのは、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>` 関数や {py:meth}`Expression.sum() <jijmodeling.Expression.sum>` メソッドのみです。
+誤って Python 組込みの {py:func}`sum` 関数を使ったり、Decorator API の外側で {py:func}`jm.sum() <jijmodeling.sum>` を使ったりすると、以下のようなエラーが出ますので注意してください：
+:::
+
+```{code-cell} ipython3
+try:
+    @jm.Problem.define("Wrong Sum Example")
+    def wrong_sum_example(problem: jm.DecoratedProblem):
+        N = problem.Length()
+        a = problem.Float(shape=(N,))
+        x = problem.BinaryVar(shape=(N,))
+        # ERROR! jm.sum() ではなく、Python 組込みの sum を使っている
+        problem += sum(a[i] * x[i] for i in N)
+except Exception as e:
+    print(e)
+```
+
 JijModeling は Python 標準ライブラリの {py:func}`~map` 関数に対応する、{py:func}`jijmodeling.map` 関数を提供しているので、Plain API のみで同じものを以下のように書けます：
 
 ```{code-cell} ipython3
