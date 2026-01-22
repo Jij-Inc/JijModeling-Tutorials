@@ -106,7 +106,7 @@ JijModeling 内蔵の型検査は、式が**構築された直後ではなく**�
 2. {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` により制約条件が宣言されたとき
 3. `ndim`, `shape` や `dict_keys` の成分として現れたとき
 4. {py:meth}`Problem.eval() <jijmodeling.Problem.eval>`関数や{py:class}`~jijmodeling.Compiler`によりインスタンスへコンパイルされるとき
-5. {py:meth}`Problem.infer () <jijmodeling.Problem.infer>`関数により明示的に型推論を行わせたとき
+5. {py:meth}`Problem.infer() <jijmodeling.Problem.infer>`関数により明示的に型推論を行わせたとき
 
 これは、式が文脈に置かれて初めて適切な「型」が定まるためです。
 そのため、以下で見ていく式の構築方法について「不正」な記述であっても、単に式を構築した段階でエラーになるとは限らないことに注意してください。
