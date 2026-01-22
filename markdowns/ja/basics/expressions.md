@@ -341,15 +341,15 @@ JijModeling 2 からは、こうした振る舞いは廃止され、要素を順
 
 ### 集合の総和・総積
 
-JijModeling は Python 標準ライブラリの {py:func}`~map` 関数に対応する、{py:func}`jijmodeling.map` 関数を提供しており、これらと {py:func}`jm.sum <jijmodeling.sum>` 関数や {py:func}`jm.prod <jijmodeling.prod>` 関数を組み合わせることで、集合に渡る総和・総積を表現することができます。
+添え字は総和・総積と組み合わせると大きな威力を発揮します。以下ではさまざまな総和・総積の記法について説明していきます。
 
 :::{note}
 簡単のため以下では {py:func}`jm.sum <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>` を使った総積も同様に記述できます。
 :::
 
-更に、Decorator API を使えば、こうした高階関数を直接かかずに、直感的な{external+python:ref}`内包表記 <comprehensions>`の形で集合を構築することができます。
+Decorator API では、総和・総積は直感的な{external+python:ref}`内包表記 <comprehensions>`の形で記述することができます。
 
-たとえば、決定変数とプレースホルダーの積の総和は、Decorator API を使えば以下のように内包表記で記述することができます：
+以下は、決定変数とプレースホルダーの積の総和を Decorator API を使って書いた例です：
 
 ```{code-cell} ipython3
 @jm.Problem.define("Sum Example")
@@ -362,7 +362,7 @@ def sum_example(problem: jm.DecoratedProblem):
 sum_example
 ```
 
-同じものを、`map` を使って Plain API で書いたものは次のようになります：
+JijModeling は Python 標準ライブラリの {py:func}`~map` 関数に対応する、{py:func}`jijmodeling.map` 関数を提供しているので、Plain API のみで同じものを以下のように書けます：
 
 ```{code-cell} ipython3
 sum_example_plain = jm.Problem("Sum Example (Plain)")

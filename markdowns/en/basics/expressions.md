@@ -352,13 +352,13 @@ Conversion to sets is usually automatic, but you can explicitly convert via {py:
 
 ### Sum and product over sets
 
-JijModeling provides a {py:func}`jijmodeling.map` function corresponding to Python's builtin {py:func}`~map`. Combined with {py:func}`jm.sum <jijmodeling.sum>` or {py:func}`jm.prod <jijmodeling.prod>`, this lets you express sums/products over sets.
+Indices become especially powerful when combined with sums/products. Below we introduce several ways to write sums and products.
 
 :::{note}
 For simplicity we show sums using {py:func}`jm.sum <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`), but products using {py:func}`jm.prod <jijmodeling.prod>` or {py:meth}`Expression.prod() <jijmodeling.Expression.prod>` are analogous.
 :::
 
-Moreover, with the Decorator API you can build sets directly using intuitive {external+python:ref}`comprehensions <comprehensions>` without writing higher-order functions.
+With the Decorator API, sums/products can be written using intuitive {external+python:ref}`comprehensions <comprehensions>`.
 
 For example, the sum of products of decision variables and placeholders can be written as:
 
@@ -373,7 +373,7 @@ def sum_example(problem: jm.DecoratedProblem):
 sum_example
 ```
 
-The same expression written in the Plain API using `map` is:
+JijModeling provides {py:func}`jijmodeling.map`, corresponding to Python's builtin {py:func}`~map`, so you can write the same thing using only the Plain API as follows:
 
 ```{code-cell} ipython3
 sum_example_plain = jm.Problem("Sum Example (Plain)")
