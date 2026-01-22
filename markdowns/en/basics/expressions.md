@@ -31,7 +31,8 @@ import jijmodeling as jm
 ## What is an expression?
 
 JijModeling separates model definitions from input data to achieve various features and efficiency.
-As a result, modeling in JijModeling does not directly construct a concrete formula. Instead, you first build a "program that becomes a concrete mathematical model only after input data is given", then compile it into a specific instance by providing data.
+As a result, modeling in JijModeling does not directly construct a concrete formula.
+Instead, you first build a "program that becomes a concrete mathematical model only after input data is given", then compile it into a specific instance by providing data.
 JijModeling calls this "program" an **expression**.
 
 More precisely, JijModeling expressions do not store concrete values, but keep an abstract syntax tree (AST) built from decision variables, placeholders, constants, and operations.
@@ -66,7 +67,7 @@ Expressions like `z = x + y[0]` and `w = jm.sum(y[i] for i in N)` are represente
 :::{admonition} Function calls and method calls are equivalent for expressions
 :class: tip
 
-For a {py:class}`~jijmodeling.Expression` object `A`, unary operations can be written as prefix function calls like `jm.log(A)` or as postfix method calls like `A.log()`.
+For an {py:class}`~jijmodeling.Expression` object `A`, unary operations can be written as prefix function calls like `jm.log(A)` or as postfix method calls like `A.log()`.
 Both construct exactly the same expression, so use whichever you prefer. The same applies to {py:class}`~jijmodeling.DecisionVar` and {py:class}`~jijmodeling.Placeholder`.
 However, Python builtin numbers do not support method calls, so for such cases you must use function calls like `jm.log(2)`.
 :::
@@ -503,7 +504,7 @@ jm.sum(
 
 In principle, you can write any model without the Decorator API, but it becomes complex and hard to read, so we recommend using the Decorator API.
 
-## Conditional expressions and logical operations on sets
+## Logical operations on conditional expressions and sets
 
 So far, conditions in comprehensions and {py:func}`~jijmodeling.filter` were simple, but in practice you often want logical expressions like "and" or "or".
 Python's `and`, `or`, and `not` cannot be overloaded, so JijModeling uses bitwise operators: `&` (and), `|` (or), `~` (not), or the functions {py:func}`jijmodeling.band`, {py:func}`jijmodeling.bor`, {py:func}`jijmodeling.bnot`.
