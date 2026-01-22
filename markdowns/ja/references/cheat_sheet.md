@@ -529,7 +529,7 @@ a = problem.ContinuousVar(
     shape=N,
     description="SOS1制約に従う連続変数",
     lower_bound=0,
-    upper_bound=M, # 同じ形状 (N,) の配列を指定しているので、成分ごとに上限が取られる。
+    upper_bound=M, # 同じシェイプ (N,) の配列を指定しているので、成分ごとに上限が取られる。
     # 以下のように書いても同値：
     # upper_bound=lambda i: M[i],
 )
@@ -565,7 +565,7 @@ def problem(problem: jm.DecoratedProblem):
         shape=N,
         description="SOS1制約に従う連続変数",
         lower_bound=0,
-        upper_bound=M, # 同じ形状 (N,) の配列を指定しているので、成分ごとに上限が取られる。
+        upper_bound=M, # 同じシェイプ (N,) の配列を指定しているので、成分ごとに上限が取られる。
         # 以下のように書いても同値：
         # upper_bound=lambda i: M[i],
     )

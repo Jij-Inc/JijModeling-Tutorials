@@ -73,7 +73,7 @@ JijModeling では、{py:class}`~jijmodeling.Expression` オブジェクト `A` 
 ただし、Python の組込み数値などに対してはメソッド呼び出しによるができないため、こうした場合は関数呼び出しを用いて `jm.log(2)` のように書く必要があります。
 :::
 
-## JijModeling の式の種類
+## JijModeling の「式の種類＝型」
 
 JijModeling では、式は種類＝型によって分類され、適宜検査されています。
 JijModeling を使う上では、こうした型システムの詳細を理解せずとも使えるように設計されています。
@@ -93,7 +93,7 @@ JijModeling が搭載している式の型はいくつかありますが、代�
 
 - 数値型：自然数や整数、連続変数など。
 - カテゴリーラベル型：ユーザーが後から追加するラベルの集合。
-- 高次元配列型
+- 多次元配列型
 - 辞書型
 - タプル型
 
@@ -114,6 +114,9 @@ JijModeling 内蔵の型検査は、式が**構築された直後ではなく**�
 そのため、以下で見ていく式の構築方法について「不正」な記述であっても、単に式を構築した段階でエラーになるとは限らないことに注意してください。
 :::
 
+以下では、妥当な用例や妥当でない用例を例示するために、{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` メソッドを用いています。
+これは、
+
 ## 式としてのプレースホルダー、決定変数
 
 前節で見たように、JijModeling では {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` や {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>` などによって、決定変数やプレースホルダーを定義します。
@@ -128,9 +131,9 @@ Python 組込みの算術演算（{py:meth}`+ <jijmodeling.Expression.__add__>`,
 具体的には、以下の組み合わせ（左右問わず）に対して算術演算がサポートされています：
 
 1. スカラー同士の算術演算
-2. スカラーと高次元配列の算術演算
+2. スカラーと多次元配列の算術演算
 3. スカラーと辞書の算術演算
-4. 同じシェイプを持つ高次元配列同士の算術演算
+4. 同じシェイプを持つ多次元配列同士の算術演算
 5. 同じキー集合を持つ全域辞書（{py:meth}`TotalDict <jijmodeling.Problem.TotalDict>`）同士の算術演算
 
 :::{admonition} JijModeling におけるブロードキャスト
@@ -172,7 +175,7 @@ problem.infer(x + 1) # OK! （スカラー同士の加算）
 ```
 
 ```{code-cell} ipython3
-problem.infer(y - x) # OK! （多重配列とスカラーの減算）
+problem.infer(y - x) # OK! （多次元配列とスカラーの減算）
 ```
 
 ```{code-cell} ipython3
@@ -184,7 +187,7 @@ problem.infer(S * x) # OK! （スカラーと辞書の乗算）
 <!-- TODO: 例外になるべきでない！ -->
 
 ```{code-cell} ipython3
-problem.infer(y / W) # OK! （同一形状 (N, M) の配列同士の除算）
+problem.infer(y / W) # OK! （同一シェイプ (N, M) の配列同士の除算）
 ```
 
 <!-- TODO: max じゃなくて完全一致にならないとだめ！ -->
@@ -209,7 +212,7 @@ except Exception as e:
 
 ```{code-cell} ipython3
 try:
-    # ERROR!（形状が異なる配列どうしの演算）
+    # ERROR!（シェイプが異なる配列どうしの演算）
     problem.infer(y + z)
 except Exception as e:
     print(e)
@@ -251,7 +254,7 @@ problem.infer(N <= N) # OK! （スカラー同士の順序比較）
 ```
 
 ```{code-cell} ipython3
-problem.infer(y > W) # OK! （同一形状配列同士の比較）
+problem.infer(y > W) # OK! （同一シェイプ配列同士の比較）
 ```
 
 ## 配列・辞書の添え字（インデックス）
