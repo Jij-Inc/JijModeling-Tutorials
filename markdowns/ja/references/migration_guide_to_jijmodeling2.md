@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.18.1
+    jupytext_version: 1.19.0
 kernelspec:
   display_name: .venv
   language: python
@@ -190,7 +190,7 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 | カテゴリー | 目的 | 典型的なコンストラクタ | 注記 |
 |----------|---------|----------------------|----------|
 | Problem  | 名前空間/モデルルート | `jm.Problem(name, sense=...)` | すべてのパラメータと制約の情報を保持 |
-| Placeholders | パラメータテンソル（評価時に与えられる） | `problem.Placeholder(...)`、`problem.Natural(...)`、`problem.Float(...)` | `@problem.update`や`@jm.Problem.define`で名前を省略可能。`Natural`等は型付きショートカット。Problemに対し構築する必要がある |
+| Placeholders | パラメータ多次元配列（評価時に与えられる） | `problem.Placeholder(...)`、`problem.Natural(...)`、`problem.Float(...)` | `@problem.update`や`@jm.Problem.define`で名前を省略可能。`Natural`等は型付きショートカット。Problemに対し構築する必要がある |
 | Decision Vars | 決定変数 | `problem.BinaryVar`、`problem.IntegerVar`、`problem.FloatVar`など | Problemに対し構築する必要がある |
 | Expressions | 構文木 | 代数演算子、`jm.sum`、`.sum()`、`.prod()` | JijModeling 2 から数値以外の値も増え、型検査されるように |
 | Sets | 反復可能なシンボリックドメイン | プレースホルダー自体（`for i in N`）、`jm.product(A,B)`、`jm.filter(...)` | ラムダ式または内包表記と共に使用、`Element`オブジェクトを代替。 |
@@ -205,7 +205,7 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 
 ### Setとラムダ式・内包表記による Element の代替
 
-JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽に宣言する必要があり、特に高次テンソルを扱う際にコーディングが複雑になりました。
+JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽に宣言する必要があり、特に高次多次元配列を扱う際にコーディングが複雑になりました。
 かわりに、JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として`Set`（（多重）集合）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
 
 具体的には、以下を `Set` として扱うことができます：
@@ -226,7 +226,7 @@ JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽
 
 `Element` を介してインデックスをねじ曲げながら決定変数の各成分に上下限を与えていたケースも、JijModeling 2 では `Set` ベースの API と `Problem.*Var` の構築時引数だけで表現できます。上下限は以下の 2 通りで与えられます：
 
-- **同じシェイプの多重配列・辞書を渡す**：決定変数が多重配列である場合（`shape`が指定されている場合）、同じシェイプの多重配列に評価される式を `lower_bound`・`upper_bound` に渡すことで成分ごとの上下界を指定できます。辞書型変数（`dict_keys`が指定されている場合）についても同様で、同じキー集合を持つ（全域な）辞書を渡せば期待通り設定されます。
+- **同じシェイプの多次元配列・辞書を渡す**：決定変数が多次元配列である場合（`shape`が指定されている場合）、同じシェイプの多次元配列に評価される式を `lower_bound`・`upper_bound` に渡すことで成分ごとの上下界を指定できます。辞書型変数（`dict_keys`が指定されている場合）についても同様で、同じキー集合を持つ（全域な）辞書を渡せば期待通り設定されます。
 - **インデックス→値のラムダ式を渡す**：`lambda i, j: L[i, j] - U[j, i]` のように、添字を受け取って境界値を返す関数を指定することもできます。これにより、従来 `Element` を生成して `L[i, j] - U[j, i]` のように書いていたロジックを純粋な Python のラムダで置き換えられます。
 
 以下は、以前 `Element` を使っていたコードを新しい記法へ置き換えた例です：
@@ -262,7 +262,7 @@ U = problem.Float("U", shape=N)
 x = problem.IntegerVar(
     "x",
     shape=(N,M),
-    lower_bound=L,                  # 同じ形状のテンソルによる指定
+    lower_bound=L,                  # 同じシェイプの多次元配列による指定
     upper_bound=lambda i, j: U[i],  # 添え字からの関数による指定
 )
 y = problem.IntegerVar(

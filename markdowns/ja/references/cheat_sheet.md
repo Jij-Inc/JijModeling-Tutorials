@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.18.1
+    jupytext_version: 1.19.0
 kernelspec:
   display_name: .venv
   language: python
@@ -112,7 +112,7 @@ problem
 ```
 
 ### 辺集合に沿った決定変数の総和
-#### Tuple を要素にもつテンソルの例（推奨）
+#### Tuple を要素にもつ多次元配列の例（推奨）
 
 
 JijModeling 2 ではタプルを要素にもつ Placeholder をサポートしているため、辺集合としてのグラフはタプルを要素にもつ一次元配列として表現できる。
@@ -150,7 +150,7 @@ problem
 #### 辺集合別解 1：rows を使った例
 
 
-`rows()` を使うと側の軸に沿って二重のテンソルとなり、直接 sum を取れる：
+`rows()` を使うと側の軸に沿って二重の多次元配列となり、直接 sum を取れる：
 
 ```{code-cell} ipython3
 problem = jm.Problem("SumAlongEdgeSet", sense=jm.ProblemSense.MINIMIZE)
@@ -529,7 +529,7 @@ a = problem.ContinuousVar(
     shape=N,
     description="SOS1制約に従う連続変数",
     lower_bound=0,
-    upper_bound=M, # 同じ形状 (N,) の配列を指定しているので、成分ごとに上限が取られる。
+    upper_bound=M, # 同じシェイプ (N,) の配列を指定しているので、成分ごとに上限が取られる。
     # 以下のように書いても同値：
     # upper_bound=lambda i: M[i],
 )
@@ -565,7 +565,7 @@ def problem(problem: jm.DecoratedProblem):
         shape=N,
         description="SOS1制約に従う連続変数",
         lower_bound=0,
-        upper_bound=M, # 同じ形状 (N,) の配列を指定しているので、成分ごとに上限が取られる。
+        upper_bound=M, # 同じシェイプ (N,) の配列を指定しているので、成分ごとに上限が取られる。
         # 以下のように書いても同値：
         # upper_bound=lambda i: M[i],
     )
@@ -670,7 +670,7 @@ def _(problem: jm.DecoratedProblem):
 
     
     # Category の添え字を使うには、辞書としてデータ型を定義する必要がある
-    # 内部表現もテンソルとは異なり、辞書として表現される。
+    # 内部表現も多次元配列とは異なり、辞書として表現される。
     
     # `shape`/`ndim` のかわりに、`dict_keys` を指定すると、
     # そのキーに指定された型の値をキーに持つ辞書として定義される。
@@ -811,7 +811,7 @@ for j in trucks_data:
     assert constr.function.almost_equal(expected_function)
 ```
 
-#### 解法 2：配列の min / max によるテンソル定義
+#### 解法 2：配列の min / max による多次元配列定義
 
 ```{code-cell} ipython3
 problem = jm.Problem("QuadraticKnapsackLogistics", sense=jm.ProblemSense.MAXIMIZE)

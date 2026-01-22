@@ -48,3 +48,20 @@ sphinx:
   config:
     html_theme_options:
       show_toc_level: 5
+    intersphinx_mapping:
+      api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/, null]
+      numpy: [https://numpy.org/doc/stable, null]
+      python: ["https://docs.python.org/ja/3", "https://docs.python.org/ja/3/objects.inv"]
+
+parse:
+  myst_enable_extensions:
+  - deflist
+  - amsmath
+  - dollarmath
+  - attrs_inline
+  - colon_fence
+  - fieldlist
+  - html_admonition
+  - html_image
+  - linkify
+  - strikethrough

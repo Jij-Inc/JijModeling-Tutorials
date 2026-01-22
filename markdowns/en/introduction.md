@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.18.1
+    jupytext_version: 1.19.0
 kernelspec:
   display_name: .venv
   language: python
@@ -134,7 +134,7 @@ If you are using uv, run:
 <!-- FIXME: After the official release, drop the version spec >=2.0.0b8 -->
 
 ```bash
-uv add 'jijmodeling>=2.0.0rc.1'
+uv add 'jijmodeling>=2.0.0rc.3'
 ```
 
 Note that `jijmodeling` requires Python 3.11 or later.

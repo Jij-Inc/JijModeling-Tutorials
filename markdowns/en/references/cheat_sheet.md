@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.18.1
+    jupytext_version: 1.19.0
 kernelspec:
   display_name: .venv
   language: python
@@ -112,7 +112,7 @@ problem
 ```
 
 ### Sum of decision variables over an edge set
-#### Tensor whose elements are tuples (recommended)
+#### Multi-dimensional array whose elements are tuples (recommended)
 
 
 JijModeling 2 supports placeholders whose elements are tuples, so you can represent a graph edge set as a 1D array of tuples.
@@ -150,7 +150,7 @@ problem
 #### Edge-set variant 1: using rows
 
 
-Using `rows()` yields a 2D tensor along that axis, allowing a direct sum:
+Using `rows()` yields a 2D multi-dimensional array along that axis, allowing a direct sum:
 
 ```{code-cell} ipython3
 problem = jm.Problem("SumAlongEdgeSet", sense=jm.ProblemSense.MINIMIZE)
@@ -671,7 +671,7 @@ def _(problem: jm.DecoratedProblem):
     J = problem.CategoryLabel(description="The labels of trucks")
 
     # To index by a Category you need to declare the data type as a dictionary.
-    # Its internal representation therefore differs from tensors and is stored as a dict.
+    # Its internal representation therefore differs from arrays and is stored as a dict.
 
     # Using `dict_keys` instead of `shape`/`ndim` declares a dictionary keyed by the supplied types.
     # By default the compiler expects values to be defined for every key in that domain.
@@ -804,7 +804,7 @@ for j in trucks_data:
     assert constr.function.almost_equal(expected_function)
 ```
 
-#### Approach 2: tensor definition via array min/max
+#### Approach 2: multi-dimensional array definition via array min/max
 
 ```{code-cell} ipython3
 problem = jm.Problem("QuadraticKnapsackLogistics", sense=jm.ProblemSense.MAXIMIZE)

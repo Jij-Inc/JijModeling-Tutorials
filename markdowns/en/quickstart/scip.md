@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.18.1
+    jupytext_version: 1.19.0
 kernelspec:
   display_name: .venv
   language: python
@@ -31,7 +31,7 @@ $$
 \begin{align*}
 \mathrm{maximize} \quad & \sum_{i=0}^{N-1} v_i x_i \\
 \mathrm{s.t.} \quad & \sum_{i=0}^{N-1} w_i x_i \leq W, \\
-& x_{i} \in \{ 0, 1\} 
+& x_{i} \in \{ 0, 1\}
 \end{align*}
 $$
 
@@ -43,7 +43,7 @@ The meaning of each parameter in this mathematical model is as follows:
 
 | Parameter | Description |
 | --- | --- |
-| $N$ |	Total number of items |
+| $N$ | Total number of items |
 | $v_{i}$ | Value of item $i$ |
 | $w_{i}$ | Weight of item $i$ |
 | $W$ | Weight capacity of the knapsack |

@@ -6,5 +6,19 @@
       ]
     }
   },
-  "textlint.autoFixOnSave": true
+  "textlint.autoFixOnSave": true,
+  "markdownlint.config": {
+    "MD033": false,
+    "MD013": { "line_length": 250 }
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/CVS": true,
+    "**/.ruby-lsp": true,
+    "docs/*/_build": true
+  }
 }

@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.18.1
+    jupytext_version: 1.19.0
 kernelspec:
   display_name: .venv
   language: python
@@ -190,7 +190,7 @@ To summarize:
 | Category | Purpose | Typical Constructors | Notes |
 |----------|---------|----------------------|-------|
 | Problem  | Namespace / model root | `jm.Problem(name, sense=...)` | Owns every symbol & constraint. |
-| Placeholders | Parameter tensors (given at evaluation) | `problem.Placeholder(...)`, `problem.Natural(...)`, `problem.Float(...)` | Names can be elided with `@problem.update` or `@jm.Problem.define`; `Natural` is a typed shortcut. |
+| Placeholders | Parameter multi-dimensional arrays (given at evaluation) | `problem.Placeholder(...)`, `problem.Natural(...)`, `problem.Float(...)` | Names can be elided with `@problem.update` or `@jm.Problem.define`; `Natural` is a typed shortcut. |
 | Decision Vars | Optimization variables | `problem.BinaryVar`, `problem.IntegerVar`, `problem.FloatVar`, etc. | Must be constructed in Problem |
 | Expressions | Syntax Tree | algebraic operations, `jm.sum()`、`.sum()`、`.prod()` | In JijModeling 2, expressions can have types other than scalars, and will be typechecked. |
 | Sets | Iterable symbolic domains | placeholder itself (`for i in N`), `jm.product(A,B)`, `jm.filter(...)` | Used with lambdas or comprehensions, replaces `Element` objects. |
@@ -205,7 +205,7 @@ For example, `x.sum()` and `jm.sum(x)` (or `z.log2()` and `jm.log2(z)`) are inte
 
 ### Sets and Lambdas / Comprehensions instead of Elements
 
-In JijModeling 1, users had to declare an `Element` belonging to a set (range / collection), which complicates the coding especially when treating higher-order tensors.
+In JijModeling 1, users had to declare an `Element` belonging to a set (range / collection), which complicates the coding especially when treating higher-order multi-dimensional arrays.
 Instead, JijModeling 2 removes `Element` node and introduces first-class `Set`s and provides an API to range over Sets using lambda expressions and/or Pythonic comprehension syntax.
 
 Concretely, the following can be treated as a set:
@@ -226,7 +226,7 @@ You can also convert expressions into a Set explicitly by calling `jm.set(expr)`
 
 If you previously manipulated `Element` indices just to assign component-wise bounds to decision variables, JijModeling 2 lets you do that with the Set-based API plus the constructor arguments on `Problem.*Var`. There are two supported ways to supply bounds:
 
-- **Pass containers that have the same shape**: When a decision variable is an $n$-dimensional array (declared via `shape`), you can pass an expression that evaluates to a tensor with exactly the same shape to `lower_bound` / `upper_bound`. The same idea applies to dictionary variables (declared via `dict_keys`): provide a dictionary over the full key set and the bounds will be matched element-wise.
+- **Pass containers that have the same shape**: When a decision variable is an $n$-dimensional array (declared via `shape`), you can pass an expression that evaluates to a multi-dimensional array with exactly the same shape to `lower_bound` / `upper_bound`. The same idea applies to dictionary variables (declared via `dict_keys`): provide a dictionary over the full key set and the bounds will be matched element-wise.
 - **Provide lambdas from indices to values**: You can also pass functions like `lambda i, j: L[i, j] - U[j, i]` that accepts the subscript(s) and return the bound. The old `Element`-based recipes translate directly into plain Python functions.
 
 Below is an example rewritten from an `Element`-based bound specification to the new API:
@@ -261,14 +261,14 @@ U = problem.Float("U", shape=N)
 x = problem.IntegerVar(
     "x",
     shape=(N, M),
-    lower_bound=L,                  # same-shape tensor for bounds
+    lower_bound=L,                  # same-shape array for bounds
     upper_bound=lambda i, j: U[i],  # lambda over indices
 )
 y = problem.IntegerVar(
     "y",
     shape=N,
     lower_bound=-5,                 # Constant bounds are as-is
-    upper_bound=U.roll(1),          # reuse tensor ops instead of Elements
+    upper_bound=U.roll(1),          # reuse array ops instead of Elements
 )
 ```
 

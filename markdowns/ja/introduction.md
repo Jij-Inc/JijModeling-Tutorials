@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.18.1
+    jupytext_version: 1.19.0
 kernelspec:
   display_name: .venv
   language: python
@@ -133,7 +133,7 @@ uv を利用している場合、以下のようにして依存関係に追加�
 <!-- FIXME: 正式リリース後、バージョン指定 >=2.0.0b8 を落とす -->
 
 ```bash
-uv add 'jijmodeling>=2.0.0rc.1'
+uv add 'jijmodeling>=2.0.0rc.3'
 ```
 
 `jijmodeling`の利用には Python 3.11 以上が必要であることに注意してください。

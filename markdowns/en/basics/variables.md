@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.18.1
+    jupytext_version: 1.19.0
 kernelspec:
   display_name: .venv
   language: python
@@ -35,7 +35,7 @@ This concept of placeholders, which separates input data from the model definiti
 Placeholders and decision variables
 :::
 
-[Figure 1](#two-kinds-of-vars) shows a simple example of both.
+{numref}`Figure %s <two-kinds-of-vars>` shows a simple example of both.
 $N$ and $d$ are parameters whose values are assigned at compile time, i.e., **placeholders**, and are replaced by concrete values in an instance.
 On the other hand, each $x_i$ is a **decision variable** whose value is chosen by the solver, and they remain in the instance.
 In this example, the $x_n$ are indexed by the placeholder $N$, so their length is unknown at the modeling stage.
@@ -446,7 +446,9 @@ Therefore, you can obtain the number of vertices via `N = G.len_at(0)` and use a
 In this way, JijModeling lets you represent complex structures by combining tuples and arrays.
 :::
 
-:::{danger}
+:::{admonition} **Since 2.0.0: Jagged Array is strongly discouraged**
+:class: danger
+
 In JijModeling 1, a jagged array collection was available, where shapes are not uniform.
 However, due to its irregularity, jagged arrays are difficult to validate with type systems, so in JijModeling 2 they are **strongly discouraged** and planned to be removed in a future release.
 You can express graphs, non-zero-based indices, or sparse structures using combinations of arrays, tuples, and dictionaries, so we strongly recommend migrating away from jagged arrays.
