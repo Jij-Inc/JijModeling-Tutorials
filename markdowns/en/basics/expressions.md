@@ -352,10 +352,10 @@ Conversion to sets is usually automatic, but you can explicitly convert via {py:
 
 ### Sum and product over sets
 
-JijModeling provides a {py:func}`jijmodeling.map` function corresponding to Python's builtin {py:func}`~map`. Combined with {py:func}`jijmodeling.sum` or {py:func}`jijmodeling.prod`, this lets you express sums/products over sets.
+JijModeling provides a {py:func}`jijmodeling.map` function corresponding to Python's builtin {py:func}`~map`. Combined with {py:func}`jm.sum <jijmodeling.sum>` or {py:func}`jm.prod <jijmodeling.prod>`, this lets you express sums/products over sets.
 
 :::{note}
-For simplicity we show sums using {py:func}`jijmodeling.sum` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`), but products using {py:func}`jijmodeling.prod` or {py:meth}`Expression.prod() <jijmodeling.Expression.prod>` are analogous.
+For simplicity we show sums using {py:func}`jm.sum <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`), but products using {py:func}`jm.prod <jijmodeling.prod>` or {py:meth}`Expression.prod() <jijmodeling.Expression.prod>` are analogous.
 :::
 
 Moreover, with the Decorator API you can build sets directly using intuitive {external+python:ref}`comprehensions <comprehensions>` without writing higher-order functions.
@@ -390,7 +390,7 @@ sum_example_plain += jm.sum(
 sum_example_plain
 ```
 
-For simple sums, you can also pass the domain and the function to {py:func}`~jijmodeling.sum` directly:
+For simple sums, you can also pass the domain and the function to {py:func}`jm.sum <jijmodeling.sum>` directly:
 
 ```{code-cell} ipython3
 sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
@@ -405,7 +405,7 @@ sum_example_plain_alt
 When using the Plain API without the Decorator API, you need Python {external+python:ref}`lambda expressions <lambda>` to build indexed expressions.
 
 :::{tip}
-When {py:func}`~jijmodeling.sum` / {py:func}`~jijmodeling.prod` is called as a single-argument function or method, it computes the sum/product over a set.
+When {py:func}`jm.sum <jijmodeling.sum>` / {py:func}`jm.prod <jijmodeling.prod>` is called as a single-argument function or method, it computes the sum/product over a set.
 So if you simply want the sum of elements in `x`, you can write `jm.sum(x)` or `x.sum()`.
 With the limited broadcasting described earlier, you can also write `jm.sum(a * x)` as above.
 This also works when `x` is a multi-dimensional array.

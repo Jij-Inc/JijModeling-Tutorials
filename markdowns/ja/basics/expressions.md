@@ -341,10 +341,10 @@ JijModeling 2 からは、こうした振る舞いは廃止され、要素を順
 
 ### 集合の総和・総積
 
-JijModeling は Python 標準ライブラリの {py:func}`~map` 関数に対応する、{py:func}`jijmodeling.map` 関数を提供しており、これらと {py:func}`jijmodeling.sum` 関数や {py:func}`jijmodeling.prod` 関数を組み合わせることで、集合に渡る総和・総積を表現することができます。
+JijModeling は Python 標準ライブラリの {py:func}`~map` 関数に対応する、{py:func}`jijmodeling.map` 関数を提供しており、これらと {py:func}`jm.sum <jijmodeling.sum>` 関数や {py:func}`jm.prod <jijmodeling.prod>` 関数を組み合わせることで、集合に渡る総和・総積を表現することができます。
 
 :::{note}
-簡単のため以下では {py:func}`jijmodeling.sum`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jijmodeling.prod` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>` を使った総積も同様に記述できます。
+簡単のため以下では {py:func}`jm.sum <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>` を使った総積も同様に記述できます。
 :::
 
 更に、Decorator API を使えば、こうした高階関数を直接かかずに、直感的な{external+python:ref}`内包表記 <comprehensions>`の形で集合を構築することができます。
@@ -379,7 +379,7 @@ sum_example_plain += jm.sum(
 sum_example_plain
 ```
 
-このような単純な総和の場合、{py:func}`~jijmodeling.sum` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現することもできます：
+このような単純な総和の場合、{py:func}`jm.sum <jijmodeling.sum>` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現することもできます：
 
 ```{code-cell} ipython3
 sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
@@ -394,7 +394,7 @@ sum_example_plain_alt
 このように、Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
 
 :::{tip}
-{py:func}`~jijmodeling.sum` / {py:func}`~jijmodeling.prod` が一引数関数やメソッドとして呼ばれた場合は集合の総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
+{py:func}`jm.sum <jijmodeling.sum>` / {py:func}`jm.prod <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合は集合の総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
 :::
 
 ### 条件つき総和・総積
