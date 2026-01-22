@@ -77,7 +77,7 @@ Using `jijmodeling`, you can generate an instance to input into the solver in th
 
 +++
 
-## Step1. Formulate the Knapsack Problem
+### Step1. Formulate the Knapsack Problem
 
 Formulating the knapsack problem using `jijmodeling` results in the following Python code:
 
@@ -111,7 +111,7 @@ For more details on how to formulate with `jijmodeling`, please refer to [here](
 
 +++
 
-## Step2. Prepare Instance Data
+### Step2. Prepare Instance Data
 
 Next, prepare the instance data for the parameters $v_i, w_i, W$ of the mathematical model formulated in Step1.
 
@@ -124,7 +124,7 @@ instance_data = {
 }
 ```
 
-## Step3. Convert to an Instance
+### Step3. Convert to an Instance
 
 Finally, let's generate an instance using the formulated mathematical model and the prepared instance data.
 
