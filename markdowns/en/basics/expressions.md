@@ -15,13 +15,13 @@ kernelspec:
 
 In this section, we describe various ways to write expressions in JijModeling.
 JijModeling expressions are classified into several kinds (types).
-JijModeling adds this expression type information to Python type hints and provides a custom, more detailed type checker, which can detect common modeling mistakes during construction.
-Below, we first summarize the "types" in JijModeling, then learn typical patterns of expression building.
+JijModeling provides type via Python type hints (stub files) as well as a custom, more sophisticated type checker, which can detect common modeling mistakes during construction.
+Below, we first summarize the overview of types in JijModeling, then learn typical patterns of expression building.
 
 :::{tip}
-We focus on common patterns here. For a complete list of expressions, see the API reference for the {py:class}`~jijmodeling.Expression` class and top-level functions in the {py:mod}`~jijmodeling` module.
+We focus on basic common patterns here. For a complete list of expressions, see the API reference for the {py:class}`~jijmodeling.Expression` class and top-level functions in the {py:mod}`~jijmodeling` module.
 
-The [`Cheat Sheet`](../references/cheat_sheet) also includes more complex examples, so it is worth checking after reading this section.
+The [`Cheat Sheet`](../references/cheat_sheet) also provides more complex examples, so it is worth checking after reading this section.
 :::
 
 ```{code-cell} ipython3
