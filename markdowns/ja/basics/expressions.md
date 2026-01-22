@@ -52,15 +52,17 @@ def ast_examples(problem: jm.DecoratedProblem):
     display(repr(w))
 ```
 
-:::{figure-md} expression-as-an-ast
-<img src="./images/expressions-and-ast.svg" alt="Python変数には任意の式・変数が束縛されうる。式は演算をノード、定数やパラメータを葉とする構文木で表現される。" class="mb1" width="100%">
+:::{figure} ./images/expressions-and-ast.svg
+:alt: Python 変数には任意の式・変数が束縛されうる。式は演算をノード、定数やパラメータを葉とする構文木で表現される。
+:width: 100%
+:name: expression-as-an-ast
 
 Python 変数に束縛された決定変数、プレースホルダー、構文木
 :::
 
 {numref}`図%s <expression-as-an-ast>`は `Test Problem` の定義を可視化した図です。
 $x, y, N$ といった数理モデルに含まれる決定変数・プレースホルダーに対し、対応する Python 変数 `x`, `y`, `N` が定義されています。
-このように、「変数」といったときにはそれがモデルに現れるパラメーターなのか、それらを一時的に束縛している Python 変数なのかに曖昧性があるので、注意が必要です。
+このように、「変数」といったときにはそれがモデルに現れるパラメータなのか、それらを一時的に束縛している Python 変数なのかに曖昧性があるので、注意が必要です。
 それらを使って定義された `z = x + y[0]` や `w = jm.sum(y[i] for i in N)` は、これらの変数を参照しながら作られた記号的な構文木として表現されているのです。
 
 :::{admonition} 式に対する関数呼び出しとメソッド呼び出しは同値

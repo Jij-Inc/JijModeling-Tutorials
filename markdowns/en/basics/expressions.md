@@ -53,8 +53,10 @@ def ast_examples(problem: jm.DecoratedProblem):
     display(repr(w))
 ```
 
-:::{figure-md} expression-as-an-ast
-<img src="./images/expressions-and-ast.svg" alt="Python variables can bind arbitrary expressions and variables. Expressions are represented as syntax trees with operators as nodes and constants or parameters as leaves." class="mb1" width="100%">
+:::{figure} ./images/expressions-and-ast.svg
+:alt: Python variables can bind arbitrary expressions and variables. Expressions are represented as syntax trees with operators as nodes and constants or parameters as leaves.
+:width: 100%
+:name: expression-as-an-ast
 
 Decision variables, placeholders, and syntax trees bound to Python variables
 :::
