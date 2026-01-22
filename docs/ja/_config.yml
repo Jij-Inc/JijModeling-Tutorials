@@ -54,7 +54,6 @@ sphinx:
       python: ["https://docs.python.org/ja/3", "https://docs.python.org/ja/3/objects.inv"]
 
 parse:
-  recursive_update: true
   myst_enable_extensions:
   - deflist
   - amsmath
