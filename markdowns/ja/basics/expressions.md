@@ -201,19 +201,13 @@ problem.infer(y - x) # OK! （多次元配列とスカラーの減算）
 problem.infer(S * x) # OK! （スカラーと辞書の乗算）
 ```
 
-<!-- TODO: 例外になるべきでない！ -->
-
 ```{code-cell} ipython3
 problem.infer(y / W) # OK! （同一シェイプ (N, M) の配列同士の除算）
 ```
 
-<!-- TODO: max じゃなくて完全一致にならないとだめ！ -->
-
 ```{code-cell} ipython3
 problem.infer(S + s) # OK! （同一キー集合を持つ全域辞書同士の加算）
 ```
-
-<!-- TODO: 例外になるべきでない！ -->
 
 ### 許容されない例
 
@@ -309,8 +303,6 @@ x = problem.BinaryVar("x", dict_keys=S.keys())
 problem
 ```
 
-<!-- これはエラーになるべきではない！！！！！ -->
-
 ## 集合演算と内包表記による総和・総積
 
 ### JijModeling における「集合」
@@ -344,7 +336,7 @@ JijModeling 2 からは、こうした振る舞いは廃止され、要素を順
 添え字は総和・総積と組み合わせると大きな威力を発揮します。以下ではさまざまな総和・総積の記法について説明していきます。
 
 :::{note}
-簡単のため以下では {py:func}`jm.sum <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>` を使った総積も同様に記述できます。
+簡単のため以下では {py:func}`jm.sum() <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod() <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>` を使った総積も同様に記述できます。
 :::
 
 Decorator API では、総和・総積は直感的な{external+python:ref}`内包表記 <comprehensions>`の形で記述することができます。
@@ -379,7 +371,7 @@ sum_example_plain += jm.sum(
 sum_example_plain
 ```
 
-このような単純な総和の場合、{py:func}`jm.sum <jijmodeling.sum>` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現することもできます：
+このような単純な総和の場合、{py:func}`jm.sum() <jijmodeling.sum>` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現することもできます：
 
 ```{code-cell} ipython3
 sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
@@ -394,7 +386,7 @@ sum_example_plain_alt
 このように、Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
 
 :::{tip}
-{py:func}`jm.sum <jijmodeling.sum>` / {py:func}`jm.prod <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合は集合の総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
+{py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合は集合の総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
 :::
 
 ### 条件つき総和・総積
@@ -414,7 +406,7 @@ def even_sum_example(problem: jm.DecoratedProblem):
 even_sum_example
 ```
 
-また、JijModeling は Python 標準の {py:func}`filter` 関数に対応する {py:func}`~jijmodeling.filter` 関数を提供していますので、上のモデルに対応するものは Plain API でも次のように書くことができます：
+また、JijModeling は Python 標準の {py:func}`filter` 関数に対応する {py:func}`jm.filter() <jijmodeling.filter>` 関数を提供していますので、上のモデルに対応するものは Plain API でも次のように書くことができます：
 
 ```{code-cell} ipython3
 even_sum_example_plain = jm.Problem("Even Sum Example (Plain)")
@@ -493,7 +485,7 @@ filtered_double_sum_example_plain += jm.sum(
 filtered_double_sum_example_plain
 ```
 
-あるいは、 {py:func}`jijmodeling.flat_map`（またはメソッド形式の {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`）を使うと返値が集合となるような関数をつかって `map` することができるため、以下のように書くこともできます：
+あるいは、 {py:func}`jm.flat_map() <jijmodeling.flat_map>`（またはメソッド形式の {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`）を使うと返値が集合となるような関数をつかって `map` することができるため、以下のように書くこともできます：
 
 ```{code-cell} ipython3
 jm.sum(

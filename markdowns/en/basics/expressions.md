@@ -206,19 +206,13 @@ problem.infer(y - x) # OK! (array minus scalar)
 problem.infer(S * x) # OK! (scalar times dictionary)
 ```
 
-<!-- TODO: This should not be an exception. -->
-
 ```{code-cell} ipython3
 problem.infer(y / W) # OK! (division of arrays with the same shape (N, M))
 ```
 
-<!-- TODO: should require exact matching, not max -->
-
 ```{code-cell} ipython3
 problem.infer(S + s) # OK! (addition of total dictionaries with the same key set)
 ```
-
-<!-- TODO: This should not be an exception. -->
 
 ### Disallowed examples
 
@@ -318,8 +312,6 @@ x = problem.BinaryVar("x", dict_keys=S.keys())
 problem
 ```
 
-<!-- This should not be an error!!!!! -->
-
 ## Set operations and comprehensions for sum/product
 
 ### "Sets" in JijModeling
@@ -355,7 +347,7 @@ Conversion to sets is usually automatic, but you can explicitly convert via {py:
 Indices become especially powerful when combined with sums/products. Below we introduce several ways to write sums and products.
 
 :::{note}
-For simplicity we show sums using {py:func}`jm.sum <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`), but products using {py:func}`jm.prod <jijmodeling.prod>` or {py:meth}`Expression.prod() <jijmodeling.Expression.prod>` are analogous.
+For simplicity we show sums using {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`), but products using {py:func}`jm.prod() <jijmodeling.prod>` or {py:meth}`Expression.prod() <jijmodeling.Expression.prod>` are analogous.
 :::
 
 With the Decorator API, sums/products can be written using intuitive {external+python:ref}`comprehensions <comprehensions>`.
@@ -390,7 +382,7 @@ sum_example_plain += jm.sum(
 sum_example_plain
 ```
 
-For simple sums, you can also pass the domain and the function to {py:func}`jm.sum <jijmodeling.sum>` directly:
+For simple sums, you can also pass the domain and the function to {py:func}`jm.sum() <jijmodeling.sum>` directly:
 
 ```{code-cell} ipython3
 sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
@@ -405,7 +397,7 @@ sum_example_plain_alt
 When using the Plain API without the Decorator API, you need Python {external+python:ref}`lambda expressions <lambda>` to build indexed expressions.
 
 :::{tip}
-When {py:func}`jm.sum <jijmodeling.sum>` / {py:func}`jm.prod <jijmodeling.prod>` is called as a single-argument function or method, it computes the sum/product over a set.
+When {py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` is called as a single-argument function or method, it computes the sum/product over a set.
 So if you simply want the sum of elements in `x`, you can write `jm.sum(x)` or `x.sum()`.
 With the limited broadcasting described earlier, you can also write `jm.sum(a * x)` as above.
 This also works when `x` is a multi-dimensional array.
@@ -428,7 +420,7 @@ def even_sum_example(problem: jm.DecoratedProblem):
 even_sum_example
 ```
 
-JijModeling also provides {py:func}`~jijmodeling.filter` corresponding to Python's builtin `filter`, so the same model in the Plain API is:
+JijModeling also provides {py:func}`jm.filter() <jijmodeling.filter>` corresponding to Python's builtin `filter`, so the same model in the Plain API is:
 
 ```{code-cell} ipython3
 even_sum_example_plain = jm.Problem("Even Sum Example (Plain)")
@@ -507,7 +499,7 @@ filtered_double_sum_example_plain += jm.sum(
 filtered_double_sum_example_plain
 ```
 
-Or you can use {py:func}`jijmodeling.flat_map` (or the method form {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`) to map with functions that return sets:
+Or you can use {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or the method form {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`) to map with functions that return sets:
 
 ```{code-cell} ipython3
 jm.sum(
