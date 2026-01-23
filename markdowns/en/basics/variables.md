@@ -51,7 +51,7 @@ For convenience, we will explain decision variables first and placeholders secon
 ## Declaring single variables
 
 In this section we learn the types of decision variables and placeholders, and how to declare a single (non-indexed) variable.
-As explained in the "[Overview](./overview)" and "[Declaring mathematical models](./problem)" sections, these variables are registered to a specific `Problem` object in JijModeling.
+As explained in the "{doc}`Overview <./overview>`" and "{doc}`Declaring mathematical models <./problem>`" sections, these variables are registered to a specific `Problem` object in JijModeling.
 
 ### Single decision variables
 
@@ -210,7 +210,7 @@ In the future, `@problem.update` is planned to accept already-defined variables 
 
 So far, we have discussed how to define single decision variables and placeholders.
 However, in most mathematical optimization formulations, it is essential to define families of variables indexed by some set.
-For instance, consider the classic knapsack problem used in the quickstart sections ([SCIP version](../quickstart/scip), [OpenJij version](../quickstart/openjij)).
+For instance, consider the classic knapsack problem used in the quickstart sections ({doc}`SCIP version <../quickstart/scip>`, {doc}`OpenJij version <../quickstart/openjij>`).
 
 $$
 \begin{alignedat}{2}

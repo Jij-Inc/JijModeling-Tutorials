@@ -21,7 +21,7 @@ JijModeling はこの式の型の情報を Python の型ヒントに加え、独
 :::{tip}
 以下では頻出と思われるパターンに絞って説明するため、式の構築に使える網羅的な一覧については、API リファレンスの {py:class}`~jijmodeling.Expression` クラスや {py:mod}`~jijmodeling` モジュールのトップレベル関数一覧を参照してください。
 
-また、本サイトの [`Cheat Sheet`](../references/cheat_sheet)には、更に複雑な事例集がまとめられていますので、本節を読んだ後にそちらも参照するとよいでしょう。
+また、本サイトの {doc}`../references/cheat_sheet` には、更に複雑な事例集がまとめられていますので、本節を読んだ後にそちらも参照するとよいでしょう。
 :::
 
 ```{code-cell} ipython3

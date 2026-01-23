@@ -21,7 +21,7 @@ Below, we first summarize the overview of types in JijModeling, then learn typic
 :::{tip}
 We focus on basic common patterns here. For a complete list of expressions, see the API reference for the {py:class}`~jijmodeling.Expression` class and top-level functions in the {py:mod}`~jijmodeling` module.
 
-The [`Cheat Sheet`](../references/cheat_sheet) also provides more complex examples, so it is worth checking after reading this section.
+The {doc}`Cheat Sheet <../references/cheat_sheet>` also provides more complex examples, so it is worth checking after reading this section.
 :::
 
 ```{code-cell} ipython3
