@@ -544,16 +544,8 @@ def problem_catlab_deco(problem: jm.DecoratedProblem):
 problem_catlab_deco
 ```
 
-:::{admonition} Category label count notation
-:class: note
-
-The number of elements in a category label `L` is expressed as follows:
-
-- **Textual notation**: `L.count()` (method style)
-- **LaTeX notation**: $\#L$ (concise notation using the count symbol)
-
-Example: When `L = problem.CategoryLabel("L")`, you can get the label count with `L.count()`.
-:::
+The list of category labels registered to Problem objects can be ontained by [`prbolem.category_labels`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.category_labels) property.
+In addition, you can obtain the number of elements in the category label `L` by [`jm.count(L)`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.count) or [`L.count()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.CategoryLabel.count), which is rendered as $\#L$ in LaTeX notation.
 
 #### Dictionaries of decision variables
 

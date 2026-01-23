@@ -95,7 +95,7 @@ JijModeling が搭載している式の型はいくつかありますが、代�
 | :--- | :----------- | :------------- | :--- |
 | 数値型 | $\mathbb{N}, \mathbb{Z}, \mathbb{R}$ | `natural`, `int`, `float` | 自然数・整数・実数などの数値を表す型。 |
 | カテゴリーラベル型 | $L$ | `CategoryLabel("L")` | ユーザーが後から追加するラベルの集合。 |
-| 多次元配列型 | $\mathbb{R}^{N \times M}$ | `Array[N, M; float]` | 成分型と形状を持つ配列の型。 |
+| 多次元配列型 | $\mathbb{A}^{N_1 \times \cdots \times N_n}$ | `Array[N1, .., Nn; A]` | `A`型の成分から成る、シェイプ$N_1 \times \cdots \times N_n$ の多次元配列。 |
 | 辞書型 | $V^{[K]}$ / $V^{{\subseteq}[K]}$ | `TotalDict[K; V]`, `PartialDict[K; V]` | キー集合 $K$ と値型 $V$ を持つ辞書の型。 |
 | タプル型 | $T \times U$ | `Tuple[int, float]` | 成分ごとに型を持つ固定長タプルの型。 |
 

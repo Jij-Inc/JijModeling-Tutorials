@@ -537,18 +537,7 @@ problem_catlab_deco
 ```
 
 Problem オブジェクトに登録されているカテゴリーラベルの一覧は、[`prbolem.category_labels`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.category_labels) プロパティにより取得できます。
-また、個別のカテゴリーラベルに属する値の個数を表す式は [`jm.count()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.count) 関数や [`CategoryLabel.count`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.CategoryLabel.count) メソッドにより取得できます。
-
-:::{admonition} カテゴリーラベル数の表記
-:class: note
-
-カテゴリーラベル `L` の要素数は次のように表記されます：
-
-- **テキスト表記**: `L.count()`（メソッド形式）
-- **LaTeX表記**: $\#L$（数記号を使った簡潔な表記）
-
-例：`L = problem.CategoryLabel("L")` のとき、`L.count()` でラベル数を取得できます。
-:::
+また、個別のカテゴリーラベルに属する値の個数を表す式は [`jm.count()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.count) 関数や [`CategoryLabel.count`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.CategoryLabel.count) メソッドにより取得できます（数式上は $\#L$と表記されます）。
 
 #### 決定変数の辞書
 
