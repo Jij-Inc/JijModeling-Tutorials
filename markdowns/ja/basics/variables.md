@@ -134,7 +134,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 | [`Natural`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Natural) | $\mathbb{N}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。 | [`Dim`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Dim), [`Length`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Length) |
 | [`Integer`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Integer) | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
 | [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
-| これらのタプル | - | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
+| これらのタプル | $\mathbb{Z} \times \mathbb{R}$ | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
 
 決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、プレースホルダーが宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないという違いがあります。
 基本的には、決定変数から `*Var` を取ったものがプレースホルダーとしてだと思っておけばよいですが、`Float` のみ名前が違うことに留意してください。
@@ -257,6 +257,18 @@ JijModeling では、決定変数やプレースホルダーについて、以�
 
 JijModeling では、変数から成るものに限らず一次元やより多次元の配列を扱うことができます。また、実は[単独の変数の宣言](#single_vars)で宣言されたような、単なるスカラーも内部的にはゼロ次元の配列として扱われています。
 JijModeling では、配列の各軸の長さについては入力されたプレースホルダーの値に依存することができますが、**次元（成分数）自体はゼロを含む自然数の定数リテラル**である必要があります。
+
+:::{admonition} 配列型の表記
+:class: note
+
+JijModeling の配列型は、次元とそ要素の型をセミコロン `;` で区切って表現されます：
+
+| 例 | テキスト表記 | LaTeX表記 | 意味 |
+| :-- | :----------- | :-------- | :--- |
+| 1次元整数配列 | `Array[N; int]` | $\mathbb{Z}^{N}$ | 長さ $N$ の整数配列 |
+| 2次元実数配列 | `Array[N, M; float]` | $\mathbb{R}^{N \times M}$ | $N \times M$ の実数行列 |
+
+:::
 
 (array_of_dec_vars)=
 #### 決定変数の配列
@@ -453,10 +465,10 @@ JijModeling では、配列に加えて変数の辞書（または連想配列�
 
 JijModeling の辞書には、辞書の「定義域」に関する制約により `PartialDict` と `TotalDict` という二種類が存在します：
 
-| 辞書の種類 | 説明 |
-| :------- | :--- |
-| `PartialDict[K, V]` | 型 `K` の値をキーとし、各キーに型 `V` の値が割り当てられた辞書。キーの集合は `K` の部分集合でよい。 |
-| `TotalDict[K, V]` | 型 `K` の**全てのあり得る値**に対して、それに対応する `V` 型の値が**全域で**割り当てられた辞書。`PartialDict`と違い、辞書は型 `K` 全域で定義されている必要がある |
+| 辞書の種類 | 数式 | 説明 |
+| :------- | :---: | :--- |
+| `PartialDict[K; V]` | $V^{{\subseteq}[K]}$ | 型 `K` の値をキーとし、各キーに型 `V` の値が割り当てられた辞書。キーの集合は `K` の部分集合でよい。 |
+| `TotalDict[K; V]` | $V^{[K]}$ | 型 `K` の**全てのあり得る値**に対して、それに対応する `V` 型の値が**全域で**割り当てられた辞書。`PartialDict`と違い、辞書は型 `K` 全域で定義されている必要がある |
 
 これを踏まえて、辞書のキーとして使うことができる型を見ていきましょう。基本的には、以下の四種類のみです：
 
@@ -526,6 +538,17 @@ problem_catlab_deco
 
 Problem オブジェクトに登録されているカテゴリーラベルの一覧は、[`prbolem.category_labels`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.category_labels) プロパティにより取得できます。
 また、個別のカテゴリーラベルに属する値の個数を表す式は [`jm.count()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.count) 関数や [`CategoryLabel.count`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.CategoryLabel.count) メソッドにより取得できます。
+
+:::{admonition} カテゴリーラベル数の表記
+:class: note
+
+カテゴリーラベル `L` の要素数は次のように表記されます：
+
+- **テキスト表記**: `L.count()`（メソッド形式）
+- **LaTeX表記**: $\#L$（数記号を使った簡潔な表記）
+
+例：`L = problem.CategoryLabel("L")` のとき、`L.count()` でラベル数を取得できます。
+:::
 
 #### 決定変数の辞書
 

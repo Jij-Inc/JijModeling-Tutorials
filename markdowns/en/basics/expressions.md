@@ -94,13 +94,15 @@ The checker in (2) is not invoked directly by users. It is called when you add c
 In other words, editor checks are "coarser" than the true JijModeling type system, while finer checks happen during construction.
 At the Python type level, the only distinction is whether something is an {py:class}`Expression <jijmodeling.Expression>`, but JijModeling checks much more detail internally.
 
-There are several expression types in JijModeling, including:
+There are several expression types in JijModeling; representative ones are listed below:
 
-- Numeric types: natural numbers, integers, continuous values, etc.
-- Category label types: sets of labels provided later by users
-- Higher-dimensional array types
-- Dictionary types
-- Tuple types
+| Kind | Notation (example) | Textual example | Description |
+| :--- | :----------------- | :------------- | :--- |
+| Numeric types | $\mathbb{N}, \mathbb{Z}, \mathbb{R}$ | `natural`, `int`, `float` | Natural numbers, integers, real-valued scalars, and related numeric types. |
+| Category label types | $L$ | `CategoryLabel("L")` | Sets of labels provided later by users. |
+| Higher-dimensional array types | $\mathbb{R}^{N \times M}$ | `Array[N, M; float]` | Arrays with an element type and a shape. |
+| Dictionary types | $V^{[K]}$ / $V^{{\subseteq}[K]}$ | `TotalDict[K; V]`, `PartialDict[K; V]` | Dictionaries with key type $K$ and value type $V$. |
+| Tuple types | $T \times U$ | `Tuple[int, float]` | Fixed-length tuples with per-component types. |
 
 With these in mind, let's look at operations that commonly appear in modeling.
 
