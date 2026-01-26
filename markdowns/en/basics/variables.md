@@ -271,8 +271,8 @@ JijModeling array types separate dimensions and element types with a semicolon `
 
 | Example | Textual Notation | LaTeX Notation | Meaning |
 | :-- | :--------------- | :------------- | :--- |
-| 1D integer array | `Array[N; int]` | $\mathbb{Z}^{N}$ | Integer array of length $N$ |
-| 2D real array | `Array[N, M; float]` | $\mathbb{R}^{N \times M}$ | $N \times M$ real-valued matrix |
+| 1D integer array | `Array[N; int]` | $\mathrm{Array}[N; \mathbb{Z}]$ | Integer array of length $N$ |
+| 2D real array | `Array[N, M; float]` | $\mathrm{Array}[N \times M; \mathbb{R}]$ | $N \times M$ real-valued matrix |
 
 :::
 
@@ -475,8 +475,8 @@ JijModeling dictionaries come in two types based on constraints on their domains
 
 | Dict type | 数式 | Description |
 | :------- | :---: | :--- |
-| `PartialDict[K; V]` | $V^{{\subseteq}[K]}$ | A dictionary with keys of type `K` and values of type `V`. The key set may be any subset of `K`. |
-| `TotalDict[K; V]` | $V^{[K]}$ | A dictionary that assigns a value of type `V` to **all possible values** of type `K`. Unlike `PartialDict`, it must be defined over the entire domain of `K`. |
+| `PartialDict[K; V]` | $\mathrm{PartialDict}[K; V]$ | A dictionary with keys of type `K` and values of type `V`. The key set may be any subset of `K`. |
+| `TotalDict[K; V]` | $\mathrm{TotalDict}[K; V]$ | A dictionary that assigns a value of type `V` to **all possible values** of type `K`. Unlike `PartialDict`, it must be defined over the entire domain of `K`. |
 
 Now let's look at the key types that can be used for dictionaries. There are only four basic kinds:
 

@@ -100,8 +100,8 @@ There are several expression types in JijModeling; representative ones are liste
 | :--- | :----------------- | :------------- | :--- |
 | Numeric types | $\mathbb{N}, \mathbb{Z}, \mathbb{R}$ | `natural`, `int`, `float` | Natural numbers, integers, real-valued scalars, and related numeric types. |
 | Category label types | $L$ | `CategoryLabel("L")` | Sets of labels provided later by users. |
-| Higher-dimensional array types | $\mathbb{R}^{N \times M}$ | `Array[N, M; float]` | Arrays with an element type and a shape. |
-| Dictionary types | $V^{[K]}$ / $V^{{\subseteq}[K]}$ | `TotalDict[K; V]`, `PartialDict[K; V]` | Dictionaries with key type $K$ and value type $V$. |
+| Higher-dimensional array types | $\mathrm{Array}[N_1 \times \cdots \times N_k; \mathbb{R}]$ | `Array[N1, .., Nk; float]` | Arrays with an element type and a shape. |
+| Dictionary types | $\mathrm{TotalDict}[K; V]$ / $\mathrm{PartialDict}[K; V]$ | `TotalDict[K; V]`, `PartialDict[K; V]` | Dictionaries with key type $K$ and value type $V$. |
 | Tuple types | $T \times U$ | `Tuple[int, float]` | Fixed-length tuples with per-component types. |
 
 With these in mind, let's look at operations that commonly appear in modeling.
