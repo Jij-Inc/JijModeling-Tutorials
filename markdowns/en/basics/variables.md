@@ -57,8 +57,8 @@ As explained in the "[Overview](./overview)" and "[Declaring mathematical models
 
 Decision variables are variables whose values are determined by solvers based on constraints and objectives. Since JijModeling is a general-purpose modeler, it supports the following representative types:
 
-| Type | Notation | Description |
-| :---- | :--: | :--- |
+| Type | Mathematical Notation | Description |
+| :---- | :------------------: | :--- |
 | [`BinaryVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.BinaryVar) | $\{0, 1\}$ | A binary variable taking the value $0$ or $1$. No bounds are required. |
 | [`IntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.IntegerVar) | $\mathbb{Z}$ | An integer variable. Bounds are required. |
 | [`ContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.ContinuousVar) | $\mathbb{R}$ | A continuous real-valued variable. Bounds are required. |
@@ -129,13 +129,13 @@ Like decision variables, placeholders also have types that must be specified at 
 Since placeholders represent values provided by users at compile time, there are more types than decision variables.
 Representative placeholder types include:
 
-| Type | Notation | Description | Alias |
-| :--- | :--: | :-- | :-- |
+| Type | Mathematical Notation | Description | Alias |
+| :--- | :------------------: | :-- | :-- |
 | [`Binary`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Binary) | $\{0, 1\}$ | A binary placeholder taking value $0$ or $1$. | - |
 | [`Natural`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Natural) | $\mathbb{N}$ | Natural numbers including zero. Used for array sizes and indices. | [`Dim`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Dim), [`Length`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Length) |
 | [`Integer`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Integer) | $\mathbb{Z}$ | An integer value, including negatives. | - |
 | [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | A general real-valued (floating point) placeholder. | - |
-| Tuples of the above | - | Fixed-length tuples with per-component types, often used with lists. | - |
+| Tuples of the above | $\mathbb{Z} \times \mathbb{R}$ | Fixed-length tuples with per-component types, often used with lists. | - |
 
 As with decision variables, you declare placeholders by calling methods on `Problem` with the same names as the types above.
 Unlike decision variables, placeholders do not require bounds and have no bound-related arguments.
@@ -263,6 +263,18 @@ Let's see how to declare arrays and dictionaries.
 
 JijModeling can handle arrays of any dimension, not only variables. Even scalar values declared in "[Declaring single variables](#single_vars)" are internally treated as zero-dimensional arrays.
 Array lengths along each axis can depend on placeholders, but **the number of dimensions itself must be a natural-number constant literal, including zero**.
+
+:::{admonition} Array type notation
+:class: note
+
+JijModeling array types separate dimensions and element types with a semicolon `;`:
+
+| Example | Textual Notation | LaTeX Notation | Meaning |
+| :-- | :--------------- | :------------- | :--- |
+| 1D integer array | `Array[N; int]` | $\mathrm{Array}[N; \mathbb{Z}]$ | Integer array of length $N$ |
+| 2D real array | `Array[N, M; float]` | $\mathrm{Array}[N \times M; \mathbb{R}]$ | $N \times M$ real-valued matrix |
+
+:::
 
 (array_of_dec_vars)=
 #### Arrays of decision variables
@@ -461,10 +473,10 @@ While arrays are useful for dense, zero-based indexing, dictionaries are useful 
 
 JijModeling dictionaries come in two types based on constraints on their domains: `PartialDict` and `TotalDict`.
 
-| Dict type | Description |
-| :------- | :--- |
-| `PartialDict[K, V]` | A dictionary with keys of type `K` and values of type `V`. The key set may be any subset of `K`. |
-| `TotalDict[K, V]` | A dictionary that assigns a value of type `V` to **all possible values** of type `K`. Unlike `PartialDict`, it must be defined over the entire domain of `K`. |
+| Dict type | 数式 | Description |
+| :------- | :---: | :--- |
+| `PartialDict[K; V]` | $\mathrm{PartialDict}[K; V]$ | A dictionary with keys of type `K` and values of type `V`. The key set may be any subset of `K`. |
+| `TotalDict[K; V]` | $\mathrm{TotalDict}[K; V]$ | A dictionary that assigns a value of type `V` to **all possible values** of type `K`. Unlike `PartialDict`, it must be defined over the entire domain of `K`. |
 
 Now let's look at the key types that can be used for dictionaries. There are only four basic kinds:
 
@@ -531,6 +543,9 @@ def problem_catlab_deco(problem: jm.DecoratedProblem):
 
 problem_catlab_deco
 ```
+
+The list of category labels registered to Problem objects can be ontained by [`prbolem.category_labels`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.category_labels) property.
+In addition, you can obtain the number of elements in the category label `L` by [`jm.count(L)`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.count) or [`L.count()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.CategoryLabel.count), which is rendered as $\#L$ in LaTeX notation.
 
 #### Dictionaries of decision variables
 
