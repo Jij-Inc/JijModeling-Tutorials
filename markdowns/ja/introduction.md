@@ -69,7 +69,7 @@ JijModeling は独自の型システムを搭載しており、添え字の成�
 ### 5. 数理モデルの $\LaTeX$ 表示
 
 JijModeling は非常に強力な$\LaTeX$出力機能を備えており、[JijZept IDE](https://www.jijzept.com/ja/products/ide/) や [Google Colab](https://colab.google/)、あるいは一般の [Jupyter Notebook](https://jupyter.org/) 上で数理モデルの定義を直感的に把握でき、数理モデルが期待通りに構築されているかどうかを迅速かつ対話的に確認できます。
-以下は、ナップザック問題の定式化と、その$\LaTeX$出力の例です。
+以下は、ナップサック問題の定式化と、その$\LaTeX$出力の例です。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -153,7 +153,7 @@ jijmodeling.__version__
 数理最適化そのものについては、JijZept の資料『[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)』などをご参照ください。
 本稿の各章の内容は以下の通りです：
 
-1. **クイックスタート**：ナップザック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModeling の利用方法はどちらも同じですので、お好みの方をお読みください。
+1. **クイックスタート**：ナップサック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModeling の利用方法はどちらも同じですので、お好みの方をお読みください。
     - {doc}`./quickstart/scip`: 数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせる方法を取り扱っています。
     - {doc}`./quickstart/openjij`: [OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせる方法を取り扱っています。
 2. **{doc}`JijModeling の基本 <./basics/overview>`**：JijModeling を用いたモデリングの基本構成要素を解説します。
