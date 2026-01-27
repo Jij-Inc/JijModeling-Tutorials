@@ -21,6 +21,10 @@ import jijmodeling as jm
 
 ### Sum of decision variables
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("BasicSum")
 N = problem.Natural("N")
@@ -30,7 +34,7 @@ problem += x.sum()
 problem
 ```
 
-### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("BasicSum")
@@ -44,6 +48,10 @@ problem
 
 ### Weighted sum of decision variables
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("WeightedSum")
 a = problem.Float("a", ndim=1)
@@ -54,7 +62,7 @@ problem += jm.sum(a * x)
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("WeightedSum")
@@ -69,6 +77,10 @@ problem
 
 ### Sum of decision variables along an index set
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("SumAlongSet")
 N = problem.Natural("N")
@@ -79,7 +91,7 @@ problem += jm.sum(jm.map(lambda i: x[i], C))
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("SumAlongSet")
@@ -94,6 +106,10 @@ problem
 
 ### Sum of decision variables over an edge set
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("SumAlongEdgeSet")
 V = problem.Natural("V")
@@ -104,7 +120,7 @@ problem += jm.map(lambda i, j: x[i] * x[j], E).sum()
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("SumAlongEdgeSet")
@@ -119,6 +135,10 @@ problem
 
 ### Conditional sum
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("ConditionalSum")
 N = problem.Natural("N")
@@ -132,7 +152,7 @@ problem += jm.map(
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("ConditionalSum")
@@ -147,6 +167,10 @@ problem
 
 ### Sum excluding diagonal elements of a matrix
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("NonDiagonalSum")
 N = problem.Natural("N")
@@ -159,7 +183,7 @@ problem += jm.map(
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("NonDiagonalSum")
@@ -173,6 +197,10 @@ problem
 
 ### Sum depending on another index
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("DependentSum")
 N = problem.Natural("N")
@@ -184,7 +212,7 @@ problem += jm.sum(jm.flat_map(lambda i: a[i].map(lambda j: x[j]), M))
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("DependentSum")
@@ -202,6 +230,10 @@ problem
 
 ### One-hot constraint
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("OneHot")
 N = problem.Natural("N")
@@ -211,7 +243,7 @@ problem += problem.Constraint("onehot", x.sum() == 1)
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("OneHot")
@@ -225,6 +257,10 @@ problem
 
 ### K-hot constraint
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("KHot")
 N = problem.Natural("N")
@@ -235,7 +271,7 @@ problem += problem.Constraint("k_hot", x.sum() == K)
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("KHot")
@@ -250,6 +286,10 @@ problem
 
 ### K-hot constraint per column of a 2D binary variable
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("2D K-Hot")
 K = problem.Natural("K", ndim=1)
@@ -261,7 +301,7 @@ problem += problem.Constraint("2d k-hot", x.sum(axis=1) == K)
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("2D K-Hot")
@@ -277,6 +317,10 @@ problem
 
 ### K-hot constraint over each set
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("KHotOverSet")
 N = problem.Natural("N")
@@ -291,7 +335,7 @@ problem += problem.Constraint(
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("KHotOverSet")
@@ -310,6 +354,10 @@ problem
 
 ### Linear inequality
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("LinearInequality")
 w = problem.Float("w", ndim=1)
@@ -321,7 +369,7 @@ problem += problem.Constraint("weight", (w * x).sum() <= W)
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("LinearInequality")
@@ -337,6 +385,10 @@ problem
 
 ### SOS1 inequality constraint
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("SOS-1")
 N = problem.Natural("N")
@@ -349,7 +401,7 @@ problem += problem.Constraint("Big-M", a <= M * x)
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("SOS-1")
@@ -365,6 +417,10 @@ problem
 ```
 
 ### Big-M inequality constraint
+
++++
+
+#### Plain API
 
 ```{code-cell} ipython3
 problem = jm.Problem("BigM")
@@ -385,7 +441,7 @@ problem += problem.Constraint(
 problem
 ```
 
-#### Decorator API example
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("BigM")

@@ -21,6 +21,10 @@ import jijmodeling as jm
 
 ### 決定変数の総和
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("BasicSum")
 N = problem.Natural("N")
@@ -30,7 +34,7 @@ problem += x.sum()
 problem
 ```
 
-### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("BasicSum")
@@ -44,6 +48,10 @@ problem
 
 ### 係数付き決定変数の総和
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("WeightedSum")
 a = problem.Float("a", ndim=1)
@@ -54,7 +62,7 @@ problem += jm.sum(a * x)
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("WeightedSum")
@@ -69,6 +77,10 @@ problem
 
 ### 添字集合に沿った決定変数の総和
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("SumAlongSet")
 N = problem.Natural("N")
@@ -79,7 +91,7 @@ problem += jm.sum(jm.map(lambda i: x[i], C))
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("SumAlongSet")
@@ -94,6 +106,10 @@ problem
 
 ### 辺集合に沿った決定変数の総和
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("SumAlongEdgeSet")
 V = problem.Natural("V")
@@ -104,7 +120,7 @@ problem += jm.map(lambda i, j: x[i] * x[j], E).sum()
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("SumAlongEdgeSet")
@@ -119,6 +135,10 @@ problem
 
 ### 条件付きの総和
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("ConditionalSum")
 N = problem.Natural("N")
@@ -132,7 +152,7 @@ problem += jm.map(
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("ConditionalSum")
@@ -147,6 +167,10 @@ problem
 
 ### 行列の対角要素を除く総和
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("NonDiagonalSum")
 N = problem.Natural("N")
@@ -159,7 +183,7 @@ problem += jm.map(
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("NonDiagonalSum")
@@ -173,6 +197,10 @@ problem
 
 ### 別のインデックスに依存した総和
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("DependentSum")
 N = problem.Natural("N")
@@ -184,7 +212,7 @@ problem += jm.sum(jm.flat_map(lambda i: a[i].map(lambda j: x[j]), M))
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("DependentSum")
@@ -201,6 +229,10 @@ problem
 ## 制約条件
 ### One-hot 制約
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("OneHot")
 N = problem.Natural("N")
@@ -210,7 +242,7 @@ problem += problem.Constraint("onehot", x.sum() == 1)
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("OneHot")
@@ -224,6 +256,10 @@ problem
 
 ### K-hot 制約
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("KHot")
 N = problem.Natural("N")
@@ -234,7 +270,7 @@ problem += problem.Constraint("k_hot", x.sum() == K)
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("KHot")
@@ -249,6 +285,10 @@ problem
 
 ### 2 次元バイナリ変数の各列に対する K-hot 制約
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("2D K-Hot")
 K = problem.Natural("K", ndim=1)
@@ -260,7 +300,7 @@ problem += problem.Constraint("2d k-hot", x.sum(axis=1) == K)
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("2D K-Hot")
@@ -276,6 +316,10 @@ problem
 
 ### 各集合に対する K-hot 制約
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("KHotOverSet")
 N = problem.Natural("N")
@@ -290,7 +334,7 @@ problem += problem.Constraint(
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("KHotOverSet")
@@ -309,6 +353,10 @@ problem
 
 ### 線形不等式制約
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("LinearInequality")
 w = problem.Float("w", ndim=1)
@@ -320,7 +368,7 @@ problem += problem.Constraint("weight", (w * x).sum() <= W)
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("LinearInequality")
@@ -336,6 +384,10 @@ problem
 
 ### SOS1 不等式制約
 
++++
+
+#### Plain API
+
 ```{code-cell} ipython3
 problem = jm.Problem("SOS-1")
 N = problem.Natural("N")
@@ -348,7 +400,7 @@ problem += problem.Constraint("Big-M", a <= M * x)
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("SOS-1")
@@ -364,6 +416,10 @@ problem
 ```
 
 ### Big-M 不等式制約
+
++++
+
+#### Plain API
 
 ```{code-cell} ipython3
 problem = jm.Problem("BigM")
@@ -384,7 +440,7 @@ problem += problem.Constraint(
 problem
 ```
 
-#### Decorator API の例
+#### Decorator API
 
 ```{code-cell} ipython3
 @jm.Problem.define("BigM")
