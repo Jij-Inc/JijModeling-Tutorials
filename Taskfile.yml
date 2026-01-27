@@ -90,6 +90,14 @@ tasks:
     cmds:
       - find docs -name "*.ipynb" -not -path "*/_build/*" -exec uv run jupytext --sync --use-source-timestamp --execute {} \;
 
+  sync_markdowns_to_notebooks:
+    cmds:
+      - git diff HEAD --name-only -- 'markdowns/**/*.md' | xargs -L 1 uv run jupytext --sync --use-source-timestamp --execute
+
+  sync_notebooks_to_markdowns:
+    cmds:
+      - git diff HEAD --name-only -- 'docs/**/*.ipynb' | xargs -L 1 uv run jupytext --sync --use-source-timestamp --execute
+
   check_paired_notebooks:
     desc: Check that all notebooks and markdown files are properly paired and synchronized
     cmds:
