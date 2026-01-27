@@ -19,6 +19,7 @@ parts:
       - file: basics/variables
       - file: basics/expressions
       - file: basics/modeling
+      - file: basics/instance_generation
   - caption: Reference
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
