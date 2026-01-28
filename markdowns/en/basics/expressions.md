@@ -143,6 +143,22 @@ except Exception as e:
     print(e)
 ```
 
+:::{admonition} What is the relationship between `Expression` and `ExpressionLike` / `ExpressionFunction`?
+:class: note
+
+In the {external+api_reference:doc}`API reference <index>` and editor completions/docs, you may see type
+names such as `ExpressionLike` and `ExpressionFunction`. These are dummy shorthand types that do not exist
+in the library implementation, and are used to represent types that can be converted to `Expression`, or
+functions from `Expression` to `Expression`.
+Specifically, you can think of them as follows:
+
+| Type name | Description |
+| --- | --- |
+| `ExpressionLike` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.DependentVar`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
+| `ExpressionFunction` | A function that takes one or more {py:class}`~jijmodeling.Expression` objects and returns a {py:class}`~jijmodeling.Expression`. In Python type hints, only up to 5 arguments are enumerated, but in practice there is no limit on the number of arguments. |
+
+:::
+
 ## Placeholders and decision variables as expressions
 
 As described in the previous section, decision variables and placeholders are defined with methods like {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` and {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>`.

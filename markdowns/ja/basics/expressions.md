@@ -138,6 +138,20 @@ except Exception as e:
     print(e)
 ```
 
+:::{admonition} `Expression` と `ExpressionLike` / `ExpressionFunction` の関係は？
+:class: note
+
+{external+api_reference:doc}`API リファレンス <index>` やエディタの補完・ドキュメント上では、`ExpressionLike` や `ExpressionFunction` といった型名が登場します。
+これらはライブラリの実装には存在しないダミーの略記用の型であり、`Expression` に変換可能な型や、`Expression` から `Expression` への関数を表す型の略記です。
+具体的には以下のように考えておけば大丈夫です：
+
+| 型名 | 説明 |
+| --- | --- |
+| `ExpressionLike` | {py:class}`~jijmodeling.Expression` に変換することができる型を表す。 {py:class}`~jijmodeling.Expression` 自身の他、{py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.DependentVar`や、Python の数値、文字列、それらからなるタプル、リスト・辞書・Numpy配列などが文脈に応じて使えます。 |
+| `ExpressoinFunction` | 一つ以上の {py:class}`~jijmodeling.Expression` オブジェクトを取り、 {py:class}`~jijmodeling.Expression` を返す関数。Pythonの型ヒントの仕組み上、最大5つの引数までしか列挙していませんが、実際には引数の個数に上限はありません。 |
+
+:::
+
 ## 式としてのプレースホルダー、決定変数
 
 前節で見たように、JijModeling では {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` や {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>` などによって、決定変数やプレースホルダーを定義します。
