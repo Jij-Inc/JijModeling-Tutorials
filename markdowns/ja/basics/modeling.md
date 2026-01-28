@@ -60,19 +60,22 @@ problem
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("Knapsack Problem", sense=jm.ProblemSense.MAXIMIZE)
 def knapsack_problem(problem: jm.DecoratedProblem):
     N = problem.Length(description="Number of items")
-    x = problem.BinaryVar(shape=(N,), description="$x_i = 1$ if item i is put in the knapsack")
+    x = problem.BinaryVar(
+        shape=(N,), description="$x_i = 1$ if item i is put in the knapsack"
+    )
     v = problem.Float(shape=(N,), description="value of each item")
     w = problem.Float(shape=(N,), description="weight of each item")
     W = problem.Float(description="maximum weight capacity of the knapsack")
-
 
     # `+=` 演算子に `Expression` オブジェクトを与えることで目的関数が設定できる
     problem += jm.sum(v[i] * x[i] for i in N)
     # あるいは、ブロードキャストを用いて次のように書いても「同値」
     # problem += jm.sum(v * x)
+
 
 knapsack_problem
 ```
@@ -100,11 +103,12 @@ problem.Constraint("BAD2", (x + y) <= 1 |  (y + z) >= 2) # ERROR! 論理演算�
 ```{code-cell} ipython3
 @knapsack_problem.update
 def _(problem: jm.DecoratedProblem):
-    N = problem.placeholders['N']
-    w = problem.placeholders['w']
-    W = problem.placeholders['W']
-    x = problem.decision_vars['x']
+    N = problem.placeholders["N"]
+    w = problem.placeholders["w"]
+    W = problem.placeholders["W"]
+    x = problem.decision_vars["x"]
     problem += problem.Constraint("weight", jm.sum(w[i] * x[i] for i in N) <= W)
+
 
 knapsack_problem
 ```
@@ -147,14 +151,23 @@ $$
 def tsp_decorated(problem: jm.DecoratedProblem):
     C = problem.CategoryLabel(description="Labels of Cities")
     N = C.count()
-    x = problem.BinaryVar(dict_keys=(N, C), description="$x_{t,i} = 1$ if City $i$ is visited at time $t$")
+    x = problem.BinaryVar(
+        dict_keys=(N, C), description="$x_{t,i} = 1$ if City $i$ is visited at time $t$"
+    )
     d = problem.Float(dict_keys=(C, C), description="distance between cities")
-    problem += jm.sum(d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in C for j in C)
-    
+    problem += jm.sum(
+        d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in C for j in C
+    )
+
     # リスト内包表記を使った定義
-    problem += problem.Constraint("one time", [jm.sum(x[t, i] for t in N) == 1 for i in C])
+    problem += problem.Constraint(
+        "one time", [jm.sum(x[t, i] for t in N) == 1 for i in C]
+    )
     # ジェネレータ式を使った定義
-    problem += problem.Constraint("one city", (jm.sum(x[t, i] for i in C) == 1 for t in N))
+    problem += problem.Constraint(
+        "one city", (jm.sum(x[t, i] for i in C) == 1 for t in N)
+    )
+
 
 tsp_decorated
 ```
@@ -165,14 +178,24 @@ Plain API のみで記述する場合は、次のようにパラメータを受�
 tsp_plain = jm.Problem("TSP, Decorated", sense=jm.ProblemSense.MINIMIZE)
 C = tsp_plain.CategoryLabel("C", description="Labels of Cities")
 N = C.count()
-x = tsp_plain.BinaryVar("x", dict_keys=(N, C), description="$x_{t,i} = 1$ if City $i$ is visited at time $t$")
+x = tsp_plain.BinaryVar(
+    "x",
+    dict_keys=(N, C),
+    description="$x_{t,i} = 1$ if City $i$ is visited at time $t$",
+)
 d = tsp_plain.Float("d", dict_keys=(C, C), description="distance between cities")
-tsp_plain += jm.sum(jm.product(N, C, C), lambda t, i, j: d[i, j] * x[t, i] * x[(t + 1) % N, j])
+tsp_plain += jm.sum(
+    jm.product(N, C, C), lambda t, i, j: d[i, j] * x[t, i] * x[(t + 1) % N, j]
+)
 
 # 各都市は一度だけ訪問される
-tsp_plain += tsp_plain.Constraint("one time", lambda i: jm.sum(N, lambda t: x[t, i]) == 1, domain=C)
+tsp_plain += tsp_plain.Constraint(
+    "one time", lambda i: jm.sum(N, lambda t: x[t, i]) == 1, domain=C
+)
 # 各時刻に一つの都市が訪問される
-tsp_plain += tsp_plain.Constraint("one city", lambda t: jm.sum(C, lambda i: x[t, i]) == 1, domain=N)
+tsp_plain += tsp_plain.Constraint(
+    "one city", lambda t: jm.sum(C, lambda i: x[t, i]) == 1, domain=N
+)
 
 tsp_plain
 ```
@@ -193,13 +216,18 @@ tsp_plain
 @jm.Problem.define("TSP, Decorated", sense=jm.ProblemSense.MINIMIZE)
 def tsp_array_comparison(problem: jm.DecoratedProblem):
     N = problem.Natural(description="Number of cities")
-    x = problem.BinaryVar(shape=(N, N), description="$x_{t,i} = 1$ if City $i$ is visited at time $t$")
+    x = problem.BinaryVar(
+        shape=(N, N), description="$x_{t,i} = 1$ if City $i$ is visited at time $t$"
+    )
     d = problem.Float(shape=(N, N), description="distance between cities")
-    problem += jm.sum(d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in N for j in N)
-    
+    problem += jm.sum(
+        d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in N for j in N
+    )
+
     # 集合とスカラーの比較を使った定義
     problem += problem.Constraint("one time", x.sum(axis=0) == 1)
     problem += problem.Constraint("one city", x.sum(axis=1) == 1)
+
 
 tsp_array_comparison
 ```

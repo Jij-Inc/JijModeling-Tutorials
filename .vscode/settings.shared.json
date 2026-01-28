@@ -20,5 +20,6 @@
     "**/CVS": true,
     "**/.ruby-lsp": true,
     "docs/*/_build": true
-  }
+  },
+  "notebook.formatOnSave.enabled": true
 }
