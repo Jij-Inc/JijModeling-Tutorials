@@ -199,5 +199,5 @@ OMMX Adapter の詳しい利用方法については、{external+ommx_doc:doc}`O
 
 OMMX SDK の {py:class}`~ommx.v1.Solution` オブジェクトには、決定変数や制約の値を名前から名寄せする {py:meth}`~ommx.v1.Solution.extract_decision_variables` や {py:meth}`~ommx.v1.Solution.extract_constraints` メソッドが用意されています。
 これらは現時点で文字列を添え字とする決定変数や制約には対応していないため、辞書やカテゴリーラベルを使ったモデルの `Solution` に対して呼び出すとエラーになってしまいます。
-こうした場合は、JijModeling の {py:meth}`Compiler.get_constraint_id_by_name() <jijmodeling.Compiler.get_constraint_id_by_name>`  や {py:meth}`Compiler.get_decision_variable_by_name() <jijmodeling.Compiler.get_decision_variable_by_name>` メソッドを呼び出してコンパイラから ID との対応を取得し、その ID を {py:meth}`ommx.v1.Solution.get_constraint_value` や {py:meth}`ommx.v1.Solution.get_decision_variable_by_id` メソッドに渡して値を取得するようにしてください$$。
+こうした場合は、JijModeling の {py:meth}`Compiler.get_constraint_id_by_name() <jijmodeling.Compiler.get_constraint_id_by_name>`  や {py:meth}`Compiler.get_decision_variable_by_name() <jijmodeling.Compiler.get_decision_variable_by_name>` メソッドを呼び出してコンパイラから ID との対応を取得し、その ID を {py:meth}`ommx.v1.Solution.get_constraint_value` や {py:meth}`ommx.v1.Solution.get_decision_variable_by_id` メソッドに渡して値を取得するようにしてください。
 :::
