@@ -108,6 +108,7 @@ def deco_problem(deco_problem: jm.DecoratedProblem):
         description="これまた適当な連続変数",
     )
 
+
 deco_problem
 ```
 
@@ -166,6 +167,7 @@ problem
 def deco_problem(problem: jm.DecoratedProblem):
     ub = problem.Float(description="決定変数 $x$ の上界")
     x = problem.ContinuousVar(lower_bound=0, upper_bound=ub)
+
 
 deco_problem
 ```
@@ -287,6 +289,7 @@ def partial_knapsack(problem: jm.DecoratedProblem):
     # 以下の shape の指定は一要素タプルを使って shape=(N,) と書いても同じ
     x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
 
+
 partial_knapsack
 ```
 
@@ -302,11 +305,11 @@ partial_knapsack
 
 ```{code-cell} ipython3
 multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
-N = multidim_arrays.Length("N") # Plain API なので変数名を指定している
+N = multidim_arrays.Length("N")  # Plain API なので変数名を指定している
 M = multidim_arrays.Length("M")
 x = multidim_arrays.BinaryVar(
     "x",
-    shape=(N,M), # N x M 配列
+    shape=(N, M),  # N x M 配列
 )
 
 multidim_arrays
@@ -373,6 +376,7 @@ def _(problem: jm.DecoratedProblem):
     v = problem.Float(shape=(N,), description="各アイテムの価値")
     w = problem.Float(shape=(N,), description="各アイテムの重さ")
 
+
 partial_knapsack
 ```
 
@@ -398,6 +402,7 @@ def partial_knapsack_ndim(problem: jm.DecoratedProblem):
     w = problem.Float(shape=N, description="各アイテムの重さ")
     x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
 
+
 partial_knapsack_ndim
 ```
 
@@ -417,6 +422,7 @@ $w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配�
 def dist_matrix(problem: jm.DecoratedProblem):
     N = problem.Length()
     d = problem.Float(shape=(N, N))
+
 
 dist_matrix
 ```
@@ -517,10 +523,7 @@ Plain API でのカテゴリーラベルの宣言方法は以下のようにな�
 
 ```{code-cell} ipython3
 problem_catlab_plain = jm.Problem("Category Label Only")
-L_plain = problem_catlab_plain.CategoryLabel(
-    "L",
-    description="適当なカテゴリーラベル"
-)
+L_plain = problem_catlab_plain.CategoryLabel("L", description="適当なカテゴリーラベル")
 
 problem_catlab_plain
 ```
@@ -531,7 +534,8 @@ problem_catlab_plain
 ```{code-cell} ipython3
 @jm.Problem.define("Category Label Only")
 def problem_catlab_deco(problem: jm.DecoratedProblem):
-   L = problem.CategoryLabel(description="適当なカテゴリーラベル")
+    L = problem.CategoryLabel(description="適当なカテゴリーラベル")
+
 
 problem_catlab_deco
 ```
@@ -617,7 +621,10 @@ def knapsack_cat_dict(problem: jm.DecoratedProblem):
     v = problem.TotalDict(dtype=float, dict_keys=L, description="各アイテムの価値")
     # dict_keys を使ってみる
     w = problem.Float(dict_keys=L, description="各アイテムの重量")
-    x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
+    x = problem.BinaryVar(
+        dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$"
+    )
+
 
 knapsack_cat_dict
 ```
@@ -632,13 +639,14 @@ def knapsack_synergy(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
     v = problem.TotalDict(dtype=float, dict_keys=L, description="各アイテムの価値")
     w = problem.Float(dict_keys=L, description="各アイテムの重量")
-    x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
+    x = problem.BinaryVar(
+        dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$"
+    )
     # PartialDict を使ってシナジーボーナスを表現！
     s = problem.PartialDict(
-        dtype=float,
-        dict_keys=(L, L),
-        description="一部のアイテム間のシナジーボーナス"
+        dtype=float, dict_keys=(L, L), description="一部のアイテム間のシナジーボーナス"
     )
+
 
 knapsack_synergy
 ```

@@ -130,7 +130,7 @@ problem = jm.Problem("Type Inference Example")
 x = problem.BinaryVar("x", description="Scalar decision variable")
 N = problem.Integer("N")
 
-problem.infer(x + N) # OK! (scalar addition)
+problem.infer(x + N)  # OK! (scalar addition)
 ```
 
 On the other hand, a scalar value cannot be added to a string, so the following example raises an error.
@@ -180,14 +180,21 @@ N = problem.Length("N")
 M = problem.Length("M")
 y = problem.IntegerVar(
     "y",
-    lower_bound=0, upper_bound=10,
-    shape=(N, M), description="2D array decision variable"
+    lower_bound=0,
+    upper_bound=10,
+    shape=(N, M),
+    description="2D array decision variable",
 )
 z = problem.ContinuousVar(
-    "z", lower_bound=-1, upper_bound=42,
-    shape=(N, M, N), description="3D array decision variable"
+    "z",
+    lower_bound=-1,
+    upper_bound=42,
+    shape=(N, M, N),
+    description="3D array decision variable",
 )
-S = problem.TotalDict("S", dtype=float, dict_keys=N, description="Scalar total dictionary")
+S = problem.TotalDict(
+    "S", dtype=float, dict_keys=N, description="Scalar total dictionary"
+)
 s = problem.ContinuousVar("s", lower_bound=0, upper_bound=10, dict_keys=N)
 W = problem.Float("w", shape=(N, M))
 
@@ -197,23 +204,23 @@ problem
 ### Allowed examples
 
 ```{code-cell} ipython3
-problem.infer(x + 1) # OK! (scalar addition)
+problem.infer(x + 1)  # OK! (scalar addition)
 ```
 
 ```{code-cell} ipython3
-problem.infer(y - x) # OK! (array minus scalar)
+problem.infer(y - x)  # OK! (array minus scalar)
 ```
 
 ```{code-cell} ipython3
-problem.infer(S * x) # OK! (scalar times dictionary)
+problem.infer(S * x)  # OK! (scalar times dictionary)
 ```
 
 ```{code-cell} ipython3
-problem.infer(y / W) # OK! (division of arrays with the same shape (N, M))
+problem.infer(y / W)  # OK! (division of arrays with the same shape (N, M))
 ```
 
 ```{code-cell} ipython3
-problem.infer(S + s) # OK! (addition of total dictionaries with the same key set)
+problem.infer(S + s)  # OK! (addition of total dictionaries with the same key set)
 ```
 
 ### Disallowed examples
@@ -264,15 +271,15 @@ Currently, comparison operators can be applied to scalars and category labels, o
 The conditions for arrays and dictionaries are the same as the arithmetic overload rules.
 
 ```{code-cell} ipython3
-problem.infer(x == y) # OK! (scalar vs array equality)
+problem.infer(x == y)  # OK! (scalar vs array equality)
 ```
 
 ```{code-cell} ipython3
-problem.infer(N <= N) # OK! (scalar order comparison)
+problem.infer(N <= N)  # OK! (scalar order comparison)
 ```
 
 ```{code-cell} ipython3
-problem.infer(y > W) # OK! (comparison of arrays with the same shape)
+problem.infer(y > W)  # OK! (comparison of arrays with the same shape)
 ```
 
 ## Indexing arrays and dictionaries
@@ -364,6 +371,7 @@ def sum_example(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(shape=(N,))
     problem += jm.sum(a[i] * x[i] for i in N)
 
+
 sum_example
 ```
 
@@ -376,6 +384,7 @@ If you accidentally use Python's built-in {py:func}`sum`, or call {py:func}`jm.s
 
 ```{code-cell} ipython3
 try:
+
     @jm.Problem.define("Wrong Sum Example")
     def wrong_sum_example(problem: jm.DecoratedProblem):
         N = problem.Length()
@@ -394,12 +403,7 @@ sum_example_plain = jm.Problem("Sum Example (Plain)")
 N = sum_example_plain.Length("N")
 a = sum_example_plain.Float("a", shape=(N,))
 x = sum_example_plain.BinaryVar("x", shape=(N,))
-sum_example_plain += jm.sum(
-    jm.map(
-        lambda i: a[i] * x[i],
-        N
-    )
-)
+sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
 
 sum_example_plain
 ```
@@ -435,9 +439,8 @@ def even_sum_example(problem: jm.DecoratedProblem):
     N = problem.Length()
     a = problem.Float(shape=(N,))
     x = problem.BinaryVar(shape=(N,))
-    problem += jm.sum(
-        a[i] * x[i] for i in N if (i % 2) == 0
-    )
+    problem += jm.sum(a[i] * x[i] for i in N if (i % 2) == 0)
+
 
 even_sum_example
 ```
@@ -470,6 +473,7 @@ def double_sum_example(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(shape=(N, M))
     problem += jm.sum(Q[i, j] for i in N for j in M)
 
+
 double_sum_example
 ```
 
@@ -483,6 +487,7 @@ def double_sum_example_alt(problem: jm.DecoratedProblem):
     Q = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=(N, M))
     problem += jm.sum(Q[i, j] for (i, j) in jm.product(N, M))
+
 
 double_sum_example_alt
 ```
@@ -498,9 +503,11 @@ def filtered_double_sum_example(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(shape=(N, M))
     problem += jm.sum(
         Q[i, j]
-        for i in N for j in M
-        if (i + j) % 2 == 0 # sum is even
+        for i in N
+        for j in M
+        if (i + j) % 2 == 0  # sum is even
     )
+
 
 filtered_double_sum_example
 ```
@@ -514,8 +521,7 @@ M = filtered_double_sum_example_plain.Length("M")
 Q = filtered_double_sum_example_plain.Float("Q", shape=(N, M))
 x = filtered_double_sum_example_plain.BinaryVar("x", shape=(N, M))
 filtered_double_sum_example_plain += jm.sum(
-    jm.product(N, M).filter(lambda i, j: (i + j) % 2 == 0),
-    lambda i, j: Q[i, j]
+    jm.product(N, M).filter(lambda i, j: (i + j) % 2 == 0), lambda i, j: Q[i, j]
 )
 
 filtered_double_sum_example_plain
@@ -527,10 +533,8 @@ Or you can use {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or the method fo
 jm.sum(
     N.flat_map(
         lambda i: jm.map(lambda j: (i, j), M),
-    ).filter(
-        lambda i, j: (i + j) % 2 == 0
-    ),
-    lambda i, j: Q[i, j]
+    ).filter(lambda i, j: (i + j) % 2 == 0),
+    lambda i, j: Q[i, j],
 )
 ```
 

@@ -32,6 +32,7 @@ kernelspec:
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("Knapsack with Synergy", sense=jm.ProblemSense.MAXIMIZE)
 def knapsack(knapsack: jm.DecoratedProblem):
     N = knapsack.Natural()
@@ -39,17 +40,15 @@ def knapsack(knapsack: jm.DecoratedProblem):
     v = knapsack.Float(shape=(N,), description="Values of the items")
     w = knapsack.Float(shape=(N,), description="Weights of the items")
     s = knapsack.PartialDict(
-        dtype=float, dict_keys=(N, N),
-        description="Synergy bonus between items"
-      )
+        dtype=float, dict_keys=(N, N), description="Synergy bonus between items"
+    )
     x = knapsack.BinaryVar(shape=(N,), description="Item selection variables")
-    
+
     knapsack += jm.sum(v[i] * x[i] for i in N)
     knapsack += jm.sum(s[i, j] * x[i] * x[j] for i, j in s.keys())
-    
-    knapsack += knapsack.Constraint(
-        "weight", jm.sum(w[i] * x[i] for i in N) <= W
-    )
+
+    knapsack += knapsack.Constraint("weight", jm.sum(w[i] * x[i] for i in N) <= W)
+
 
 knapsack
 ```
@@ -78,10 +77,10 @@ random.seed(42)
 N_data = 10
 W_data = random.randint(10, 75)
 v_data = [random.uniform(1, 20) for _ in range(N_data)]
-w_data = np.array([random.uniform(1, 15) for _ in range(N_data)]) # Numpy 配列も可
-s_data = {(1, 2): 5.0, (1,4): 3.0, (2, 9): 5.0, (3,5): 10}
+w_data = np.array([random.uniform(1, 15) for _ in range(N_data)])  # Numpy 配列も可
+s_data = {(1, 2): 5.0, (1, 4): 3.0, (2, 9): 5.0, (3, 5): 10}
 
-instance_data = {'N': N_data, 'W': W_data, 'v': v_data, 'w': w_data, 's': s_data}
+instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data}
 ```
 
 :::{admonition} インスタンスデータのランダム生成

@@ -109,6 +109,7 @@ def deco_problem(deco_problem: jm.DecoratedProblem):
         description="Another continuous variable",
     )
 
+
 deco_problem
 ```
 
@@ -168,6 +169,7 @@ As with decision variables, the Decorator API lets you omit placeholder names wh
 def deco_problem(problem: jm.DecoratedProblem):
     ub = problem.Float(description="Upper bound for decision variable $x$")
     x = problem.ContinuousVar(lower_bound=0, upper_bound=ub)
+
 
 deco_problem
 ```
@@ -293,6 +295,7 @@ def partial_knapsack(problem: jm.DecoratedProblem):
     # The shape can also be written as shape=(N,) using a single-element tuple.
     x = problem.BinaryVar(shape=N, description="$1$ only when item $i$ is included")
 
+
 partial_knapsack
 ```
 
@@ -308,11 +311,11 @@ As another example, here is a two-dimensional array declared by passing a tuple 
 
 ```{code-cell} ipython3
 multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
-N = multidim_arrays.Length("N") # Plain API, so the name is required.
+N = multidim_arrays.Length("N")  # Plain API, so the name is required.
 M = multidim_arrays.Length("M")
 x = multidim_arrays.BinaryVar(
     "x",
-    shape=(N,M), # N x M array
+    shape=(N, M),  # N x M array
 )
 
 multidim_arrays
@@ -379,6 +382,7 @@ def _(problem: jm.DecoratedProblem):
     v = problem.Float(shape=(N,), description="Value of each item")
     w = problem.Float(shape=(N,), description="Weight of each item")
 
+
 partial_knapsack
 ```
 
@@ -404,6 +408,7 @@ def partial_knapsack_ndim(problem: jm.DecoratedProblem):
     w = problem.Float(shape=N, description="Weight of each item")
     x = problem.BinaryVar(shape=N, description="$1$ only when item $i$ is included")
 
+
 partial_knapsack_ndim
 ```
 
@@ -424,6 +429,7 @@ As an example, consider defining a distance matrix $d$ of shape $N \times N$:
 def dist_matrix(problem: jm.DecoratedProblem):
     N = problem.Length()
     d = problem.Float(shape=(N, N))
+
 
 dist_matrix
 ```
@@ -525,10 +531,7 @@ With the Plain API, it looks like this:
 
 ```{code-cell} ipython3
 problem_catlab_plain = jm.Problem("Category Label Only")
-L_plain = problem_catlab_plain.CategoryLabel(
-    "L",
-    description="Some category label"
-)
+L_plain = problem_catlab_plain.CategoryLabel("L", description="Some category label")
 
 problem_catlab_plain
 ```
@@ -539,7 +542,8 @@ With the Decorator API, you can omit the category label name (and still specify 
 ```{code-cell} ipython3
 @jm.Problem.define("Category Label Only")
 def problem_catlab_deco(problem: jm.DecoratedProblem):
-   L = problem.CategoryLabel(description="Some category label")
+    L = problem.CategoryLabel(description="Some category label")
+
 
 problem_catlab_deco
 ```
@@ -625,7 +629,10 @@ def knapsack_cat_dict(problem: jm.DecoratedProblem):
     v = problem.TotalDict(dtype=float, dict_keys=L, description="Value of each item")
     # Use dict_keys on a placeholder constructor.
     w = problem.Float(dict_keys=L, description="Weight of each item")
-    x = problem.BinaryVar(dict_keys=L, description="$x_i = 1$ only when item $i$ is included")
+    x = problem.BinaryVar(
+        dict_keys=L, description="$x_i = 1$ only when item $i$ is included"
+    )
+
 
 knapsack_cat_dict
 ```
@@ -640,14 +647,17 @@ def knapsack_synergy(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
     v = problem.TotalDict(dtype=float, dict_keys=L, description="Value of each item")
     w = problem.Float(dict_keys=L, description="Weight of each item")
-    x = problem.BinaryVar(dict_keys=L, description="$x_i = 1$ only when item $i$ is included")
+    x = problem.BinaryVar(
+        dict_keys=L, description="$x_i = 1$ only when item $i$ is included"
+    )
     # Use PartialDict to represent synergy bonuses.
     s = problem.PartialDict(
         "s",
         dtype=float,
         dict_keys=(L, L),
-        description="Synergy bonus for some item pairs"
+        description="Synergy bonus for some item pairs",
     )
+
 
 knapsack_synergy
 ```

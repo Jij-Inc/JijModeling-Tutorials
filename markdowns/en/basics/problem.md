@@ -60,7 +60,8 @@ Here is the same model defined with the Decorator API using [`@jm.Problem.define
     description="An optimization problem with no objective or constraints, for demonstration",
 )
 def deco_problem(problem: jm.DecoratedProblem):
-    pass # do nothing
+    pass  # do nothing
+
 
 deco_problem
 ```
@@ -101,11 +102,12 @@ Let's add variables to the two problems we defined earlier.
 @plain_problem.update
 def _(problem: jm.DecoratedProblem):
     # Define a new binary decision variable `x` and add it to the objective.
-    x = problem.BinaryVar() # Name can be omitted if it matches the Python variable.
+    x = problem.BinaryVar()  # Name can be omitted if it matches the Python variable.
     problem += x
 
+
 # Now add another binary decision variable `y` using the Plain API.
-y = plain_problem.BinaryVar("y") # Plain API requires the name.
+y = plain_problem.BinaryVar("y")  # Plain API requires the name.
 plain_problem += y
 plain_problem
 ```
