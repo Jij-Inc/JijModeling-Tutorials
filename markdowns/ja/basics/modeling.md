@@ -243,3 +243,64 @@ tsp_array_comparison.infer(tsp_array_comparison.decision_vars["x"].sum(axis=1))
 
 このようにして得られた「時刻毎の都市数」の一元配列をスカラー値$1$と比較し、制約条件の族を定義しているのです。 `one-time`も同様です。
 ここでは配列対スカラーの比較になっていますが、前述の通り同一シェイプの配列同士の比較による制約条件の族の定義も可能です。
+
+### 同名の制約条件の衝突
+
+複雑な数理モデルを記述していると、場合によっては同名の制約条件を複数回に分けて追加したい場合があります。
+JijModeling では以下の条件**すべて**が満たされている場合に限って、同名の制約条件を複数回に分けて追加することが可能です：
+
+1. 同名の制約条件の添え字の数が一致していること
+   - 添え字つきでない制約条件については、添え字の数が $0$ と見なされます
+2. 添え字が重複している場合、制約の定義が description や定義域も含めて厳密に一致していること
+
+(2) の条件については、コンパイル時に与えられたインスタンスデータによって結果がかわってくるため、こうした検査は**モデル構築時ではなくインスタンスへのコンパイル時**に行われます。これは、添え字の重複の有無は原理的にコンパイル時にしか確定しないためです。次の例を考えてみましょう：
+
+```{code-cell} ipython3
+@jm.Problem.define("Possibly Overlapping Constraints")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural(ndim=1)
+    M = problem.Natural(ndim=1)
+    n = jm.max(N.max(), M.max()) + 1
+    x = problem.BinaryVar(shape=n)
+    problem += problem.Constraint("constr", [x[i] <= 1 for i in N])
+    problem += problem.Constraint("constr", [x[i] >= 2 for i in M])
+
+
+problem
+```
+
+この例では、 $N$, $M$ は一次元の添え字の集合であり、データを与えるまで重複しているかどうかはわかりません。たとえば、次のようなインスタンスデータを与えれば、上の問題は問題なくインスタンスへとコンパイルできます：
+
+```{code-cell} ipython3
+instance_ok = problem.eval({"N": [0, 2, 4], "M": [1, 3, 5]})
+instance_ok.constraints_df
+```
+
++++ {"vscode": {"languageId": "bat"}}
+
+一方、次のように $N$ と $M$ の要素に重複がある場合、コンパイル時エラーとなります：
+
+```{code-cell} ipython3
+try:
+    instance_ng = problem.eval({"N": [0, 2, 4], "M": [1, 2, 5]})
+except jm.ModelingError as e:
+    print(e)
+```
+
+一方、添え字の次元の不一致や、添え字を持たない制約条件の衝突など、直ちに衝突していることがわかるケースは、コンパイル時ではなくモデル構築の時点でエラーとなるようになっています。
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("Trivially Conflicting Constraints")
+    def problem(problem: jm.DecoratedProblem):
+        x = problem.BinaryVar()
+        problem += problem.Constraint("constr", x <= 1)
+        problem += problem.Constraint("constr", x >= 2)
+except jm.ModelingError as e:
+    print(e)
+```
+
+<!-- 次のリリースでここはエラーになります -->
+
+このように、制約条件名の衝突は原理的にコンパイル時にしか確定しないため、本当に必要な場合以外は避けることをお勧めします。

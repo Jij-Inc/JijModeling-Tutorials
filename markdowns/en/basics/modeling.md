@@ -249,3 +249,64 @@ tsp_array_comparison.infer(tsp_array_comparison.decision_vars["x"].sum(axis=1))
 We then compare this one-dimensional array (the number of cities per time) with the scalar value $1$ to define a constraint family.
 The same holds for `one time`.
 In this example the comparison is array-to-scalar, but as mentioned earlier, you can also define constraint families by comparing arrays of the same shape.
+
+### Conflicting constraints with the same name
+
+When building complex models, you may want to add constraints with the same name in multiple places.
+In JijModeling, this is only possible if **all** of the following conditions are satisfied:
+
+1. The number of indices for the constraints with the same name must match
+   - Constraints without indices are treated as having $0$ indices
+2. If any indices overlap, the constraint definitions must match exactly, including description and domain
+
+Condition (2) is checked **at compile time into an instance, not at model construction**, because the result depends on the instance data. This is because, in principle, index overlap can only be determined at compile time. Consider the following example:
+
+```{code-cell} ipython3
+@jm.Problem.define("Possibly Overlapping Constraints")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural(ndim=1)
+    M = problem.Natural(ndim=1)
+    n = jm.max(N.max(), M.max()) + 1
+    x = problem.BinaryVar(shape=n)
+    problem += problem.Constraint("constr", [x[i] <= 1 for i in N])
+    problem += problem.Constraint("constr", [x[i] >= 2 for i in M])
+
+
+problem
+```
+
+In this example, $N$ and $M$ are one-dimensional index sets, and you cannot tell whether they overlap until you supply data. For instance, with the following instance data, the problem compiles into an instance without issues:
+
+```{code-cell} ipython3
+instance_ok = problem.eval({"N": [0, 2, 4], "M": [1, 3, 5]})
+instance_ok.constraints_df
+```
+
++++ {"vscode": {"languageId": "bat"}}
+
+On the other hand, if $N$ and $M$ overlap, a compile-time error is raised:
+
+```{code-cell} ipython3
+try:
+    instance_ng = problem.eval({"N": [0, 2, 4], "M": [1, 2, 5]})
+except jm.ModelingError as e:
+    print(e)
+```
+
+Cases where conflicts are immediately obvious (e.g., mismatched index dimensions, or name collisions for non-indexed constraints) are reported at model construction time rather than at compile time.
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("Trivially Conflicting Constraints")
+    def problem(problem: jm.DecoratedProblem):
+        x = problem.BinaryVar()
+        problem += problem.Constraint("constr", x <= 1)
+        problem += problem.Constraint("constr", x >= 2)
+except jm.ModelingError as e:
+    print(e)
+```
+
+<!-- This will become an error in the next release -->
+
+Since constraint-name collisions are fundamentally determined only at compile time, we recommend avoiding them unless truly necessary.
