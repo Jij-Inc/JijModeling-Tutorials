@@ -34,23 +34,23 @@ import jijmodeling as jm
 
 
 @jm.Problem.define("Knapsack with Synergy", sense=jm.ProblemSense.MAXIMIZE)
-def knapsack(knapsack: jm.DecoratedProblem):
-    N = knapsack.Natural()
-    W = knapsack.Float(description="Weight limit of the knapsack")
-    v = knapsack.Float(shape=(N,), description="Values of the items")
-    w = knapsack.Float(shape=(N,), description="Weights of the items")
-    s = knapsack.PartialDict(
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    W = problem.Float(description="Weight limit of the problem")
+    v = problem.Float(shape=(N,), description="Values of the items")
+    w = problem.Float(shape=(N,), description="Weights of the items")
+    s = problem.PartialDict(
         dtype=float, dict_keys=(N, N), description="Synergy bonus between items"
     )
-    x = knapsack.BinaryVar(shape=(N,), description="Item selection variables")
+    x = problem.BinaryVar(shape=(N,), description="Item selection variables")
 
-    knapsack += jm.sum(v[i] * x[i] for i in N)
-    knapsack += jm.sum(s[i, j] * x[i] * x[j] for i, j in s.keys())
+    problem += jm.sum(v[i] * x[i] for i in N)
+    problem += jm.sum(s[i, j] * x[i] * x[j] for i, j in s.keys())
 
-    knapsack += knapsack.Constraint("weight", jm.sum(w[i] * x[i] for i in N) <= W)
+    problem += problem.Constraint("weight", jm.sum(w[i] * x[i] for i in N) <= W)
 
 
-knapsack
+problem
 ```
 
 ## Preparing instance data
@@ -67,7 +67,7 @@ You also need to satisfy constraints on array shapes and the totality of diction
 At the moment, note that dictionary data cannot be provided as arrays.
 
 Prepare instance data as a Python dictionary that maps each variable name to its data.
-Let's create instance data for `knapsack`.
+Let's create instance data for `problem`.
 
 ```{code-cell} ipython3
 import random
@@ -99,7 +99,7 @@ Once the model and instance data are prepared, you can compile them into an OMMX
 The simplest way is to use the {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` method:
 
 ```{code-cell} ipython3
-instance1 = knapsack.eval(instance_data)
+instance1 = problem.eval(instance_data)
 instance1.constraints_df
 ```
 
@@ -115,8 +115,8 @@ This actually calls {py:meth}`Compiler.from_problem() <jijmodeling.Compiler.from
 {py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` internally, and is equivalent to:
 
 ```{code-cell} ipython3
-compiler = jm.Compiler.from_problem(knapsack, instance_data)
-instance2 = compiler.eval_problem(knapsack)
+compiler = jm.Compiler.from_problem(problem, instance_data)
+instance2 = compiler.eval_problem(problem)
 
 assert instance1.objective.almost_equal(instance2.objective)
 assert len(instance1.constraints) == 1
@@ -128,7 +128,7 @@ assert instance2.constraints[0].function == instance1.constraints[0].function
 :::{admonition} Why do we pass the problem twice?
 :class: note
 
-In the example above, we pass the `knapsack` problem to both
+In the example above, we pass the `problem` problem to both
 {py:meth}`~jijmodeling.Compiler.from_problem` and {py:meth}`~jijmodeling.Compiler.eval_problem`.
 This may look redundant, but they serve different purposes:
 
@@ -156,10 +156,10 @@ functions into OMMX {py:class}`~ommx.v1.Function` objects via
 {py:meth}`~jijmodeling.Compiler.eval_function`, or compile individual constraints (without registering
 them on a Problem) into OMMX {py:class}`~ommx.v1.Constraint` objects via
 {py:meth}`~jijmodeling.Compiler.eval_constraint`.
-Below is an example that evaluates a function expression using decision variables from `knapsack`:
+Below is an example that evaluates a function expression using decision variables from `problem`:
 
 ```{code-cell} ipython3
-x_ = knapsack.decision_vars["x"]
+x_ = problem.decision_vars["x"]
 compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
 ```
 

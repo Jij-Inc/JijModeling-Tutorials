@@ -34,23 +34,23 @@ import jijmodeling as jm
 
 
 @jm.Problem.define("Knapsack with Synergy", sense=jm.ProblemSense.MAXIMIZE)
-def knapsack(knapsack: jm.DecoratedProblem):
-    N = knapsack.Natural()
-    W = knapsack.Float(description="Weight limit of the knapsack")
-    v = knapsack.Float(shape=(N,), description="Values of the items")
-    w = knapsack.Float(shape=(N,), description="Weights of the items")
-    s = knapsack.PartialDict(
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    W = problem.Float(description="Weight limit of the problem")
+    v = problem.Float(shape=(N,), description="Values of the items")
+    w = problem.Float(shape=(N,), description="Weights of the items")
+    s = problem.PartialDict(
         dtype=float, dict_keys=(N, N), description="Synergy bonus between items"
     )
-    x = knapsack.BinaryVar(shape=(N,), description="Item selection variables")
+    x = problem.BinaryVar(shape=(N,), description="Item selection variables")
 
-    knapsack += jm.sum(v[i] * x[i] for i in N)
-    knapsack += jm.sum(s[i, j] * x[i] * x[j] for i, j in s.keys())
+    problem += jm.sum(v[i] * x[i] for i in N)
+    problem += jm.sum(s[i, j] * x[i] * x[j] for i, j in s.keys())
 
-    knapsack += knapsack.Constraint("weight", jm.sum(w[i] * x[i] for i in N) <= W)
+    problem += problem.Constraint("weight", jm.sum(w[i] * x[i] for i in N) <= W)
 
 
-knapsack
+problem
 ```
 
 ## インスタンスデータの用意
@@ -67,7 +67,7 @@ knapsack
 現時点においては、辞書のデータを配列として与えることはできないので注意してください。
 
 インスタンスデータは、これらをそれぞれの変数名に対応させた Python の辞書として用意します。
-それでは、`knapsack` に対するインスタンスデータを用意してみましょう。
+それでは、`problem` に対するインスタンスデータを用意してみましょう。
 
 ```{code-cell} ipython3
 import random
@@ -97,7 +97,7 @@ instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data
 一番簡単な方法は、{py:meth}`Problem.eval() <jijmodeling.Problem.eval>` メソッドを使う方法です：
 
 ```{code-cell} ipython3
-instance1 = knapsack.eval(instance_data)
+instance1 = problem.eval(instance_data)
 instance1.constraints_df
 ```
 
@@ -112,8 +112,8 @@ instance1.objective
 これは実際には {py:meth}`Compiler.from_problem() <jijmodeling.Compiler.from_problem>` メソッドと {py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` メソッドを呼び出しており、以下のように書くのと同値です：
 
 ```{code-cell} ipython3
-compiler = jm.Compiler.from_problem(knapsack, instance_data)
-instance2 = compiler.eval_problem(knapsack)
+compiler = jm.Compiler.from_problem(problem, instance_data)
+instance2 = compiler.eval_problem(problem)
 
 assert instance1.objective.almost_equal(instance2.objective)
 assert len(instance1.constraints) == 1
@@ -125,7 +125,7 @@ assert instance2.constraints[0].function == instance1.constraints[0].function
 :::{admonition} 何故問題を二回渡す必要があるのか？
 :class: note
 
-上の例では、{py:meth}`~jijmodeling.Compiler.from_problem` と {py:meth}`~jijmodeling.Compiler.eval_problem` の両方に `knapsack` 問題を渡しています。
+上の例では、{py:meth}`~jijmodeling.Compiler.from_problem` と {py:meth}`~jijmodeling.Compiler.eval_problem` の両方に `problem` 問題を渡しています。
 これは一見無駄に見えますが、それぞれ以下のように別々の役割を持っています：
 
 {py:meth}`~jijmodeling.Compiler.from_problem` の第 1 引数の {py:class}`~jijmodeling.Problem` オブジェクト
@@ -141,10 +141,10 @@ assert instance2.constraints[0].function == instance1.constraints[0].function
 単純に {py:class}`~jijmodeling.Problem` をインスタンスにコンパイルするだけであれば {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` メソッドを使うのが手軽ですが、 {py:class}`~jijmodeling.Compiler` オブジェクトは {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` や {py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name` メソッドなどを使ってモデルの制約条件や決定変数の OMMX 側での ID の情報を取得することもできます。
 
 また、{py:class}`~jijmodeling.Compiler` はインスタンスへのコンパイル以外にも、以下のように {py:meth}`~jijmodeling.Compiler.eval_function` メソッドを個別のスカラー関数式を OMMX の {py:class}`~ommx.v1.Function` オブジェクトに評価したり、{py:meth}`~jijmodeling.Compiler.eval_constraint` により個別の制約条件を（Problem に登録せずに）OMMX の {py:class}`~ommx.v1.Constraint` オブジェクトに評価したりすることもできます。
-以下は `knapsack` 問題の決定変数を使った関数式を評価している例です：
+以下は `problem` 問題の決定変数を使った関数式を評価している例です：
 
 ```{code-cell} ipython3
-x_ = knapsack.decision_vars["x"]
+x_ = problem.decision_vars["x"]
 compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
 ```
 
