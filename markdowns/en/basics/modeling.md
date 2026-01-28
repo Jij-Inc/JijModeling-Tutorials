@@ -208,7 +208,7 @@ def tsp_array_comparison(problem: jm.DecoratedProblem):
 tsp_array_comparison
 ```
 
-Here, giving an `axis=i` argument to {py:meth}`Expression.sum() <jijmodeling.Expression.sum>` or {py:meth}`jm.sum() <jijmodeling.sum>` returns an array of sums along that axis rather than a single total sum, in the same way as {py:func}`numpy.sum`.
+Here, giving an `axis=i` argument to {py:meth}`Expression.sum() <jijmodeling.Expression.sum>` or {py:meth}`jm.sum() <jijmodeling.sum>` works the same way as {py:func}`numpy.sum`: rather than a single total sum, it returns an array of sums along that axis.
 You can also pass multiple axes as a list.
 
 In the `one city` constraint above, `x.sum(axis=1)` (0-indexed) sums along the second axis, which corresponds to cities, and produces an array representing the number of cities visited at each time.
