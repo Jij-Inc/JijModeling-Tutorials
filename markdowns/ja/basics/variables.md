@@ -284,7 +284,7 @@ JijModeling の配列型は、次元とそ要素の型をセミコロン `;` で
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only)", sense=jm.ProblemSense.MAXIMIZE)
 def partial_knapsack(problem: jm.DecoratedProblem):
-    W = problem.Float(description="ナップザックの耐荷重")
+    W = problem.Float(description="ナップサックの耐荷重")
     N = problem.Length(description="アイテム数")
     # 以下の shape の指定は一要素タプルを使って shape=(N,) と書いても同じ
     x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
@@ -396,7 +396,7 @@ partial_knapsack
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only, with ndim)", sense=jm.ProblemSense.MAXIMIZE)
 def partial_knapsack_ndim(problem: jm.DecoratedProblem):
-    W = problem.Float(description="ナップザックの耐荷重")
+    W = problem.Float(description="ナップサックの耐荷重")
     v = problem.Float(ndim=1, description="各アイテムの価値")
     N = v.len_at(0)
     w = problem.Float(shape=N, description="各アイテムの重さ")

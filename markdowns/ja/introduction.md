@@ -80,7 +80,7 @@ def knapsack(problem: jm.DecoratedProblem):
     W = problem.Float(description="耐荷重")
     w = problem.Float(shape=N, description="各アイテムの重さ")
     v = problem.Float(shape=N, description="各アイテムの価値")
-    x = problem.BinaryVar(shape=N, description="アイテム $i$ をナップザックに入れるときのみ $x_i=1$")
+    x = problem.BinaryVar(shape=N, description="アイテム $i$ をナップサックに入れるときのみ $x_i=1$")
 
     problem += problem.Constraint(
         "weight",
