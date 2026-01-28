@@ -28,13 +28,8 @@ import jijmodeling as jm
 
 {py:class}`~jijmodeling.Problem`オブジェクトの生成時に `sense` を {py:attr}`~jijmodeling.ProblemSense.MAXIMIZE` にすると目的関数を最大化する問題、 `sense` を {py:attr}`~jijmodeling.ProblemSense.MINIMIZE` にすると最小化する問題として解釈されます。
 Problem オブジェクトが作成された初期段階では目的関数は $0$ として設定され、{py:class}`~jijmodeling.Problem`オブジェクトに対し {py:meth}`+= <jijmodeling.Problem.__iadd__>` 演算子を使って目的関数の項を足していく形で設定します。
-
-:::{admonition} 目的関数の項として受け付ける式の型
-:class: important
-
 {py:class}`~jijmodeling.Problem`オブジェクトが目的関数の項として受け付けるのは、数値型の {py:class}`~jijmodeling.Expression`オブジェクトのみです。
 配列型や辞書型などの式を足そうとすると型エラーとなるので注意してください。
-:::
 
 :::{note}
 JijModeling では、目的関数に項を追加することはできても、全体を書き換えたり削除したりすることはできません。
