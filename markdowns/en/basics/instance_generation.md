@@ -117,11 +117,7 @@ This actually calls {py:meth}`Compiler.from_problem() <jijmodeling.Compiler.from
 ```{code-cell} ipython3
 compiler = jm.Compiler.from_problem(knapsack, instance_data)
 instance2 = compiler.eval_problem(knapsack)
-```
 
-In fact, you can verify that the two instances are the same:
-
-```{code-cell} ipython3
 assert instance1.objective.almost_equal(instance2.objective)
 assert len(instance1.constraints) == 1
 assert len(instance2.constraints) == 1
@@ -129,16 +125,51 @@ assert instance2.constraints[0].equality == instance1.constraints[0].equality
 assert instance2.constraints[0].function == instance1.constraints[0].function
 ```
 
-If you only need compilation, {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` is convenient.
-However, a {py:class}`~jijmodeling.Compiler` object can also provide OMMX-side IDs of constraints and
-decision variables via {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` and
+:::{admonition} Why do we pass the problem twice?
+:class: note
+
+In the example above, we pass the `knapsack` problem to both
+{py:meth}`~jijmodeling.Compiler.from_problem` and {py:meth}`~jijmodeling.Compiler.eval_problem`.
+This may look redundant, but they serve different purposes:
+
+The {py:class}`~jijmodeling.Problem` argument to {py:meth}`~jijmodeling.Compiler.from_problem`
+:    Used to extract information such as decision variable types that the {py:class}`~jijmodeling.Compiler`
+     needs at evaluation time. In JijModeling, this bundle of information is called a
+     {py:class}`~jijmodeling.Namespace`. Internally, this is obtained via the
+     {py:meth}`~jijmodeling.Problem.namespace` property and passed to the
+     {py:meth}`Compiler constructor <jijmodeling.Compiler.__new__>`.
+
+The {py:class}`~jijmodeling.Problem` argument to {py:meth}`~jijmodeling.Compiler.eval_problem`
+:    Specifies the {py:class}`~jijmodeling.Problem` you want to compile into an instance.
+     A {py:class}`~jijmodeling.Compiler` is not tied to a single problem, and can be reused for
+     multiple {py:class}`~jijmodeling.Problem` objects that share placeholders and decision variables.
+:::
+
+If you only need to compile a {py:class}`~jijmodeling.Problem` into an instance,
+{py:meth}`Problem.eval() <jijmodeling.Problem.eval>` is convenient. On the other hand, a
+{py:class}`~jijmodeling.Compiler` object can also provide OMMX-side IDs of constraints and decision
+variables via {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` and
 {py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name`.
-Once created, a Compiler can be reused across multiple models that share placeholders, and it also shares
-the ID mapping. This is useful when solving large problems that combine multiple models.
-The {py:class}`~jijmodeling.Compiler` object also provides {py:meth}`~jijmodeling.Compiler.eval_function`
-and {py:meth}`~jijmodeling.Compiler.eval_constraint`, which can compile scalar functions of decision
-variables into {py:class}`ommx.v1.Function` and individual constraints into
-{py:class}`ommx.v1.Constraint`, useful for debugging.
+
+In addition to compiling instances, {py:class}`~jijmodeling.Compiler` can evaluate individual scalar
+functions into OMMX {py:class}`~ommx.v1.Function` objects via
+{py:meth}`~jijmodeling.Compiler.eval_function`, or compile individual constraints (without registering
+them on a Problem) into OMMX {py:class}`~ommx.v1.Constraint` objects via
+{py:meth}`~jijmodeling.Compiler.eval_constraint`.
+Below is an example that evaluates a function expression using decision variables from `knapsack`:
+
+```{code-cell} ipython3
+x_ = knapsack.decision_vars["x"]
+compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
+```
+
+These `eval_function` and `eval_constraint` methods are useful for debugging, and can also be used to
+transform a compiled {py:class}`ommx.v1.Instance`.
+
+Once created, a Compiler can be reused across multiple models that share placeholders and decision
+variables, and the ID mappings for decision variables and constraints are preserved. This is useful for
+cases like compiling multiple models with the same parameters but different objectives or constraints
+and comparing their results.
 
 :::{admonition} Transforming problems with the OMMX SDK
 :class: tip

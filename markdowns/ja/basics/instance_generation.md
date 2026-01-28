@@ -114,11 +114,7 @@ instance1.objective
 ```{code-cell} ipython3
 compiler = jm.Compiler.from_problem(knapsack, instance_data)
 instance2 = compiler.eval_problem(knapsack)
-```
 
-実際、以下のようにどちらのインスタンスも同じであることが確認できます：
-
-```{code-cell} ipython3
 assert instance1.objective.almost_equal(instance2.objective)
 assert len(instance1.constraints) == 1
 assert len(instance2.constraints) == 1
@@ -126,9 +122,36 @@ assert instance2.constraints[0].equality == instance1.constraints[0].equality
 assert instance2.constraints[0].function == instance1.constraints[0].function
 ```
 
-単純にコンパイルするだけであれば {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` メソッドを使うのが手軽ですが、 {py:class}`~jijmodeling.Compiler` オブジェクトは {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` や {py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name` メソッドなどを使ってモデルの制約条件や決定変数の OMMX 側での ID の情報を取得することもできます。
-また、一度作成した Compiler はプレースホルダーを共有する複数のモデルに対して使い回すことができ、また個別の ID の対応関係も共有されるため、複数のモデルを組み合わせた大規模な問題を解く際に便利です。
-また、{py:class}`~jijmodeling.Compiler` オブジェクトには {py:meth}`~jijmodeling.Compiler.eval_function` や {py:meth}`~jijmodeling.Compiler.eval_constraint` メソッドも用意されており、決定変数のスカラー関数の{py:class}`ommx.v1.Function` へのコンパイルや個別の制約条件の{py:class}`ommx.v1.Constraint` へのコンパイルも可能であり、デバッグ用途などに使うことができます。
+:::{admonition} 何故問題を二回渡す必要があるのか？
+:class: note
+
+上の例では、{py:meth}`~jijmodeling.Compiler.from_problem` と {py:meth}`~jijmodeling.Compiler.eval_problem` の両方に `knapsack` 問題を渡しています。
+これは一見無駄に見えますが、それぞれ以下のように別々の役割を持っています：
+
+{py:meth}`~jijmodeling.Compiler.from_problem` の第 1 引数の {py:class}`~jijmodeling.Problem` オブジェクト
+:    {py:class}`~jijmodeling.Compiler` が評価時に用いる決定変数の型の情報などを取得するのに使われています。
+     こうした情報の束を JijModeling では {py:class}`~jijmodeling.Namespace` と呼びます。
+     実際には {py:class}`~jijmodeling.Problem` が保持している {py:class}`~jijmodeling.Namespace` オブジェクトを {py:meth}`~jijmodeling.Problem.namespace` プロパティにより取得し、それを使って {py:meth}`Compiler の構築子 <jijmodeling.Compiler.__new__>` を呼ぶ形になっています。
+
+{py:meth}`~jijmodeling.Compiler.eval_problem` の第 1 引数の {py:class}`~jijmodeling.Problem` オブジェクト
+:    インスタンスにコンパイルしたい {py:class}`~jijmodeling.Problem` オブジェクトを指定します。
+     {py:class}`~jijmodeling.Compiler` オブジェクトは特定の {py:class}`~jijmodeling.Problem` に限定されたものではなく、決定変数やプレースホルダーが一致しているような複数の {py:class}`~jijmodeling.Problem` オブジェクトに対して使い回すことができるため、このような形になっています。
+:::
+
+単純に {py:class}`~jijmodeling.Problem` をインスタンスにコンパイルするだけであれば {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` メソッドを使うのが手軽ですが、 {py:class}`~jijmodeling.Compiler` オブジェクトは {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` や {py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name` メソッドなどを使ってモデルの制約条件や決定変数の OMMX 側での ID の情報を取得することもできます。
+
+また、{py:class}`~jijmodeling.Compiler` はインスタンスへのコンパイル以外にも、以下のように {py:meth}`~jijmodeling.Compiler.eval_function` メソッドを個別のスカラー関数式を OMMX の {py:class}`~ommx.v1.Function` オブジェクトに評価したり、{py:meth}`~jijmodeling.Compiler.eval_constraint` により個別の制約条件を（Problem に登録せずに）OMMX の {py:class}`~ommx.v1.Constraint` オブジェクトに評価したりすることもできます。
+以下は `knapsack` 問題の決定変数を使った関数式を評価している例です：
+
+```{code-cell} ipython3
+x_ = knapsack.decision_vars["x"]
+compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
+```
+
+`eval_function` や `eval_constraint` メソッドはデバッグに使える他、コンパイル後の {py:class}`ommx.v1.Instance` を変形する用途などに利用できます。
+
+また、一度作成した Compiler は、プレースホルダーと決定変数を共有する複数のモデルに対して使い回すことができ、決定変数や制約条件の ID の対応関係も保存されます。
+この機能は、同じパラメーターを持ちつつ制約条件や目的関数を変化させた複数のモデルを同時にコンパイルし、結果を比較する用途などに便利です。
 
 :::{admonition} OMMX SDK を用いた問題の変形
 :class: tip
@@ -149,7 +172,7 @@ OMMX SDK にはコンパイル後の {py:class}`~ommx.v1.Instance` オブジェ�
 `constraint_detection: Optional[ConstraintDetectionConfig | bool] = None`
 :    JijModeling には制約条件の構造を検知して OMMX インスタンスに反映させることで、OMMX Adapter がより効率的にソルバーを呼び出せるようになっています。
      この検出機能はデフォルトで有効になっていますが、現状最大数秒程度のコンパイル時のオーバーヘッドがかかります。
-     このオプションに {py:class}`~jijmodeling.ConstraintDetectionConfig` オブジェクトを渡してやることで、検出する制約条件の種類を指定したり、振る舞いに関するパラメータを調整したりすることができます。
+     このオプションに {py:class}`~jijmodeling.ConstraintDetectionConfig` オブジェクトを渡してやることで、検出する制約条件の種類を指定したり、振る舞いに関するパラメーターを調整したりすることができます。
      また、`False` を渡すことで検出機能じたいを無効化できます。
 
 ## インスタンスの求解
