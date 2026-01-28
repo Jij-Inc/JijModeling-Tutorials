@@ -192,11 +192,10 @@ tsp_plain += jm.sum(
     jm.product(N, C, C), lambda t, i, j: d[i, j] * x[t, i] * x[(t + 1) % N, j]
 )
 
-# Each city is visited exactly once
+# Definition using the `domain=` keyword argument
 tsp_plain += tsp_plain.Constraint(
     "one time", lambda i: jm.sum(N, lambda t: x[t, i]) == 1, domain=C
 )
-# Exactly one city is visited at each time
 tsp_plain += tsp_plain.Constraint(
     "one city", lambda t: jm.sum(C, lambda i: x[t, i]) == 1, domain=N
 )
@@ -250,7 +249,7 @@ We then compare this one-dimensional array (the number of cities per time) with 
 The same holds for `one time`.
 In this example the comparison is array-to-scalar, but as mentioned earlier, you can also define constraint families by comparing arrays of the same shape.
 
-### Conflicting constraints with the same name
+### Constraints with the same name
 
 When building complex models, you may want to add constraints with the same name in multiple places.
 In JijModeling, this is only possible if **all** of the following conditions are satisfied:
@@ -267,9 +266,9 @@ def problem(problem: jm.DecoratedProblem):
     N = problem.Natural(ndim=1)
     M = problem.Natural(ndim=1)
     n = jm.max(N.max(), M.max()) + 1
-    x = problem.BinaryVar(shape=n)
-    problem += problem.Constraint("constr", [x[i] <= 1 for i in N])
-    problem += problem.Constraint("constr", [x[i] >= 2 for i in M])
+    x = problem.IntegerVar(shape=n, lower_bound=0, upper_bound=10)
+    problem += problem.Constraint("constr", [x[i] >= 1 for i in N])
+    problem += problem.Constraint("constr", [x[i] <= 2 for i in M])
 
 
 problem
@@ -300,13 +299,13 @@ try:
 
     @jm.Problem.define("Trivially Conflicting Constraints")
     def problem(problem: jm.DecoratedProblem):
-        x = problem.BinaryVar()
-        problem += problem.Constraint("constr", x <= 1)
-        problem += problem.Constraint("constr", x >= 2)
+        x = problem.IntegerVar(lower_bound=0, upper_bound=10)
+        problem += problem.Constraint("constr", x >= 1)
+        problem += problem.Constraint("constr", x <= 2)
 except jm.ModelingError as e:
     print(e)
 ```
 
 <!-- This will become an error in the next release -->
 
-Since constraint-name collisions are fundamentally determined only at compile time, we recommend avoiding them unless truly necessary.
+That said, because constraint-name collisions can only be determined at compile time in some cases, we generally recommend avoiding same-name constraints.
