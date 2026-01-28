@@ -31,12 +31,31 @@ Right after a `Problem` is created, the objective is initialized to $0$, and you
 The {py:class}`~jijmodeling.Problem` object only accepts scalar {py:class}`~jijmodeling.Expression` objects as objective terms.
 If you attempt to add array-typed or dictionary-typed expressions, a type error will be raised.
 
-:::{note}
 In JijModeling, you can add terms to the objective, but you cannot overwrite or delete the objective once set.
-If you might need to remove objective terms later, keep a list of terms in Python and set the objective from that list when needed.
-:::
+In particular, `+=` adds a new term and does not replace existing terms.
+Consider the following example. First, we set the objective with only the term $x$.
 
-Let's set the objective for the knapsack problem.
+```{code-cell} ipython3
+problem = jm.Problem("Sample")
+x = problem.BinaryVar("x")
+problem += x
+
+problem
+```
+
+Next, define a new decision variable $y$ and add it to the objective.
+
+```{code-cell} ipython3
+y = problem.BinaryVar("y")
+problem += y
+
+problem
+```
+
+You can see that the existing term was not replaced; instead, $y$ was added and the new objective is $x + y$.
+If you might need to remove objective terms later, keep a list of terms in Python and set the objective from that list when needed.
+
+As a more practical example, let's set the objective for the knapsack problem.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
