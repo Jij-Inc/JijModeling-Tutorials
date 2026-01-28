@@ -188,11 +188,10 @@ tsp_plain += jm.sum(
     jm.product(N, C, C), lambda t, i, j: d[i, j] * x[t, i] * x[(t + 1) % N, j]
 )
 
-# 各都市は一度だけ訪問される
+# `domain=` キーワード引数を使った定義
 tsp_plain += tsp_plain.Constraint(
     "one time", lambda i: jm.sum(N, lambda t: x[t, i]) == 1, domain=C
 )
-# 各時刻に一つの都市が訪問される
 tsp_plain += tsp_plain.Constraint(
     "one city", lambda t: jm.sum(C, lambda i: x[t, i]) == 1, domain=N
 )
