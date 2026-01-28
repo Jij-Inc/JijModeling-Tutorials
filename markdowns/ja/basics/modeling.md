@@ -69,7 +69,7 @@ def knapsack_problem(problem: jm.DecoratedProblem):
     W = problem.Float(description="maximum weight capacity of the knapsack")
 
 
-    # 目的関数: ナップザックに入れたアイテムの価値の総和を最大化
+    # `+=` 演算子に `Expression` オブジェクトを与えることで目的関数が設定できる
     problem += jm.sum(v[i] * x[i] for i in N)
     # あるいは、ブロードキャストを用いて次のように書いても「同値」
     # problem += jm.sum(v * x)

@@ -69,7 +69,7 @@ def knapsack_problem(problem: jm.DecoratedProblem):
     W = problem.Float(description="maximum weight capacity of the knapsack")
 
 
-    # Objective: maximize the total value of items put in the knapsack
+    # Set the objective by passing an Expression object to the `+=` operator
     problem += jm.sum(v[i] * x[i] for i in N)
     # Alternatively, using broadcasting, the following is equivalent
     # problem += jm.sum(v * x)
