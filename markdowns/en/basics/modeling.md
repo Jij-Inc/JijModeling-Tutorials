@@ -154,9 +154,9 @@ def tsp_decorated(problem: jm.DecoratedProblem):
     d = problem.Float(dict_keys=(C, C), description="distance between cities")
     problem += jm.sum(d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in C for j in C)
     
-    # Each city is visited exactly once
+    # Definition using a list comprehension
     problem += problem.Constraint("one time", [jm.sum(x[t, i] for t in N) == 1 for i in C])
-    # Exactly one city is visited at each time
+    # Definition using a generator expression
     problem += problem.Constraint("one city", (jm.sum(x[t, i] for i in C) == 1 for t in N))
 
 tsp_decorated
@@ -201,9 +201,8 @@ def tsp_array_comparison(problem: jm.DecoratedProblem):
     d = problem.Float(shape=(N, N), description="distance between cities")
     problem += jm.sum(d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in N for j in N)
     
-    # Each city is visited exactly once
+    # Definitions using set-scalar comparison
     problem += problem.Constraint("one time", x.sum(axis=0) == 1)
-    # Exactly one city is visited at each time
     problem += problem.Constraint("one city", x.sum(axis=1) == 1)
 
 tsp_array_comparison
