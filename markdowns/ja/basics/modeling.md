@@ -293,9 +293,9 @@ try:
 
     @jm.Problem.define("Trivially Conflicting Constraints")
     def problem(problem: jm.DecoratedProblem):
-        x = problem.BinaryVar()
-        problem += problem.Constraint("constr", x <= 1)
-        problem += problem.Constraint("constr", x >= 2)
+        x = problem.IntegerVar(lower_bound=0, upper_bound=10)
+        problem += problem.Constraint("constr", x >= 1)
+        problem += problem.Constraint("constr", x <= 2)
 except jm.ModelingError as e:
     print(e)
 ```
