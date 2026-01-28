@@ -151,9 +151,9 @@ def tsp_decorated(problem: jm.DecoratedProblem):
     d = problem.Float(dict_keys=(C, C), description="distance between cities")
     problem += jm.sum(d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in C for j in C)
     
-    # 各都市は一度だけ訪問される
+    # リスト内包表記を使った定義
     problem += problem.Constraint("one time", [jm.sum(x[t, i] for t in N) == 1 for i in C])
-    # 各時刻に一つの都市が訪問される
+    # ジェネレータ式を使った定義
     problem += problem.Constraint("one city", (jm.sum(x[t, i] for i in C) == 1 for t in N))
 
 tsp_decorated
