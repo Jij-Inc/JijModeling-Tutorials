@@ -31,6 +31,31 @@ Problem オブジェクトが作成された初期段階では目的関数は $0
 {py:class}`~jijmodeling.Problem`オブジェクトが目的関数の項として受け付けるのは、数値型の {py:class}`~jijmodeling.Expression`オブジェクトのみです。
 配列型や辞書型などの式を足そうとすると型エラーとなるので注意してください。
 
+具体的な例として、ナップサック問題の目的関数を設定してみましょう。
+
+```{code-cell} ipython3
+@jm.Problem.define(
+    "Knapsack Problem",
+    sense=jm.ProblemSense.MAXIMIZE,  # 最大化問題として指定
+)
+def knapsack_problem(problem: jm.DecoratedProblem):
+    N = problem.Length(description="Number of items")
+    x = problem.BinaryVar(
+        shape=(N,), description="$x_i = 1$ if item i is put in the knapsack"
+    )
+    v = problem.Float(shape=(N,), description="value of each item")
+    w = problem.Float(shape=(N,), description="weight of each item")
+    W = problem.Float(description="maximum weight capacity of the knapsack")
+
+    # `+=` 演算子に `Expression` オブジェクトを与えることで目的関数が設定できる
+    problem += jm.sum(v[i] * x[i] for i in N)
+    # あるいは、ブロードキャストを用いて次のように書いても「同値」
+    # problem += jm.sum(v * x)
+
+
+knapsack_problem
+```
+
 また、JijModeling では、目的関数に項を追加することはできても、全体を書き換えたり削除したりすることはできません。
 特に、`+=` による目的関数の「追加」は新たな項の「追加」として振る舞い、既存の項を別の項で置き換えるものではありません。
 次の例を考えます。ここではまず、$x$のみを項に持つ目的関数を設定しています。
@@ -54,31 +79,6 @@ problem
 
 既存の項が置き換えられたのではなく、$y$ が加算され $x + y$ が新たな目的関数となっていることが分かります。
 目的関数の項を削除したい場合、目的関数の項の一覧を（Python の）リストなどで持っておき、あとからそれを使って目的関数を設定するなどするとよいでしょう。
-
-より実用的な例として、ナップサック問題の目的関数を設定してみましょう。
-
-```{code-cell} ipython3
-import jijmodeling as jm
-
-
-@jm.Problem.define("Knapsack Problem", sense=jm.ProblemSense.MAXIMIZE)
-def knapsack_problem(problem: jm.DecoratedProblem):
-    N = problem.Length(description="Number of items")
-    x = problem.BinaryVar(
-        shape=(N,), description="$x_i = 1$ if item i is put in the knapsack"
-    )
-    v = problem.Float(shape=(N,), description="value of each item")
-    w = problem.Float(shape=(N,), description="weight of each item")
-    W = problem.Float(description="maximum weight capacity of the knapsack")
-
-    # `+=` 演算子に `Expression` オブジェクトを与えることで目的関数が設定できる
-    problem += jm.sum(v[i] * x[i] for i in N)
-    # あるいは、ブロードキャストを用いて次のように書いても「同値」
-    # problem += jm.sum(v * x)
-
-
-knapsack_problem
-```
 
 ## 制約条件の設定
 
