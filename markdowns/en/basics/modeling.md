@@ -306,6 +306,4 @@ except jm.ModelingError as e:
     print(e)
 ```
 
-<!-- This will become an error in the next release -->
-
 That said, because constraint-name collisions can only be determined at compile time in some cases, we generally recommend avoiding same-name constraints.
