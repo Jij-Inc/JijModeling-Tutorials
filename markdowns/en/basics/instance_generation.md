@@ -58,10 +58,12 @@ problem
 You need to prepare data corresponding to each placeholder and category label.
 Currently, the data specifications are as follows:
 
-- Single placeholder: a Python number or tuple matching the placeholder's value type
-- Placeholder array: a Python (nested) list or {py:class}`NumPy array <numpy.ndarray>` matching the value type
-- Placeholder dictionary: a Python {py:class}`dictionary <dict>` matching the value type
-- Category label: a Python list of unique numbers or strings
+| Placeholder type | Corresponding Python data type |
+| ---------------- | ------------------------------ |
+| Single placeholder | A Python number or tuple matching the placeholder's value type |
+| Placeholder array | A Python (nested) list or {py:class}`NumPy array <numpy.ndarray>` matching the value type |
+| Placeholder dictionary | A Python {py:class}`dictionary <dict>` matching the value type |
+| Category label | A Python list of unique numbers or strings |
 
 You also need to satisfy constraints on array shapes and the totality of dictionaries.
 At the moment, note that dictionary data cannot be provided as arrays.
