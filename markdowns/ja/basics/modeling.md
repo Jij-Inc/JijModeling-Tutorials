@@ -197,9 +197,8 @@ def tsp_array_comparison(problem: jm.DecoratedProblem):
     d = problem.Float(shape=(N, N), description="distance between cities")
     problem += jm.sum(d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in N for j in N)
     
-    # 各都市は一度だけ訪問される
+    # 集合とスカラーの比較を使った定義
     problem += problem.Constraint("one time", x.sum(axis=0) == 1)
-    # 各時刻に一つの都市が訪問される
     problem += problem.Constraint("one city", x.sum(axis=1) == 1)
 
 tsp_array_comparison
