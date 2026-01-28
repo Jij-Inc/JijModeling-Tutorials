@@ -260,9 +260,9 @@ def problem(problem: jm.DecoratedProblem):
     N = problem.Natural(ndim=1)
     M = problem.Natural(ndim=1)
     n = jm.max(N.max(), M.max()) + 1
-    x = problem.BinaryVar(shape=n)
-    problem += problem.Constraint("constr", [x[i] <= 1 for i in N])
-    problem += problem.Constraint("constr", [x[i] >= 2 for i in M])
+    x = problem.IntegerVar(shape=n, lower_bound=0, upper_bound=10)
+    problem += problem.Constraint("constr", [x[i] >= 1 for i in N])
+    problem += problem.Constraint("constr", [x[i] <= 2 for i in M])
 
 
 problem
