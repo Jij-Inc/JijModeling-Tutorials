@@ -21,7 +21,7 @@ JijModeling はこの式の型の情報を Python の型ヒントに加え、独
 :::{tip}
 以下では頻出と思われるパターンに絞って説明するため、式の構築に使える網羅的な一覧については、API リファレンスの {py:class}`~jijmodeling.Expression` クラスや {py:mod}`~jijmodeling` モジュールのトップレベル関数一覧を参照してください。
 
-また、本サイトの [`Cheat Sheet`](../references/cheat_sheet)には、更に複雑な事例集がまとめられていますので、本節を読んだ後にそちらも参照するとよいでしょう。
+また、本サイトの {doc}`../references/cheat_sheet` には、更に複雑な事例集がまとめられていますので、本節を読んだ後にそちらも参照するとよいでしょう。
 :::
 
 ```{code-cell} ipython3
@@ -125,7 +125,7 @@ problem = jm.Problem("Type Inference Example")
 x = problem.BinaryVar("x", description="スカラーの決定変数")
 N = problem.Integer("N")
 
-problem.infer(x + N) # OK! スカラー同士の足し算
+problem.infer(x + N)  # OK! スカラー同士の足し算
 ```
 
 一方で、スカラー値と文字列は足し算できないため、次の例はエラーとなります。
@@ -137,6 +137,20 @@ try:
 except Exception as e:
     print(e)
 ```
+
+:::{admonition} `Expression` と `ExpressionLike` / `ExpressionFunction` の関係は？
+:class: note
+
+{external+api_reference:doc}`API リファレンス <index>` やエディタの補完・ドキュメント上では、`ExpressionLike` や `ExpressionFunction` といった型名が登場します。
+これらはライブラリの実装には存在しないダミーの略記用の型であり、`Expression` に変換可能な型や、`Expression` から `Expression` への関数を表す型の略記です。
+具体的には以下のように考えておけば大丈夫です：
+
+| 型名 | 説明 |
+| --- | --- |
+| `ExpressionLike` | {py:class}`~jijmodeling.Expression` に変換することができる型を表す。 {py:class}`~jijmodeling.Expression` 自身の他、{py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.DependentVar`や、Python の数値、文字列、それらからなるタプル、リスト・辞書・Numpy配列などが文脈に応じて使えます。 |
+| `ExpressoinFunction` | 一つ以上の {py:class}`~jijmodeling.Expression` オブジェクトを取り、 {py:class}`~jijmodeling.Expression` を返す関数。Pythonの型ヒントの仕組み上、最大5つの引数までしか列挙していませんが、実際には引数の個数に上限はありません。 |
+
+:::
 
 ## 式としてのプレースホルダー、決定変数
 
@@ -174,13 +188,14 @@ x = problem.BinaryVar("x", description="スカラーの決定変数")
 N = problem.Length("N")
 M = problem.Length("M")
 y = problem.IntegerVar(
-    "y",
-    lower_bound=0, upper_bound=10,
-    shape=(N,M), description="2次元配列の決定変数"
+    "y", lower_bound=0, upper_bound=10, shape=(N, M), description="2次元配列の決定変数"
 )
 z = problem.ContinuousVar(
-    "z", lower_bound=-1, upper_bound=42, 
-    shape=(N,M,N), description="2次元配列の決定変数"
+    "z",
+    lower_bound=-1,
+    upper_bound=42,
+    shape=(N, M, N),
+    description="2次元配列の決定変数",
 )
 S = problem.TotalDict("S", dtype=float, dict_keys=N, description="スカラーの全域辞書")
 s = problem.ContinuousVar("s", lower_bound=0, upper_bound=10, dict_keys=N)
@@ -192,23 +207,23 @@ problem
 ### 許容される例
 
 ```{code-cell} ipython3
-problem.infer(x + 1) # OK! （スカラー同士の加算）
+problem.infer(x + 1)  # OK! （スカラー同士の加算）
 ```
 
 ```{code-cell} ipython3
-problem.infer(y - x) # OK! （多次元配列とスカラーの減算）
+problem.infer(y - x)  # OK! （多次元配列とスカラーの減算）
 ```
 
 ```{code-cell} ipython3
-problem.infer(S * x) # OK! （スカラーと辞書の乗算）
+problem.infer(S * x)  # OK! （スカラーと辞書の乗算）
 ```
 
 ```{code-cell} ipython3
-problem.infer(y / W) # OK! （同一シェイプ (N, M) の配列同士の除算）
+problem.infer(y / W)  # OK! （同一シェイプ (N, M) の配列同士の除算）
 ```
 
 ```{code-cell} ipython3
-problem.infer(S + s) # OK! （同一キー集合を持つ全域辞書同士の加算）
+problem.infer(S + s)  # OK! （同一キー集合を持つ全域辞書同士の加算）
 ```
 
 ### 許容されない例
@@ -257,15 +272,15 @@ JijModeling の式では、加減乗除だけではなく、三角関数（{py:m
 配列や辞書に対する比較演算子の仕様条件は、算術演算のオーバーロード規則と同様です。
 
 ```{code-cell} ipython3
-problem.infer(x == y) # OK! （スカラーと配列の等値比較）
+problem.infer(x == y)  # OK! （スカラーと配列の等値比較）
 ```
 
 ```{code-cell} ipython3
-problem.infer(N <= N) # OK! （スカラー同士の順序比較）
+problem.infer(N <= N)  # OK! （スカラー同士の順序比較）
 ```
 
 ```{code-cell} ipython3
-problem.infer(y > W) # OK! （同一シェイプ配列同士の比較）
+problem.infer(y > W)  # OK! （同一シェイプ配列同士の比較）
 ```
 
 ## 配列・辞書の添え字（インデックス）
@@ -353,6 +368,7 @@ def sum_example(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(shape=(N,))
     problem += jm.sum(a[i] * x[i] for i in N)
 
+
 sum_example
 ```
 
@@ -365,6 +381,7 @@ sum_example
 
 ```{code-cell} ipython3
 try:
+
     @jm.Problem.define("Wrong Sum Example")
     def wrong_sum_example(problem: jm.DecoratedProblem):
         N = problem.Length()
@@ -383,12 +400,7 @@ sum_example_plain = jm.Problem("Sum Example (Plain)")
 N = sum_example_plain.Length("N")
 a = sum_example_plain.Float("a", shape=(N,))
 x = sum_example_plain.BinaryVar("x", shape=(N,))
-sum_example_plain += jm.sum(
-    jm.map(
-        lambda i: a[i] * x[i],
-        N
-    )
-)
+sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
 
 sum_example_plain
 ```
@@ -421,9 +433,8 @@ def even_sum_example(problem: jm.DecoratedProblem):
     N = problem.Length()
     a = problem.Float(shape=(N,))
     x = problem.BinaryVar(shape=(N,))
-    problem += jm.sum(
-        a[i] * x[i] for i in N if (i % 2) == 0
-    )
+    problem += jm.sum(a[i] * x[i] for i in N if (i % 2) == 0)
+
 
 even_sum_example
 ```
@@ -456,6 +467,7 @@ def double_sum_example(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(shape=(N, M))
     problem += jm.sum(Q[i, j] for i in N for j in M)
 
+
 double_sum_example
 ```
 
@@ -469,6 +481,7 @@ def double_sum_example_alt(problem: jm.DecoratedProblem):
     Q = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=(N, M))
     problem += jm.sum(Q[i, j] for (i, j) in jm.product(N, M))
+
 
 double_sum_example_alt
 ```
@@ -484,9 +497,11 @@ def filtered_double_sum_example(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(shape=(N, M))
     problem += jm.sum(
         Q[i, j]
-        for i in N for j in M
-        if (i + j) % 2 == 0 # 和が偶数のときのみ和を取る
+        for i in N
+        for j in M
+        if (i + j) % 2 == 0  # 和が偶数のときのみ和を取る
     )
+
 
 filtered_double_sum_example
 ```
@@ -500,8 +515,7 @@ M = filtered_double_sum_example_plain.Length("M")
 Q = filtered_double_sum_example_plain.Float("Q", shape=(N, M))
 x = filtered_double_sum_example_plain.BinaryVar("x", shape=(N, M))
 filtered_double_sum_example_plain += jm.sum(
-    jm.product(N, M).filter(lambda i, j: (i + j) % 2 == 0),
-    lambda i, j: Q[i, j]
+    jm.product(N, M).filter(lambda i, j: (i + j) % 2 == 0), lambda i, j: Q[i, j]
 )
 
 filtered_double_sum_example_plain
@@ -513,10 +527,8 @@ filtered_double_sum_example_plain
 jm.sum(
     N.flat_map(
         lambda i: jm.map(lambda j: (i, j), M),
-    ).filter(
-        lambda i, j: (i + j) % 2 == 0
-    ),
-    lambda i, j: Q[i, j]
+    ).filter(lambda i, j: (i + j) % 2 == 0),
+    lambda i, j: Q[i, j],
 )
 ```
 

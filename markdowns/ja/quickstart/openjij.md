@@ -36,7 +36,7 @@ $$
 $$
 
 :::{hint}
-ナップサック問題の定式化について詳しく知りたい場合は [こちら](https://jij-inc.github.io/JijZept-Tutorials/ja/src/02_knapsack.html) を参照してください。
+ナップサック問題の定式化について詳しく知りたい場合は [JijZeptチュートリアル](https://jij-inc.github.io/JijZept-Tutorials/ja/src/02_knapsack.html) を参照してください。
 :::
 
 この数理モデルにあるそれぞれのパラメーターの意味は以下の通りです：
@@ -106,7 +106,7 @@ knapsack_problem
 ```
 
 :::{hint}
-`jijmodeling` での定式化の方法については詳しく知りたい場合は[こちら](../references/migration_guide_to_jijmodeling2.ipynb)を参照してください。
+`jijmodeling` での定式化の方法については詳しく知りたい場合は[JijModelingの基本](../basics/overview)を参照してください。
 :::
 
 +++
@@ -133,7 +133,7 @@ instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-`Problem.eval` の返却値は `ommx.v1.Instance` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/instance.html)を参照してください。
+`Problem.eval` の返却値は {py:class}`ommx.v1.Instance` オブジェクトです。詳しくは{doc}`../basics/instance_generation` や {external+ommx_doc:doc}`user_guide/instance` を参照してください。
 :::
 
 +++
@@ -169,5 +169,5 @@ df[df["name"] == "x"][["name", "subscripts", "value"]]
 +++
 
 :::{hint}
-`OMMXPySCIPOptAdapter.solve` の返却値は `ommx.v1.Solution` オブジェクトです。詳しくは[こちら](https://jij-inc.github.io/ommx/ja/user_guide/solution.html)を参照してください。
+`OMMXPySCIPOptAdapter.solve` の返却値は {py:class}`ommx.v1.Solution` オブジェクトです。詳しくは {external+ommx_doc:doc}`user_guide/solution` を参照してください。
 :::

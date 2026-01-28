@@ -60,7 +60,8 @@ plain_problem
     description="何の目的関数も制約条件も設定されていない、説明目的の最適化問題",
 )
 def deco_problem(problem: jm.DecoratedProblem):
-    pass # 何もしない
+    pass  # 何もしない
+
 
 deco_problem
 ```
@@ -99,11 +100,14 @@ jm.is_same(plain_problem, deco_problem)
 @plain_problem.update
 def _(problem: jm.DecoratedProblem):
     # 単純に新たな二値決定変数 `x` を定義し、それを目的関数に足す。
-    x = problem.BinaryVar() #  Python 変数としての名前と決定変数としての名前が同じ場合、省略可！
+    x = (
+        problem.BinaryVar()
+    )  #  Python 変数としての名前と決定変数としての名前が同じ場合、省略可！
     problem += x
 
+
 # Plain API で今度は `y` という二値決定変数を足してみる。
-y = plain_problem.BinaryVar("y") # Plain API では名前指定 "y" は必須。
+y = plain_problem.BinaryVar("y")  # Plain API では名前指定 "y" は必須。
 plain_problem += y
 plain_problem
 ```

@@ -52,6 +52,8 @@ sphinx:
       api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/, null]
       numpy: [https://numpy.org/doc/stable, null]
       python: ["https://docs.python.org/3", null]
+      ommx_api: ["https://jij-inc.github.io/ommx/python/ommx", null]
+      ommx_doc: ["https://jij-inc.github.io/ommx/en", null]
 
 parse:
   myst_enable_extensions:

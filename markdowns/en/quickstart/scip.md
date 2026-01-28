@@ -106,7 +106,7 @@ knapsack_problem
 ```
 
 :::{hint}
-For more details on how to formulate with `jijmodeling`, please refer to [here](../references/migration_guide_to_jijmodeling2.ipynb).
+For more details on how to formulate with `jijmodeling`, please refer to [Basics](../basics/overview).
 :::
 
 +++

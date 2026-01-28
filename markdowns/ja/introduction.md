@@ -22,7 +22,6 @@ kernelspec:
 
 ### 1. 数理モデルとパラメータの分離
 
-
 JijModeling では、数理モデルの記号的な定義と、入力されるパラメータ（**インスタンスデータ**）を分離しています。
 インスタンスデータは数理モデルにおける決定変数以外の係数などに相当し、数理モデルはインスタンスデータを入力されて初めてソルバーへの入力（**インスタンス**）へと変換（コンパイル）されます。
 
@@ -69,7 +68,7 @@ JijModeling は独自の型システムを搭載しており、添え字の成�
 ### 5. 数理モデルの $\LaTeX$ 表示
 
 JijModeling は非常に強力な$\LaTeX$出力機能を備えており、[JijZept IDE](https://www.jijzept.com/ja/products/ide/) や [Google Colab](https://colab.google/)、あるいは一般の [Jupyter Notebook](https://jupyter.org/) 上で数理モデルの定義を直感的に把握でき、数理モデルが期待通りに構築されているかどうかを迅速かつ対話的に確認できます。
-以下は、ナップザック問題の定式化と、その$\LaTeX$出力の例です。
+以下は、ナップサック問題の定式化と、その$\LaTeX$出力の例です。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -80,7 +79,7 @@ def knapsack(problem: jm.DecoratedProblem):
     W = problem.Float(description="耐荷重")
     w = problem.Float(shape=N, description="各アイテムの重さ")
     v = problem.Float(shape=N, description="各アイテムの価値")
-    x = problem.BinaryVar(shape=N, description="アイテム $i$ をナップザックに入れるときのみ $x_i=1$")
+    x = problem.BinaryVar(shape=N, description="アイテム $i$ をナップサックに入れるときのみ $x_i=1$")
 
     problem += problem.Constraint(
         "weight",
@@ -125,7 +124,7 @@ def my_problem(problem: jm.DecoratedProblem):
 `pip`を使用している場合、次のコマンドで`jijmodeling`をインストールできます：
 
 ```bash
-pip install 'jijmodeling>=2.0.0rc.4'
+pip install 'jijmodeling>=2.0.0rc.5'
 ```
 
 uv を利用している場合、以下のようにして依存関係に追加できます：
@@ -133,7 +132,7 @@ uv を利用している場合、以下のようにして依存関係に追加�
 <!-- FIXME: 正式リリース後、バージョン指定 >=2.0.0b8 を落とす -->
 
 ```bash
-uv add 'jijmodeling>=2.0.0rc.4'
+uv add 'jijmodeling>=2.0.0rc.5'
 ```
 
 `jijmodeling`の利用には Python 3.11 以上が必要であることに注意してください。
@@ -153,13 +152,13 @@ jijmodeling.__version__
 数理最適化そのものについては、JijZept の資料『[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)』などをご参照ください。
 本稿の各章の内容は以下の通りです：
 
-1. **クイックスタート**：ナップザック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModeling の利用方法はどちらも同じですので、お好みの方をお読みください。
-    - [**SCIPで最適化問題を解く**](./quickstart/scip): 数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせる方法を取り扱っています。
-    - [**OpenJijで最適化問題を解く**](./quickstart/openjij): [OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせる方法を取り扱っています。
-2. **[JijModelingの基本](./basics/overview)**：JijModeling を用いたモデリングの基本構成要素を解説します。
+1. **クイックスタート**：ナップサック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModeling の利用方法はどちらも同じですので、お好みの方をお読みください。
+    - {doc}`./quickstart/scip`: 数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせる方法を取り扱っています。
+    - {doc}`./quickstart/openjij`: [OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせる方法を取り扱っています。
+2. **{doc}`JijModeling の基本 <./basics/overview>`**：JijModeling を用いたモデリングの基本構成要素を解説します。
 3. **発展的な話題**（近日公開）：JijModeling でより高度な数理最適化モデリングを行うための発展的な機能を紹介します。
 4. **リファレンス**：JijModeling の詳細な利用方法などについて触れています。
    - [**jijmodeling API Reference**](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/): JijModeling の Python API で利用可能な全関数・クラス等の網羅的なリファレンスマニュアルです。
-   - [**Cheat Sheet**](./references/cheat_sheet): 典型的な制約条件・最適化問題などの JijModeling での定式化例を示した事例集です。
-   - [**JijModeling 2 移行ガイド**](./references/migration_guide_to_jijmodeling2): JijModeling 1 から 2 への変更点について網羅的に解説した移行ガイドです。旧バージョンからの移行の際に参考にしてください。
+   - {doc}`./references/cheat_sheet`: 典型的な制約条件・最適化問題などの JijModeling での定式化例を示した事例集です。
+   - {doc}`./references/migration_guide_to_jijmodeling2`: JijModeling 1 から 2 への変更点について網羅的に解説した移行ガイドです。旧バージョンからの移行の際に参考にしてください。
 5. **リリースノート**：JijModeling の各バージョンごとの変更履歴が紹介されています。

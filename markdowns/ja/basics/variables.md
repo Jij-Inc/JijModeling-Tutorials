@@ -108,6 +108,7 @@ def deco_problem(deco_problem: jm.DecoratedProblem):
         description="これまた適当な連続変数",
     )
 
+
 deco_problem
 ```
 
@@ -167,6 +168,7 @@ def deco_problem(problem: jm.DecoratedProblem):
     ub = problem.Float(description="決定変数 $x$ の上界")
     x = problem.ContinuousVar(lower_bound=0, upper_bound=ub)
 
+
 deco_problem
 ```
 
@@ -205,7 +207,7 @@ deco_problem.placeholders
 
 前節まででは、単独の決定変数・プレースホルダーを定義する方法を見てきました。
 しかし、一般に数理最適化問題の定式化の際には、添え字つきの変数からなる族を定義することが必須になってきます。
-たとえば、クイックスタートの節（[SCIP版](../quickstart/scip)、[OpenJij版](../quickstart/openjij)）でも採り上げた典型的なナップザック問題を考えてみましょう。
+たとえば、クイックスタートの節（[SCIP版](../quickstart/scip)、[OpenJij版](../quickstart/openjij)）でも採り上げた典型的なナップサック問題を考えてみましょう。
 
 $$
 \begin{alignedat}{2}
@@ -215,7 +217,7 @@ $$
 \end{alignedat}
 $$
 
-それぞれ価値$v_i \in \mathbb{R}$、重さ$w_i \in \mathbb{R}$の$N$個のアイテムを、ナップザックの容量$W$を越えない範囲で価値を最大化するように詰める問題です。
+それぞれ価値$v_i \in \mathbb{R}$、重さ$w_i \in \mathbb{R}$の$N$個のアイテムを、ナップサックの容量$W$を越えない範囲で価値を最大化するように詰める問題です。
 ここで、アイテムの個数$N$は入力されるインスタンスデータによって変更できることが望ましく、したがって $v_0 x_0 + v_1 x_1 + v_2 x_2$ のような固定された項数の和ではなく、範囲がプレースホルダー$N$に依存した総和$\sum$の形で表現できると嬉しいです。
 こういった「入力するインスタンスデータによって項数の変わりうる変数一式」を表現するのに使われるのが、本節で説明する**添え字つき変数**になります。
 
@@ -275,17 +277,18 @@ JijModeling の配列型は、次元とそ要素の型をセミコロン `;` で
 
 決定変数の配列は、Plain API / Decorator API ともに、`BinaryVar`, `IntegerVar` などの既存の構築子に新たに `shape=` 引数を渡すことで宣言できます。
 `shape`キーワード引数には、自然数から成る固定長のタプルを表す式を指定することができます。また、次元が$1$の場合は単に自然数を表す式で与えることもできます。
-試しに、ナップザック問題に必要な変数たちを定義してみましょう。
+試しに、ナップサック問題に必要な変数たちを定義してみましょう。
 
 (partial_knapsack_def)=
 
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only)", sense=jm.ProblemSense.MAXIMIZE)
 def partial_knapsack(problem: jm.DecoratedProblem):
-    W = problem.Float(description="ナップザックの耐荷重")
+    W = problem.Float(description="ナップサックの耐荷重")
     N = problem.Length(description="アイテム数")
     # 以下の shape の指定は一要素タプルを使って shape=(N,) と書いても同じ
     x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
+
 
 partial_knapsack
 ```
@@ -302,11 +305,11 @@ partial_knapsack
 
 ```{code-cell} ipython3
 multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
-N = multidim_arrays.Length("N") # Plain API なので変数名を指定している
+N = multidim_arrays.Length("N")  # Plain API なので変数名を指定している
 M = multidim_arrays.Length("M")
 x = multidim_arrays.BinaryVar(
     "x",
-    shape=(N,M), # N x M 配列
+    shape=(N, M),  # N x M 配列
 )
 
 multidim_arrays
@@ -362,7 +365,7 @@ s = problem.ContinuousVar(
 プレースホルダーの配列を宣言する方法は二つあります。
 
 一つは、決定変数の場合と同様に `shape` キーワード引数を使うことです。
-ここでは、まず[前節](#array_of_dec_vars)で定義した部分的なナップザック問題に、それぞれ各アイテムの価値と重量を表すプレースホルダー $v_i$, $w_i$ を追加してみましょう。
+ここでは、まず[前節](#array_of_dec_vars)で定義した部分的なナップサック問題に、それぞれ各アイテムの価値と重量を表すプレースホルダー $v_i$, $w_i$ を追加してみましょう。
 
 (partial_knapsack_update)=
 
@@ -372,6 +375,7 @@ def _(problem: jm.DecoratedProblem):
     N = problem.placeholders["N"]
     v = problem.Float(shape=(N,), description="各アイテムの価値")
     w = problem.Float(shape=(N,), description="各アイテムの重さ")
+
 
 partial_knapsack
 ```
@@ -392,11 +396,12 @@ partial_knapsack
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only, with ndim)", sense=jm.ProblemSense.MAXIMIZE)
 def partial_knapsack_ndim(problem: jm.DecoratedProblem):
-    W = problem.Float(description="ナップザックの耐荷重")
+    W = problem.Float(description="ナップサックの耐荷重")
     v = problem.Float(ndim=1, description="各アイテムの価値")
     N = v.len_at(0)
     w = problem.Float(shape=N, description="各アイテムの重さ")
     x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
+
 
 partial_knapsack_ndim
 ```
@@ -417,6 +422,7 @@ $w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配�
 def dist_matrix(problem: jm.DecoratedProblem):
     N = problem.Length()
     d = problem.Float(shape=(N, N))
+
 
 dist_matrix
 ```
@@ -517,10 +523,7 @@ Plain API でのカテゴリーラベルの宣言方法は以下のようにな�
 
 ```{code-cell} ipython3
 problem_catlab_plain = jm.Problem("Category Label Only")
-L_plain = problem_catlab_plain.CategoryLabel(
-    "L",
-    description="適当なカテゴリーラベル"
-)
+L_plain = problem_catlab_plain.CategoryLabel("L", description="適当なカテゴリーラベル")
 
 problem_catlab_plain
 ```
@@ -531,7 +534,8 @@ problem_catlab_plain
 ```{code-cell} ipython3
 @jm.Problem.define("Category Label Only")
 def problem_catlab_deco(problem: jm.DecoratedProblem):
-   L = problem.CategoryLabel(description="適当なカテゴリーラベル")
+    L = problem.CategoryLabel(description="適当なカテゴリーラベル")
+
 
 problem_catlab_deco
 ```
@@ -607,7 +611,7 @@ problem_for_dict
 
 #### 辞書とカテゴリーラベルを使った問題定義の例
 
-以下はナップザック問題をカテゴリーラベルを使って定式化しなおしたものです：
+以下はナップサック問題をカテゴリーラベルを使って定式化しなおしたものです：
 
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack (vars only, CATEGORY LABEL)")
@@ -617,13 +621,16 @@ def knapsack_cat_dict(problem: jm.DecoratedProblem):
     v = problem.TotalDict(dtype=float, dict_keys=L, description="各アイテムの価値")
     # dict_keys を使ってみる
     w = problem.Float(dict_keys=L, description="各アイテムの重量")
-    x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
+    x = problem.BinaryVar(
+        dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$"
+    )
+
 
 knapsack_cat_dict
 ```
 
 これだけだと、$N$のかわりに$L$を定義しているだけですね。
-そこで、更に「一部のアイテムの組 $(i, j)$に対して、ナップザックに同時に詰めると追加の価値（シナジーボーナス）$s_{i, j}$が発生する」という追加条件を考えてみます。
+そこで、更に「一部のアイテムの組 $(i, j)$に対して、ナップサックに同時に詰めると追加の価値（シナジーボーナス）$s_{i, j}$が発生する」という追加条件を考えてみます。
 このような場合に、`PartialDict` は大きな効力を発揮します：
 
 ```{code-cell} ipython3
@@ -632,13 +639,14 @@ def knapsack_synergy(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
     v = problem.TotalDict(dtype=float, dict_keys=L, description="各アイテムの価値")
     w = problem.Float(dict_keys=L, description="各アイテムの重量")
-    x = problem.BinaryVar(dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$")
+    x = problem.BinaryVar(
+        dict_keys=L, description="アイテム $i$ を入れるときのみ $x_i = 1$"
+    )
     # PartialDict を使ってシナジーボーナスを表現！
     s = problem.PartialDict(
-        dtype=float,
-        dict_keys=(L, L),
-        description="一部のアイテム間のシナジーボーナス"
+        dtype=float, dict_keys=(L, L), description="一部のアイテム間のシナジーボーナス"
     )
+
 
 knapsack_synergy
 ```

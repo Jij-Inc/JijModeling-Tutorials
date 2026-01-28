@@ -126,7 +126,7 @@ def my_problem(problem: jm.DecoratedProblem):
 If you use `pip`, install `jijmodeling` with the following command:
 
 ```bash
-pip install 'jijmodeling>=2.0.0rc.4'
+pip install 'jijmodeling>=2.0.0rc.5'
 ```
 
 If you are using uv, run:
@@ -134,7 +134,7 @@ If you are using uv, run:
 <!-- FIXME: After the official release, drop the version spec >=2.0.0b8 -->
 
 ```bash
-uv add 'jijmodeling>=2.0.0rc.4'
+uv add 'jijmodeling>=2.0.0rc.5'
 ```
 
 Note that `jijmodeling` requires Python 3.11 or later.
@@ -155,12 +155,12 @@ For mathematical optimization itself, refer to materials such as JijZept's “[M
 This document is organized as follows:
 
 1. **Quick Start**: Learn how to formulate and solve optimization problems in JijModeling through the knapsack example. There are two variants depending on the solver, but the JijModeling usage is the same, so choose whichever you prefer.
-    - [**Solve optimization problems with SCIP**](./quickstart/scip): Covers using the mathematical optimization solver [SCIP](https://www.scipopt.org/).
-    - [**Solve optimization problems with OpenJij**](./quickstart/openjij): Covers using [OpenJij](https://tutorial.openjij.org/ja/intro.html).
-2. **[JijModeling basics](./basics/overview)**: Explains the basic building blocks of modeling with JijModeling.
+    - **{doc}`./quickstart/scip`**: Covers using the mathematical optimization solver [SCIP](https://www.scipopt.org/).
+    - **{doc}`./quickstart/openjij`**: Covers using [OpenJij](https://tutorial.openjij.org/ja/intro.html).
+2. **{doc}`Basics <./basics/overview>`**: Explains the basic building blocks of modeling with JijModeling.
 3. **Advanced topics** (coming soon): Introduces more advanced features for mathematical optimization modeling in JijModeling.
 4. **Reference**: Detailed usage information for JijModeling.
    - [**jijmodeling API Reference**](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/): A comprehensive reference manual of all functions and classes in the JijModeling Python API.
-   - [**Cheat Sheet**](./references/cheat_sheet): A collection of example formulations of typical constraints and optimization problems in JijModeling.
-   - [**JijModeling 2 migration guide**](./references/migration_guide_to_jijmodeling2): A comprehensive guide to changes from JijModeling 1 to 2. Refer to it when migrating from older versions.
+   - **{doc}`./references/cheat_sheet`**: A collection of example formulations of typical constraints and optimization problems in JijModeling.
+   - **{doc}`./references/migration_guide_to_jijmodeling2`**: A comprehensive guide to changes from JijModeling 1 to 2. Refer to it when migrating from older versions.
 5. **Release notes**: Change history for each JijModeling version.
