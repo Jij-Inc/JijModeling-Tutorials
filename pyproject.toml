@@ -6,9 +6,9 @@ readme = "README.md"
 requires-python = ">=3.11, <3.14"
 dependencies = [
   "jijmodeling == 2.0.0rc.5",
-  "ommx-openjij-adapter >= 2.0.0, < 3.0.0",
-  "ommx-pyscipopt-adapter >= 2.0.0, < 3.0.0",
-  "ommx >= 2.1.0, < 3.0.0",
+  "ommx-openjij-adapter >= 2.3.4, < 3.0.0",
+  "ommx-pyscipopt-adapter >= 2.3.4, < 3.0.0",
+  "ommx >= 2.3.4, < 3.0.0",
 ]
 
 [project.optional-dependencies]

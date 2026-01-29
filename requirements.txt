@@ -6,7 +6,7 @@ dimod==0.12.21
     #   openjij
 jij-cimod==1.7.3
     # via openjij
-jijmodeling==2.0.0rc1
+jijmodeling==2.0.0rc5
     # via jijmodeling-tutorial (pyproject.toml)
 numpy==1.26.4
     # via
@@ -19,15 +19,15 @@ numpy==1.26.4
     #   pyarrow
     #   pyscipopt
     #   scipy
-ommx==2.3.3
+ommx==2.3.4
     # via
     #   jijmodeling-tutorial (pyproject.toml)
     #   jijmodeling
     #   ommx-openjij-adapter
     #   ommx-pyscipopt-adapter
-ommx-openjij-adapter==2.3.3
+ommx-openjij-adapter==2.3.4
     # via jijmodeling-tutorial (pyproject.toml)
-ommx-pyscipopt-adapter==2.3.3
+ommx-pyscipopt-adapter==2.3.4
     # via jijmodeling-tutorial (pyproject.toml)
 openjij==0.11.6
     # via ommx-openjij-adapter
