@@ -8,7 +8,7 @@ jij-cimod==1.7.3
     # via openjij
 jijmodeling==2.0.0rc5
     # via jijmodeling-tutorial (pyproject.toml)
-numpy==1.26.4
+numpy==2.3.5
     # via
     #   dimod
     #   jij-cimod
@@ -16,7 +16,6 @@ numpy==1.26.4
     #   ommx
     #   openjij
     #   pandas
-    #   pyarrow
     #   pyscipopt
     #   scipy
 ommx==2.3.4
@@ -31,15 +30,15 @@ ommx-pyscipopt-adapter==2.3.4
     # via jijmodeling-tutorial (pyproject.toml)
 openjij==0.11.6
     # via ommx-openjij-adapter
-orjson==3.10.10
+orjson==3.11.5
     # via jijmodeling
-pandas==2.2.3
+pandas==2.3.3
     # via
     #   jijmodeling
     #   ommx
-protobuf==5.28.3
+protobuf==5.29.5
     # via ommx
-pyarrow==16.1.0
+pyarrow==22.0.0
     # via ommx
 pyscipopt==6.0.0
     # via ommx-pyscipopt-adapter
@@ -47,15 +46,15 @@ python-dateutil==2.9.0.post0
     # via
     #   ommx
     #   pandas
-pytz==2024.2
+pytz==2025.2
     # via pandas
 scipy==1.15.3
     # via jij-cimod
-six==1.16.0
+six==1.17.0
     # via python-dateutil
-typing-extensions==4.12.2
+typing-extensions==4.15.0
     # via
     #   jijmodeling
     #   ommx
-tzdata==2024.2
+tzdata==2025.3
     # via pandas
