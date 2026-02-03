@@ -16,6 +16,24 @@ kernelspec:
 本稿では、JijModeling 1 で書かれたコードを JijModeling 2 に移行するための情報を提供します。
 JijModeling 2 では、数理モデリングに対する核心的な考え方は維持しつつ、利便性の大幅な改善が行われています。
 
+:::{admonition} JijModeling 1.x を使いつづけるには？
+:class: important
+
+JijModeling 1 を使いつづければ、コード変更をせずに既存のコード資産を問題なく利用し続けることができます。その場合、pip や uv などでは以下のようにバージョンを指定する必要があります。
+
+```bash
+pip install 'jijmodeling <2' # pip の場合
+uv add jijmodeling<2         # uv の場合
+```
+
+JijModeling 1 系統のドキュメンテーションも、以下の URL で引き続き参照可能です：
+
+https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
+
+しかし、**JijModeling 1 系統は既にメンテナンスモード**に入っており、重篤なバグ修正以外での更新は行われない予定であり、**2.0.0 の正式リリースから数ヶ月以内に更新を停止する予定**です。
+こうした観点からも、中長期的には**JijModeling 2 への移行を強くお勧め**します。
+:::
+
 ## 主要な変更の概要
 
 利便性・安全性の向上を念頭に、JijModeling 2 では以下のような大規模な変更が行われています：
