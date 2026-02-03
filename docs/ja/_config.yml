@@ -23,10 +23,11 @@ bibtex_bibfiles:
   - references.bib
 
 # Information about where the book exists on the web
+# TODO: mainブランチへマージする際には、branchをmainに変更してください
 repository:
   url: https://github.com/Jij-Inc/JijModeling-Tutorials # Online location of your book
   path_to_book: docs/ja # Optional path to your book, relative to the repository root
-  branch: main # Which branch of the repository should be used when creating links (optional)
+  branch: jijmodeling2 # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
@@ -41,3 +42,28 @@ launch_buttons:
   notebook_interface: "classic"
   binderhub_url: "https://mybinder.org"
   colab_url: "https://colab.research.google.com"
+
+sphinx:
+  recursive_update: true
+  config:
+    html_theme_options:
+      show_toc_level: 5
+    intersphinx_mapping:
+      api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/, null]
+      numpy: [https://numpy.org/doc/stable, null]
+      python: ["https://docs.python.org/ja/3", "https://docs.python.org/ja/3/objects.inv"]
+      ommx_api: ["https://jij-inc.github.io/ommx/python/ommx", null]
+      ommx_doc: ["https://jij-inc.github.io/ommx/ja", null]
+
+parse:
+  myst_enable_extensions:
+  - deflist
+  - amsmath
+  - dollarmath
+  - attrs_inline
+  - colon_fence
+  - fieldlist
+  - html_admonition
+  - html_image
+  - linkify
+  - strikethrough

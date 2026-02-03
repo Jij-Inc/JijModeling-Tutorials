@@ -1,0 +1,33 @@
+name: Textlint
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  textlint:
+    name: textlint (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language:
+          - ja
+          - en
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ github.token }}
+
+      - name: Install dependencies
+        run: LANG=${{ matrix.language }} task textlint
