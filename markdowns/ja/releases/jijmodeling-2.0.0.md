@@ -11,8 +11,8 @@ kernelspec:
   name: python3
 ---
 
-+++ {"vscode": {"languageId": "plaintext"}}
-
 # JijModeling 2.0.0 リリースノート
 
-TBW
+本リリースは、JijModeling 1.x 系からの初のメジャーアップデートとなります。
+JijModeling の精神を受け継ぎつつ、内包表記のサポートや `Element` オブジェクトの廃止など、様々な破壊的改善が行われています。
+JijModeling 2 による数理モデルの定式化・求解方法については『**{doc}`JijModeling の基本<../basics/overview>`**』を、JijModeling 1 から 2 への変更点と移行方法の詳細については『**{doc}`../references/migration_guide_to_jijmodeling2.md`**』をそれぞれご覧ください。
