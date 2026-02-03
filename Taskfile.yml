@@ -96,6 +96,11 @@ tasks:
     desc: Create release notes for the specified version
     cmds:
       - |
+        if [[ -z "{{.CLI_ARGS}}" ]]; then
+          echo "[ERROR] Version argument is required!" >&2;
+          exit 1;
+        fi
+      - |
         if [[ ! -f ./docs/en/releases/unreleased.ipynb ]]; then
           cp ./templates/release_note_en.ipynb ./docs/en/releases/unreleased.ipynb;
           uv run jupytext --sync --use-source-timestamp --execute ./docs/en/releases/unreleased.ipynb
