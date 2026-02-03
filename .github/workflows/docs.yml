@@ -3,8 +3,10 @@ name: GitHub Pages
 on:
   push:
     branches:
-      - main
+      - jijmodeling1
   pull_request:
+    branches:
+      - jijmodeling1
   workflow_dispatch:
 
 jobs:
@@ -36,7 +38,7 @@ jobs:
           # Replace GA4_TRACKING_ID placeholder with actual value from secrets
           # Using | as delimiter to avoid issues with / in the GA4 ID
           sed -i "s|GA4_TRACKING_ID|${GA4_TRACKING_ID}|g" docs/${{ matrix.lang }}/_config.yml
-          
+
           # Build the book
           uv run jupyter-book build docs/${{ matrix.lang }}
           ERROR_LOGS=$(find docs/${{ matrix.lang }}/_build -type f -name "*.err.log")
