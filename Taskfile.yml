@@ -77,11 +77,38 @@ tasks:
     cmds:
       - uv run jupyter-book build docs/en --all --warningiserror
 
-  create_release_note:
+  create_unreleased_notes:
     desc: Create release notes for the specified version
     cmds:
-      - cp ./templates/release_note_en.ipynb ./docs/en/releases/jijmodeling-{{.CLI_ARGS}}.ipynb
-      - cp ./templates/release_note_ja.ipynb ./docs/ja/releases/jijmodeling-{{.CLI_ARGS}}.ipynb
+      - |
+        if [[ -f ./docs/en/releases/unreleased.ipynb || -f ./docs/ja/releases/unreleased.ipynb ]]; then
+          echo "[ERROR] Unreleased release notes already exist!" >&2;
+          exit 1;
+        fi
+      - cp ./templates/release_note_en.ipynb ./docs/en/releases/unreleased.ipynb
+      - cp ./templates/release_note_ja.ipynb ./docs/ja/releases/unreleased.ipynb
+      - uv run jupytext --sync --use-source-timestamp --execute ./docs/en/releases/unreleased.ipynb
+      - uv run jupytext --sync --use-source-timestamp --execute ./docs/ja/releases/unreleased.ipynb
+
+  finalize_release_notes:
+    desc: Create release notes for the specified version
+    cmds:
+      - |
+        if [[ ! -f ./docs/en/releases/unreleased.ipynb ]]; then
+          cp ./templates/release_note_en.ipynb ./docs/en/releases/unreleased.ipynb;
+          uv run jupytext --sync --use-source-timestamp --execute ./docs/en/releases/unreleased.ipynb
+        fi
+
+        if [[ ! -f ./docs/ja/releases/unreleased.ipynb ]]; then
+          cp ./templates/release_note_ja.ipynb ./docs/ja/releases/unreleased.ipynb;
+          uv run jupytext --sync --use-source-timestamp --execute ./docs/ja/releases/unreleased.ipynb
+        fi
+      - |
+        mv ./docs/en/releases/unreleased.ipynb ./docs/en/releases/jijmodeling-{{.CLI_ARGS}}.ipynb
+        mv ./markdowns/en/releases/unreleased.md ./markdowns/en/releases/jijmodeling-{{.CLI_ARGS}}.md
+      - |
+        mv ./docs/ja/releases/unreleased.ipynb ./docs/ja/releases/jijmodeling-{{.CLI_ARGS}}.ipynb
+        mv ./markdowns/ja/releases/unreleased.md ./markdowns/ja/releases/jijmodeling-{{.CLI_ARGS}}.md
       - 'yq -i ''.parts[-1].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .'' docs/ja/_toc.yml'
       - 'yq -i ''.parts[-1].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .'' docs/en/_toc.yml'
 
