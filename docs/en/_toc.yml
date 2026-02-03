@@ -29,5 +29,7 @@ parts:
   - caption: Release Note
     chapters:
       - file: releases/jijmodeling-2.0.0
-      - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
-        title: JijModeling 1.x Series
+  - caption: Resources for Older Versions
+    chapters:
+    - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
+      title: JijModeling 1.x
