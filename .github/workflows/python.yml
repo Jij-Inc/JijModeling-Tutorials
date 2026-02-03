@@ -45,6 +45,29 @@ jobs:
       - name: Check books
         run: task check_book_${{ matrix.language }}
 
+  disallow_unreleased:
+    name: Disallow unreleased release notes
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.ref, 'refs/heads/main') || github.event_name == 'pull_request' && github.base_ref == 'main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check unreleased release notes
+        run: |
+          if [[ -f ./docs/en/releases/unreleased.ipynb || -f ./docs/ja/releases/unreleased.ipynb ]]; then
+            echo "[ERROR] Unreleased release notes found!" >&2;
+            exit 1;
+          fi
+
+      - name: Check if `unreleased` is not in TOC
+        run: |
+          for LANG in ja en ; do
+            TOC=docs/${LANG}/_toc.yml
+            if yq e '.parts[-1].chapters[]?.file' "${TOC}" | grep -q '^releases/unreleased$' ; then
+              echo "[ERROR] 'unreleased' found in ${TOC}!" >&2;
+              exit 1;
+            fi
+          done
 
   check_paired_notebooks:
     name: check paired notebooks

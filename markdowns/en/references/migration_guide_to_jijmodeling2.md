@@ -15,6 +15,24 @@ kernelspec:
 
 This guide helps the existing JijModeling 1 users migrate to JijModeling 2. JijModeling 2 introduces significant improvements while maintaining the core mathematical modeling concepts you're familiar with.
 
+:::{admonition} Want to keep using JijModeling 1.x?
+:class: important
+
+If you keep using JijModeling 1, you can continue to use your existing code assets without changes. In that case, pin the version in pip or uv as follows:
+
+```bash
+pip install 'jijmodeling <2' # with pip
+uv add jijmodeling<2         # with uv
+```
+
+The JijModeling 1 documentation remains available at:
+
+https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
+
+However, **JijModeling 1 is already in maintenance mode**: updates beyond critical bug fixes are not planned, and **updates are expected to stop within a few months after the official 2.0.0 release**.
+For these reasons, we **strongly recommend migrating to JijModeling 2** in the mid to long term.
+:::
+
 ## Overview of Major Changes
 
 JijModeling 2 introduces several key changes that improve usability and safety:
@@ -54,7 +72,7 @@ JijModeling 2 introduces several key changes that improve usability and safety:
 
 10. **Removed Dataset loader**: Since JijModeling 1.14.0, `jijmodeling.dataset` and related dataset loading feature like `load_qplib` has been removed. Use the corresponding features in OMMX.
 
-**Recommendation**: Use the **Decorator API** plus **typed constructors** for virtually all new code; rely on the type system feedback to guide model construction.
+**Recommendation**: For new code, we recommend using the **Decorator API** and **typed constructors**.
 
 +++
 
@@ -79,12 +97,12 @@ These features are planned to be implemented gradually after the official releas
 
 ### Reading Guide
 
-You can grasp the atmosphere of JijModeling 2 in the next section [Example: Quadratic TSP in JijModeling 2](#example-quadratic-tsp-in-jijmodeling-2).
+In the next section [Example: Quadratic TSP in JijModeling 2](#example-quadratic-tsp-in-jijmodeling-2), we briefly illustrate the feel of JijModeling 2 through a TSP example.
 
-After that section, you can read in two ways:
+After that section, you can proceed in one of two ways:
 
-- If you want to see examples without deep diving into the details of JijModeling 2, you can skip to [JijModeling 2 (Decorator API) by Examples](#jijmodeling-2-decorator-api-by-examples) section, and read the intermediate sections when you need the detail.
-- If you want to understand the major changes and principles behind the JijModeling 2, you can go on straight to [Design Goals](#design-goals-of-jijmodeling-2-why-jijmodeling-2).
+- If you want more examples without deep diving into the design details, skip to [JijModeling 2 (Decorator API) by Examples](#jijmodeling-2-decorator-api-by-examples), and read the intermediate sections as needed.
+- If you want to understand the design philosophy and fine-grained changes first, continue to [Design Goals of JijModeling 2 - Why JijModeling 2?](#design-goals-of-jijmodeling-2-why-jijmodeling-2).
 
 +++
 
@@ -153,9 +171,6 @@ assert all(instance.constraints[i].function.almost_equal(instance_2.constraints[
 ```
 
 ... and now you can solve as before via [OMMX Adapters](https://jij-inc.github.io/ommx/en/user_guide/supported_ommx_adapters.html)!
-
-If you want to have more through understanding on JijModeling 2, please proceed to [Design Goals of JijModeling 2 - Why JijModeling 2?](#design-goals-of-jijmodeling-2-why-jijmodeling-2).
-If you want to see more example before deep diving, you can skip to [JijModeling 2 (Decorator API) by Examples](#jijmodeling-2-decorator-api-by-examples).
 
 +++
 
