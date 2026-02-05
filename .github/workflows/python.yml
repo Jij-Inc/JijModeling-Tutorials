@@ -40,7 +40,7 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install the project
-        run: uv sync --extra dev
+        run: uv sync --extra dev --refresh
 
       - name: Check books
         run: task check_book_${{ matrix.language }}
@@ -93,7 +93,7 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install the project
-        run: uv sync --extra dev
+        run: uv sync --extra dev --refresh
 
       - name: Check paired notebooks
         run: task check_paired_notebooks
