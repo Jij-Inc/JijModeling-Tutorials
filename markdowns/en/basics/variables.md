@@ -549,7 +549,7 @@ problem_catlab_deco
 ```
 
 The list of category labels registered to Problem objects can be ontained by {py:attr}`~jijmodeling.Problem.category_labels` property.
-In addition, you can obtain the number of elements in the category label `L` by {py:func}`~jijmodeling.count` or {py:meth}`~jijmodeling.CategoryLabel.count`, which is rendered as $\#L$ in LaTeX notation.
+In addition, you can obtain the number of elements in the category label `L` by {py:func}`jm.count() <jijmodeling.count>` or {py:meth}`jm.CategoryLabel.count() <jijmodeling.CategoryLabel.count>`, which is rendered as $\#L$ in LaTeX notation.
 
 #### Dictionaries of decision variables
 
