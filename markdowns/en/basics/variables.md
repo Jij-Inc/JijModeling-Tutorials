@@ -59,11 +59,11 @@ Decision variables are variables whose values are determined by solvers based on
 
 | Type | Mathematical Notation | Description |
 | :---- | :------------------: | :--- |
-| [`BinaryVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.BinaryVar) | $\{0, 1\}$ | A binary variable taking the value $0$ or $1$. No bounds are required. |
-| [`IntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.IntegerVar) | $\mathbb{Z}$ | An integer variable. Bounds are required. |
-| [`ContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.ContinuousVar) | $\mathbb{R}$ | A continuous real-valued variable. Bounds are required. |
-| [`SemiIntegerVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.SemiIntegerVar) | - | A variable that takes integer values within bounds or zero. Bounds are required. |
-| [`SemiContinuousVar`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.SemiContinuousVar) | - | A variable that takes continuous values within bounds or zero. Bounds are required. |
+| {py:meth}`~jijmodeling.Problem.BinaryVar` | $\{0, 1\}$ | A binary variable taking the value $0$ or $1$. No bounds are required. |
+| {py:meth}`~jijmodeling.Problem.IntegerVar` | $\mathbb{Z}$ | An integer variable. Bounds are required. |
+| {py:meth}`~jijmodeling.Problem.ContinuousVar` | $\mathbb{R}$ | A continuous real-valued variable. Bounds are required. |
+| {py:meth}`~jijmodeling.Problem.SemiIntegerVar` | - | A variable that takes integer values within bounds or zero. Bounds are required. |
+| {py:meth}`~jijmodeling.Problem.SemiContinuousVar` | - | A variable that takes continuous values within bounds or zero. Bounds are required. |
 
 To declare a specific type of decision variable, call the corresponding method on the `Problem` object.
 For example, let's define a model that has a binary variable $x$ and a continuous variable $W' \in[-5, 10.5]$.
@@ -132,10 +132,10 @@ Representative placeholder types include:
 
 | Type | Mathematical Notation | Description | Alias |
 | :--- | :------------------: | :-- | :-- |
-| [`Binary`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Binary) | $\{0, 1\}$ | A binary placeholder taking value $0$ or $1$. | - |
-| [`Natural`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Natural) | $\mathbb{N}$ | Natural numbers including zero. Used for array sizes and indices. | [`Dim`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Dim), [`Length`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Length) |
-| [`Integer`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Integer) | $\mathbb{Z}$ | An integer value, including negatives. | - |
-| [`Float`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Float) | $\mathbb{R}$ | A general real-valued (floating point) placeholder. | - |
+| {py:meth}`~jijmodeling.Problem.Binary` | $\{0, 1\}$ | A binary placeholder taking value $0$ or $1$. | - |
+| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ | Natural numbers including zero. Used for array sizes and indices. | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
+| {py:meth}`~jijmodeling.Problem.Integer` | $\mathbb{Z}$ | An integer value, including negatives. | - |
+| {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | A general real-valued (floating point) placeholder. | - |
 | Tuples of the above | $\mathbb{Z} \times \mathbb{R}$ | Fixed-length tuples with per-component types, often used with lists. | - |
 
 As with decision variables, you declare placeholders by calling methods on `Problem` with the same names as the types above.
@@ -174,10 +174,10 @@ def deco_problem(problem: jm.DecoratedProblem):
 deco_problem
 ```
 
-:::{admonition} The [`Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) constructor
+:::{admonition} The {py:meth}`~jijmodeling.Problem.Placeholder` constructor
 :class: tip
 
-The constructors listed above, such as `problem.Float` and `problem.Natural`, are special cases of the more general [`problem.Placeholder`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Placeholder) constructor.
+The constructors listed above, such as `problem.Float` and `problem.Natural`, are special cases of the more general {py:meth}`~jijmodeling.Problem.Placeholder` constructor.
 For example, `problem.Natural` is implemented as `problem.Placeholder(dtype=jm.DataType.NATURAL)`.
 For `dtype`, you can use `jm.DataType` variants, Python built-in types like `float` and `int`, or NumPy dtypes such as `numpy.uint*` and `numpy.int*` (the bit width is ignored).
 For more complex types like tuples (discussed later), use `Placeholder` to specify details.
@@ -187,7 +187,7 @@ Like other specialized constructors, `Placeholder` also supports name omission i
 (var_info)=
 ## Retrieving variable information
 
-The lists of decision variables and placeholders registered in a model can be obtained from the `Problem` object via the [`decision_vars`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.DecoratedProblem.decision_vars) property and the [`placeholders`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.DecoratedProblem.placeholders) property.
+The lists of decision variables and placeholders registered in a model can be obtained from the `Problem` object via the {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` property and the {py:attr}`~jijmodeling.DecoratedProblem.placeholders` property.
 These lists include information for indexed variables discussed below as well.
 
 Each returns a dictionary keyed by variable name, with the corresponding metadata as values.
@@ -395,7 +395,7 @@ By passing a natural-number constant literal to `ndim`, you can declare a placeh
 You can specify `ndim` and `shape` together, but in that case the number of components in `shape` must exactly match `ndim`.
 :::
 
-For example, the `partial_knapsack` above can be defined using `ndim` and the [`len_at()` function](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Expression.len_at) as follows:
+For example, the `partial_knapsack` above can be defined using `ndim` and the {py:meth}`~jijmodeling.Expression.len_at` function as follows:
 
 (partial_knapsack_ndim)=
 
@@ -412,7 +412,7 @@ def partial_knapsack_ndim(problem: jm.DecoratedProblem):
 partial_knapsack_ndim
 ```
 
-The [`array.len_at(i)` function](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Expression.len_at) returns the length of the $i$-th axis of the array `array`.
+The {py:meth}`~jijmodeling.Expression.len_at` function returns the length of the $i$-th axis of the array `array`.
 Since $w, v, x$ all have the same length, we declare $v$ as a 1D array and use its length to specify the `shape` of $w$ and $x$.
 
 These two approaches define semantically equivalent models, but they differ in how instance data is provided.
@@ -449,7 +449,7 @@ Therefore, in JijModeling 2 and later, such definitions that **cannot enforce le
 :::{admonition} Graphs as arrays of tuples
 :class: tip
 
-JijModeling provides a [`Graph` placeholder constructor](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.Graph) corresponding to directed graph structures.
+JijModeling provides a {py:meth}`~jijmodeling.Problem.Graph` placeholder constructor corresponding to directed graph structures.
 For example, `G = problem.Graph()` declares a placeholder graph with some number of vertices.
 This constructor is actually equivalent to a one-dimensional array of tuples described in "[Single placeholders](#single_ph)" and can be written as:
 
@@ -526,7 +526,7 @@ Below, we briefly introduce category labels and the declaration of dictionaries 
 
 #### Declaring category labels
 
-Declaring category labels is similar to placeholders. You call [`CategoryLabel()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.CategoryLabel) on the model to register them.
+Declaring category labels is similar to placeholders. You call {py:meth}`~jijmodeling.Problem.CategoryLabel` on the model to register them.
 With the Plain API, it looks like this:
 
 ```{code-cell} ipython3
@@ -548,8 +548,8 @@ def problem_catlab_deco(problem: jm.DecoratedProblem):
 problem_catlab_deco
 ```
 
-The list of category labels registered to Problem objects can be ontained by [`prbolem.category_labels`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.category_labels) property.
-In addition, you can obtain the number of elements in the category label `L` by [`jm.count(L)`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.count) or [`L.count()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.CategoryLabel.count), which is rendered as $\#L$ in LaTeX notation.
+The list of category labels registered to Problem objects can be ontained by {py:attr}`~jijmodeling.Problem.category_labels` property.
+In addition, you can obtain the number of elements in the category label `L` by {py:func}`~jijmodeling.count` or {py:meth}`~jijmodeling.CategoryLabel.count`, which is rendered as $\#L$ in LaTeX notation.
 
 #### Dictionaries of decision variables
 
@@ -607,7 +607,7 @@ When declared as a `PartialDict`, you can additionally specify:
 6. A category label defined by `problem.CategoryLabel`
 7. A tuple composed of (1) to (6)
 
-You can also declare placeholder dictionaries by calling the [`TotalDict(name, dtype=..., dict_keys=...)`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.TotalDict) or [`PartialDict(name, dtype=..., dict_keys=...)`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.PartialDict) constructors on the `Problem` object.
+You can also declare placeholder dictionaries by calling the {py:meth}`~jijmodeling.Problem.TotalDict` or {py:meth}`~jijmodeling.Problem.PartialDict` constructors on the `Problem` object.
 
 :::{admonition} Why there is no `ndim`-like option for placeholder dictionaries
 :class: caution
