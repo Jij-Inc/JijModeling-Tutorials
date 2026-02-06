@@ -18,7 +18,7 @@ JijModeling では、変数や制約条件などはすべて特定の数理モ�
 
 ## 数理モデルを表す `Problem` オブジェクトの作成
 
-JijModeling で特定の数理モデルに対応するのは、[`Problem` オブジェクト](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem)であり、数理モデルの構築時には最初に宣言することになります。
+JijModeling で特定の数理モデルに対応するのは、{py:class}`~jijmodeling.Problem` オブジェクトであり、数理モデルの構築時には最初に宣言することになります。
 まずは、JijModeling ライブラリを `jm` という名前で参照できるようにインポートしておきましょう。
 
 ```{code-cell} ipython3
@@ -66,7 +66,7 @@ def deco_problem(problem: jm.DecoratedProblem):
 deco_problem
 ```
 
-[`@jm.Problem.define()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.define) は `jm.Problem()` と全く同じ引数を取りますが、直接変数に束縛するのではなく、直後に関数定義（ここでは `def deco_problem(...)`）を与えるという違いがあります。
+{py:meth}`~jijmodeling.Problem.define` は `jm.Problem()` と全く同じ引数を取りますが、直接変数に束縛するのではなく、直後に関数定義（ここでは `def deco_problem(...)`）を与えるという違いがあります。
 `@jm.Problem.define()` では、関数定義を抜けた段階で宣言されている関数名と同じ名前（ここでは `deco_problem`）の変数に実際の `Problem` オブジェクトの定義が束縛されます。実際、上の例では関数定義を終えた直後に `deco_problem`を（Python 変数として）呼び出してその内容を印字させています。
 このように、直前に `@` ではじまる式が付された関数は、その式により **デコレートされる**ているといいます。
 実際には、このデコレートされた関数定義内では関数の第 1 引数 `problem` に対して種々の関数を呼び出して様々な変更・更新を行ってモデルを構築していくことになります。
@@ -92,7 +92,7 @@ jm.is_same(plain_problem, deco_problem)
 ## `Problem` オブジェクトの更新
 
 ここではほとんど空の Problem オブジェクトを作成しましたが、実際には決定変数や制約条件、目的関数などを追加し、`Problem` オブジェクトを逐次的に更新してモデルを構築していくのが実際の流れになります。
-いずれの API で定義された `Problem` オブジェクト `problem` も機能に差はありませんので、Plain API を使って更新することもできますし、[`@problem.update` デコレータ](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.update)を使って Decorator API を用いて更新することもできます。もちろん、両者を混ぜて使うことも可能です。
+いずれの API で定義された `Problem` オブジェクト `problem` も機能に差はありませんので、Plain API を使って更新することもできますし、{py:meth}`~jijmodeling.Problem.update` デコレータを使って Decorator API を用いて更新することもできます。もちろん、両者を混ぜて使うことも可能です。
 試しに、先ほど定義した問題たちに変数を追加してみましょう。
 
 ```{code-cell} ipython3
