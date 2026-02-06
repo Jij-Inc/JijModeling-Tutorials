@@ -92,7 +92,7 @@ jm.is_same(plain_problem, deco_problem)
 ## `Problem` オブジェクトの更新
 
 ここではほとんど空の Problem オブジェクトを作成しましたが、実際には決定変数や制約条件、目的関数などを追加し、`Problem` オブジェクトを逐次的に更新してモデルを構築していくのが実際の流れになります。
-いずれの API で定義された `Problem` オブジェクト `problem` も機能に差はありませんので、Plain API を使って更新することもできますし、{py:meth}`~jijmodeling.Problem.update` デコレータを使って Decorator API を用いて更新することもできます。もちろん、両者を混ぜて使うことも可能です。
+いずれの API で定義された `Problem` オブジェクト `problem` も機能に差はありませんので、Plain API を使って更新することもできますし、{py:meth}`@problem.update <jijmodeling.Problem.update>` デコレータを使って Decorator API を用いて更新することもできます。もちろん、両者を混ぜて使うことも可能です。
 試しに、先ほど定義した問題たちに変数を追加してみましょう。
 
 ```{code-cell} ipython3
