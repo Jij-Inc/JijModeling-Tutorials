@@ -49,7 +49,7 @@ sphinx:
     html_theme_options:
       show_toc_level: 5
     intersphinx_mapping:
-      api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/, null]
+      api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/, null]
       numpy: [https://numpy.org/doc/stable, null]
       python: ["https://docs.python.org/3", null]
       ommx_api: ["https://jij-inc.github.io/ommx/python/ommx", null]
