@@ -18,7 +18,7 @@ Before we dive into the individual elements, this section briefly explains how t
 
 ## Creating a `Problem` object that represents a model
 
-In JijModeling, a specific model is represented by a [`Problem` object](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem), which you typically declare first when constructing a model.
+In JijModeling, a specific model is represented by a {py:class}`~jijmodeling.Problem` object, which you typically declare first when constructing a model.
 First, import the JijModeling library under the name `jm`.
 
 ```{code-cell} ipython3
@@ -51,7 +51,7 @@ Since no objective has been set yet, $0$ is shown as the objective at this stage
 
 ### Creating a `Problem` object with the Decorator API
 
-Here is the same model defined with the Decorator API using [`@jm.Problem.define()`](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.define):
+Here is the same model defined with the Decorator API using {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`:
 
 ```{code-cell} ipython3
 @jm.Problem.define(
@@ -93,7 +93,7 @@ jm.is_same(plain_problem, deco_problem)
 ## Updating a `Problem` object
 
 We created almost empty `Problem` objects above, but in practice you update the `Problem` incrementally as you build a model, adding decision variables, constraints, and objectives to the model.
-Regardless of how a model is defined, you can always update it with the Plain API, and you can also update an existing `Problem` object `problem` using the Decorator API via the [`@problem.update` decorator](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/latest/autoapi/jijmodeling/index.html#jijmodeling.Problem.update).
+Regardless of how a model is defined, you can always update it with the Plain API, and you can also update an existing `Problem` object `problem` using the Decorator API via the {py:meth}`@problem.update <jijmodeling.Problem.update>` decorator.
 You can also mix the two styles freely.
 Let's add variables to the two problems we defined earlier.
 
