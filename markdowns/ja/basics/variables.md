@@ -541,7 +541,7 @@ problem_catlab_deco
 ```
 
 Problem オブジェクトに登録されているカテゴリーラベルの一覧は、{py:attr}`~jijmodeling.Problem.category_labels` プロパティにより取得できます。
-また、個別のカテゴリーラベルに属する値の個数を表す式は {py:func}`~jijmodeling.count` 関数や {py:meth}`~jijmodeling.CategoryLabel.count` メソッドにより取得できます（数式上は $\#L$と表記されます）。
+また、個別のカテゴリーラベルに属する値の個数を表す式は {py:func}`jm.count() <jijmodeling.count>` 関数や {py:meth}`jm.CategoryLabel.count() <jijmodeling.CategoryLabel.count>` メソッドにより取得できます（数式上は $\#L$と表記されます）。
 
 #### 決定変数の辞書
 
