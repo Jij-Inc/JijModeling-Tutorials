@@ -30,11 +30,10 @@ kernelspec:
 import jijmodeling as jm
 import builtins
 problem = jm.Problem("problem")
-N = problem.Integer("N")
+N = problem.Natural("N")
 c = problem.Float("c", shape=(N,))
 x = problem.BinaryVar("x", shape=(N,))
-i = jm.Element("i", belong_to=N)
-problem += jm.sum(i, c[i] * x[i])
+problem += jm.sum(N, lambda i: c[i] * x[i])
 inputs = problem.generate_random_dataset(
     options={
         'N': {"value": builtins.range(10, 20)},
