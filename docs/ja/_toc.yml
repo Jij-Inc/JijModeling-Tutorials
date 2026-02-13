@@ -29,10 +29,11 @@ parts:
       - file: references/migration_guide_to_jijmodeling2
   - caption: リリースノート
     chapters:
+      - file: releases/unreleased
       - file: releases/jijmodeling-2.0.0
       - url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/jijmodeling1
         title: JijModeling 1.x 系統
   - caption: 旧バージョン向けリソース
     chapters:
-    - url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/jijmodeling1
-      title: JijModeling 1.x
+      - url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/jijmodeling1
+        title: JijModeling 1.x
