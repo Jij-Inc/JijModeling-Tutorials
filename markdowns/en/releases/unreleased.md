@@ -50,8 +50,10 @@ inputs
 
 +++
 
-### Bugfix 1
+### Bugfix 1: Division containing decision variables only on left-hand side now compiles
 
+In JijModeling 2.0.0, divisions where no decision variable appears on the right-hand side, e.g. `x / 2`, incorrectly triggered a compile-time error.
+With this release, division now compiles correctly as long as the right-hand side does not contain decision variables.
 
 ## Other Changes
 
