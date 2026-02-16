@@ -46,6 +46,10 @@ assert set(inputs.keys()) == {"N", "c"}
 inputs
 ```
 
+### Support for the `jm.Expression()` constructor
+
+The {py:class}`~jijmodeling.Expression` class now provides a constructor, allowing you to explicitly convert any value that is convertible to {py:class}`~jijmodeling.Expression` (i.e., {py:class}`~jijmodeling.ExpressionLike`) into an {py:class}`~jijmodeling.Expression` object.
+
 ## Bugfixes
 
 +++
@@ -85,6 +89,11 @@ Since this version, this compiles correctly.
 In previous releases, there was a bug where indexing with tuples could cause the compiler to crash with a PanicException under certain conditions.
 With this release, the bug has been fixed, and indexing dictionaries with single tuples now evaluates correctly.
 
+### Bugfix 4: `Problem.infer()` now correctly converts to expressions
+
+In previous releases, {py:meth}`Problem.infer() <jijmodeling.Problem.infer>` raised a runtime error if its argument was not a {py:class}`~jijmodeling.Problem` object.
+With this release, arguments that can be converted to expressions (such as numeric values or {py:class}`~jijmodeling.Placeholder` objects) are now converted to expressions before type inference.
+
 ## Other Changes
 
-- `Problem` now provides {py:meth}`Problem.name` and {py:meth}`Problem.sense` properties.
+- `Problem` now provides {py:attr}`Problem.name` and {py:attr}`Problem.sense` properties.

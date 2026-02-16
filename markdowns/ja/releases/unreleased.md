@@ -46,6 +46,10 @@ assert set(inputs.keys()) == {"N", "c"}
 inputs
 ```
 
+### `jm.Expression()` 構築子のサポート
+
+{py:class}`~jijmodeling.Expression` クラスに構築子の定義が追加され、{py:class}`~jijmodeling.Expression` に変換可能な任意の値（{py:class}`~jijmodeling.ExpressionLike` に該当するもの）を明示的に {py:class}`~jijmodeling.Expression` オブジェクトに変換できるようになりました。
+
 ## バグ修正
 
 +++
@@ -84,6 +88,11 @@ def problem(problem: jm.DecoratedProblem):
 
 以前のリリースにはタプルによる添え字アクセス時に、特定の条件下でコンパイラが PanicException によりクラッシュするバグが存在していました。
 本リリースからバグが修正され、単独のタプルにより辞書の添え字を指定しても正しく評価されるようになりました。
+
+### バグ修正4：{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` で正しく式への変換が行われるように
+
+旧リリースでは、{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` の引数が {py:class}`~jijmodeling.Problem` オブジェクトでない場合実行時エラーとなっていました。
+このリリースから、引数が数値や {py:class}`~jijmodeling.Placeholder` オブジェクトなどの式に変換可能なオブジェクトであっても、式への変換が行われた上で型推論が行われるようになりました。
 
 ## その他の変更
 
