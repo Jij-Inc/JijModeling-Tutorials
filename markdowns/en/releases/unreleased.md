@@ -48,7 +48,7 @@ inputs
 
 ### Support for the `jm.Expression()` constructor
 
-The {py:class}`~jijmodeling.Expression` class now provides a constructor, allowing you to explicitly convert any value that is convertible to {py:class}`~jijmodeling.Expression` (i.e., {py:class}`~jijmodeling.ExpressionLike`) into an {py:class}`~jijmodeling.Expression` object.
+The {py:class}`~jijmodeling.Expression` class now provides a constructor, allowing you to explicitly convert any value that is convertible to {py:class}`~jijmodeling.Expression` (i.e., {py:data}`~jijmodeling.ExpressionLike`) into an {py:class}`~jijmodeling.Expression` object.
 
 ## Bugfixes
 

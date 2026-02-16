@@ -48,7 +48,7 @@ inputs
 
 ### `jm.Expression()` 構築子のサポート
 
-{py:class}`~jijmodeling.Expression` クラスに構築子の定義が追加され、{py:class}`~jijmodeling.Expression` に変換可能な任意の値（{py:class}`~jijmodeling.ExpressionLike` に該当するもの）を明示的に {py:class}`~jijmodeling.Expression` オブジェクトに変換できるようになりました。
+{py:class}`~jijmodeling.Expression` クラスに構築子の定義が追加され、{py:class}`~jijmodeling.Expression` に変換可能な任意の値（{py:data}`~jijmodeling.ExpressionLike` に該当するもの）を明示的に {py:class}`~jijmodeling.Expression` オブジェクトに変換できるようになりました。
 
 ## バグ修正
 
