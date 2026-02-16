@@ -78,7 +78,12 @@ def problem(problem: jm.DecoratedProblem):
 # Type Error: Instance for comparison operator not found for type natural and ElementOf[set(V)]
 ```
 
-2.0.1 以降では、問題なくコンパイルされるようになりました。
+本リリース以降では、問題なくコンパイルされるようになりました。
+
+### バグ修正3：タプルによる添え字アクセスが行えないバグの修正
+
+以前のリリースにはタプルによる添え字アクセス時に、特定の条件下でコンパイラが PanicException によりクラッシュするバグが存在していました。
+本リリースからバグが修正され、単独のタプルにより辞書の添え字を指定しても正しく評価されるようになりました。
 
 ## その他の変更
 

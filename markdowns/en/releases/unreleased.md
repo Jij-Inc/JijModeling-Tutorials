@@ -78,7 +78,12 @@ def problem(problem: jm.DecoratedProblem):
 # Type Error: Instance for comparison operator not found for type natural and ElementOf[set(V)]
 ```
 
-From 2.0.1 onward, this compiles correctly.
+Since this version, this compiles correctly.
+
+### Bugfix 3: Indexing with tuples now works correctly
+
+In previous releases, there was a bug where indexing with tuples could cause the compiler to crash with a PanicException under certain conditions.
+With this release, the bug has been fixed, and indexing dictionaries with single tuples now evaluates correctly.
 
 ## Other Changes
 
