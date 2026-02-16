@@ -55,6 +55,31 @@ inputs
 In JijModeling 2.0.0, divisions where no decision variable appears on the right-hand side, e.g. `x / 2`, incorrectly triggered a compile-time error.
 With this release, division now compiles correctly as long as the right-hand side does not contain decision variables.
 
+### Bugfix 2: Index/value comparison inside `map` and `filter` now compiles
+
+There was a bug where code comparing indices and values inside nested `map` or `filter` would fail to compile.
+For example, the previous version produced an error like:
+
+```python
+@jm.Problem.define("TestProblem")
+def problem(problem: jm.DecoratedProblem):
+    V = problem.Natural(ndim=1)
+    W = problem.Natural()
+    x = problem.BinaryVar( shape=(W,))
+    problem += problem.Constraint(
+        "constr",
+        [jm.sum(x[j] for j in W if j <= i) == 1 for i in V],
+    )
+# TypeError: Traceback (most recent last):
+# ...
+#     9  |          [jm.sum(x[j] for j in W if j <= i) == 1 for i in V],
+#                                              ^^^^^^
+
+# Type Error: Instance for comparison operator not found for type natural and ElementOf[set(V)]
+```
+
+From 2.0.1 onward, this compiles correctly.
+
 ## Other Changes
 
 - `Problem` now provides {py:meth}`Problem.name` and {py:meth}`Problem.sense` properties.

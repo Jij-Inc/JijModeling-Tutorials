@@ -55,6 +55,31 @@ inputs
 JijModeling 2.0.0 では、 `x / 2` のように決定変数が右辺に現れないような除法も誤ってコンパイル時エラーとなっていました。
 このリリースでは、右辺に決定変数が現れなければ、除法が正しくコンパイルされるようになりました。
 
+### バグ修正2：`map` や `filter` 内で添え字と値の比較ができない場合があったバグの修正
+
+ネストされた `map` や `filter` 内で、添え字と値を比較するようなコードがコンパイルできないバグがありました。
+たとえば、旧バージョンでは以下のようなエラーが発生していました：
+
+```python
+@jm.Problem.define("TestProblem")
+def problem(problem: jm.DecoratedProblem):
+    V = problem.Natural(ndim=1)
+    W = problem.Natural()
+    x = problem.BinaryVar( shape=(W,))
+    problem += problem.Constraint(
+        "constr",
+        [jm.sum(x[j] for j in W if j <= i) == 1 for i in V],
+    )
+# TypeError: Traceback (most recent last):
+# ...
+#     9  |          [jm.sum(x[j] for j in W if j <= i) == 1 for i in V],
+#                                              ^^^^^^
+
+# Type Error: Instance for comparison operator not found for type natural and ElementOf[set(V)]
+```
+
+2.0.1 以降では、問題なくコンパイルされるようになりました。
+
 ## その他の変更
 
 - `Problem` クラスに {py:attr}`Problem.name` および {py:attr}`Problem.sense` プロパティが追加されました。
