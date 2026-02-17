@@ -94,6 +94,10 @@ def problem(problem: jm.DecoratedProblem):
 旧リリースでは、{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` の引数が {py:class}`~jijmodeling.Problem` オブジェクトでない場合実行時エラーとなっていました。
 このリリースから、引数が数値や {py:class}`~jijmodeling.Placeholder` オブジェクトなどの式に変換可能なオブジェクトであっても、式への変換が行われた上で型推論が行われるようになりました。
 
+### バグ修正5：数式出力時に必要な括弧が足りない問題の修正
+
+総和記号の累乗や、総和記号内の和・差が括弧で囲まれず、数式に曖昧性が生じていた問題が修正されました。
+
 ## その他の変更
 
 - `Problem` クラスに {py:attr}`Problem.name` および {py:attr}`Problem.sense` プロパティが追加されました。

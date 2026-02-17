@@ -94,6 +94,10 @@ With this release, the bug has been fixed, and indexing dictionaries with single
 In previous releases, {py:meth}`Problem.infer() <jijmodeling.Problem.infer>` raised a runtime error if its argument was not a {py:class}`~jijmodeling.Problem` object.
 With this release, arguments that can be converted to expressions (such as numeric values or {py:class}`~jijmodeling.Placeholder` objects) are now converted to expressions before type inference.
 
+### Bugfix 5: Missing parentheses in formula output
+
+Previously, exponentiation of summation symbols and addition/subtraction within summation symbols were not properly enclosed in parentheses, leading to ambiguity in the formulas. This issue has been fixed.
+
 ## Other Changes
 
 - `Problem` now provides {py:attr}`Problem.name` and {py:attr}`Problem.sense` properties.
