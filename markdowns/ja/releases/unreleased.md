@@ -37,7 +37,7 @@ problem += jm.sum(N, lambda i: c[i] * x[i])
 inputs = problem.generate_random_dataset(
     options={
         'N': {"value": builtins.range(10, 20)},
-        'c': {"value": jm.generation.value.closed(-1.0, 1.0)}
+        'c': {"value": jm.range.value.closed(-1.0, 1.0)}
          # You can also specify "size" for the range of jagged array dimension size.
     },
     seed=123 # omittable
