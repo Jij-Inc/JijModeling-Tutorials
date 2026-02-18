@@ -1,0 +1,36 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.19.1
+kernelspec:
+  display_name: .venv
+  language: python
+  name: python3
+---
+
+# JijModeling X.XX.X Release Notes
+
++++
+
+## Feature Enhancements
+
++++
+
+### Feature 1
+
++++
+
+## Bugfixes
+
++++
+
+### Bugfix 1: Fix issue where constraint detection could not handle indexed constraints correctly
+
+In previous releases, when generating instances of optimization problems with indexed constraints, an unexpected error occurred if constraint detection was enabled (default state). This issue has been fixed.
+
+## Other Changes
+
+- Change 1
