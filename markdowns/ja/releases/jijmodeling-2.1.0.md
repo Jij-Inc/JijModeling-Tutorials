@@ -95,7 +95,7 @@ def problem(problem: jm.DecoratedProblem):
 
 ### バグ修正4：{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` で正しく式への変換が行われるように
 
-旧リリースでは、{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` の引数が {py:class}`~jijmodeling.Problem` オブジェクトでない場合実行時エラーとなっていました。
+旧リリースでは、{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` の引数が {py:class}`~jijmodeling.Expression` オブジェクトでない場合実行時エラーとなっていました。
 このリリースから、引数が数値や {py:class}`~jijmodeling.Placeholder` オブジェクトなどの式に変換可能なオブジェクトであっても、式への変換が行われた上で型推論が行われるようになりました。
 
 ### バグ修正5：数式出力時に必要な括弧が足りない問題の修正
