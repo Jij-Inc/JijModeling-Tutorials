@@ -50,6 +50,10 @@ inputs
 
 {py:class}`~jijmodeling.Expression` クラスに構築子の定義が追加され、{py:class}`~jijmodeling.Expression` に変換可能な任意の値（{py:data}`~jijmodeling.ExpressionLike` に該当するもの）を明示的に {py:class}`~jijmodeling.Expression` オブジェクトに変換できるようになりました。
 
+### 型ヒントの改善
+
+同梱の型ヒントがより正確になり、IDE の補助をより受けやすくなりました。
+
 ## バグ修正
 
 +++
