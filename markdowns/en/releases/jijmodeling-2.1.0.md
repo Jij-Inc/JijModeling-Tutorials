@@ -95,7 +95,7 @@ With this release, the bug has been fixed, and indexing dictionaries with single
 
 ### Bugfix 4: `Problem.infer()` now correctly converts to expressions
 
-In previous releases, {py:meth}`Problem.infer() <jijmodeling.Problem.infer>` raised a runtime error if its argument was not a {py:class}`~jijmodeling.Problem` object.
+In previous releases, {py:meth}`Problem.infer() <jijmodeling.Problem.infer>` raised a runtime error if its argument was not a {py:class}`~jijmodeling.Expression` object.
 With this release, arguments that can be converted to expressions (such as numeric values or {py:class}`~jijmodeling.Placeholder` objects) are now converted to expressions before type inference.
 
 ### Bugfix 5: Missing parentheses in formula output
