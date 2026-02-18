@@ -28,7 +28,7 @@ parts:
       - file: references/migration_guide_to_jijmodeling2
   - caption: Release Note
     chapters:
-      - file: releases/unreleased
+      - file: releases/jijmodeling-2.1.0
       - file: releases/jijmodeling-2.0.0
   - caption: Resources for Older Versions
     chapters:
