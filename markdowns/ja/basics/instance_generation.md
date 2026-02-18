@@ -88,7 +88,9 @@ instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data
 :::{admonition} インスタンスデータのランダム生成
 :class: tip
 
-正式リリースまでの間に、インスタンスデータをランダム生成する機能が追加される予定です。
+{py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` メソッドや
+{py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` メソッドを使うと、ランダムなインスタンスデータを生成できます。
+詳しくは API ドキュメントや、今後公開予定の発展的トピックのチュートリアルを参照してください。
 :::
 
 +++

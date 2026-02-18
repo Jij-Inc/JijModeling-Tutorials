@@ -28,8 +28,9 @@ parts:
       - file: references/migration_guide_to_jijmodeling2
   - caption: Release Note
     chapters:
+      - file: releases/jijmodeling-2.1.0
       - file: releases/jijmodeling-2.0.0
   - caption: Resources for Older Versions
     chapters:
-    - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
-      title: JijModeling 1.x
+      - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
+        title: JijModeling 1.x

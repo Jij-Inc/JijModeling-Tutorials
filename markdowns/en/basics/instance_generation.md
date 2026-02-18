@@ -90,7 +90,9 @@ instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data
 :::{admonition} Random instance data generation
 :class: tip
 
-We plan to add functionality for random generation of instance data before the official release.
+You can use the {py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` and
+{py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` methods to generate random instance data.
+For more details, please refer to the API documentation and upcoming advanced topic tutorials.
 :::
 
 +++
