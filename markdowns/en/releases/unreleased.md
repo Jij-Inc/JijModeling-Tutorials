@@ -27,6 +27,12 @@ kernelspec:
 
 +++
 
+### Bugfix 1: Fix issue where constraint detection could not handle indexed constraints correctly
+
+In previous releases, when generating instances of optimization problems with indexed constraints, an unexpected error occurred if constraint detection was enabled (default state). This issue has been fixed.
+
++++
+
 ### Bugfix 2: Flatten nested subscripts in LaTeX output
 
 Nested subscripts like `x[i][j]` nodes now render as ${x}_{i,j}$ instead of the ${{x}_{i}}_{j}$ in LaTeX output.
@@ -39,11 +45,6 @@ x = problem.BinaryVar("x", shape=(2, 2))
 x[0][1]
 ```
 
-### Bugfix 1: Fix issue where constraint detection could not handle indexed constraints correctly
-
-In previous releases, when generating instances of optimization problems with indexed constraints, an unexpected error occurred if constraint detection was enabled (default state). This issue has been fixed.
-
 ## Other Changes
 
 - Change 1
-```
