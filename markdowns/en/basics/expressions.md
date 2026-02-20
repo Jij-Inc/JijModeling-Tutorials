@@ -365,6 +365,16 @@ In JijModeling 2, this behavior was removed, and arrays now iterate over element
 If you want the old behavior, explicitly convert with {py:func}`~jijmodeling.rows`: use `jm.rows(A)` or `A.rows()`.
 :::
 
+:::{admonition} Dictionary "sets" in JijModeling
+:class: important
+
+In JijModeling, dictionary expressions behave like sets that iterate over **values, not keys**.
+This differs from Python's {py:class}`dict`, but it is defined this way for consistency with multi-dimensional array behavior.
+As a result, if you change placeholders or decision variables that were originally defined as multi-dimensional arrays to dictionaries, you can keep code like `x.sum()` unchanged.
+If you need set-like behavior over key-value pairs or keys, use {py:meth}`~jijmodeling.Expression.items` or {py:meth}`~jijmodeling.Expression.keys`.
+If you want to be explicit that values are being iterated, use {py:meth}`~jijmodeling.Expression.values`.
+:::
+
 Conversion to sets is usually automatic, but you can explicitly convert via {py:func}`~jijmodeling.set`.
 
 ### Sum and product over sets
