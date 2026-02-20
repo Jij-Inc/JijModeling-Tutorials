@@ -31,6 +31,20 @@ kernelspec:
 
 In previous releases, when generating instances of optimization problems with indexed constraints, an unexpected error occurred if constraint detection was enabled (default state). This issue has been fixed.
 
++++
+
+### Bugfix 2: Flatten nested subscripts in LaTeX output
+
+Nested subscripts like `x[i][j]` nodes now render as ${x}_{i,j}$ instead of the ${{x}_{i}}_{j}$ in LaTeX output.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("My Problem")
+x = problem.BinaryVar("x", shape=(2, 2))
+x[0][1]
+```
+
 ## Other Changes
 
 - Change 1
