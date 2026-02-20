@@ -19,9 +19,23 @@ kernelspec:
 
 +++
 
-### 機能1
+### 機能1：辞書の総和・畳み込みの挙動を修正
 
-+++
+辞書の総和・畳み込みは {py:meth}`~jijmodeling.Expression.items`, {py:meth}`~jijmodeling.Expression.values`, {py:meth}`~jijmodeling.Expression.keys` を介して行われる想定であり、直接畳み込みはサポートされていない予定でした。
+しかし、前バージョンまでは誤って辞書の畳み込みが提供されてしまっており、しかも Python の辞書の挙動と同じくキーの集合について行われるようになっていました。
+また、Placeholder や DecisionVar の多次元配列の畳み込みの挙動との整合性の観点から、辞書型はキーではなく値の集合として畳み込まれるのが自然であるため、こちらの挙動を正式な仕様として定め、こちらの挙動を実装しなおしました。
+
+以下が今回の修正の例です。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("My Problem")
+I = problem.CategoryLabel("I")
+x = problem.BinaryVar("x", dict_keys=I)
+
+x.sum() # 旧来の x.values().sum() と同じ挙動に
+```
 
 ## バグ修正
 
