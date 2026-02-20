@@ -33,6 +33,7 @@ kernelspec:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
 problem = jm.Problem("My Problem")
 x = problem.BinaryVar("x", shape=(2, 2))
 x[0][1]

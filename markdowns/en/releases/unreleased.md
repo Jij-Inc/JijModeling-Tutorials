@@ -33,6 +33,7 @@ Nested subscripts like `x[i][j]` nodes now render as ${x}_{i,j}$ instead of the 
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
 problem = jm.Problem("My Problem")
 x = problem.BinaryVar("x", shape=(2, 2))
 x[0][1]
