@@ -346,6 +346,16 @@ JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に�
 JijModeling 2 からは、こうした振る舞いは廃止され、要素を順に走査する挙動になります。旧来の挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い`jm.rows(A)` または `A.rows()` と明示的に変換してください。
 :::
 
+:::{admonition} JijModeling における辞書の「集合」としての振る舞い
+:class: important
+
+JijModeling では、辞書型の式に対しても、**キーではなく値を走査する**集合のような振る舞いが定義されています。
+これは Python の {py:class}`dict` 型の挙動とは異なりますが、多次元配列の振る舞いとの整合性からあえてこの挙動を定めています。
+これにより、たとえば当初は多次元配列として定義されていたプレースホルダーや決定変数を、辞書として扱うようにコードを変更した際に、`x.sum()` のようなコードを変更せずに済むようになります。
+キー値ペアやキーを走査する集合のような振る舞いが必要な場合は、{py:meth}`~jijmodeling.Expression.items` や {py:meth}`~jijmodeling.Expression.keys` メソッドを使ってください。
+また、値を走査していることを明示したい場合は {py:meth}`~jijmodeling.Expression.values` メソッドを利用できます。
+:::
+
 基本的に集合への変換は自動的に行われますが、明示的に集合に変換したい場合は {py:func}`~jijmodeling.set` 関数を使うことができます。
 
 ### 集合の総和・総積

@@ -693,8 +693,8 @@ def _(problem: jm.DecoratedProblem):
         synergy_bonuses[i, k] * x[i, j] * x[k, j]
         for j in J
         # Use keys() to iterate over keys,
-        # items() key-value-pairs, and
-        # values() for values.
+        # items() key-value-pairs,
+        # values() or plain dictionary for values.
         for (i, k) in synergy_bonuses.keys()
     ) + jm.sum(base_revenues[i] * x[i, j] for i in I for j in J)
 

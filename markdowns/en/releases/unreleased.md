@@ -19,21 +19,54 @@ kernelspec:
 
 +++
 
-### Feature 1
+### Fix dictionary sum and convolution behavior
 
-+++
+Formerly, summation or folding on dictionaries were intended to be performed via {py:meth}`~jijmodeling.Expression.items`, {py:meth}`~jijmodeling.Expression.values`, and {py:meth}`~jijmodeling.Expression.keys`, and direct folding was not planned to be supported.
+However, up to the previous version, dictionary folding was mistakenly available, and it operated over the set of *keys* in the same way as Python dictionaries.
+From the standpoint of consistency with how Placeholder and DecisionVar multi-dimensional arrays, it is more natural for dictionaries to be folded over the set of values rather than keys.
+Given these, we have formalized this behavior as the official specification and re-implemented it accordingly.
+
+Below is an example of the fix.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("My Problem")
+I = problem.CategoryLabel("I")
+x = problem.BinaryVar("x", dict_keys=I)
+
+x.sum()  # Now behaves like the old x.values().sum()
+```
+
+### Improve display of decision variable bounds
+
+The bounds of decision variables are now displayed more clearly in $\LaTeX$ output.
+
+```{code-cell} ipython3
+problem = jm.Problem("problem")
+N = problem.Natural("N")
+M = problem.Natural("M")
+d = problem.Float("d", shape=(M,))
+L = problem.Float("L", shape=(N, M))
+x = problem.ContinuousVar(
+    "s", shape=(N, M), lower_bound=L, upper_bound=lambda i, j: d[j]
+)
+problem += x.sum()
+
+problem
+```
 
 ## Bugfixes
 
 +++
 
-### Bugfix 1: Fix issue where constraint detection could not handle indexed constraints correctly
+### Fix issue where constraint detection could not handle indexed constraints correctly
 
 In previous releases, when generating instances of optimization problems with indexed constraints, an unexpected error occurred if constraint detection was enabled (default state). This issue has been fixed.
 
 +++
 
-### Bugfix 2: Flatten nested subscripts in LaTeX output
+### Flatten nested subscripts in LaTeX output
 
 Nested subscripts like `x[i][j]` nodes now render as ${x}_{i,j}$ instead of the ${{x}_{i}}_{j}$ in LaTeX output.
 
