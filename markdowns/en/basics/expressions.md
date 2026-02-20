@@ -365,7 +365,7 @@ In JijModeling 2, this behavior was removed, and arrays now iterate over element
 If you want the old behavior, explicitly convert with {py:func}`~jijmodeling.rows`: use `jm.rows(A)` or `A.rows()`.
 :::
 
-:::{admonition} Dictionary "sets" in JijModeling
+:::{admonition} Dictionary as a "set" in JijModeling
 :class: important
 
 In JijModeling, dictionary expressions behave like sets that iterate over **values, not keys**.
