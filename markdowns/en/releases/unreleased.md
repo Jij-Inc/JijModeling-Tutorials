@@ -35,7 +35,7 @@ problem = jm.Problem("My Problem")
 I = problem.CategoryLabel("I")
 x = problem.BinaryVar("x", dict_keys=I)
 
-x.sum() # Now behaves like the old x.values().sum()
+x.sum()  # Now behaves like the old x.values().sum()
 ```
 
 ### Improve display of decision variable bounds
@@ -47,8 +47,9 @@ problem = jm.Problem("problem")
 N = problem.Natural("N")
 M = problem.Natural("M")
 d = problem.Float("d", shape=(M,))
+L = problem.Float("L", shape=(N, M))
 x = problem.ContinuousVar(
-    "s", shape=(N, M), lower_bound=0, upper_bound=lambda i, j: d[j]
+    "s", shape=(N, M), lower_bound=L, upper_bound=lambda i, j: d[j]
 )
 problem += x.sum()
 
