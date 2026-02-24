@@ -29,12 +29,13 @@ kernelspec:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+import ommx.v1
 
 problem = jm.Problem("My Problem")
 I = problem.CategoryLabel("I")
 x = problem.BinaryVar("x", dict_keys=I)
 
-x.sum() # 旧来の x.values().sum() と同じ挙動に
+x.sum()  # 旧来の x.values().sum() と同じ挙動に
 ```
 
 ### 決定変数の上下界の表示の改善
@@ -53,6 +54,38 @@ x = problem.ContinuousVar(
 problem += x.sum()
 
 problem
+```
+
+### 決定変数の値を固定する機能を追加
+
+{py:meth}`Problem.eval <jijmodeling.Problem.eval>` や {py:meth}`Compiler.from_problem <jijmodeling.Compiler.from_problem>` で、決定変数の値を（部分的に）固定する機能を追加しました。
+オプショナルなキーワード引数 `fixed_variables` に、固定したい変数名をキーとし、固定値または添え字から固定値への辞書を値とする辞書を渡すことで、変数の値を固定できます。
+固定された値は、対応する ommx の決定変数の `fixed_value` 属性に格納されます。
+
+```{code-cell} ipython3
+problem = jm.Problem("My Problem")
+N = problem.Length("N")
+x = problem.ContinuousVar("x", shape=(N, N), lower_bound=-10, upper_bound=10)
+y = problem.IntegerVar("y", lower_bound=0, upper_bound=10)
+problem += x.sum() + y
+
+compiler = jm.Compiler.from_problem(
+    problem,
+    {"N": 2},
+    fixed_variables={
+        "x": {(0, 1): 1, (1, 1): 5},
+        "y": 3,  # {(): 3} と書いてもよい
+    },
+)
+instance = compiler.eval_problem(problem)
+
+instance.objective
+```
+
+```{code-cell} ipython3
+x00 = compiler.get_decision_variable_by_name("x", (0, 0))
+x10 = compiler.get_decision_variable_by_name("x", (1, 0))
+assert instance.objective.almost_equal(ommx.v1.Function(x00 + x10 + 9))
 ```
 
 ## バグ修正
