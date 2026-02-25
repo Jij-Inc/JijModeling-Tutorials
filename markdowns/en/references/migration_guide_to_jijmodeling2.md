@@ -85,7 +85,6 @@ JijModeling 2 introduces several key changes that improve usability and safety:
 Here is the list of features currently missing in JijModeling 2 that existed in JijModeling 1:
 
 1. Complex AST traversal API
-2. Random Instance Generation
 
 These changes are planned after the official release of JijModeling 2:
 
