@@ -111,6 +111,11 @@ x = problem.BinaryVar("x", shape=(2, 2))
 x[0][1]
 ```
 
+### Improve errors for invalid decision variable definitions
+
+Previously, when bounds were specified incorrectly for decision variables, the compiler raised an unrecoverable exception that could not be caught with `try-except`.
+With this fix, a {py:class}`ValueError` is raised instead, and the error message is more informative.
+
 ## Other Changes
 
 - Change 1:
