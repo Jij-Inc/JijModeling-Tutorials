@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
+# JijModeling 2.2.0 Release Notes
 
 +++
 
@@ -115,7 +115,3 @@ x[0][1]
 
 Previously, when bounds were specified incorrectly for decision variables, the compiler raised an unrecoverable exception that could not be caught with `try-except`.
 With this fix, a {py:class}`ValueError` is raised instead, and the error message is more informative.
-
-## Other Changes
-
-- Change 1:
