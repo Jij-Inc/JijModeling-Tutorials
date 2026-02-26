@@ -21,9 +21,9 @@ kernelspec:
 
 ### 辞書の総和・畳み込みの挙動を修正
 
-辞書の総和・畳み込みは {py:meth}`~jijmodeling.Expression.items`, {py:meth}`~jijmodeling.Expression.values`, {py:meth}`~jijmodeling.Expression.keys` を介して行われる想定であり、直接畳み込みはサポートされていない予定でした。
-しかし、前バージョンまでは誤って辞書の畳み込みが提供されてしまっており、しかも Python の辞書の挙動と同じくキーの集合について行われるようになっていました。
-また、Placeholder や DecisionVar の多次元配列の畳み込みの挙動との整合性の観点から、辞書型はキーではなく値の集合として畳み込まれるのが自然であるため、こちらの挙動を正式な仕様として定め、こちらの挙動を実装しなおしました。
+辞書の総和・畳み込みは {py:meth}`~jijmodeling.Expression.items`, {py:meth}`~jijmodeling.Expression.values`, {py:meth}`~jijmodeling.Expression.keys` を介して行われる想定であり、直接畳み込みはサポートしない予定でした。
+しかし、前バージョンにおいて、誤って辞書の畳み込みが提供されてしまっており、しかも Python の辞書の挙動と同じくキーの集合について行われるようになっていました。
+Placeholder や DecisionVar の多次元配列の畳み込みの挙動との整合性の観点から、辞書型はキーではなく値の集合として畳み込まれる方が自然であるため、こちらの挙動を正式な仕様として定め、実装しなおしました。
 
 以下が今回の修正の例です。
 
