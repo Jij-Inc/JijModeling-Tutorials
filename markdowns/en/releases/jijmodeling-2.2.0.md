@@ -36,7 +36,9 @@ problem = jm.Problem("My Problem")
 I = problem.CategoryLabel("I")
 x = problem.BinaryVar("x", dict_keys=I)
 
-x.sum()  # Now behaves like the old x.values().sum()
+problem += x.sum()  # Now behaves like the old x.values().sum()
+
+problem
 ```
 
 ### Improve display of decision variable bounds

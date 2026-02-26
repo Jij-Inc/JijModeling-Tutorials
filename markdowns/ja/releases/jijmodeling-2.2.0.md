@@ -35,7 +35,9 @@ problem = jm.Problem("My Problem")
 I = problem.CategoryLabel("I")
 x = problem.BinaryVar("x", dict_keys=I)
 
-x.sum()  # 旧来の x.values().sum() と同じ挙動に
+problem += x.sum()  # Now behaves like the old x.values().sum()
+
+problem
 ```
 
 ### 決定変数の上下界の表示の改善
