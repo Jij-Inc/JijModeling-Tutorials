@@ -87,7 +87,6 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
 JijModeling 1 に存在し、現時点の JijModeling 2 で欠けている機能のは次のとおりです：
 
 1. 複雑な構文木書き換え API
-2. ランダムインスタンス生成機能
 
 また、JijModeling 2 正式リリース後に予定されている変更は以下の通りです：
 
@@ -701,7 +700,8 @@ def _(problem: jm.DecoratedProblem):
         for j in J
         # keys()でキーを、
         # items()でキー値ペアを、
-        # values()で値をイテレートできます
+        # values()で値をイテレートできます。
+        # デフォルトでは、Python と異なり値をイテレートします。
         for (i, k) in synergy_bonuses.keys()
     ) + jm.sum(base_revenues[i] * x[i, j] for i in I for j in J)
 
