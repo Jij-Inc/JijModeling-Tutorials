@@ -87,7 +87,6 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
 JijModeling 1 に存在し、現時点の JijModeling 2 で欠けている機能のは次のとおりです：
 
 1. 複雑な構文木書き換え API
-2. ランダムインスタンス生成機能
 
 また、JijModeling 2 正式リリース後に予定されている変更は以下の通りです：
 

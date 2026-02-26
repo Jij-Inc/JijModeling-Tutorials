@@ -30,6 +30,7 @@ Below is an example of the fix.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+import ommx.v1
 
 problem = jm.Problem("My Problem")
 I = problem.CategoryLabel("I")
@@ -56,6 +57,38 @@ problem += x.sum()
 problem
 ```
 
+### Add a feature to fix decision variable values
+
+We added a feature to (partially) fix decision variable values in {py:meth}`Problem.eval <jijmodeling.Problem.eval>` and {py:meth}`Compiler.from_problem <jijmodeling.Compiler.from_problem>`.
+You can pass a dictionary to the optional keyword argument `fixed_variables`, where the keys are variable names and the values are either fixed values or a dictionary mapping indices to fixed values.
+The substituted value will be stored in `fixed_value` attribute in the corresponding ommx decision variable(s).
+
+```{code-cell} ipython3
+problem = jm.Problem("My Problem")
+N = problem.Length("N")
+x = problem.ContinuousVar("x", shape=(N, N), lower_bound=-10, upper_bound=10)
+y = problem.IntegerVar("y", lower_bound=0, upper_bound=10)
+problem += x.sum() + y
+
+compiler = jm.Compiler.from_problem(
+    problem,
+    {"N": 2},
+    fixed_variables={
+        "x": {(0, 1): 1, (1, 1): 5},
+        "y": 3,  # You may also write {(): 3}
+    },
+)
+instance = compiler.eval_problem(problem)
+
+instance.objective
+```
+
+```{code-cell} ipython3
+x00 = compiler.get_decision_variable_by_name("x", (0, 0))
+x10 = compiler.get_decision_variable_by_name("x", (1, 0))
+assert instance.objective.almost_equal(ommx.v1.Function(x00 + x10 + 9))
+```
+
 ## Bugfixes
 
 +++
@@ -78,6 +111,11 @@ x = problem.BinaryVar("x", shape=(2, 2))
 x[0][1]
 ```
 
+### Improve errors for invalid decision variable definitions
+
+Previously, when bounds were specified incorrectly for decision variables, the compiler raised an unrecoverable exception that could not be caught with `try-except`.
+With this fix, a {py:class}`ValueError` is raised instead, and the error message is more informative.
+
 ## Other Changes
 
-- Change 1
+- Change 1:
