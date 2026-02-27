@@ -19,7 +19,7 @@ kernelspec:
 
 +++
 
-### `jm.range`追加
+### `jm.range` 追加
 
 {py:class}`jm.Expression` を使用した値シーケンスを表する関数、 {py:func}`jm.range` を追加しました。使い方は基本的にpython組み込みの `range` と似ています。
 
@@ -33,7 +33,7 @@ def problem(problem: jm.DecoratedProblem):
     S = problem.Natural()
     F = problem.Natural()
     N = problem.Natural()
-    x = problem.BinaryVar(shape=(N,))
+    x = problem.BinaryVar(shape=(10,))
     problem += jm.sum(x[i] for i in jm.range(S, F, N))
 ```
 
