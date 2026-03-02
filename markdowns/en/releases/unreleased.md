@@ -21,7 +21,7 @@ kernelspec:
 
 ### Added `jm.range()`
 
-With the {py:func}`jijmodeling.range()` function you can now represent sequences by using {py:class}`jm.Expression`s. Its usage is similar to python's built-in {py:func}`range`.
+With the {py:func}`jijmodeling.range()` function you can now represent sequences by using {py:class}`~jijmodeling.Expression`s. Its usage is similar to python's built-in {py:class}`range() <range>`.
 
 Example usage:
 
