@@ -21,7 +21,7 @@ kernelspec:
 
 ### `jm.range` 追加
 
-{py:class}`jm.Expression` を使用した値シーケンスを表する関数、 {py:func}`jm.range` を追加しました。使い方は基本的に python 組み込みの `range` と似ています。
+{py:class}`jm.Expression` を使用した値シーケンスを表する関数、 {py:func}`jijmodeling.range` を追加しました。使い方は基本的に python 組み込みの {py:func}`range` と似ています。
 
 例は以下の通りです:
 
