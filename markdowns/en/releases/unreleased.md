@@ -41,8 +41,9 @@ def problem(problem: jm.DecoratedProblem):
 
 +++
 
-### Bugfix 1
+### Bugfix: Proper handling of bound variables in slice notation
 
+The handling of bound variables in slice notation has been fixed, ensuring that variables bound in comprehensions or constraint indices are correctly handled within slice notation.
 
 ## Other Changes
 
