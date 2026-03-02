@@ -123,6 +123,11 @@ tasks:
           yq -i '.parts[-2].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .' "${TOC}"
         done
 
+  sync_unreleased:
+    desc: Synchorizes just the `unreleased.ipynb` files with thier respective markdown files.
+    cmds:
+      - uv run jupytext --sync --use-source-timestamp markdowns/*/releases/unreleased.md
+
   sync_paired_notebooks:
     desc: Synchronize paired notebooks and markdown files
     cmds:

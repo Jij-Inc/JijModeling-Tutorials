@@ -29,6 +29,7 @@ parts:
       - file: references/migration_guide_to_jijmodeling2
   - caption: リリースノート
     chapters:
+      - file: releases/unreleased
       - file: releases/jijmodeling-2.2.0
       - file: releases/jijmodeling-2.1.0
       - file: releases/jijmodeling-2.0.0
