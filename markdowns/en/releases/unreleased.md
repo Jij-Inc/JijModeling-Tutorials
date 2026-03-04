@@ -37,6 +37,22 @@ def problem(problem: jm.DecoratedProblem):
     problem += jm.sum(x[i] for i in jm.range(S, F, N))
 ```
 
+#### Support `-=` operator to update a `Problem`'s objective function
+
+You can now use `-=` to add subtracted terms from a {py:class}`~jijmodeling.Problem`'s objective function. 
+
+Unlike `+=`, `-=` does not support removing constraints.
+
+```{code-cell} ipython3
+problem = jm.Problem("problem")
+x = problem.ContinuousVar("x", lower_bound=0, upper_bound=5)
+y = problem.ContinuousVar("y", lower_bound=0, upper_bound=5)
+
+problem += x
+problem -= y
+assert jm.is_same(problem.objective, x - y)
+```
+
 ## Bugfixes
 
 +++
