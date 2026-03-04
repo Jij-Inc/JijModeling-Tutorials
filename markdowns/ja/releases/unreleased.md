@@ -37,6 +37,22 @@ def problem(problem: jm.DecoratedProblem):
     problem += jm.sum(x[i] for i in jm.range(S, F, N))
 ```
 
+#### `Problem`の`-=`演算子で目的関数更新の対応  
+
+{py:class}`~jijmodeling.Problem` に `-=` 演算子を追加しました。 `-=` を使って目的関数から項を引くことができます。
+
+`+=` と違って、 `-=` での制約削除は対応外となります。
+
+```{code-cell} ipython3
+problem = jm.Problem("problem")
+x = problem.ContinuousVar("x", lower_bound=0, upper_bound=5)
+y = problem.ContinuousVar("y", lower_bound=0, upper_bound=5)
+
+problem += x
+problem -= y
+assert jm.is_same(problem.objective, x - y)
+```
+
 ## バグ修正
 
 +++
