@@ -62,7 +62,8 @@ Since this version, the definitions of the dependent variables are included in t
 - The dependent variable is an array or dictionary of scalar values.
 
 They are now registered as dummy decision variables with decision_variable_dependency, and will be evaluated in OMMX Solution object after the optimization.
-This feature should be particularly useful when formulating multi-objective optimization - you can now inspect the actual values of each separate objectives after optimizations by declaring them as dependent variables and set the objective function as a combination of them.
+This feature should be particularly useful, for example, when you want to check the value of a specific subterm in the objective function.
+If you declare the term of interest as a {py:class}`~jijmodeling.DependentVar`, you can check its post-optimization value from the OMMX Solution.
 
 +++
 
