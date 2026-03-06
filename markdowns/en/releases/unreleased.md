@@ -37,7 +37,7 @@ def problem(problem: jm.DecoratedProblem):
     problem += jm.sum(x[i] for i in jm.range(S, F, N))
 ```
 
-#### Support `-=` operator to update a `Problem`'s objective function
+### Support `-=` operator to update a `Problem`'s objective function
 
 You can now use `-=` to add subtracted terms from a {py:class}`~jijmodeling.Problem`'s objective function. 
 
