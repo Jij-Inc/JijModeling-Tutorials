@@ -28,6 +28,7 @@ kernelspec:
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("RangeProblem")
 def problem(problem: jm.DecoratedProblem):
     S = problem.Natural()
@@ -37,7 +38,7 @@ def problem(problem: jm.DecoratedProblem):
     problem += jm.sum(x[i] for i in jm.range(S, F, N))
 ```
 
-#### `Problem`の`-=`演算子で目的関数更新の対応  
+### `Problem`の`-=`演算子で目的関数更新の対応  
 
 {py:class}`~jijmodeling.Problem` に `-=` 演算子を追加しました。 `-=` を使って目的関数から項を引くことができます。
 
@@ -60,6 +61,23 @@ assert jm.is_same(problem.objective, x - y)
 ### 修正：スライス記法内にバグ束縛変数が現れられるように
 
 スライス記法内の束縛変数の扱いを修正し、内包表記や制約の添え字で束縛された変数がスライス記法内で正しく扱われるようになりました。
+
+### 修正：添え字つき制約内での自然数上の総和・所属関係の $\LaTeX$ 出力の修正
+
+これまでの実装では、添え字つき制約の定義域が自然数であったり、総和の範囲が自然数であったりした場合、以下のように所属関係が $\in$ を使って出力されていました：
+
+$$
+\text{c1}:\quad\sum _{j\in {N}_{1}}{{x}_{i,j}}=1\quad \forall i\;\text{s.t.}\;i\in {N}_{0}
+$$
+
+本リリースから、目的関数や単独の制約の場合と同様、以下のように自然な出力が行われるようになりました：
+
+```{code-cell} ipython3
+problem = jm.Problem("P")
+N = problem.Natural("N", shape=2)
+x = problem.BinaryVar("x", shape=(N[0], N[1]))
+problem.Constraint("c1", lambda i: jm.sum(N[1], lambda j: x[i, j]) == 1, domain=N[0])
+```
 
 ## その他の変更
 

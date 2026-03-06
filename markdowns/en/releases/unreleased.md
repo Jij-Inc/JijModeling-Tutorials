@@ -33,11 +33,11 @@ def problem(problem: jm.DecoratedProblem):
     S = problem.Natural()
     F = problem.Natural()
     N = problem.Natural()
-    x = problem.BinaryVar(shape=(N,))
+    x = problem.BinaryVar(shape=(10,))
     problem += jm.sum(x[i] for i in jm.range(S, F, N))
 ```
 
-#### Support `-=` operator to update a `Problem`'s objective function
+### Support `-=` operator to update a `Problem`'s objective function
 
 You can now use `-=` to add subtracted terms from a {py:class}`~jijmodeling.Problem`'s objective function. 
 
@@ -61,6 +61,23 @@ assert jm.is_same(problem.objective, x - y)
 
 The handling of bound variables in slice notation has been fixed, ensuring that variables bound in comprehensions or constraint indices are correctly handled within slice notation.
 
+### Bugfix: LaTeX output for sums and membership relations over natural numbers in indexed constraints
+
+In previous versions, when the domain of an indexed constraint or the range of a summation was over natural numbers, the membership relation was output using $\in$, for example:
+
+$$
+\text{c1}:\quad\sum _{j\in {N}_{1}}{{x}_{i,j}}=1\quad \forall i\;\text{s.t.}\;i\in {N}_{0}
+$$
+
+Starting in this release, the output is made natural in the same way as objective functions and standalone constraints:
+
+```{code-cell} ipython3
+problem = jm.Problem("P")
+N = problem.Natural("N", shape=2)
+x = problem.BinaryVar("x", shape=(N[0], N[1]))
+problem.Constraint("c1", lambda i: jm.sum(N[1], lambda j: x[i, j]) == 1, domain=N[0])
+```
+
 ## Other Changes
 
-- Change 1
+- Change 1:
