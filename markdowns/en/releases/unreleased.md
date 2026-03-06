@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: .venv
   language: python
   name: python3
 ---
@@ -27,6 +27,7 @@ Example usage:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
 
 @jm.Problem.define("RangeProblem")
 def problem(problem: jm.DecoratedProblem):
@@ -52,6 +53,18 @@ problem += x
 problem -= y
 assert jm.is_same(problem.objective, x - y)
 ```
+
+### Dependent Variable information is now included in OMMX instance
+
+Since this version, the definitions of the dependent variables are included in the OMMX instance, if the following conditions are satisfied:
+
+- The dependent variable is scalar-valued, or
+- The dependent variable is an array or dictionary of scalar values.
+
+They are now registered as dummy decision variables with decision_variable_dependency, and will be evaluated in OMMX Solution object after the optimization.
+This feature should be particularly useful when formulating multi-objective optimization - you can now inspect the actual values of each separate objectives after optimizations by declaring them as dependent variables and set the objective function as a combination of them.
+
++++
 
 ## Bugfixes
 

@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: .venv
   language: python
   name: python3
 ---
@@ -53,6 +53,16 @@ problem += x
 problem -= y
 assert jm.is_same(problem.objective, x - y)
 ```
+
+### OMMX インスタンスに従属変数の情報を追加
+
+以下の条件を満たす場合、従属変数（{py:class}`~jijmodeling.DependentVar`）の定義が OMMX インスタンスに含まれるようになりました:
+
+- 従属変数がスカラー値である
+- 従属変数がスカラー値を成分に持つ配列または辞書である
+
+これらはダミーの決定変数として `decision_variable_dependency` に登録され、最適化後に OMMX Solution オブジェクトで評価されます。
+この機能は多目的最適化の定式化で特に有用です。従属変数として各項を宣言し、目的関数をそれらの組み合わせとして設定することで、最適化後に各目的の実際の値を確認できます。
 
 ## バグ修正
 
