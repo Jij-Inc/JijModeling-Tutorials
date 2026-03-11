@@ -76,7 +76,7 @@ problem.generate_random_dataset(options = {"A": {"value": range(50, 100)}, "B": 
 
 ## Array placeholders
 
-With array placeholders, values can be specified in much the same way as scalars. If the placeholder's `shape` is well defined, an array (potentially multi-dimensional) of values will be generated matching the shape, all within the `value` range (or `default`, if `value` isn't specified for this placeholder). 
+With array placeholders, values can be specified in much the same way as scalars. If the placeholder's `shape` is well defined, an array (potentially multi-dimensional) of values will be generated matching the shape, all within the `value` range (or `default`, if `value` isn't specified for this placeholder).
 
 ```{code-cell} ipython3
 problem = jm.Problem("my problem")
