@@ -51,7 +51,7 @@ A = problem.Natural("A")
 B = problem.Natural("B")
 problem += A * x + B
 
-problem.generate_random_dataset(default=range(1, 10))
+problem.generate_random_dataset(default={"value": range(1, 10)})
 ```
 
 In the above example, we don't use `options`, so we look to `default` when generating values for `A` and `B`. Both then get their own random value from within the default range.
@@ -65,7 +65,7 @@ Generated values will conform to types. That is, if you have a Natural Placehold
 Now, if we want to specify different ranges for `A` and `B`, we must pass a dictionary to `options`. Keys must match a placeholder's name, and values must be dictionaries specifying the options for that specific placeholder. In this scalar case, the only relevant option is `value`. We'll discuss other options that may go in the dictionary in future sections.
 
 ```{code-cell} ipython3
-problem.generate_random_dataset(default=range(1, 10), options={"A": {"value": range(50, 100)}})
+problem.generate_random_dataset(default={"value": range(1, 10)}, options={"A": {"value": range(50, 100)}})
 ```
 
 In the above example, we give `A` its own value range through `options`. Since we didn't specify `B`, `default` is still used for its values. We can also set both in `options`:

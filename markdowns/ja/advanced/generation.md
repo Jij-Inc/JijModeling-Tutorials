@@ -50,7 +50,7 @@ A = problem.Natural("A")
 B = problem.Natural("B")
 problem += A * x + B
 
-problem.generate_random_dataset(default=range(1, 10))
+problem.generate_random_dataset(default={"value": range(1, 10)})
 ```
 
 上記の例では、`options`がないため、 `A`と`B`の値の生成時は、`default`が参照されます。`range`の区間以内でそれぞれ別の値が生成されます。
@@ -64,7 +64,7 @@ problem.generate_random_dataset(default=range(1, 10))
 それでは、`options`辞書を使って、`A`と`B`に別々の範囲を指定したい場合をみてみましょう。プレースホルダーの名前がキー、値が該当プレースホルダーの生成オプションになります。オプションも複数あり得るので生成オプションも辞書なのですが、スカラーの場合`value`オプションのみが必要です。他のオプションは下記で説明します。
 
 ```{code-cell} ipython3
-problem.generate_random_dataset(default=range(1, 10), options={"A": {"value": range(50, 100)}})
+problem.generate_random_dataset(default={"value": range(1, 10)}, options={"A": {"value": range(50, 100)}})
 ```
 
 上記では、`options`を通じて`A`特定の値範囲を指定しています。`B`は`options`に入っていないため、以前通り`default`を参照しています。 両プレースホルダーを`options`に入れることも可能です：
