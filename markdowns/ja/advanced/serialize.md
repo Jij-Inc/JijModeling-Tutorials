@@ -11,6 +11,8 @@ kernelspec:
   name: python3
 ---
 
+# シリアライズ
+
 JijModeling で作られた数理モデルは、簡単に[Protobuf](https://protobuf.dev) でシリアライズすることができます。そうするには{py:func}`jijmodeling.to_protobuf`関数か`Problem.to_protobuf　<jijmodeling.Problem.to_protobuf>`メソッドを使います。
 
 ```{code-cell} ipython3

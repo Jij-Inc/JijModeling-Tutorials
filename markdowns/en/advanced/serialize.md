@@ -11,6 +11,8 @@ kernelspec:
   name: python3
 ---
 
+# Serialization
+
 JijModeling models can be easily serialized to [Protobuf](https://protobuf.dev) using the {py:func}`jijmodeling.to_protobuf` function or the {py:meth}`Problem.to_protobuf <jijmodeling.Problem.to_protobuf>` method.
 
 ```{code-cell} ipython3
