@@ -21,6 +21,9 @@ parts:
       - file: basics/expressions
       - file: basics/modeling
       - file: basics/instance_generation
+  - caption: Advanced
+    chapters:
+      - file: advanced/serialize
   - caption: リファレンス
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
