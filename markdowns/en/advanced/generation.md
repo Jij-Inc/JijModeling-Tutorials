@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: venv
   language: python
-  name: python3
+  name: venv
 ---
 
 # Using random instance generation
@@ -81,9 +81,9 @@ With array placeholders, values can be specified in much the same way as scalars
 ```{code-cell} ipython3
 problem = jm.Problem("my problem")
 # here we use a literal value for simplicity, but `shape` itself could be defined with a placeholder.
-x = jm.BinaryVar("x", shape=10)
-A = jm.Natural("A", shape=10)
-problem += jm.sum(lambda i: A[i] * x[i])
+x = problem.BinaryVar("x", shape=10)
+A = problem.Natural("A", shape=10)
+problem += jm.sum(10, lambda i: A[i] * x[i])
 
 problem.generate_random_dataset(options={"A": {"value": range(1,10)}})
 ```

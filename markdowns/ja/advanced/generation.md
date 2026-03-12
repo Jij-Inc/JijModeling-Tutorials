@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: venv
   language: python
-  name: python3
+  name: venv
 ---
 
 # インスタンスのランダム生成の使い方
@@ -80,9 +80,9 @@ problem.generate_random_dataset(options = {"A": {"value": range(50, 100)}, "B": 
 ```{code-cell} ipython3
 problem = jm.Problem("my problem")
 # この際、数値の10にしているが、shapeをプレースホルダーにしても問題ありません。
-x = jm.BinaryVar("x", shape=10)
-A = jm.Natural("A", shape=10)
-problem += jm.sum(lambda i: A[i] * x[i])
+x = problem.BinaryVar("x", shape=10)
+A = problem.Natural("A", shape=10)
+problem += jm.sum(10, lambda i: A[i] * x[i])
 
 problem.generate_random_dataset(options={"A": {"value": range(1,10)}})
 ```
@@ -136,8 +136,4 @@ problem.generate_random_dataset(
 { "C": {"keys": ["X", "Y", "Z"]}, "D": {"size": range(1, 3), "value": range(10, 100)} } } 
 # 1, 2, 3, or 4 keys will be picked at random:
 { "C": {"size": range(3, 10)}, "D": {"size": range(1, 5), "value": range(10, 100)} } } 
-```
-
-```{code-cell} ipython3
-
 ```
