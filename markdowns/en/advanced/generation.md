@@ -29,14 +29,14 @@ Neither of these is _required_. You don't need to set `default` if specifying `o
 
 Let's go over how to specify these parameters for different kinds of problems. 
 
-## The basics: Scalars
+## Setting `default` and `options`
 
 Our generation parameters `default` and `options` can be specified in several different  ways, namely:
 
 - A fixed value (just a number).
 - A Python `range`.
 - The object returned by one the many functions in the {py:mod}`jijmodeling.generation` submodule.
-- Ranges defined with tuples and dictionaries. Refer to the API docs for more details on how to use these.
+- Ranges defined with tuples and dictionaries. Refer to the API docs for {py:meth}`~jijmodeling.Problem.generate_random_dataset` for more details on how to use these.
 
 When using a fixed value, the placeholder will be set to that number. When using ranges (be they built-in python ranges, the ones from {py:mod}`jijmodeling.generation`, or defined by tuples/dictionaries), those will serve the boundary for generating random values.
 
@@ -58,8 +58,6 @@ In the above example, we don't use `options`, so we look to `default` when gener
 
 In this case we used a regular Python range, which are naturally `[closed, open)`, meaning the lower boundary is included, but the higher is excluded. (eg. `range(1,4)` is 1, 2 or 3, but not 4) The ranges provided in {py:mod}`jijmodeling.generation` provide additional options for defining ranges, like {py:func}`jijmodeling.generation.open` (neither of the bounds is included) or {py:func}`jijmodeling.generation.at_least` (include lower bound, infinty as upper bound). Python ranges are equivalent to {py:func}`jijmodeling.generation.closed_open`.
 
-`generation` has itself a couple of submodules: {py:mod}`jijmodeling.generation.size` and {py:mod}`jijmodeling.generation.value`. The functions provided by `generation` are dynamic, but the ones in the submodules are more explicit about types -- `size` being for natural numbers and `value` for floating point numbers. These are intended to be used respectively with the `size` and `value` options we'll discuss later. Otherwise, the same range functions are provided.
-
 Generated values will conform to types. That is, if you have a Natural Placeholder, only natural numbers will be generated for it, even if you use a range parameter including a negative number like `(-10, 10)`.
 
 Now, if we want to specify different ranges for `A` and `B`, we must pass a dictionary to `options`. Keys must match a placeholder's name, and values must be dictionaries specifying the options for that specific placeholder. In this scalar case, the only relevant option is `value`. We'll discuss other options that may go in the dictionary in future sections.
@@ -68,7 +66,7 @@ Now, if we want to specify different ranges for `A` and `B`, we must pass a dict
 problem.generate_random_dataset(default={"value": range(1, 10)}, options={"A": {"value": range(50, 100)}})
 ```
 
-In the above example, we give `A` its own value range through `options`. Since we didn't specify `B`, `default` is still used for its values. We can also set both in `options`:
+In the above example, we give `"A"` its own value range through `options`. Since we didn't specify `"B"`, `default` is still used for its values. We can also set both in `options`:
 
 ```{code-cell} ipython3
 problem.generate_random_dataset(options = {"A": {"value": range(50, 100)}, "B": {"value": range(1, 10)}})
