@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.1
 kernelspec:
-  display_name: venv
+  display_name: Python 3 (ipykernel)
   language: python
-  name: venv
+  name: python3
 ---
 
 # Using random instance generation
