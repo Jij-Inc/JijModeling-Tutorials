@@ -23,6 +23,7 @@ parts:
   - caption: Advanced
     chapters:
       - file: advanced/generation
+      - file: advanced/serialize
   - caption: Reference
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
