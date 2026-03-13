@@ -13,7 +13,7 @@ parts:
     chapters:
       - file: quickstart/scip
       - file: quickstart/openjij
-  - caption: Basic
+  - caption: Basics
     chapters:
       - file: basics/overview
       - file: basics/problem
