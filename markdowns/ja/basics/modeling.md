@@ -31,6 +31,12 @@ Problem オブジェクトが作成された初期段階では目的関数は $0
 {py:class}`~jijmodeling.Problem`オブジェクトが目的関数の項として受け付けるのは、数値型の {py:class}`~jijmodeling.Expression`オブジェクトのみです。
 配列型や辞書型などの式を足そうとすると型エラーとなるので注意してください。
 
+:::{admonition} 目的関数から項を「引く」操作
+:class: tip
+
+JijModeling 2.3.0 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
+:::
+
 具体的な例として、ナップサック問題の目的関数を設定してみましょう。
 
 ```{code-cell} ipython3

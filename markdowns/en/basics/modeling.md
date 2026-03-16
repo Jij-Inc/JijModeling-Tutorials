@@ -31,6 +31,12 @@ Right after a `Problem` is created, the objective is initialized to $0$, and you
 The {py:class}`~jijmodeling.Problem` object only accepts scalar {py:class}`~jijmodeling.Expression` objects as objective terms.
 If you attempt to add array-typed or dictionary-typed expressions, a type error will be raised.
 
+:::{admonition} Subtracting terms from the objective
+:class: tip
+
+Since JijModeling 2.3.0, you can also "subtract" scalar {py:class}`~jijmodeling.Expression` objects from the objective by using the {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on a {py:class}`~jijmodeling.Problem`.
+:::
+
 In JijModeling, you can add terms to the objective, but you cannot overwrite or delete the objective once set.
 In particular, `+=` adds a new term and does not replace existing terms.
 Consider the following example. First, we set the objective with only the term $x$.
