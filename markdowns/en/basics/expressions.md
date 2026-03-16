@@ -354,6 +354,7 @@ Strictly speaking, JijModeling sets correspond to **streams** or **iterators** i
 :::
 
 Some values are automatically converted to sets. For example, a multi-dimensional array becomes a set that scans elements in row-major order, a natural number $N$ becomes the set $\{0, 1, \ldots, N-1\}$, and a category label `L` becomes the set of all values of `L` given at compile time.
+Also, since JijModeling 2.3.0, the {py:func}`jijmodeling.range` function, corresponding to Python's built-in {py:class}`range() <range>`, is available for defining sets consisting of arithmetic progressions of natural numbers.
 
 :::{admonition} Change from JijModeling 1: arrays as "sets"
 :class: caution
