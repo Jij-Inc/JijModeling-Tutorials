@@ -126,6 +126,12 @@ When adding a constraint, always use the {py:meth}`+= <jijmodeling.Problem.__iad
 Simply calling {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` does not add the constraint to the model.
 :::
 
+:::{admonition} Removing constraints
+:class: important
+
+At present, there is no way to remove constraints from a model. In particular, note that you cannot "subtract" constraints from a model using the {py:func}`-= <jijmodeling.Problem.__isub__>` operator.
+:::
+
 +++
 
 ### Families of constraints
