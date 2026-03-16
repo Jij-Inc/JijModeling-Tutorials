@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
+# JijModeling 2.3.0 リリースノート
 
 +++
 
@@ -89,6 +89,6 @@ x = problem.BinaryVar("x", shape=(N[0], N[1]))
 problem.Constraint("c1", lambda i: jm.sum(N[1], lambda j: x[i, j]) == 1, domain=N[0])
 ```
 
-## その他の変更
+### 修正：未使用のプレースホルダーがある場合のランダムインスタンス生成で発生する復旧不能エラー
 
-- 変更 1：
+問題定義に未使用のプレースホルダーが含まれていた場合、ランダムインスタンス生成時に panic が発生する不具合を修正しました。

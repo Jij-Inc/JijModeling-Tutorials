@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
+# JijModeling 2.3.0 Release Notes
 
 +++
 
@@ -92,6 +92,6 @@ x = problem.BinaryVar("x", shape=(N[0], N[1]))
 problem.Constraint("c1", lambda i: jm.sum(N[1], lambda j: x[i, j]) == 1, domain=N[0])
 ```
 
-## Other Changes
+### Bugfix: Fixes unrecoverable error in random instance generation under unused placeholder
 
-- Change 1:
+We have fixed the bug where the random instance generation panics under the presence of an unused placeholder in the problem definition.
