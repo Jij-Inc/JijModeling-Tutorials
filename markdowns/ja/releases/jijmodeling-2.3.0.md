@@ -42,7 +42,7 @@ def problem(problem: jm.DecoratedProblem):
 
 {py:class}`~jijmodeling.Problem` に `-=` 演算子を追加しました。 `-=` を使って目的関数から項を引くことができます。
 
-`+=` と違って、 `-=` での制約削除は対応外となります。
+`+=` とは異なり、 `-=` で制約条件を削除することはできません。
 
 ```{code-cell} ipython3
 problem = jm.Problem("problem")
