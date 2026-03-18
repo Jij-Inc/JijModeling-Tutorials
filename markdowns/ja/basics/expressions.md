@@ -147,7 +147,7 @@ except Exception as e:
 
 | 型名 | 説明 |
 | --- | --- |
-| `ExpressionLike` | {py:class}`~jijmodeling.Expression` に変換することができる型を表す。 {py:class}`~jijmodeling.Expression` 自身の他、{py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.DependentVar`や、Python の数値、文字列、それらからなるタプル、リスト・辞書・Numpy配列などが文脈に応じて使えます。 |
+| `ExpressionLike` | {py:class}`~jijmodeling.Expression` に変換することができる型を表す。 {py:class}`~jijmodeling.Expression` 自身の他、{py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr`や、Python の数値、文字列、それらからなるタプル、リスト・辞書・Numpy配列などが文脈に応じて使えます。 |
 | `ExpressoinFunction` | 一つ以上の {py:class}`~jijmodeling.Expression` オブジェクトを取り、 {py:class}`~jijmodeling.Expression` を返す関数。Pythonの型ヒントの仕組み上、最大5つの引数までしか列挙していませんが、実際には引数の個数に上限はありません。 |
 
 :::

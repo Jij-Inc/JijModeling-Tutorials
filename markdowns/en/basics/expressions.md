@@ -154,7 +154,7 @@ Specifically, you can think of them as follows:
 
 | Type name | Description |
 | --- | --- |
-| `ExpressionLike` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.DependentVar`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
+| `ExpressionLike` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
 | `ExpressionFunction` | A function that takes one or more {py:class}`~jijmodeling.Expression` objects and returns a {py:class}`~jijmodeling.Expression`. In Python type hints, only up to 5 arguments are enumerated, but in practice there is no limit on the number of arguments. |
 
 :::

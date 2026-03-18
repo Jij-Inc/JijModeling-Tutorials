@@ -59,19 +59,16 @@ assert jm.is_same(problem.objective, x - y)
 Before JijModeling 2.3, there was a `DependentVar` class for representing dependent variables.
 Despite the name, this feature could also be used to define values that do not depend on variables, such as the length of a Placeholder.
 Because this could be confusing, the `DependentVar` class has been deprecated and replaced by the {py:class}`~jijmodeling.NamedExpr` class, which provides the same functionality.
-{py:func}`~jijmodeling.Problem.DependentVar` is now an alias of {py:func}`~jijmodeling.Problem.NamedExpr` and is scheduled for removal.
+{py:meth}`~jijmodeling.Problem.DependentVar` is now an alias of {py:meth}`~jijmodeling.Problem.NamedExpr` and is scheduled for removal.
 
-Two constructors are provided for {py:class}`~jijmodeling.NamedExpr`: {py:func}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` and {py:func}`Problem.Constant() <jijmodeling.Problem.Constant>`.
-In the Decorator API, both allow omitting the variable name.
-Expressions defined with {py:func}`~jijmodeling.Problem.NamedExpr` are registered as `NamedFunction`s in the OMMX instance under the conditions below, whereas expressions defined with {py:func}`~jijmodeling.Problem.Constant` are not registered in the OMMX instance.
-
-The specific conditions under which an expression defined with {py:func}`~jijmodeling.Problem.NamedExpr` is included in the OMMX instance are as follows:
+{py:class}`~jijmodeling.NamedExpr` objects can be constructed with the {py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` method, and in the Decorator API the variable name can be omitted.
+In addition, when the `save_in_ommx` keyword argument is set to `True`, expressions defined with {py:meth}`~jijmodeling.Problem.NamedExpr` are included in the OMMX instance under the following conditions:
 
 - The expression is scalar-valued
 - The expression is an array or dictionary of scalar values
 
-These are registered in the OMMX instance as {py:class}`ommx.v1.NamedFunction`, and after optimization their evaluated values can also be inspected from the OMMX Solution object.
-This feature is useful, for example, when you want to check the value of a specific subterm of the objective function.
+These are registered in the OMMX instance as {py:class}`ommx.v1.NamedFunction`, and after solving their evaluated values can also be inspected from the OMMX Solution object.
+This feature is useful, for example, when you want to assign names in LaTeX to frequently used expressions, or when you want to check the value of a specific subterm of the objective function.
 If you declare the term of interest as a {py:class}`~jijmodeling.NamedExpr`, you can inspect the value of that subterm after optimization from the OMMX Solution.
 
 For details, see {doc}`../advanced/named_expr`.
