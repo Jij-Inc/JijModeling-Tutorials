@@ -54,15 +54,24 @@ problem -= y
 assert jm.is_same(problem.objective, x - y)
 ```
 
-### OMMX インスタンスに従属変数の情報を追加
+### `DependentVar` が `NamedExpr` と `Constant` に
 
-以下の条件を満たす場合、従属変数（{py:class}`~jijmodeling.DependentVar`）の定義が OMMX インスタンスに含まれるようになりました:
+JijModeling 2.3 以前では、依存変数を表す `DependentVar` クラスが存在していました。
+名前の印象に反し、この機能は Placeholder の長さなど変数に依存しないような値を定義するためにも用いることができました。
+この状況は混乱を招く恐れがあるため、 `DependentVar` クラスは廃止され、同様の機能を提供する {py:class}`~jijmodeling.NamedExpr` クラスが定義されるようになり、{py:func}`~jijmodeling.Problem.DependentVar` は {py:func}`~jijmodeling.Problem.NamedExpr` のエイリアスとなり、廃止予定となりました。
+
+{py:class}`~jijmodeling.NamedExpr` クラスの構築子としては、 {py:func}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` および {py:func}`Problem.Constant() <jijmodeling.Problem.Constant>` メソッドの二種類が提供されており、いずれも Decorator API では変数名の省略が可能です。
+{py:func}`~jijmodeling.Problem.NamedExpr` で定義された式は一定の条件の下で OMMX instance に `NamedFunction` として登録される一方、{py:func}`~jijmodeling.Problem.Constant` で定義された式は OMMX instance 上には登録されないという違いがあります。
+
+{py:func}`~jijmodeling.Problem.NamedExpr`で定義された式が OMMX インスタンスに含まれるようになる具体的な条件は以下の通りです:
 
 - 従属変数がスカラー値である
 - 従属変数がスカラー値を成分に持つ配列または辞書である
 
-これらはダミーの決定変数として `decision_variable_dependency` に登録され、最適化後に OMMX Solution オブジェクトで評価されます。
-この機能は、たとえば目的関数の特定の部分項の値を確認したい場合に便利です。興味のある項を {py:class}`~jijmodeling.DependentVar` として宣言しておくと、OMMX Solution から最適化後の値が確認できるようになります。
+これらは {py:class}`ommx.v1.NamedFunction` として OMMX インスタンスに登録され、最適化後には OMMX Solution オブジェクトでも評価後の値を知ることができるようになります。
+この機能は、たとえば目的関数の特定の部分項の値を確認したい場合に便利です。興味のある項を {py:class}`~jijmodeling.NamedExpr` として宣言しておくと、OMMX Solution から最適化後の部分項の値が確認できるようになります。
+
+詳細については {doc}`../advanced/named_expr` を御参照ください。
 
 ## バグ修正
 

@@ -54,16 +54,27 @@ problem -= y
 assert jm.is_same(problem.objective, x - y)
 ```
 
-### Dependent Variable information is now included in OMMX instance
+### `DependentVar` becomes `NamedExpr` and `Constant`
 
-Since this version, the definitions of the dependent variables are included in the OMMX instance, if the following conditions are satisfied:
+Before JijModeling 2.3, there was a `DependentVar` class for representing dependent variables.
+Despite the name, this feature could also be used to define values that do not depend on variables, such as the length of a Placeholder.
+Because this could be confusing, the `DependentVar` class has been deprecated and replaced by the {py:class}`~jijmodeling.NamedExpr` class, which provides the same functionality.
+{py:func}`~jijmodeling.Problem.DependentVar` is now an alias of {py:func}`~jijmodeling.Problem.NamedExpr` and is scheduled for removal.
 
-- The dependent variable is scalar-valued, or
-- The dependent variable is an array or dictionary of scalar values.
+Two constructors are provided for {py:class}`~jijmodeling.NamedExpr`: {py:func}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` and {py:func}`Problem.Constant() <jijmodeling.Problem.Constant>`.
+In the Decorator API, both allow omitting the variable name.
+Expressions defined with {py:func}`~jijmodeling.Problem.NamedExpr` are registered as `NamedFunction`s in the OMMX instance under the conditions below, whereas expressions defined with {py:func}`~jijmodeling.Problem.Constant` are not registered in the OMMX instance.
 
-They are now registered as dummy decision variables with decision_variable_dependency, and will be evaluated in OMMX Solution object after the optimization.
-This feature should be particularly useful, for example, when you want to check the value of a specific subterm in the objective function.
-If you declare the term of interest as a {py:class}`~jijmodeling.DependentVar`, you can check its post-optimization value from the OMMX Solution.
+The specific conditions under which an expression defined with {py:func}`~jijmodeling.Problem.NamedExpr` is included in the OMMX instance are as follows:
+
+- The expression is scalar-valued
+- The expression is an array or dictionary of scalar values
+
+These are registered in the OMMX instance as {py:class}`ommx.v1.NamedFunction`, and after optimization their evaluated values can also be inspected from the OMMX Solution object.
+This feature is useful, for example, when you want to check the value of a specific subterm of the objective function.
+If you declare the term of interest as a {py:class}`~jijmodeling.NamedExpr`, you can inspect the value of that subterm after optimization from the OMMX Solution.
+
+For details, see {doc}`../advanced/named_expr`.
 
 +++
 
