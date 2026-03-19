@@ -54,20 +54,11 @@ problem -= y
 assert jm.is_same(problem.objective, x - y)
 ```
 
-### `DependentVar` が `NamedExpr` と `Constant` に
+### `DependentVar` が `NamedExpr` に
 
 JijModeling 2.3 以前では、依存変数を表す `DependentVar` クラスが存在していました。
 名前の印象に反し、この機能は Placeholder の長さなど変数に依存しないような値を定義するためにも用いることができました。
 この状況は混乱を招く恐れがあるため、 `DependentVar` クラスは廃止され、同様の機能を提供する {py:class}`~jijmodeling.NamedExpr` クラスが定義され、{py:meth}`~jijmodeling.Problem.DependentVar` は {py:meth}`~jijmodeling.Problem.NamedExpr` のエイリアスとなり、廃止予定となりました。
-
-{py:class}`~jijmodeling.NamedExpr` オブジェクトは{py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` メソッドにより構築でき、また Decorator API では変数名の省略が可能です。
-また、`save_in_ommx`キーワード引数を `True` に指定すると、以下の条件の下で {py:meth}`~jijmodeling.Problem.NamedExpr` で定義された式が OMMX インスタンスに含まれるようになります:
-
-- 従属変数がスカラー値である
-- 従属変数がスカラー値を成分に持つ配列または辞書である
-
-これらは {py:class}`ommx.v1.NamedFunction` として OMMX インスタンスに登録され、求解後には OMMX Solution オブジェクトでも評価後の値を知ることができるようになります。
-この機能は、頻出の式に LaTeX 上で名前をつけたいときや、目的関数の特定の部分項の値を確認したい場合に便利です。興味のある項を {py:class}`~jijmodeling.NamedExpr` として宣言しておくと、OMMX Solution から最適化後の部分項の値が確認できるようになります。
 
 詳細については {doc}`../advanced/named_expr` を御参照ください。
 
