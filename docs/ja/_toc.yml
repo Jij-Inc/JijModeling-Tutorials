@@ -23,6 +23,7 @@ parts:
       - file: basics/instance_generation
   - caption: Advanced
     chapters:
+      - file: advanced/named_expr
       - file: advanced/generation
       - file: advanced/serialize
   - caption: Reference
