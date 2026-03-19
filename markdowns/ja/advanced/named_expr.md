@@ -107,10 +107,10 @@ assert instance_named.constraints[0].function.almost_equal(
 
 ## {py:class}`~jijmodeling.NamedExpr` の OMMX インタンスへの保存
 
-:::{admonition} OMMX v2.5.0以降で利用可能
+:::{admonition} OMMX v2.5.0 以降で利用可能
 :class: important
 
-以下で説明する保存機能の前提となる機能がOMMX v2.5.0で追加されています。そのため、保存機能を利用する場合は、OMMX v2.5.0以降をご利用ください。
+以下で説明する保存機能の前提となる機能が OMMX v2.5.0 で追加されています。そのため、保存機能を利用する場合は、OMMX v2.5.0 以降をご利用ください。
 :::
 
 上の例では {py:class}`~jijmodeling.NamedExpr` の定義式にはプレースホルダーしか現れませんでしたが、実際には任意の式に名前をつけることができ、特に決定変数が現れるような式も命名することができます。
