@@ -16,7 +16,7 @@ kernelspec:
 JijModeling には特定の式に名前をつける機能があり、以下のような場面で効力を発揮します：
 
 1. 複雑な式に対し名前をつけて、数式出力を見やすくする
-2. 目的関数の部分項など、求解後に値を確認したい決定変数を含む式の情報を OMMX に保存させ、自動的に評価させる
+2. 目的関数の部分項など、求解後に値を確認したい式の情報を OMMX に保存させ、自動的に評価させる
 
 本節では、これらの用途を念頭に JijModeling で名前つきの式を定義する方法について説明します。
 
@@ -124,7 +124,47 @@ assert instance_named.constraints[0].function.almost_equal(
 2. スカラー式を成分に持つ配列または辞書である
    - この場合、式は添え字ごとに個別の NamedFunction として分解されて保存されます。
 
-上記以外の場合に `save_in_ommx=True` が指定された場合、`NamedExpr` の宣言時に例外となります。
+上記以外の式に対して `save_in_ommx=True` が指定された場合、以下のように `NamedExpr` の宣言時に例外となります。
+
+```{code-cell} ipython3
+problem = jm.Problem("Errornous Problem")
+N = problem.Natural("N")
+try:
+    # bool 式を保存しようとしてみる
+    problem.NamedExpr("bool", N == 2, save_in_ommx=True)
+except Exception as e:
+    print(e)
+```
+
+```{code-cell} ipython3
+L = problem.CategoryLabel("L")
+try:
+    # カテゴリラベルのリストを保存しようとしてみる
+    problem.NamedExpr("category_labels", L, save_in_ommx=True)
+except Exception as e:
+    print(e)
+```
+
+```{code-cell} ipython3
+x = problem.BinaryVar("M", shape=(N, N, N))
+
+try:
+    # x の「内側の配列」からなる配列を保存しようとしてみる
+    # これは「スカラー式の二次元配列」から成る一次元配列となり、
+    # 現状の JijModeling ではネストされた配列の OMMX への保存には対応していないためエラーとなる
+    problem.NamedExpr("array_of_array", x.rows(), save_in_ommx=True)
+except Exception as e:
+    print(e)
+```
+
+```{code-cell} ipython3
+# x 自身は単なる（ネストしていない）三次元配列なので、問題なく保存できる
+problem.NamedExpr("threed", x, save_in_ommx=True)
+```
+
+一方で、`save_in_ommx` を指定しないか `False` を指定した場合には、こうした式も問題なく `NamedExpr` として宣言することができます。
+
++++
 
 例を見てみましょう。ナップサック問題において、評価後に実際にナップサックに入れられたアイテムの総重量や、個別のアイテムの単位重さ当りの価値の寄与を知りたかったとします。
 

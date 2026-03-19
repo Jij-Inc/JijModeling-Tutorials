@@ -16,7 +16,7 @@ kernelspec:
 JijModeling provides a way to assign a name to a specific expression, which is useful in situations such as:
 
 1. Naming complex expressions to make mathematical output easier to read
-2. Saving information about expressions that include decision variables, such as partial terms of the objective, into OMMX so they can be evaluated automatically after solving
+2. Saving information about expressions, such as partial terms of the objective whose values you want to inspect after solving, into OMMX so they can be evaluated automatically
 
 This section explains how to define named expressions in JijModeling with these use cases in mind.
 
@@ -125,7 +125,48 @@ With that in mind, a `NamedExpr` can be saved in an OMMX instance with `save_in_
 2. An array or dictionary whose elements are scalar expressions
    - In this case, the expression is decomposed and saved as separate `NamedFunction`s for each index.
 
-If `save_in_ommx=True` is specified for anything else, an exception is raised when the `NamedExpr` is declared.
+If `save_in_ommx=True` is specified for any other kind of expression, an exception is raised when the `NamedExpr` is declared, as in the following examples.
+
+```{code-cell} ipython3
+problem = jm.Problem("Errornous Problem")
+N = problem.Natural("N")
+try:
+    # Try saving a boolean expression.
+    problem.NamedExpr("bool", N == 2, save_in_ommx=True)
+except Exception as e:
+    print(e)
+```
+
+```{code-cell} ipython3
+L = problem.CategoryLabel("L")
+try:
+    # Try saving a list of category labels.
+    problem.NamedExpr("category_labels", L, save_in_ommx=True)
+except Exception as e:
+    print(e)
+```
+
+```{code-cell} ipython3
+x = problem.BinaryVar("M", shape=(N, N, N))
+
+try:
+    # Try saving an array whose elements are the "inner arrays" of x.
+    # This becomes a one-dimensional array of two-dimensional arrays of scalar expressions.
+    # Current JijModeling does not support saving nested arrays into OMMX,
+    # so this raises an error.
+    problem.NamedExpr("array_of_array", x.rows(), save_in_ommx=True)
+except Exception as e:
+    print(e)
+```
+
+```{code-cell} ipython3
+# x itself is just a plain three-dimensional array, so it can be saved without issues.
+problem.NamedExpr("threed", x, save_in_ommx=True)
+```
+
+On the other hand, if `save_in_ommx` is omitted or set to `False`, such expressions can still be declared as `NamedExpr`s without any problem.
+
++++
 
 Let's look at an example. In the knapsack problem, suppose we want to inspect the total weight of the items actually placed in the knapsack after evaluation, as well as the contribution of each item in terms of value per unit weight.
 
