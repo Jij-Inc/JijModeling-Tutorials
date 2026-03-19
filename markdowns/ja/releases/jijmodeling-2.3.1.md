@@ -57,8 +57,8 @@ assert jm.is_same(problem.objective, x - y)
 ### `DependentVar` が `NamedExpr` に
 
 JijModeling 2.3 以前では、依存変数を表す `DependentVar` クラスが存在していました。
-名前の印象に反し、この機能は Placeholder の長さなど変数に依存しないような値を定義するためにも用いることができました。
-この状況は混乱を招く恐れがあるため、 `DependentVar` クラスは廃止され、同様の機能を提供する {py:class}`~jijmodeling.NamedExpr` クラスが定義され、{py:meth}`~jijmodeling.Problem.DependentVar` は {py:meth}`~jijmodeling.Problem.NamedExpr` のエイリアスとなり、廃止予定となりました。
+名前の印象に反し、この機能は Placeholder の長さなど決定変数に依存しないような値を定義するためにも用いることができました。
+この状況は混乱を招く恐れがあるため、 `DependentVar` クラスは廃止され、同様の機能を提供する {py:class}`~jijmodeling.NamedExpr` クラスが定義されました。今後は {py:class}`~jijmodeling.NamedExpr` をご利用ください。
 
 詳細については {doc}`../advanced/named_expr` を御参照ください。
 
