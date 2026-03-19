@@ -15,9 +15,8 @@ kernelspec:
 
 JijModeling provides a way to assign a name to a specific expression, which is useful in situations such as:
 
-1. Binding frequently used expressions to temporary variables and reusing them while building a model
-2. Naming complex expressions to make mathematical output easier to read
-3. Saving information about expressions that include decision variables, such as partial terms of the objective, into OMMX so they can be evaluated automatically after solving
+1. Naming complex expressions to make mathematical output easier to read
+2. Saving information about expressions that include decision variables, such as partial terms of the objective, into OMMX so they can be evaluated automatically after solving
 
 This section explains how to define named expressions in JijModeling with these use cases in mind.
 
@@ -108,11 +107,11 @@ assert instance_named.constraints[0].function.almost_equal(
 
 ## Saving {py:class}`~jijmodeling.NamedExpr` in OMMX instances
 
-:::{admonition} NamedFunction support requires OMMX 2.5.0 or later
+:::{admonition} Available in OMMX v2.5.0 or later
 :class: important
 
-The functionality required for the workflow below was added in OMMX 2.5.0.
-Therefore, OMMX 2.5.0 or later is required to use it.
+The functionality required for the saving feature described below was added in OMMX v2.5.0.
+If you want to use this feature, use OMMX v2.5.0 or later.
 :::
 
 In the example above, the definition of {py:class}`~jijmodeling.NamedExpr` contains only placeholders, but in fact you can name arbitrary expressions, including expressions that contain decision variables.
