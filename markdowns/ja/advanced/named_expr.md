@@ -13,18 +13,9 @@ kernelspec:
 
 # 式の命名とインスタンスへの保存
 
-JijModeling には特定の式に名前をつける機能があり、以下のような場面で効力を発揮します：
-
-1. 複雑な式に対し名前をつけて、数式出力を見やすくする
-2. 目的関数の部分項など、求解後に値を確認したい式の情報を OMMX に保存させ、自動的に評価させる
-
-本節では、これらの用途を念頭に JijModeling で名前つきの式を定義する方法について説明します。
-
-## {py:class}`~jijmodeling.NamedExpr` クラス
-
-JijModeling では、名前つきの式を表すクラスとして {py:class}`~jijmodeling.NamedExpr` クラスが提供されています。
+JijModeling では、名前つきの式を表すクラスとして {py:class}`~jijmodeling.NamedExpr` クラスが提供されており、
 決定変数やプレースホルダーと同様に、{py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` メソッドを使って宣言することができます。
-{py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` は以下の引数を取ります：
+{py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` の引数は以下の通りです。
 
 | 引数 | 型 | 説明 |
 | :-- | :--: | :-- |
@@ -34,8 +25,19 @@ JijModeling では、名前つきの式を表すクラスとして {py:class}`~j
 | `latex` | `Optional[str]` | 省略可。名前つき式の $\LaTeX$ 表現。数式出力時に使用されます。 |
 | `save_in_ommx` | `bool` | 省略可（デフォルト：`False`）。`True` にすると、後述する条件を満たす場合、OMMX インスタンスに {py:class}`ommx.v1.NamedFunction` として保存されます。 |
 
-例を見てみましょう。ナップサック問題において、アイテム数$N$をインスタンスデータとして与えるのではなく、各アイテムの重さを表すプレースホルダー配列 $w$ の長さから推論することを考えます。
-まずは、{py:meth}`~jijmodeling.Problem.NamedExpr` を使わずに定式化すると以下のようになります：
+{py:class}`~jijmodeling.NamedExpr` には、以下の2つのパターンの使い方があります。
+
+1. 特定の式に対して名前をつけて $\LaTeX$ 表示を見やすくする
+2. 特定の式をOMMXインスタンスに保存して求解後にその式の値を評価する
+
+本ドキュメントでは、{py:class}`~jijmodeling.NamedExpr` のこれらの使い方について具体例を交えながら説明していきます。
+
++++
+
+# 式の命名
+
+特定の式に対して名前をつけて $\LaTeX$ 表示を見やすくする例を見てみましょう。ナップサック問題において、アイテム数$N$をインスタンスデータとして与えるのではなく、各アイテムの重さを表すプレースホルダー配列 $w$ の長さから推論することを考えます。
+まずは、{py:meth}`~jijmodeling.Problem.NamedExpr` を使わずに定式化すると以下のようになります。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -45,6 +47,7 @@ import jijmodeling as jm
 def knapsack_unnamed(problem: jm.DecoratedProblem):
     W = problem.Float(description="maximum weight capacity of the knapsack")
     w = problem.Float(ndim=1, description="weight of each item")
+    # w の長さから N を推論させる
     N = w.len_at(0)
     v = problem.Float(shape=(N,), description="value of each item")
     x = problem.BinaryVar(
@@ -58,15 +61,15 @@ def knapsack_unnamed(problem: jm.DecoratedProblem):
 knapsack_unnamed
 ```
 
-期待通り $W, w, v$ のみの三つのインスタンスデータを与えればよいようになっていますが、$N$ の定義式 `len_at(w, 0)` が定義中で展開されてしまっており、特に総和の範囲などがみづらくなっています。
-そこで、$N$ を {py:meth}`~jijmodeling.Problem.NamedExpr` を使って定義してみましょう：
+$\LaTeX$ 表示を見るとわかる通り、$N$ の定義式 `len_at(w, 0)` が定義中で展開されてしまっており、特に総和の範囲などがみづらくなっています。
+そこで、$N$ を {py:meth}`~jijmodeling.Problem.NamedExpr` を使って定義してみましょう。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
 def knapsack(problem: jm.DecoratedProblem):
     W = problem.Float(description="maximum weight capacity of the knapsack")
     w = problem.Float(ndim=1, description="weight of each item")
-    # N が NamedExpr に 包まれている！
+    # w の長さに対して NamedExpr を利用して N という名前をつける
     N = problem.NamedExpr(w.len_at(0), description="Length of w")
     v = problem.Float(shape=(N,), description="value of each item")
     x = problem.BinaryVar(
@@ -80,14 +83,11 @@ def knapsack(problem: jm.DecoratedProblem):
 knapsack
 ```
 
-末尾の `Named Expressions` 節に $N$ の定義式が現れ、残りの数式中でも$N$として表示されるようになりました。
-また、問題に対する `NamedExpr` の一覧辞書を `problem.named_exprs` で確認することができます：
+末尾の `Named Expressions` 節に $N$ の定義式が現れ、残りの数式中でも$N$として表示されるようになり、$\LaTeX$ 表示としても見やすくなりました。
 
-```{code-cell} ipython3
-knapsack.named_exprs
-```
++++
 
-$N$ は JijModeling のモデル中では独立した変数として扱われますが、インスタンスへのコンパイル時には自動的に定義が展開され、NamedExpr を使わない場合と同値なインスタンスが得られます。
+また、{py:meth}`~jijmodeling.Problem.NamedExpr` で定義された $N$ は JijModeling のモデル中では変数の一種として扱われますが、コンパイル時に自動で展開されるため、{py:meth}`~jijmodeling.Problem.NamedExpr` の有無でOMMXインスタンスが変わることはありません。
 
 ```{code-cell} ipython3
 knapsack_instance_data = {
@@ -105,68 +105,89 @@ assert instance_named.constraints[0].function.almost_equal(
 )
 ```
 
-## {py:class}`~jijmodeling.NamedExpr` の OMMX インタンスへの保存
-
-:::{admonition} OMMX v2.5.0 以降で利用可能
-:class: important
-
-以下で説明する保存機能の前提となる機能が OMMX v2.5.0 で追加されています。そのため、保存機能を利用する場合は、OMMX v2.5.0 以降をご利用ください。
+:::{tip}
+数理モデルに登録されている {py:class}`~jijmodeling.NamedExpr` の一覧は、{py:meth}`jijmodeling.Problem.named_exprs` で確認できます。
 :::
 
-上の例では {py:class}`~jijmodeling.NamedExpr` の定義式にはプレースホルダーしか現れませんでしたが、実際には任意の式に名前をつけることができ、特に決定変数が現れるような式も命名することができます。
-また、上述の通り `save_in_ommx` を `True` に設定すると、特定の条件を満たす場合 OMMX インスタンスに {py:class}`ommx.v1.NamedFunction` として保存されます。
-{py:class}`ommx.v1.NamedFunction` は OMMX における {py:class}`jijmodeling.NamedExpr` の対応物であり、特に OMMX の関数（{py:class}`ommx.v1.Function`）＝「決定変数に関する実数値の関数」（以下**スカラー式**と呼びます）に名前をつけて保存することができるものです。
-また、求解後の {py:class}`ommx.v1.Solution` オブジェクトでは、決定変数の値に基づいて自動的に値が計算されるという特徴もあります。
++++
 
-以上を踏まえ、`save_in_ommx=True` により OMMX インスタンスに保存できる条件は以下のいずれかです：
+## インタンスへの保存
 
-1. スカラー式
-2. スカラー式を成分に持つ配列または辞書である
-   - この場合、式は添え字ごとに個別の NamedFunction として分解されて保存されます。
+{py:class}`~jijmodeling.Problem.NamedExpr` の `save_in_ommx` 引数に `True` を設定することで、以下の条件を満たす場合に限り、その式をOMMXインスタンスに保存することができます。
 
-上記以外の式に対して `save_in_ommx=True` が指定された場合、以下のように `NamedExpr` の宣言時に例外となります。
+1. 取りうる値がスカラーである式
+2. 取りうる値がスカラーである式の配列
+3. 取りうる値がスカラーである式の辞書
+
+具体的には、以下のような式がOMMXインスタンスに保存できます。
+
+```{code-cell} ipython3
+# 取りうる値がスカラーである式の例（バイナリ変数の和）
+problem = jm.Problem("Scalar")
+x = problem.BinaryVar("x", shape=(5,))
+S = problem.NamedExpr("scalar", x.sum(), save_in_ommx=True)
+problem
+```
+
+```{code-cell} ipython3
+# 取りうる値がスカラーである式の配列（整数変数の配列の差）
+problem = jm.Problem("Tensor of Scalars")
+y = problem.IntegerVar("y", shape=(5,), lower_bound=0, upper_bound=10)
+z = problem.IntegerVar("z", shape=(5,), lower_bound=0, upper_bound=10)
+T = problem.NamedExpr("tensor_of_scalars", y - z, save_in_ommx=True)
+problem
+```
+
+```{code-cell} ipython3
+# 取りうる値がスカラーである式の辞書（プレースホルダと実数変数の辞書の積）
+problem = jm.Problem("Dict of Scalars")
+K = problem.CategoryLabel("K")
+a = problem.Float("a", dict_keys=K)
+w = problem.ContinuousVar("w", dict_keys=K, lower_bound=0, upper_bound=10)
+U = problem.NamedExpr("dict_of_scalars", a * w, save_in_ommx=True)
+problem
+```
+
+一方で、以下のような式はOMMXインスタンスに保存できません。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Errornous Problem")
-N = problem.Natural("N")
+```
+
+```{code-cell} ipython3
+# 比較式は保存できない
+a = problem.IntegerVar("a", lower_bound=0, upper_bound=10)
 try:
-    # bool 式を保存しようとしてみる
-    problem.NamedExpr("bool", N == 2, save_in_ommx=True)
+    problem.NamedExpr("comparison", a == 2, save_in_ommx=True)
 except Exception as e:
     print(e)
 ```
 
 ```{code-cell} ipython3
+# カテゴリラベルは保存できない
 L = problem.CategoryLabel("L")
 try:
-    # カテゴリラベルのリストを保存しようとしてみる
     problem.NamedExpr("category_labels", L, save_in_ommx=True)
 except Exception as e:
     print(e)
 ```
 
 ```{code-cell} ipython3
-x = problem.BinaryVar("M", shape=(N, N, N))
-
+# rows() は配列の配列を返すので保存できない
+x = problem.BinaryVar("M", shape=(5, 5))
 try:
-    # x の「内側の配列」からなる配列を保存しようとしてみる
-    # これは「スカラー式の二次元配列」から成る一次元配列となり、
-    # 現状の JijModeling ではネストされた配列の OMMX への保存には対応していないためエラーとなる
     problem.NamedExpr("array_of_array", x.rows(), save_in_ommx=True)
 except Exception as e:
     print(e)
 ```
 
-```{code-cell} ipython3
-# x 自身は単なる（ネストしていない）三次元配列なので、問題なく保存できる
-problem.NamedExpr("threed", x, save_in_ommx=True)
-```
-
-一方で、`save_in_ommx` を指定しないか `False` を指定した場合には、こうした式も問題なく `NamedExpr` として宣言することができます。
+:::{tip}
+これらのOMMXインスタンスに保存できない式についても、 `save_in_ommx=False` （あるいは、未指定）にすれば `NamedExpr` として宣言することができます。 
+:::
 
 +++
 
-例を見てみましょう。ナップサック問題において、評価後に実際にナップサックに入れられたアイテムの総重量や、個別のアイテムの単位重さ当りの価値の寄与を知りたかったとします。
+では、特定の式をOMMXインスタンスに保存して求解後にその式の値を評価する例を見てみましょう。ナップサック問題において、目的関数であるアイテムの価値の合計だけでなく、アイテムの総重量を知りたいというケースを考えます。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
@@ -183,12 +204,6 @@ def knapsack_weight(problem: jm.DecoratedProblem):
         description="Total weight of items in the knapsack",
         save_in_ommx=True,
     )
-    problem.NamedExpr(
-        "V",
-        v / w * x,
-        description="Contribution of each item to the value per unit weight",
-        save_in_ommx=True,
-    )
 
     problem += jm.sum(v[i] * x[i] for i in N)
     problem += problem.Constraint("Weight", total_weight <= W)
@@ -197,36 +212,25 @@ def knapsack_weight(problem: jm.DecoratedProblem):
 knapsack_weight
 ```
 
-総重みの項を `total_weight`、個別のアイテムの寄与を `V` という名前つき式に束縛し、`save_in_ommx=True` として OMMX インスタンスに保存させています。
-まずはコンパイラを作成し、インスタンスを生成してみましょう。
+上記のコードでは、総重量の式に `total_weight` という名前をつけ、`save_in_ommx=True` によりOMMXインスタンスの保存を有効にしています。さて、この数理モデルをコンパイルしてOMMXインスタンスを生成してみましょう。
 
 ```{code-cell} ipython3
-compiler = jm.Compiler.from_problem(knapsack_weight, knapsack_instance_data)
-instance = compiler.eval_problem(knapsack_weight)
+instance = knapsack_weight.eval(knapsack_instance_data)
 ```
 
-インスタンスに含まれる `NamedFunction` の一覧は {py:meth}`ommx.v1.Instance.named_functions` や {py:meth}`ommx.v1.Instance.named_functions_df` プロパティで確認することができます：
+OMMXインスタンスに保存された式は、 {py:meth}`ommx.v1.Instance.named_functions` や {py:meth}`ommx.v1.Instance.named_functions_df` プロパティで確認することができます。
 
 ```{code-cell} ipython3
 instance.named_functions_df
 ```
 
-個別の NamedExpr に対応する NamedFunction の情報を得たい場合、{py:meth}`Compiler.get_named_function_id_by_name() <jijmodeling.Compiler.get_named_function_id_by_name>` メソッドに `NamedExpr` の名前を与えると、`save_in_ommx=True`の場合は添え字（スカラー式の場合は `()` のみ）から `NamedFunction` の ID への辞書が得られます：
+:::{tip}
+OMMXインスタンスに保存された式に対応する NamedFunction の ID を得るには、{py:meth}`Compiler.get_named_function_id_by_name() <jijmodeling.Compiler.get_named_function_id_by_name>` メソッドを利用してください。
+:::
 
-```{code-cell} ipython3
-contrib_dict = compiler.get_named_function_id_by_name("V")
-print(contrib_dict)
-assert contrib_dict is not None
-instance.get_named_function_by_id(contrib_dict[(0,)])
-```
++++
 
-一方、 `N` のように `save_in_ommx=False` の場合は、`NamedFunction` として保存されないため、`get_named_function_id_by_name()` は `None` を返します：
-
-```{code-cell} ipython3
-assert compiler.get_named_function_id_by_name("N") is None
-```
-
-それでは、これを OpenJij で解き、解の中の `total_weight` の値を確認してみましょう：
+それでは、このOMMXインスタンスを OpenJij で解き、得られた解における `total_weight` の値を確認してみましょう。
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
@@ -241,6 +245,5 @@ solution = OMMXOpenJijSAAdapter.solve(
 solution.named_functions_df
 ```
 
-こうして解に対応する総重量や個別のアイテムの寄与の値が得られました。
-今回のように単純な場合であれば、`weight` constraint の `value` の値を `W` と比較することで総重量を確認することもできます。
-こうした用途の他にも、目的関数の一部の項の評価値を確認したい場合など、今回のように `NamedExpr` を OMMX インスタンスに保存すると便利なケースがあります。
+確かにOMMXインスタンスに保存した式 `total_weight` の値を評価することができました。
+このような用法以外にも、特定の式をOMMXインスタンスに保存する機能は、加重方式の多目的最適化を扱う場合などに利用できる便利なものとなっています。
