@@ -1,0 +1,4 @@
+div.math {
+    flex-direction: row;
+    gap: .5em;
+}
