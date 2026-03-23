@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling 2.3.0 リリースノート
+# JijModeling 2.3.1 リリースノート
 
 +++
 
