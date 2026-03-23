@@ -16,6 +16,7 @@ dev = [
   "jupyter-book >= 1.0.0, < 2.0.0",
   "jupytext >= 1.18.1, < 2.0.0",
   "nbconvert>=7.16.6, <8.0.0",
+  "sphinxcontrib-katex >=0.9.11, <1.0.0",
 ]
 
 [build-system]

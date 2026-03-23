@@ -44,8 +44,11 @@ launch_buttons:
   colab_url: "https://colab.research.google.com"
 
 sphinx:
+  extra_extensions:
+    - sphinxcontrib.katex
   recursive_update: true
   config:
+    mathjax_path: ""
     html_theme_options:
       show_toc_level: 5
     intersphinx_mapping:
