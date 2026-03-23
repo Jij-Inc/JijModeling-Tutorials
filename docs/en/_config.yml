@@ -44,16 +44,19 @@ launch_buttons:
   colab_url: "https://colab.research.google.com"
 
 sphinx:
+  extra_extensions:
+    - sphinxcontrib.katex
   recursive_update: true
   config:
+    mathjax_path: ""
     html_theme_options:
       show_toc_level: 5
     intersphinx_mapping:
       api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/, null]
       numpy: [https://numpy.org/doc/stable, null]
-      python: ["https://docs.python.org/3", null]
+      python: ["https://docs.python.org/ja/3", "https://docs.python.org/ja/3/objects.inv"]
       ommx_api: ["https://jij-inc.github.io/ommx/python/ommx", null]
-      ommx_doc: ["https://jij-inc.github.io/ommx/en", null]
+      ommx_doc: ["https://jij-inc.github.io/ommx/ja", null]
 
 parse:
   myst_enable_extensions:
