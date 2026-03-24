@@ -47,11 +47,11 @@ wheels = [
 
 [[package]]
 name = "attrs"
-version = "25.4.0"
+version = "26.1.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/6b/5c/685e6633917e101e5dcb62b9dd76946cbb57c26e133bae9e0cd36033c0a9/attrs-25.4.0.tar.gz", hash = "sha256:16d5969b87f0859ef33a48b35d55ac1be6e42ae49d5e853b597db70c35c57e11", size = 934251, upload-time = "2025-10-06T13:54:44.725Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9a/8e/82a0fe20a541c03148528be8cac2408564a6c9a0cc7e9171802bc1d26985/attrs-26.1.0.tar.gz", hash = "sha256:d03ceb89cb322a8fd706d4fb91940737b6642aa36998fe130a9bc96c985eff32", size = 952055, upload-time = "2026-03-19T14:22:25.026Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3a/2a/7cc015f5b9f5db42b7d48157e23356022889fc354a2813c15934b7cb5c0e/attrs-25.4.0-py3-none-any.whl", hash = "sha256:adcf7e2a1fb3b36ac48d97835bb6d8ade15b8dcce26aba8bf1d14847b57a3373", size = 67615, upload-time = "2025-10-06T13:54:43.17Z" },
+    { url = "https://files.pythonhosted.org/packages/64/b4/17d4b0b2a2dc85a6df63d1157e028ed19f90d4cd97c36717afef2bc2f395/attrs-26.1.0-py3-none-any.whl", hash = "sha256:c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309", size = 67548, upload-time = "2026-03-19T14:22:23.645Z" },
 ]
 
 [[package]]
@@ -384,14 +384,14 @@ wheels = [
 
 [[package]]
 name = "importlib-metadata"
-version = "8.7.1"
+version = "9.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "zipp" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f3/49/3b30cad09e7771a4982d9975a8cbf64f00d4a1ececb53297f1d9a7be1b10/importlib_metadata-8.7.1.tar.gz", hash = "sha256:49fef1ae6440c182052f407c8d34a68f72efc36db9ca90dc0113398f2fdde8bb", size = 57107, upload-time = "2025-12-21T10:00:19.278Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a9/01/15bb152d77b21318514a96f43af312635eb2500c96b55398d020c93d86ea/importlib_metadata-9.0.0.tar.gz", hash = "sha256:a4f57ab599e6a2e3016d7595cfd72eb4661a5106e787a95bcc90c7105b831efc", size = 56405, upload-time = "2026-03-20T06:42:56.999Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fa/5e/f8e9a1d23b9c20a551a8a02ea3637b4642e22c2626e3a13a9a29cdea99eb/importlib_metadata-8.7.1-py3-none-any.whl", hash = "sha256:5a1f80bf1daa489495071efbb095d75a634cf28a8bc299581244063b53176151", size = 27865, upload-time = "2025-12-21T10:00:18.329Z" },
+    { url = "https://files.pythonhosted.org/packages/38/3d/2d244233ac4f76e38533cfcb2991c9eb4c7bf688ae0a036d30725b8faafe/importlib_metadata-9.0.0-py3-none-any.whl", hash = "sha256:2d21d1cc5a017bd0559e36150c21c830ab1dc304dedd1b7ea85d20f45ef3edd7", size = 27789, upload-time = "2026-03-20T06:42:55.665Z" },
 ]
 
 [[package]]
@@ -522,7 +522,7 @@ wheels = [
 
 [[package]]
 name = "jijmodeling"
-version = "2.3.0"
+version = "2.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -532,13 +532,13 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bb/dc/d797b44a632cd4d30a61cd9825ee5f51c046a60ecb6f3337110a06c57884/jijmodeling-2.3.0-cp38-abi3-macosx_10_16_x86_64.whl", hash = "sha256:83b7f3104699c3dcb1f365f07856465d390f0710d24f58019e69cb5e54a93549", size = 11387205, upload-time = "2026-03-16T03:43:23.506Z" },
-    { url = "https://files.pythonhosted.org/packages/53/37/7ce2cc7d8e0b44171bed478979770a804371868e1c7ce9bd060053c117b7/jijmodeling-2.3.0-cp38-abi3-macosx_11_0_x86_64.macosx_11_0_arm64.macosx_11_0_universal2.whl", hash = "sha256:05c46b8f166fb726a5f9f3131ab39866276037132a685cdf368cd45a56a52957", size = 22312022, upload-time = "2026-03-16T03:43:27.003Z" },
-    { url = "https://files.pythonhosted.org/packages/94/26/2f5367ff0742b7012636d63b8919686f99d2cdc731ca4c7b9675bdf6f50e/jijmodeling-2.3.0-cp38-abi3-macosx_12_0_x86_64.macosx_12_0_arm64.macosx_12_0_universal2.whl", hash = "sha256:624fb745065ab564144eb0e7c3cba6c1a7716931389dbcfb0c9de285163830d2", size = 22311705, upload-time = "2026-03-16T03:43:29.517Z" },
-    { url = "https://files.pythonhosted.org/packages/c4/ca/ec5d21cc343fdafcdd3d5048608090c8fedca6ff24b53ba74331b95bf485/jijmodeling-2.3.0-cp38-abi3-macosx_13_0_x86_64.macosx_13_0_arm64.macosx_13_0_universal2.whl", hash = "sha256:9149be2d5dda80eb5a8802cfe890ca60c7494405430cff68519c6a1e2f02a9b3", size = 22311707, upload-time = "2026-03-16T03:43:32.33Z" },
-    { url = "https://files.pythonhosted.org/packages/4a/49/2ec11eb624263211153594888730ea7d6991af30f3a6400cb34e95172876/jijmodeling-2.3.0-cp38-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:e834ecc6fb03176bd8ea8f159fa5456a79011bc565e6818e2ee44cdf3b84a26f", size = 11111321, upload-time = "2026-03-16T03:43:35.161Z" },
-    { url = "https://files.pythonhosted.org/packages/90/78/ab9eb540cf86964ad0c5a82ba85d3aa878e4382bba5011ab2d59b7ab5bb1/jijmodeling-2.3.0-cp38-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:7faa964483aaa20bd0118ef87939d5b537235f1acbd20f1730e518efb141ee30", size = 11767982, upload-time = "2026-03-16T03:43:38.078Z" },
-    { url = "https://files.pythonhosted.org/packages/0f/10/6c84f62dc94805b0953bf508d9740fe4d51447333afdf19ff8ffa993c9e2/jijmodeling-2.3.0-cp38-abi3-win_amd64.whl", hash = "sha256:f4cb0d44a88bc4f8b05fe9f7ef88308c38162d839ccdd3707c2509c88049eda1", size = 13088759, upload-time = "2026-03-16T03:43:40.519Z" },
+    { url = "https://files.pythonhosted.org/packages/cb/7a/fe320d3b0a2aa3fd1794373c31f09ebc868d2a7f9f0eefc2ef862bb77f99/jijmodeling-2.3.1-cp38-abi3-macosx_10_16_x86_64.whl", hash = "sha256:19452f678b0be23e3105d58562dc070c0bef1c293a6877ead88b55a8ea024b98", size = 11599549, upload-time = "2026-03-24T02:00:41.175Z" },
+    { url = "https://files.pythonhosted.org/packages/59/5e/7b960260d942e3a287214dee7ded7d5dc970d054f3d4769b11b343bd97bb/jijmodeling-2.3.1-cp38-abi3-macosx_11_0_x86_64.macosx_11_0_arm64.macosx_11_0_universal2.whl", hash = "sha256:0d9b4f3970574fe048d51e5a801818f4621d8ee40633a1e3935a568226e3878a", size = 22683665, upload-time = "2026-03-24T02:00:43.738Z" },
+    { url = "https://files.pythonhosted.org/packages/a9/e8/9b7d59d8b5c1935b42879c1f475952b192fe3fd003e525d2af4055d4ca3c/jijmodeling-2.3.1-cp38-abi3-macosx_12_0_x86_64.macosx_12_0_arm64.macosx_12_0_universal2.whl", hash = "sha256:126e3fd443c6804066632dd0b72adce590ba5255a41a73eff172572ee180d52a", size = 22683907, upload-time = "2026-03-24T02:00:46.125Z" },
+    { url = "https://files.pythonhosted.org/packages/24/d9/3baac7086cc4bc7b54c80d4497b9196d3158ce5e63a5f1d859c63a1463ca/jijmodeling-2.3.1-cp38-abi3-macosx_13_0_x86_64.macosx_13_0_arm64.macosx_13_0_universal2.whl", hash = "sha256:8130ed2848dd5b243430d4bc8e2096e4e64d975d51e930126c6cd62abe448a15", size = 22683901, upload-time = "2026-03-24T02:00:49.364Z" },
+    { url = "https://files.pythonhosted.org/packages/ff/c0/0b280555c99daa7712a59c6b2fe0b9a546927685313ddc387448e9e9e9ad/jijmodeling-2.3.1-cp38-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:2c945f25ad120b866bd7087a5990aa4edf4eda39ffa3d716c96b59e2d73b1268", size = 11331641, upload-time = "2026-03-24T02:00:51.772Z" },
+    { url = "https://files.pythonhosted.org/packages/c6/cc/0a6a2a0eb0c1505dc3107eae831743f013eec66797c00ca1d34f82030007/jijmodeling-2.3.1-cp38-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:8ff32bb6c57d16a32475755faa51d6b6c54c589e221b071eeb98a381cefef60f", size = 12013750, upload-time = "2026-03-24T02:00:53.953Z" },
+    { url = "https://files.pythonhosted.org/packages/62/74/5d51e07ae50ceb080d209f3a218aff125d1de47e3b801ebc104b6c1ca624/jijmodeling-2.3.1-cp38-abi3-win_amd64.whl", hash = "sha256:b842816ac8dda0e99b6bf7077cf7603ca7a53f62cca471c9e0f8adba4c994206", size = 13324125, upload-time = "2026-03-24T02:00:56.458Z" },
 ]
 
 [[package]]
@@ -1028,23 +1028,23 @@ wheels = [
 
 [[package]]
 name = "ommx-openjij-adapter"
-version = "2.4.0"
+version = "2.5.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ommx" },
     { name = "openjij" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2e/c1/5ce46af4cfdd38b74fb3d462a7590de844a2cf0351d4849f07be20fb1293/ommx_openjij_adapter-2.4.0.tar.gz", hash = "sha256:bd984855b65c310aa32d012ccad8e86d6c06bad45dfd1242791b61879a83349e", size = 5726, upload-time = "2026-03-11T05:41:43.333Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/04/a8/86e263896cccdfd074207e2c70af4a1afc0663be389d7a6b3aafed59e2d1/ommx_openjij_adapter-2.5.1.tar.gz", hash = "sha256:481642ee172d848fe032ae4dae5833b18090e45d1c80f4334bfec36c6e88b463", size = 5731, upload-time = "2026-03-19T13:05:40.663Z" }
 
 [[package]]
 name = "ommx-pyscipopt-adapter"
-version = "2.4.0"
+version = "2.5.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ommx" },
     { name = "pyscipopt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6d/ea/9738535b2b00e26f409ef0684b4f88d3d050a4c21c8f9b38d644a64953f6/ommx_pyscipopt_adapter-2.4.0.tar.gz", hash = "sha256:3646b7925d06af66f77e07dee2c3ae334570ab4ba1653d8f93ae00bdbcf09401", size = 11058, upload-time = "2026-03-11T05:41:44.429Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ca/00/5f0aab79e0d9e9dc83ec41294b43ff99f4ae7d6870bcfe7d5fda5daa38f0/ommx_pyscipopt_adapter-2.5.1.tar.gz", hash = "sha256:767d386c6d3c47a03a35b8e237c6d0d623ed3c63f5995d15c13cd6541b253f2d", size = 11064, upload-time = "2026-03-19T13:05:41.627Z" }
 
 [[package]]
 name = "openjij"
