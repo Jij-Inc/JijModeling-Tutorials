@@ -80,6 +80,12 @@ problem
 既存の項が置き換えられたのではなく、$y$ が加算され $x + y$ が新たな目的関数となっていることが分かります。
 目的関数の項を削除したい場合、目的関数の項の一覧を（Python の）リストなどで持っておき、あとからそれを使って目的関数を設定するなどするとよいでしょう。
 
+:::{admonition} 目的関数から項を「引く」操作
+:class: tip
+
+JijModeling 2.3.1 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
+:::
+
 ## 制約条件の設定
 
 制約条件の追加も同様に {py:meth}`+= <jijmodeling.Problem.__iadd__>` 演算子を使って行います。
@@ -117,6 +123,12 @@ knapsack_problem
 :class: important
 
 制約条件を追加する際には、必ず {py:meth}`+= <jijmodeling.Problem.__iadd__>` 演算子を使って追加してください。単純に {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` を呼び出しただけでは、制約条件はモデルに追加されません。
+:::
+
+:::{admonition} 制約条件の削除
+:class: important
+
+現時点において、モデルから制約条件を削除する方法は提供されていません。特に、{py:func}`-= <jijmodeling.Problem.__isub__>` 演算子を使ってモデルから制約条件を「引く」ことはできませんので注意してください。
 :::
 
 +++

@@ -61,7 +61,7 @@ JijModeling 2 introduces several key changes that improve usability and safety:
       * Real: `problem.Float()`.
    - They produce clearer intent, tighter static type checking, and better error messages. Use `Placeholder` only for advanced cases (tuple / custom `dtype`s).
 
-7. **Introduction of Dependent Variables**: The newly introduced `problem.DependentVar(..)` declaration allows you to bind and reuse frequently appearing sub-expressions as dependent variables. This resolves the issue in traditional JijModeling where definitions of variables in LaTeX (defined with `with_latex()` or `latex=...`) were unclear.
+7. **Introduction of Named Expressions**: The newly introduced `problem.NamedExpr(..)` and `problem.NamedExpr(..)` declaration allows you to bind and reuse frequently appearing sub-expressions as named expressions. This resolves the issue in traditional JijModeling where definitions of variables in LaTeX (defined with `with_latex()` or `latex=...`) were unclear.
 
 8. **New Datatypes**: JijModeling 2 now shipped with dictionary and category label types!
    - Many cases formerly written using jagged arrays can now be written more simply with dictionaries!
@@ -788,7 +788,7 @@ problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     N = problem.Length()
     C = problem.Natural(jagged=True, ndim=2)
-    M = problem.DependentVar(C.len_at(0))
+    M = problem.NamedExpr(C.len_at(0))
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(M,))
     x = problem.BinaryVar(shape=(N,))
     
@@ -834,7 +834,7 @@ problem = jm.Problem("CompilerDemo", sense=jm.ProblemSense.MAXIMIZE)
 def _(problem: jm.DecoratedProblem):
     v = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
     w = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
-    N = problem.DependentVar(v.len_at(0))
+    N = problem.NamedExpr(v.len_at(0))
     W = problem.Float()
     x = problem.BinaryVar(shape=(N,))
     

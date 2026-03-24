@@ -55,7 +55,7 @@ problem
 ```{code-cell} ipython3
 problem = jm.Problem("WeightedSum")
 a = problem.Float("a", ndim=1)
-N = problem.DependentVar("N", a.len_at(0))
+N = problem.NamedExpr("N", a.len_at(0))
 x = problem.BinaryVar("x", shape=(N,))
 problem += jm.sum(a * x)
 
@@ -68,7 +68,7 @@ problem
 @jm.Problem.define("WeightedSum")
 def problem(problem: jm.DecoratedProblem):
     a = problem.Float(ndim=1)
-    N = problem.DependentVar(a.len_at(0))
+    N = problem.NamedExpr(a.len_at(0))
     x = problem.BinaryVar(shape=(N,))
     problem += (a * x).sum()
 
@@ -206,7 +206,7 @@ problem = jm.Problem("DependentSum")
 N = problem.Natural("N")
 x = problem.BinaryVar("x", shape=(N,))
 a = problem.Natural("a", ndim=1)
-M = problem.DependentVar("M", a.len_at(0))
+M = problem.NamedExpr("M", a.len_at(0))
 problem += jm.sum(jm.flat_map(lambda i: a[i].map(lambda j: x[j]), M))
 
 problem
@@ -220,7 +220,7 @@ def problem(problem: jm.DecoratedProblem):
     N = problem.Natural()
     x = problem.BinaryVar(shape=(N,))
     a = problem.Natural(ndim=1)
-    M = problem.DependentVar(a.len_at(0))
+    M = problem.NamedExpr(a.len_at(0))
     problem += jm.sum(x[j] for i in M for j in a[i])
 
 problem
@@ -292,7 +292,7 @@ problem
 ```{code-cell} ipython3
 problem = jm.Problem("2D K-Hot")
 K = problem.Natural("K", ndim=1)
-N = problem.DependentVar("N", K.len_at(0))
+N = problem.NamedExpr("N", K.len_at(0))
 M = problem.Natural("M")
 x = problem.BinaryVar("x", shape=(N, M))
 problem += problem.Constraint("2d k-hot", x.sum(axis=1) == K)
@@ -306,7 +306,7 @@ problem
 @jm.Problem.define("2D K-Hot")
 def problem(problem: jm.DecoratedProblem):
     K = problem.Natural(ndim=1)
-    N = problem.DependentVar(K.len_at(0))
+    N = problem.NamedExpr(K.len_at(0))
     M = problem.Natural()
     x = problem.BinaryVar(shape=(N, M))
     problem += problem.Constraint("2d k-hot", x.sum(axis=1) == K)
@@ -324,7 +324,7 @@ problem
 problem = jm.Problem("KHotOverSet")
 N = problem.Natural("N")
 C = problem.Natural("C", jagged=True, ndim=2)
-M = problem.DependentVar("M", C.len_at(0))
+M = problem.NamedExpr("M", C.len_at(0))
 K = problem.Natural("K", shape=(M,))
 x = problem.BinaryVar("x", shape=(N,))
 problem += problem.Constraint(
@@ -341,7 +341,7 @@ problem
 def problem(problem: jm.DecoratedProblem):
     N = problem.Natural()
     C = problem.Natural(jagged=True, ndim=2)
-    M = problem.DependentVar(C.len_at(0))
+    M = problem.NamedExpr(C.len_at(0))
     K = problem.Natural(shape=(M,))
     x = problem.BinaryVar(shape=(N,))
     problem += problem.Constraint(
@@ -360,7 +360,7 @@ problem
 ```{code-cell} ipython3
 problem = jm.Problem("LinearInequality")
 w = problem.Float("w", ndim=1)
-N = problem.DependentVar("N", w.len_at(0))
+N = problem.NamedExpr("N", w.len_at(0))
 W = problem.Float("W")
 x = problem.BinaryVar("x", shape=(N,))
 problem += problem.Constraint("weight", (w * x).sum() <= W)
@@ -374,7 +374,7 @@ problem
 @jm.Problem.define("LinearInequality")
 def problem(problem: jm.DecoratedProblem):
     w = problem.Float(ndim=1)
-    N = problem.DependentVar(w.len_at(0))
+    N = problem.NamedExpr(w.len_at(0))
     W = problem.Float()
     x = problem.BinaryVar(shape=(N,))
     problem += problem.Constraint("weight", (w * x).sum() <= W)

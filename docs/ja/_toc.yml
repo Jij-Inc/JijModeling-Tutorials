@@ -4,16 +4,16 @@
 format: jb-book
 root: introduction
 parts:
-  # TODO: JijModeling2が正式リリースされた際には、latestではなくstableへのリンクに変更すること
+  # TODO: JijModeling2 が正式リリースされた際には、latest ではなく stable へのリンクに変更すること
   - caption: Switch Language
     chapters:
       - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/
         title: English
-  - caption: クイックスタート
+  - caption: Quick Start
     chapters:
       - file: quickstart/scip
       - file: quickstart/openjij
-  - caption: JijModelingの基本
+  - caption: Basics
     chapters:
       - file: basics/overview
       - file: basics/problem
@@ -21,20 +21,26 @@ parts:
       - file: basics/expressions
       - file: basics/modeling
       - file: basics/instance_generation
-  - caption: リファレンス
+  - caption: Advanced
+    chapters:
+      - file: advanced/named_expr
+      - file: advanced/generation
+      - file: advanced/serialize
+  - caption: Reference
     chapters:
       - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
         title: jijmodeling API Reference
       - file: references/cheat_sheet
       - file: references/migration_guide_to_jijmodeling2
-  - caption: リリースノート
+  - caption: Release Notes
     chapters:
+      - file: releases/jijmodeling-2.3.1
       - file: releases/jijmodeling-2.2.0
       - file: releases/jijmodeling-2.1.0
       - file: releases/jijmodeling-2.0.0
       - url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/jijmodeling1
         title: JijModeling 1.x 系統
-  - caption: 旧バージョン向けリソース
+  - caption: Resources for Older Versions
     chapters:
       - url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/jijmodeling1
         title: JijModeling 1.x

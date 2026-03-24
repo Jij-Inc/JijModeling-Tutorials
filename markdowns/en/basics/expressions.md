@@ -154,7 +154,7 @@ Specifically, you can think of them as follows:
 
 | Type name | Description |
 | --- | --- |
-| `ExpressionLike` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.DependentVar`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
+| `ExpressionLike` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
 | `ExpressionFunction` | A function that takes one or more {py:class}`~jijmodeling.Expression` objects and returns a {py:class}`~jijmodeling.Expression`. In Python type hints, only up to 5 arguments are enumerated, but in practice there is no limit on the number of arguments. |
 
 :::
@@ -354,6 +354,7 @@ Strictly speaking, JijModeling sets correspond to **streams** or **iterators** i
 :::
 
 Some values are automatically converted to sets. For example, a multi-dimensional array becomes a set that scans elements in row-major order, a natural number $N$ becomes the set $\{0, 1, \ldots, N-1\}$, and a category label `L` becomes the set of all values of `L` given at compile time.
+Also, since JijModeling 2.3.1, the {py:func}`jijmodeling.range` function, corresponding to Python's built-in {py:class}`range() <range>`, is available for defining sets consisting of arithmetic progressions of natural numbers.
 
 :::{admonition} Change from JijModeling 1: arrays as "sets"
 :class: caution
