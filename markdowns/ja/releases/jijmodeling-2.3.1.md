@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling 2.3.0 リリースノート
+# JijModeling 2.3.1 リリースノート
 
 +++
 
@@ -54,15 +54,13 @@ problem -= y
 assert jm.is_same(problem.objective, x - y)
 ```
 
-### OMMX インスタンスに従属変数の情報を追加
+### `DependentVar` が `NamedExpr` に
 
-以下の条件を満たす場合、従属変数（{py:class}`~jijmodeling.DependentVar`）の定義が OMMX インスタンスに含まれるようになりました:
+JijModeling 2.3 以前では、依存変数を表す `DependentVar` クラスが存在していました。
+名前の印象に反し、この機能は Placeholder の長さなど決定変数に依存しないような値を定義するためにも用いることができました。
+この状況は混乱を招く恐れがあるため、 `DependentVar` クラスは廃止され、同様の機能を提供する {py:class}`~jijmodeling.NamedExpr` クラスが定義されました。今後は {py:class}`~jijmodeling.NamedExpr` をご利用ください。
 
-- 従属変数がスカラー値である
-- 従属変数がスカラー値を成分に持つ配列または辞書である
-
-これらはダミーの決定変数として `decision_variable_dependency` に登録され、最適化後に OMMX Solution オブジェクトで評価されます。
-この機能は、たとえば目的関数の特定の部分項の値を確認したい場合に便利です。興味のある項を {py:class}`~jijmodeling.DependentVar` として宣言しておくと、OMMX Solution から最適化後の値が確認できるようになります。
+詳細については {doc}`../advanced/named_expr` を御参照ください。
 
 ## バグ修正
 

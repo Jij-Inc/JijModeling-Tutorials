@@ -58,7 +58,7 @@ If you might need to remove objective terms later, keep a list of terms in Pytho
 :::{admonition} Subtracting terms from the objective
 :class: tip
 
-Since JijModeling 2.3.0, you can also "subtract" scalar {py:class}`~jijmodeling.Expression` objects from the objective by using the {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on a {py:class}`~jijmodeling.Problem`.
+Since JijModeling 2.3.1, you can also "subtract" scalar {py:class}`~jijmodeling.Expression` objects from the objective by using the {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on a {py:class}`~jijmodeling.Problem`.
 :::
 
 As a more practical example, let's set the objective for the knapsack problem.

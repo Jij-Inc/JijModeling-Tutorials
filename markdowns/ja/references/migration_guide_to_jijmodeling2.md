@@ -62,7 +62,7 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
       * 実数値：`problem.Float()`
     - これらの利用により意図がより明確になり、また正確な型チェックによる精度の高いエラーメッセージが得られるようになります。高度なケース（タプルなどのカスタム`dtype`）にのみ`Placeholder`を使用してください。
 
-7. **従属変数の導入**：新たに導入された`problem.DependentVar(..)`宣言により、頻出する部分式を従属変数として束縛・再利用できるようになりました。これにより、従来の JijModeling で`with_latex()`や`latex=...`で定義された$\LaTeX$上の変数の定義がわからなくなる問題が解消されます。
+7. **従属変数の導入**：新たに導入された`problem.NamedExpr(..)`や`problem.NamedExpr(..)`宣言により、頻出する部分式を名前つき式として束縛・再利用できるようになりました。これにより、従来の JijModeling で`with_latex()`や`latex=...`で定義された$\LaTeX$上の変数の定義がわからなくなる問題が解消されます。
 
 8. **新しいデータ型**: JijModeling 2 では辞書型とカテゴリーラベル型が追加されました！
    - 従来 Jagged Array で書いていた多くのケースが、辞書を使ってより簡潔に記述できるようになりました！
@@ -795,7 +795,7 @@ problem = jm.Problem("KHotOverSet", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     N = problem.Length()
     C = problem.Natural(jagged=True, ndim=2)
-    M = problem.DependentVar(C.len_at(0))
+    M = problem.NamedExpr(C.len_at(0))
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(M,))
     x = problem.BinaryVar(shape=(N,))
     
@@ -841,7 +841,7 @@ problem = jm.Problem("CompilerDemo", sense=jm.ProblemSense.MAXIMIZE)
 def _(problem: jm.DecoratedProblem):
     v = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
     w = problem.Placeholder(dtype=jm.DataType.FLOAT, ndim=1)
-    N = problem.DependentVar(v.len_at(0))
+    N = problem.NamedExpr(v.len_at(0))
     W = problem.Float()
     x = problem.BinaryVar(shape=(N,))
 

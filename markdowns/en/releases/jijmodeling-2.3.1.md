@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling 2.3.0 Release Notes
+# JijModeling 2.3.1 Release Notes
 
 +++
 
@@ -54,16 +54,13 @@ problem -= y
 assert jm.is_same(problem.objective, x - y)
 ```
 
-### Dependent Variable information is now included in OMMX instance
+### `DependentVar` becomes `NamedExpr`
 
-Since this version, the definitions of the dependent variables are included in the OMMX instance, if the following conditions are satisfied:
+Before JijModeling 2.3, there was a `DependentVar` class for representing dependent variables.
+Despite the name, this feature could also be used to define values that do not depend on decision variables, such as the length of a Placeholder.
+Because this could be confusing, the `DependentVar` class has been replaced by the {py:class}`~jijmodeling.NamedExpr` class, which provides the same functionality. Use {py:class}`~jijmodeling.NamedExpr` instead.
 
-- The dependent variable is scalar-valued, or
-- The dependent variable is an array or dictionary of scalar values.
-
-They are now registered as dummy decision variables with decision_variable_dependency, and will be evaluated in OMMX Solution object after the optimization.
-This feature should be particularly useful, for example, when you want to check the value of a specific subterm in the objective function.
-If you declare the term of interest as a {py:class}`~jijmodeling.DependentVar`, you can check its post-optimization value from the OMMX Solution.
+For details, see {doc}`../advanced/named_expr`.
 
 +++
 

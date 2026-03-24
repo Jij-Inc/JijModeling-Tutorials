@@ -23,6 +23,7 @@ parts:
       - file: basics/instance_generation
   - caption: Advanced
     chapters:
+      - file: advanced/named_expr
       - file: advanced/generation
       - file: advanced/serialize
   - caption: Reference
@@ -33,7 +34,7 @@ parts:
       - file: references/migration_guide_to_jijmodeling2
   - caption: Release Notes
     chapters:
-      - file: releases/jijmodeling-2.3.0
+      - file: releases/jijmodeling-2.3.1
       - file: releases/jijmodeling-2.2.0
       - file: releases/jijmodeling-2.1.0
       - file: releases/jijmodeling-2.0.0

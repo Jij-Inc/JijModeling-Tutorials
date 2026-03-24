@@ -83,7 +83,7 @@ problem
 :::{admonition} 目的関数から項を「引く」操作
 :class: tip
 
-JijModeling 2.3.0 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
+JijModeling 2.3.1 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
 :::
 
 ## 制約条件の設定
