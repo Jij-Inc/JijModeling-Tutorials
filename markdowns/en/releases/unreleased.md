@@ -32,7 +32,6 @@ kernelspec:
 Constraint detection has been significantly accelerated. Models that previously did not finish even after an hour can now complete within one second.
 If you disabled constraint detection by setting `constraint_detection=False` in {py:meth}`jijmodeling.Problem.eval` or {py:meth}`jijmodeling.Compiler.eval_problem` for performance reasons, try running them again with constraint detection enabled by omitting the `constraint_detection` option.
 
-
 ## Other Changes
 
 - Change 1
