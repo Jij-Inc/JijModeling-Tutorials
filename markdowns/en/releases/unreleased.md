@@ -45,7 +45,7 @@ N = problem.NamedExpr("N", w.len_at(0))
 v = problem.Float("v", shape=N)  # Errors!
 ```
 
-```plain
+```text
 Invalid comprehension syntax detected! Perhaps you used comprehension syntax outside decorator API, or used Python's builtin `sum` function etc., instead of `jijmodeling.sum`?
 ```
 
