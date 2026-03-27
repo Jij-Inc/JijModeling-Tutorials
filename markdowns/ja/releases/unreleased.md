@@ -66,3 +66,4 @@ problem
 ## その他の変更
 
 - 変更 1：
+- `DecoratedProblem` に `-=` 演算子の型ヒントを追加しました。

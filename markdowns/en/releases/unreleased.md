@@ -65,4 +65,4 @@ problem
 
 ## Other Changes
 
-- Change 1
+- Added a type hint for the `-=` operator of `DecoratedProblem`.
