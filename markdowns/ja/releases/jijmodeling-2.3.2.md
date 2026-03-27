@@ -11,17 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
-
-+++
-
-## 機能強化
-
-+++
-
-### 機能1
-
-+++
+# JijModeling 2.3.2 リリースノート
 
 ## バグ修正
 
@@ -65,5 +55,4 @@ problem
 
 ## その他の変更
 
-- 変更 1：
 - `DecoratedProblem` に `-=` 演算子の型ヒントを追加しました。
