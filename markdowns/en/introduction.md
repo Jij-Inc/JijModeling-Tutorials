@@ -158,7 +158,7 @@ This document is organized as follows:
     - **{doc}`./quickstart/scip`**: Covers using the mathematical optimization solver [SCIP](https://www.scipopt.org/).
     - **{doc}`./quickstart/openjij`**: Covers using [OpenJij](https://tutorial.openjij.org/ja/intro.html).
 2. **{doc}`Basics <./basics/overview>`**: Explains the basic building blocks of modeling with JijModeling.
-3. **Advanced topics** (coming soon): Introduces more advanced features for mathematical optimization modeling in JijModeling.
+3. **Advanced topics**: Introduces more advanced features for mathematical optimization modeling in JijModeling.
 4. **Reference**: Detailed usage information for JijModeling.
    - [**jijmodeling API Reference**](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/): A comprehensive reference manual of all functions and classes in the JijModeling Python API.
    - **{doc}`./references/cheat_sheet`**: A collection of example formulations of typical constraints and optimization problems in JijModeling.
