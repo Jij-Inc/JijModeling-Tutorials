@@ -402,8 +402,8 @@ dependencies = [
     { name = "appnope", marker = "sys_platform == 'darwin'" },
     { name = "comm" },
     { name = "debugpy" },
-    { name = "ipython", version = "9.10.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
-    { name = "ipython", version = "9.11.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "ipython", version = "9.10.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "ipython", version = "9.12.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "jupyter-client" },
     { name = "jupyter-core" },
     { name = "matplotlib-inline" },
@@ -421,7 +421,7 @@ wheels = [
 
 [[package]]
 name = "ipython"
-version = "9.10.0"
+version = "9.10.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version < '3.12'",
@@ -439,14 +439,14 @@ dependencies = [
     { name = "traitlets", marker = "python_full_version < '3.12'" },
     { name = "typing-extensions", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a6/60/2111715ea11f39b1535bed6024b7dec7918b71e5e5d30855a5b503056b50/ipython-9.10.0.tar.gz", hash = "sha256:cd9e656be97618a0676d058134cd44e6dc7012c0e5cb36a9ce96a8c904adaf77", size = 4426526, upload-time = "2026-02-02T10:00:33.594Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c5/25/daae0e764047b0a2480c7bbb25d48f4f509b5818636562eeac145d06dfee/ipython-9.10.1.tar.gz", hash = "sha256:e170e9b2a44312484415bdb750492699bf329233b03f2557a9692cce6466ada4", size = 4426663, upload-time = "2026-03-27T09:53:26.244Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/aa/898dec789a05731cd5a9f50605b7b44a72bd198fd0d4528e11fc610177cc/ipython-9.10.0-py3-none-any.whl", hash = "sha256:c6ab68cc23bba8c7e18e9b932797014cc61ea7fd6f19de180ab9ba73e65ee58d", size = 622774, upload-time = "2026-02-02T10:00:31.503Z" },
+    { url = "https://files.pythonhosted.org/packages/01/09/ba70f8d662d5671687da55ad2cc0064cf795b15e1eea70907532202e7c97/ipython-9.10.1-py3-none-any.whl", hash = "sha256:82d18ae9fb9164ded080c71ef92a182ee35ee7db2395f67616034bebb020a232", size = 622827, upload-time = "2026-03-27T09:53:24.566Z" },
 ]
 
 [[package]]
 name = "ipython"
-version = "9.11.0"
+version = "9.12.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -463,9 +463,9 @@ dependencies = [
     { name = "stack-data", marker = "python_full_version >= '3.12'" },
     { name = "traitlets", marker = "python_full_version >= '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/86/28/a4698eda5a8928a45d6b693578b135b753e14fa1c2b36ee9441e69a45576/ipython-9.11.0.tar.gz", hash = "sha256:2a94bc4406b22ecc7e4cb95b98450f3ea493a76bec8896cda11b78d7752a6667", size = 4427354, upload-time = "2026-03-05T08:57:30.549Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3a/73/7114f80a8f9cabdb13c27732dce24af945b2923dcab80723602f7c8bc2d8/ipython-9.12.0.tar.gz", hash = "sha256:01daa83f504b693ba523b5a407246cabde4eb4513285a3c6acaff11a66735ee4", size = 4428879, upload-time = "2026-03-27T09:42:45.312Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b2/90/45c72becc57158facc6a6404f663b77bbcea2519ca57f760e2879ae1315d/ipython-9.11.0-py3-none-any.whl", hash = "sha256:6922d5bcf944c6e525a76a0a304451b60a2b6f875e86656d8bc2dfda5d710e19", size = 624222, upload-time = "2026-03-05T08:57:28.94Z" },
+    { url = "https://files.pythonhosted.org/packages/59/22/906c8108974c673ebef6356c506cebb6870d48cedea3c41e949e2dd556bb/ipython-9.12.0-py3-none-any.whl", hash = "sha256:0f2701e8ee86e117e37f50563205d36feaa259d2e08d4a6bc6b6d74b18ce128d", size = 625661, upload-time = "2026-03-27T09:42:42.831Z" },
 ]
 
 [[package]]
@@ -522,7 +522,7 @@ wheels = [
 
 [[package]]
 name = "jijmodeling"
-version = "2.3.1"
+version = "2.3.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -532,13 +532,13 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/7a/fe320d3b0a2aa3fd1794373c31f09ebc868d2a7f9f0eefc2ef862bb77f99/jijmodeling-2.3.1-cp38-abi3-macosx_10_16_x86_64.whl", hash = "sha256:19452f678b0be23e3105d58562dc070c0bef1c293a6877ead88b55a8ea024b98", size = 11599549, upload-time = "2026-03-24T02:00:41.175Z" },
-    { url = "https://files.pythonhosted.org/packages/59/5e/7b960260d942e3a287214dee7ded7d5dc970d054f3d4769b11b343bd97bb/jijmodeling-2.3.1-cp38-abi3-macosx_11_0_x86_64.macosx_11_0_arm64.macosx_11_0_universal2.whl", hash = "sha256:0d9b4f3970574fe048d51e5a801818f4621d8ee40633a1e3935a568226e3878a", size = 22683665, upload-time = "2026-03-24T02:00:43.738Z" },
-    { url = "https://files.pythonhosted.org/packages/a9/e8/9b7d59d8b5c1935b42879c1f475952b192fe3fd003e525d2af4055d4ca3c/jijmodeling-2.3.1-cp38-abi3-macosx_12_0_x86_64.macosx_12_0_arm64.macosx_12_0_universal2.whl", hash = "sha256:126e3fd443c6804066632dd0b72adce590ba5255a41a73eff172572ee180d52a", size = 22683907, upload-time = "2026-03-24T02:00:46.125Z" },
-    { url = "https://files.pythonhosted.org/packages/24/d9/3baac7086cc4bc7b54c80d4497b9196d3158ce5e63a5f1d859c63a1463ca/jijmodeling-2.3.1-cp38-abi3-macosx_13_0_x86_64.macosx_13_0_arm64.macosx_13_0_universal2.whl", hash = "sha256:8130ed2848dd5b243430d4bc8e2096e4e64d975d51e930126c6cd62abe448a15", size = 22683901, upload-time = "2026-03-24T02:00:49.364Z" },
-    { url = "https://files.pythonhosted.org/packages/ff/c0/0b280555c99daa7712a59c6b2fe0b9a546927685313ddc387448e9e9e9ad/jijmodeling-2.3.1-cp38-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:2c945f25ad120b866bd7087a5990aa4edf4eda39ffa3d716c96b59e2d73b1268", size = 11331641, upload-time = "2026-03-24T02:00:51.772Z" },
-    { url = "https://files.pythonhosted.org/packages/c6/cc/0a6a2a0eb0c1505dc3107eae831743f013eec66797c00ca1d34f82030007/jijmodeling-2.3.1-cp38-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:8ff32bb6c57d16a32475755faa51d6b6c54c589e221b071eeb98a381cefef60f", size = 12013750, upload-time = "2026-03-24T02:00:53.953Z" },
-    { url = "https://files.pythonhosted.org/packages/62/74/5d51e07ae50ceb080d209f3a218aff125d1de47e3b801ebc104b6c1ca624/jijmodeling-2.3.1-cp38-abi3-win_amd64.whl", hash = "sha256:b842816ac8dda0e99b6bf7077cf7603ca7a53f62cca471c9e0f8adba4c994206", size = 13324125, upload-time = "2026-03-24T02:00:56.458Z" },
+    { url = "https://files.pythonhosted.org/packages/44/0a/2043ff9a000b69868c12a88c3a9855825bb1e39729ceff95a2c7c19da6a7/jijmodeling-2.3.2-cp38-abi3-macosx_10_16_x86_64.whl", hash = "sha256:8604d2fb4b146abf10f6beefb5049109b7125ed3595e1cf2cc0af7b85ac08ebc", size = 11619253, upload-time = "2026-03-30T02:17:46.83Z" },
+    { url = "https://files.pythonhosted.org/packages/d7/7b/a9565d134f3a9b411d5827e01d2bd40be102e5f908a152a4a6cbb0247c4b/jijmodeling-2.3.2-cp38-abi3-macosx_11_0_x86_64.macosx_11_0_arm64.macosx_11_0_universal2.whl", hash = "sha256:00832bded5802f5d7fa72eb14f9274aa89e832f2f440f7f40d3a09aedfa1e15e", size = 22736792, upload-time = "2026-03-30T02:17:49.717Z" },
+    { url = "https://files.pythonhosted.org/packages/b8/5b/4afa4864be4603d2f01888f14d16bd7bbc6f8de47c9159ba247813c5b19e/jijmodeling-2.3.2-cp38-abi3-macosx_12_0_x86_64.macosx_12_0_arm64.macosx_12_0_universal2.whl", hash = "sha256:bf7d7641483aba3ef1627654d69ff3cbdc075d26864c8a00c61a66ce1bd1d46a", size = 22735916, upload-time = "2026-03-30T02:17:52.363Z" },
+    { url = "https://files.pythonhosted.org/packages/21/91/8ba19d86ccc3fe7da8217eb8a33e6a9a3d941335b7d3957dcad95c331d20/jijmodeling-2.3.2-cp38-abi3-macosx_13_0_x86_64.macosx_13_0_arm64.macosx_13_0_universal2.whl", hash = "sha256:4327596672a199326e23d014dcc4b6060906710f8f71809ffb0caccc9f23d027", size = 22735917, upload-time = "2026-03-30T02:17:54.924Z" },
+    { url = "https://files.pythonhosted.org/packages/16/af/0a2d7fe1927de403301fb12a6adad80b5c93d2e3fe63c3ccb337a16da807/jijmodeling-2.3.2-cp38-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:94074c385b337945caf3cfbf8af8b932d1ca5337c00c79fad51fb63d9f2a7f44", size = 11299854, upload-time = "2026-03-30T02:17:57.302Z" },
+    { url = "https://files.pythonhosted.org/packages/2d/b1/2b69ebae92290d67bde00ab8011ef96d72e837a054807f0119c026bc1634/jijmodeling-2.3.2-cp38-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:314dfb65c87dc4ba5b6bd0ac6ef174782b5427334cb8cb5f0ae52abddd93d383", size = 12014946, upload-time = "2026-03-30T02:17:59.51Z" },
+    { url = "https://files.pythonhosted.org/packages/43/89/49ad9402111d77dedc6e93d48c261b8cf8f72545c469b15db2f9f38ed639/jijmodeling-2.3.2-cp38-abi3-win_amd64.whl", hash = "sha256:758bd1bba28e78c344e4085d47184b70055dd78aabbd57fbb1aa5b8726a2e804", size = 13334590, upload-time = "2026-03-30T02:18:02.029Z" },
 ]
 
 [[package]]
@@ -848,8 +848,8 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "importlib-metadata" },
     { name = "ipykernel" },
-    { name = "ipython", version = "9.10.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
-    { name = "ipython", version = "9.11.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "ipython", version = "9.10.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "ipython", version = "9.12.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "jupyter-cache" },
     { name = "myst-parser" },
     { name = "nbclient" },
@@ -1373,11 +1373,11 @@ wheels = [
 
 [[package]]
 name = "pygments"
-version = "2.19.2"
+version = "2.20.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b0/77/a5b8c569bf593b0140bde72ea885a803b82086995367bf2037de0159d924/pygments-2.19.2.tar.gz", hash = "sha256:636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887", size = 4968631, upload-time = "2025-06-21T13:39:12.283Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c3/b2/bc9c9196916376152d655522fdcebac55e66de6603a76a02bca1b6414f6c/pygments-2.20.0.tar.gz", hash = "sha256:6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f", size = 4955991, upload-time = "2026-03-29T13:29:33.898Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c7/21/705964c7812476f378728bdf590ca4b771ec72385c533964653c68e86bdc/pygments-2.19.2-py3-none-any.whl", hash = "sha256:86540386c03d588bb81d44bc3928634ff26449851e99741617ecb9037ee5ec0b", size = 1225217, upload-time = "2025-06-21T13:39:07.939Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/7e/a72dd26f3b0f4f2bf1dd8923c85f7ceb43172af56d63c7383eb62b332364/pygments-2.20.0-py3-none-any.whl", hash = "sha256:81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176", size = 1231151, upload-time = "2026-03-29T13:29:30.038Z" },
 ]
 
 [[package]]
@@ -1528,7 +1528,7 @@ wheels = [
 
 [[package]]
 name = "requests"
-version = "2.32.5"
+version = "2.33.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "certifi" },
@@ -1536,9 +1536,9 @@ dependencies = [
     { name = "idna" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c9/74/b3ff8e6c8446842c3f5c837e9c3dfcfe2018ea6ecef224c710c85ef728f4/requests-2.32.5.tar.gz", hash = "sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf", size = 134517, upload-time = "2025-08-18T20:46:02.573Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/34/64/8860370b167a9721e8956ae116825caff829224fbca0ca6e7bf8ddef8430/requests-2.33.0.tar.gz", hash = "sha256:c7ebc5e8b0f21837386ad0e1c8fe8b829fa5f544d8df3b2253bff14ef29d7652", size = 134232, upload-time = "2026-03-25T15:10:41.586Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1e/db/4254e3eabe8020b458f1a747140d32277ec7a271daf1d235b70dc0b4e6e3/requests-2.32.5-py3-none-any.whl", hash = "sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6", size = 64738, upload-time = "2025-08-18T20:46:00.542Z" },
+    { url = "https://files.pythonhosted.org/packages/56/5d/c814546c2333ceea4ba42262d8c4d55763003e767fa169adc693bd524478/requests-2.33.0-py3-none-any.whl", hash = "sha256:3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b", size = 65017, upload-time = "2026-03-25T15:10:40.382Z" },
 ]
 
 [[package]]
@@ -1833,7 +1833,7 @@ wheels = [
 
 [[package]]
 name = "sphinx-togglebutton"
-version = "0.4.4"
+version = "0.4.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "docutils" },
@@ -1841,9 +1841,9 @@ dependencies = [
     { name = "sphinx" },
     { name = "wheel" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/89/6b/19def5241b45a7ae90fd91052bb91fa7b8fbcc0606a0cf65ac4ea70fb93b/sphinx_togglebutton-0.4.4.tar.gz", hash = "sha256:04c332692fd5f5363ad02a001e693369767d6c1f0e58279770a2aeb571b472a1", size = 17883, upload-time = "2026-01-14T14:33:11.599Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cc/be/169a0b0a8ad9588e8697c85e1d489aaaca7416073c2fc0267c360af5aae9/sphinx_togglebutton-0.4.5.tar.gz", hash = "sha256:c870dfbd3bc6e119b50ff9a37a64f8991902269e856728931c7d89877e8d4b3d", size = 18101, upload-time = "2026-03-27T13:50:41.984Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fa/cb/9f6ceb4308ebfe5f393a271ee6206e17883edee0662a9b5c1a371878064b/sphinx_togglebutton-0.4.4-py3-none-any.whl", hash = "sha256:820658cd4c4c34c2ee7a21105e638b2f65a9e1d43ee991090715eb7fd9683cdf", size = 44892, upload-time = "2026-01-14T14:33:10.674Z" },
+    { url = "https://files.pythonhosted.org/packages/d8/2e/3dd55564928c5d61f92827d4b91307dde7911a40fbe0000645d73202eea9/sphinx_togglebutton-0.4.5-py3-none-any.whl", hash = "sha256:74eac6d2426110c3e1e6f989a98e07d7823141a335df1ad8a9d637bdf6a7af62", size = 44907, upload-time = "2026-03-27T13:50:40.94Z" },
 ]
 
 [[package]]
