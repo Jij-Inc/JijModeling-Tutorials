@@ -89,7 +89,7 @@ problem
 :class: tip
 
 `upper_bound`および`lower_bound`には、**決定変数を含まない**任意の JijModeling の式を書くことができます。
-どのような式が書けるのかは次節「**式の構築**（近日公開）」を参考にしてください。
+どのような式が書けるのかは次節「{doc}`./expressions`」を参考にしてください。
 :::
 
 更に、**Decorator API を使うと名前の指定を省略**でき、この場合 Python 変数と同じ変数名が自動的に使われます。
@@ -409,7 +409,7 @@ partial_knapsack_ndim
 {py:meth}`~jijmodeling.Expression.len_at` 関数は、与えられた配列 `array` の $i$ 番目の軸の長さを返す関数です。
 $w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配列として宣言しておき、残る $w$, $x$ はその長さを使って `shape` を指定する形にしているのです。
 このように、最初に $N$ を独立して定義する方法と、配列の長さから復元する方法とでは、定義される数理モデルは意味的には同じですが、インスタンスデータの与え方が異なります。
-たとえば、最初の `partial_knapsack` の例（[定義](#partial_knapsack_def)およびその[更新](#partial_knapsack_update)）では、$N$ も `Length` プレースホルダーとして宣言しているため、**インスタンスの作成**（近日公開）時に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
+たとえば、最初の `partial_knapsack` の例（[定義](#partial_knapsack_def)およびその[更新](#partial_knapsack_update)）では、$N$ も `Length` プレースホルダーとして宣言しているため、**{doc}`インスタンスの生成 <./instance_generation>`時**に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
 一方で、$N$ をプレースホルダーではなく `len_at` を使って別の式として構築している [`partial_knapsack_ndim`](#partial_knapsack_ndim) では、$N$の値は入力値 `v` から推論されるため、コンパイル時には `W`, `v`, `w` の値のみを指定するだけで済みます。
 
 どういう時に長さに相当するプレースホルダーを導入し、どういう時に `ndim` + `len_at` を使うべきでしょうか？

@@ -90,7 +90,7 @@ The keyword arguments `upper_bound` and `lower_bound` set the variable bounds, a
 :class: tip
 
 You can write any JijModeling expression **without decision variables** for `upper_bound` and `lower_bound`.
-See the next section, "**Building expressions**" (coming soon), for what expressions are allowed.
+See the next section, {doc}`./expressions`, for what expressions are allowed.
 :::
 
 Moreover, with the **Decorator API**, you can omit the variable name; in that case the Python variable name is used automatically.
@@ -416,7 +416,7 @@ The {py:meth}`~jijmodeling.Expression.len_at` function returns the length of the
 Since $w, v, x$ all have the same length, we declare $v$ as a 1D array and use its length to specify the `shape` of $w$ and $x$.
 
 These two approaches define semantically equivalent models, but they differ in how instance data is provided.
-In the first `partial_knapsack` example (see [definition](#partial_knapsack_def) and its [update](#partial_knapsack_update)), $N$ is declared as a `Length` placeholder, so you must provide `N` as instance data in addition to `W`, `v`, and `w` when **creating an instance** (coming soon).
+In the first `partial_knapsack` example (see [definition](#partial_knapsack_def) and its [update](#partial_knapsack_update)), $N$ is declared as a `Length` placeholder, so you must provide `N` as instance data in addition to `W`, `v`, and `w` when {doc}`./instance_generation`.
 In `partial_knapsack_ndim`, where $N$ is derived via `len_at`, the value of $N$ is inferred from input `v`, so at compile time you only need to provide `W`, `v`, and `w`.
 
 So when should you introduce a length placeholder, and when should you use `ndim` + `len_at`?
