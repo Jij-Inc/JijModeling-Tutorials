@@ -28,10 +28,12 @@ parts:
       - file: advanced/serialize
   - caption: Reference
     chapters:
-      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
-        title: jijmodeling API Reference
       - file: references/cheat_sheet
       - file: references/migration_guide_to_jijmodeling2
+      - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
+        title: JijModeling API Reference
+      - url: https://jij-inc-jijzept-tutorials-ja.readthedocs-hosted.com/ja/
+        title: 典型問題集
   - caption: Release Notes
     chapters:
       - file: releases/jijmodeling-2.3.2
