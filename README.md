@@ -10,9 +10,6 @@ This repository provides learning materials for JijModeling. While JijModeling i
 | English  | [docs/en](./docs/en) | [![Book-EN](https://img.shields.io/badge/Read_The_Docs-English-blue)](https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/) |
 | 日本語   | [docs/ja](./docs/ja) | [![Book-JA](https://img.shields.io/badge/Read_The_Docs-日本語-blue)](https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/) |
 
-> [!TIP]
-> Learning materials for JijModeling v1.x.y is deployed to GitHub Pages. Please refer to [here](https://jij-inc.github.io/JijModeling-Tutorials/en/introduction.html).
-
 For questions about JijModeling, we provide community support through the following Discord channels. Please feel free to join us.
 
 | Language | Discord |
