@@ -446,6 +446,23 @@ w = problem.Float(ndim=1, description="Weight of each item")
 However, this does not express the relationship between the shapes of $v$ and $w$.
 Therefore, in JijModeling 2 and later, such definitions that **cannot enforce length consistency** are strongly discouraged, and it is **strongly recommended** to specify `shape` somewhere whenever there is a non-trivial relationship between shapes.
 
+Furthermore, unlike [decision-variable arrays](#array_of_dec_vars), **you may specify `None` as a component of the `shape` of a placeholder array**.
+In that case, the dimension marked with `None` is still required to have a fixed length, but that length is **inferred from the instance data provided at compile time**.
+This is useful when you want to define an array whose shape is only partially constrained, as in the following example:
+
+```{code-cell} ipython3
+@jm.Problem.define("Partially determined shape")
+def partial_shape(problem: jm.DecoratedProblem):
+    a = problem.Float(ndim=1)
+    N = a.len_at(0)
+    c = problem.Float(shape=(N, None))
+    M = c.len_at(1)
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(a[i] * c[i, j] * x[i, j] for i in N for j in M)
+
+partial_shape
+```
+
 :::{admonition} Graphs as arrays of tuples
 :class: tip
 
@@ -470,6 +487,7 @@ In this way, JijModeling lets you represent complex structures by combining tupl
 In JijModeling 1, a jagged array collection was available, where shapes are not uniform.
 However, due to its irregularity, jagged arrays are difficult to validate with type systems, so in JijModeling 2 they are **strongly discouraged** and planned to be removed in a future release.
 You can express graphs, non-zero-based indices, or sparse structures using combinations of arrays, tuples, and dictionaries, so we strongly recommend migrating away from jagged arrays.
+Also note that, unlike ordinary arrays, a component specified as `None` in the `shape` of a jagged array is interpreted as not having a fixed length, and may vary depending on the other dimensions.
 :::
 
 ### Dictionaries of variables and category labels

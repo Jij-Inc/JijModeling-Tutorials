@@ -438,6 +438,23 @@ w = problem.Float(ndim=1, description="各アイテムの重量")
 
 しかし、これでは $v, w$ の間のシェイプの関係が表現できないため、JijModeling 2 以降ではこのような**長さの一致性が強制できない定義は強く非推奨**としており、**シェイプの間に非自明な関係がある場合は必ずどこかで `shape` を指定する**ことを強く推奨します。
 
+更に、[決定変数の場合](#array_of_dec_vars)と異なり、**プレースホルダーの配列の `shape` の成分には `None` を指定する**ことができます。
+この場合、`None` に指定された次元も一定の長さであることが要求されますが、その長さはコンパイル時に与えられた**インスタンスデータの値から推論**されます。
+この機能は、以下のように部分的に長さに制約がある配列を定義したい場合に便利です：
+
+```{code-cell} ipython3
+@jm.Problem.define("Partially determined shape")
+def partial_shape(problem: jm.DecoratedProblem):
+    a = problem.Float(ndim=1)
+    N = a.len_at(0)
+    c = problem.Float(shape=(N, None))
+    M = c.len_at(1)
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(a[i] * c[i, j] * x[i, j] for i in N for j in M)
+
+partial_shape
+```
+
 :::{admonition} タプルの配列としてのグラフ
 :class: tip
 
@@ -462,6 +479,7 @@ G = problem.Placeholder(
 JijModeling 1 系統には、シェイプが均一ではない Jagged Array というコレクションも用意されていました。
 しかし、Jagged Array はその不均一性から型システムなどによる検証をうけづらいため、JijModeling 2 では**Jagged Array は強く非推奨**となっており、将来のリリースで取り除くことが計画されています。
 こうした配列とタプルの組み合わせや後述する辞書を使うと、グラフ構造や $0$ 起点でなかったり疎な構造を表すことができますので、移行の際にはこうした新たな構成要素を用いて Jagged Array を用いない記述へと置き換えることを強く推奨します。
+また、通常の配列と異なり、Jagged Array の `shape` で `None` に指定された成分は一定の長さではなく、他の次元に応じて異なる長さを持ちうる、という解釈になる点も注意してください。
 :::
 
 ### 変数の辞書とカテゴリーラベル
