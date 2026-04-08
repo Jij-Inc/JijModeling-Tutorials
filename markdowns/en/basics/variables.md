@@ -487,7 +487,6 @@ In this way, JijModeling lets you represent complex structures by combining tupl
 In JijModeling 1, a jagged array collection was available, where shapes are not uniform.
 However, due to its irregularity, jagged arrays are difficult to validate with type systems, so in JijModeling 2 they are **strongly discouraged** and planned to be removed in a future release.
 You can express graphs, non-zero-based indices, or sparse structures using combinations of arrays, tuples, and dictionaries, so we strongly recommend migrating away from jagged arrays.
-Also note that, unlike ordinary arrays, a component specified as `None` in the `shape` of a jagged array is interpreted as not having a fixed length, and may vary depending on the other dimensions.
 :::
 
 ### Dictionaries of variables and category labels
