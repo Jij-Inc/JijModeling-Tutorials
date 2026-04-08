@@ -438,6 +438,23 @@ w = problem.Float(ndim=1, description="各アイテムの重量")
 
 しかし、これでは $v, w$ の間のシェイプの関係が表現できないため、JijModeling 2 以降ではこのような**長さの一致性が強制できない定義は強く非推奨**としており、**シェイプの間に非自明な関係がある場合は必ずどこかで `shape` を指定する**ことを強く推奨します。
 
+更に、[決定変数の場合](#array_of_dec_vars)と異なり、**プレースホルダーの配列の `shape` の成分には `None` を指定する**ことができます。
+この場合、`None` に指定された次元も一定の長さであることが要求されますが、その長さはコンパイル時に与えられた**インスタンスデータの値から推論**されます。
+この機能は、以下のように部分的に長さに制約がある配列を定義したい場合に便利です：
+
+```{code-cell} ipython3
+@jm.Problem.define("Partially determined shape")
+def partial_shape(problem: jm.DecoratedProblem):
+    a = problem.Float(ndim=1)
+    N = a.len_at(0)
+    c = problem.Float(shape=(N, None))
+    M = c.len_at(1)
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(a[i] * c[i, j] * x[i, j] for i in N for j in M)
+
+partial_shape
+```
+
 :::{admonition} タプルの配列としてのグラフ
 :class: tip
 
