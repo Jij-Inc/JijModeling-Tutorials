@@ -32,4 +32,4 @@ kernelspec:
 
 ## Other Changes
 
-- Change 1
+- Supports Python 3.14
