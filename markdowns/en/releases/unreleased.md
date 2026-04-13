@@ -32,4 +32,4 @@ kernelspec:
 
 ## Other Changes
 
-- Change 1
+- Relaxed version bounds to allow installation on any Python 3 version from Python 3.11 onwards.
