@@ -40,6 +40,32 @@ def problem(problem):
 problem
 ```
 
+## 軸に沿った `min` / `max` のサポート
+
+旧来は {py:func}`jm.sum <jijmodeling.sum>` や {py:meth}`Expression.sum <jijmodeling.Expression.sum>` では `axis` キーワード引数により、多次元配列の特定の軸に沿った和を取ることができましたが、今回のバージョンからは {py:func}`jm.min <jijmodeling.min>` と {py:func}`jm.max <jijmodeling.max>` （そしてその対応する `Expression` メソッド）にも同様の機能が追加されました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("min/max along axes example")
+def problem(problem):
+    a = problem.Float(ndim=2)
+    a_min_0 = problem.NamedExpr(a.min(axis=0), save_in_ommx=True)
+    a_max_1 = problem.NamedExpr(jm.max(a, axis=1), save_in_ommx=True)
+
+
+problem
+```
+
+```{code-cell} ipython3
+a_data = [[1, 2, 3], [4, 5, 6]]
+compiler = jm.Compiler.from_problem(problem, {"a": a_data})
+instance = compiler.eval_problem(problem)
+
+instance.named_functions_df
+```
+
 ## バグ修正
 
 +++

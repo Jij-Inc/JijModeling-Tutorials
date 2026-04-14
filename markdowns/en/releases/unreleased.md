@@ -40,6 +40,32 @@ def problem(problem):
 problem
 ```
 
+### Support for `min` / `max` along axes
+
+Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum <jijmodeling.Expression.sum>` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument. Starting with this version, the same functionality has been added to {py:func}`jm.min <jijmodeling.min>` and {py:func}`jm.max <jijmodeling.max>` as well as their corresponding `Expression` methods.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("min/max along axes example")
+def problem(problem):
+    a = problem.Float(ndim=2)
+    a_min_0 = problem.NamedExpr(a.min(axis=0), save_in_ommx=True)
+    a_max_1 = problem.NamedExpr(jm.max(a, axis=1), save_in_ommx=True)
+
+
+problem
+```
+
+```{code-cell} ipython3
+a_data = [[1, 2, 3], [4, 5, 6]]
+compiler = jm.Compiler.from_problem(problem, {"a": a_data})
+instance = compiler.eval_problem(problem)
+
+instance.named_functions_df
+```
+
 ## Bugfixes
 
 +++
