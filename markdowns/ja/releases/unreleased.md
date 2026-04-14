@@ -50,20 +50,48 @@ import jijmodeling as jm
 
 @jm.Problem.define("min/max along axes example")
 def problem(problem):
-    a = problem.Float(ndim=2)
+    N = problem.Natural()
+    M = problem.Natural()
+    a = problem.Float(shape=(N, M))
     a_min_0 = problem.NamedExpr(a.min(axis=0), save_in_ommx=True)
     a_max_1 = problem.NamedExpr(jm.max(a, axis=1), save_in_ommx=True)
+    a_min_both = problem.NamedExpr(jm.min(a, axis=[1, 0]), save_in_ommx=True)
 
 
 problem
 ```
 
 ```{code-cell} ipython3
-a_data = [[1, 2, 3], [4, 5, 6]]
-compiler = jm.Compiler.from_problem(problem, {"a": a_data})
-instance = compiler.eval_problem(problem)
+import numpy as np
 
-instance.named_functions_df
+a_data = np.array([[1, 5, 3], [4, 2, 6]])
+compiler = jm.Compiler.from_problem(problem, {"N": 2, "M": 3, "a": a_data})
+instance = compiler.eval_problem(problem)
+print(f"a == {a_data}")
+
+a_min_0_ids = compiler.get_named_function_id_by_name("a_min_0")
+a_min_0_values = [
+    instance.get_named_function_by_id(a_min_0_ids[(i,)]).function.constant_term
+    for i in range(3)
+]
+
+print(f"a.min(axis=0) == {a_min_0_values}")
+assert np.all(a_min_0_values == np.min(a_data, axis=0))
+
+a_max_1_ids = compiler.get_named_function_id_by_name("a_max_1")
+a_max_1_values = [
+    instance.get_named_function_by_id(a_max_1_ids[(i,)]).function.constant_term
+    for i in range(2)
+]
+print(f"a.max(axis=1) == {a_max_1_values}")
+assert np.all(a_max_1_values == np.max(a_data, axis=1))
+
+a_min_both_ids = compiler.get_named_function_id_by_name("a_min_both")
+a_min_both_value = instance.get_named_function_by_id(
+    a_min_both_ids[()]
+).function.constant_term
+print(f"a.min(axis=[1, 0]) == {a_min_both_value}")
+assert a_min_both_value == np.min(a_data)
 ```
 
 ## バグ修正
