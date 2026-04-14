@@ -19,9 +19,26 @@ kernelspec:
 
 +++
 
-### Feature 1
+### Generating arrays with a shape and generator function
 
-+++
+Starting with this version, the {py:func}`~jijmodeling.genarray` function can be used to generate arrays by specifying a shape and a generator function.
+This is similar to {py:func}`~numpy.fromfunction` in NumPy.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("genarray example")
+def problem(problem):
+    N = problem.Natural()
+    M = problem.Natural()
+    a = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=N)
+    Sums = problem.NamedExpr(jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
+
+
+problem
+```
 
 ## Bugfixes
 
