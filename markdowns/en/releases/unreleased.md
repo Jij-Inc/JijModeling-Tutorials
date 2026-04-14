@@ -27,7 +27,52 @@ kernelspec:
 
 +++
 
-### Bugfix 1
+### Bugfixes in random instance data generation
+
+We fixed the following two bugs in random instance data generation:
+
+#### Placeholders that depend on `NamedExpr` were not handled correctly
+
+We fixed a bug where placeholders whose shape (length) or key set depends on `NamedExpr` were not handled correctly.
+For example, consider the following problem:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("My Problem")
+def problem(problem: jm.DecoratedProblem):
+    a = problem.Float(ndim=1)
+    N = problem.NamedExpr(a.len_at(0))
+    b = problem.Natural(shape=(N, None))
+    M = problem.NamedExpr(b.len_at(1))
+    problem += jm.sum(a[i] * b[i, j] for i in N for j in M)
+
+
+problem
+```
+
+In previous versions, calling `generate_random_dataset()` on this `problem` raised an exception. Starting with this release, the data is generated correctly.
+
+```{code-cell} ipython3
+problem.generate_random_dataset(seed=17)
+```
+
+#### Fixed a bug where generation failed when unused placeholders were present
+
+Data generation failed when there were unused placeholders not included in `used_placeholder()`.
+For example, in the following code, `N` is defined but never used, and previous versions raised a runtime exception.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("My Problem")
+N = problem.Natural("N")
+
+problem.generate_random_dataset(seed=17)
+```
+
+Starting with this release, data is generated successfully in cases like the example above.
 
 
 ## Other Changes
