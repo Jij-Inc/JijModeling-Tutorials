@@ -59,7 +59,8 @@ Comprehensions used with `jm.genarray` MUST satisfy the following conditions:
 
 ### Support for `min` / `max` along axes
 
-Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum <jijmodeling.Expression.sum>` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument. Starting with this version, the same functionality has been added to {py:func}`jm.min <jijmodeling.min>` and {py:func}`jm.max <jijmodeling.max>` as well as their corresponding `Expression` methods.
+Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum <jijmodeling.Expression.sum>` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument.
+Starting with this version, the same functionality has been added to {py:func}`jm.min <jijmodeling.min>` and {py:func}`jm.max <jijmodeling.max>` as well as their corresponding `Expression` methods.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
