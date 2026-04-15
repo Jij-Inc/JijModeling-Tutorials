@@ -257,6 +257,49 @@ except Exception as e:
     print(e)
 ```
 
+### Alternative syntax: constructing arrays with `genarray`
+
+In the example above, operations involving nontrivial broadcasting, such as `y + z`, result in an (intentional) error.
+In such cases, you can use the {py:func}`~jijmodeling.genarray` function to construct the resulting array explicitly by specifying the shape and the expression for each entry:
+
+```{code-cell} ipython3
+A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
+display(A)
+problem.infer(A)
+```
+
+When using the Decorator API, you can also use a comprehension with `jm.genarray` as follows:
+
+```{code-cell} ipython3
+@problem.update
+def _(problem: jm.DecoratedProblem):
+    A = jm.genarray(y[i, j] + z[i, j, k] for i, j, k in (N, M, N))
+    display(A)
+    display(problem.infer(A))
+```
+
+Comprehensions used with `jm.genarray` must satisfy the following conditions:
+
+1. It must be a **generator expression** enclosed in parentheses. List comprehensions enclosed in `[ ]` are not supported.
+2. The `for` clause must be a single loop of the form `for i_1, .., i_k in (N_1, .., N_k)` for natural-number expressions `N_i`.
+   If the arity and types match, the variable names may be arbitrary, and the expression itself may be complex.
+
+The following is an example that raises an error because it uses multiple `for` clauses:
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def problem(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
+```
+
 :::{admonition} Division by decision variables
 :class: caution
 

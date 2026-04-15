@@ -244,6 +244,49 @@ except Exception as e:
     print(e)
 ```
 
+### 代替記法：`genarray` による配列の構築
+
+上の例では、`y + z` のように、非自明なブロードキャストを伴う演算は（意図的に）エラーになっていました。
+このような場合、{py:func}`~jijmodeling.genarray` 関数を使い、陽にシェイプと成分の式を指定することで、結果の配列を構築できるようになります：
+
+```{code-cell} ipython3
+A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
+display(A)
+problem.infer(A)
+```
+
+また、Decorator API を利用している場合、以下のように `jm.genarray` で内包表記を用いることもできます：
+
+```{code-cell} ipython3
+@problem.update
+def _(problem: jm.DecoratedProblem):
+    A = jm.genarray(y[i, j] + z[i, j, k] for i, j, k in (N, M, N))
+    display(A)
+    display(problem.infer(A))
+```
+
+`jm.genarray` で使える内包表記は以下の条件に従う必要があります：
+
+1. 丸括弧で囲まれた**ジェネレータ式**であること。 `[ ]` で囲まれたリスト内包表記は利用できません。
+2. `for` 部は自然数式 `N_i` に対し、 `for i_1, .., i_k in (N_1, .., N_k)` の形の単一のループであること。
+   + 個数と型が合っていれば、変数名は何でも構いませんし、複雑な式を書くこともできます。
+
+以下は、複数の `for`-節を使ってしまい、エラーになっている例です：
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def problem(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
+```
+
 :::{admonition} 決定変数による除算について
 :class: caution
 
