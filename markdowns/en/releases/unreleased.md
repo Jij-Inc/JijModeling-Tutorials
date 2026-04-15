@@ -49,6 +49,9 @@ def problem(problem):
     a = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=N)
     Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i, j in (N, M)))
+
+
+problem
 ```
 
 Comprehensions used with `jm.genarray` MUST satisfy the following conditions:
