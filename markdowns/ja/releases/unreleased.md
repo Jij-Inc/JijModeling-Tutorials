@@ -40,6 +40,78 @@ def problem(problem):
 problem
 ```
 
+## 軸に沿った `min` / `max` のサポート
+
+旧来は {py:func}`jm.sum <jijmodeling.sum>` や {py:meth}`Expression.sum <jijmodeling.Expression.sum>` では `axis` キーワード引数により、多次元配列の特定の軸に沿った和を取ることができましたが、今回のバージョンからは {py:func}`jm.min <jijmodeling.min>` と {py:func}`jm.max <jijmodeling.max>`（そしてその対応する `Expression` メソッド）にも同様の機能が追加されました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("min/max along axes example")
+def problem(problem):
+    N = problem.Natural()
+    M = problem.Natural()
+    a = problem.Float(shape=(N, M))
+    a_min_0 = problem.NamedExpr(a.min(axis=0), save_in_ommx=True)
+    a_max_1 = problem.NamedExpr(jm.max(a, axis=1), save_in_ommx=True)
+    a_min_both = problem.NamedExpr(jm.min(a, axis=[1, 0]), save_in_ommx=True)
+
+
+problem
+```
+
+それでは、インスタンスを作成して、含まれる Named Function と `a` の値を確認してみましょう。
+
+```{code-cell} ipython3
+import numpy as np
+
+a_data = np.array([[1, 5, 3], [4, 2, 6]])
+compiler = jm.Compiler.from_problem(problem, {"N": 2, "M": 3, "a": a_data})
+instance = compiler.eval_problem(problem)
+
+display(instance.named_functions_df)
+print(f"a == {a_data}")
+```
+
+OMMX Instance の Named Function は添え字ごとにバラバラになってしまうので、上の表では読みづらいかもしれません。
+そこで、各変数ごとに `compiler` の機能を使って名寄せし、配列を作って比較してみましょう。
+
+まずは軸 0（列）に沿った最小値を取る `a_min_0 = a.min(axis=0)` の例です。こちらは軸 1（行）が残り、構成する列の最小値からなるベクトルになります。
+
+```{code-cell} ipython3
+a_min_0_ids = compiler.get_named_function_id_by_name("a_min_0")
+a_min_0_values = [
+    instance.get_named_function_by_id(a_min_0_ids[(i,)]).function.constant_term
+    for i in range(3)
+]
+assert np.all(a_min_0_values == np.min(a_data, axis=0))  # numpy の挙動と一致！
+print(f"a.min(axis=0) == {a_min_0_values}")
+```
+
+対して、`a_max_1 = a.max(axis=1)` では軸 1（行）に沿った最大値が取られ、軸 0（列）ごとに構成する行の最大値で置換されたベクトルとなります。
+
+```{code-cell} ipython3
+a_max_1_ids = compiler.get_named_function_id_by_name("a_max_1")
+a_max_1_values = [
+    instance.get_named_function_by_id(a_max_1_ids[(i,)]).function.constant_term
+    for i in range(2)
+]
+assert np.all(a_max_1_values == np.max(a_data, axis=1))  # numpy の挙動と一致！
+print(f"a.max(axis=1) == {a_max_1_values}")
+```
+
+`a_min_both = a.min(axis=[1, 0])` では複数軸に沿った最小値を取っており、今回は 2 次元入力のため単純な全体の最小値になります。
+
+```{code-cell} ipython3
+a_min_both_ids = compiler.get_named_function_id_by_name("a_min_both")
+a_min_both_value = instance.get_named_function_by_id(
+    a_min_both_ids[()]
+).function.constant_term
+assert a_min_both_value == np.min(a_data)  # numpy の挙動と一致！
+print(f"a.min(axis=[1, 0]) == {a_min_both_value}")
+```
+
 ## バグ修正
 
 +++
