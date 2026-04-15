@@ -77,7 +77,7 @@ print(f"a == {a_data}")
 OMMX Instance の Named Function は添え字ごとにバラバラになってしまうので、上の表では読みづらいかもしれません。
 そこで、各変数ごとに `compiler` の機能を使って名寄せし、配列を作って比較してみましょう。
 
-まずは軸 0（列）に沿った最小値を取る `a_min_0 = a.min(axis=0)` の例です。こちらは軸1（行）が残り、構成する列の最小値からなるベクトルになります。
+まずは軸 0（列）に沿った最小値を取る `a_min_0 = a.min(axis=0)` の例です。こちらは軸 1（行）が残り、構成する列の最小値からなるベクトルになります。
 
 ```{code-cell} ipython3
 a_min_0_ids = compiler.get_named_function_id_by_name("a_min_0")
@@ -89,7 +89,7 @@ assert np.all(a_min_0_values == np.min(a_data, axis=0))  # numpy の挙動と一
 print(f"a.min(axis=0) == {a_min_0_values}")
 ```
 
-対して、`a_max_1 = a.max(axis=1)` では軸1（行）に沿った最大値が取られ、軸0（列）ごとに構成する行の最大値で置換されたベクトルとなります。
+対して、`a_max_1 = a.max(axis=1)` では軸 1（行）に沿った最大値が取られ、軸 0（列）ごとに構成する行の最大値で置換されたベクトルとなります。
 
 ```{code-cell} ipython3
 a_max_1_ids = compiler.get_named_function_id_by_name("a_max_1")
@@ -101,7 +101,7 @@ assert np.all(a_max_1_values == np.max(a_data, axis=1))  # numpy の挙動と一
 print(f"a.max(axis=1) == {a_max_1_values}")
 ```
 
-`a_min_both = a.min(axis=[1, 0])` では複数軸に沿った最小値を取っており、今回は2次元入力のため単純な全体の最小値になります。
+`a_min_both = a.min(axis=[1, 0])` では複数軸に沿った最小値を取っており、今回は 2 次元入力のため単純な全体の最小値になります。
 
 ```{code-cell} ipython3
 a_min_both_ids = compiler.get_named_function_id_by_name("a_min_both")
