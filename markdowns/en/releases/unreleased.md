@@ -28,17 +28,34 @@ This is similar to {py:func}`~numpy.fromfunction` in NumPy.
 import jijmodeling as jm
 
 
+problem = jm.Problem("genarray example")
+N = problem.Natural("N")
+M = problem.Natural("M")
+a = problem.Float("a", shape=(N, M))
+x = problem.BinaryVar("x", shape=N)
+Sums = problem.NamedExpr("Sums", jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
+
+
+problem
+```
+
+When using the Decorator API, you can also use a comprehension syntax with `jm.genarray` as follows:
+
+```{code-cell} ipython3
 @jm.Problem.define("genarray example")
 def problem(problem):
     N = problem.Natural()
     M = problem.Natural()
     a = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=N)
-    Sums = problem.NamedExpr(jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
-
-
-problem
+    Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i, j in (N, M)))
 ```
+
+Comprehensions used with `jm.genarray` MUST satisfy the following conditions:
+
+1. It must be a **generator expression** enclosed in parentheses (or omitted). List comprehensions enclosed in `[ ]` are not supported.
+2. The `for` clause must be a single loop of the form `for i_1, .., i_k in (N_1, .., N_k)` for natural-number expressions `N_i`.
+   If the arity and types match, the variable names may be arbitrary, and the expression itself may be complex.
 
 ### Support for `min` / `max` along axes
 

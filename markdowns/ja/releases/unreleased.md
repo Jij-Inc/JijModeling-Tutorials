@@ -28,17 +28,34 @@ kernelspec:
 import jijmodeling as jm
 
 
+problem = jm.Problem("genarray example")
+N = problem.Natural("N")
+M = problem.Natural("M")
+a = problem.Float("a", shape=(N, M))
+x = problem.BinaryVar("x", shape=N)
+Sums = problem.NamedExpr("Sums", jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
+
+
+problem
+```
+
+また、Decorator API を利用している場合、以下のように `jm.genarray` で内包表記を用いることもできます：
+
+```{code-cell} ipython3
 @jm.Problem.define("genarray example")
 def problem(problem):
     N = problem.Natural()
     M = problem.Natural()
     a = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=N)
-    Sums = problem.NamedExpr(jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
-
-
-problem
+    Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i, j in (N, M)))
 ```
+
+`jm.genarray` で使える内包表記は以下の条件に従う必要があります：
+
+1. 丸括弧で囲まれた**ジェネレータ式**であること。 `[ ]` で囲まれたリスト内包表記は利用できません。
+2. `for` 部は自然数式 `N_i` に対し、 `for i_1, .., i_k in (N_1, .., N_k)` の形の単一のループであること。
+   + 個数と型が合っていれば、変数名は何でも構いませんし、複雑な式を書くこともできます。
 
 ## 軸に沿った `min` / `max` のサポート
 
