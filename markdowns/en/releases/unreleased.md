@@ -60,6 +60,22 @@ Comprehensions used with `jm.genarray` MUST satisfy the following conditions:
 2. The `for` clause must be a single loop of the form `for i_1, .., i_k in (N_1, .., N_k)` for natural-number expressions `N_i`.
    If the arity and types match, the variable names may be arbitrary, and the expression itself may be complex.
 
+The following is an example that raises an error because it uses multiple `for` clauses:
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def problem(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
+```
+
 ### Support for `min` / `max` along axes
 
 Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum <jijmodeling.Expression.sum>` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument.
@@ -191,3 +207,4 @@ Starting with this release, data is generated successfully in cases like the exa
 ## Other Changes
 
 - Relaxed version bounds to allow installation on any Python 3 version from Python 3.11 onwards.
+- Error messages for invalid comprehensions used with the Decorator API in `sum` and similar constructs now report the specific location in the source code.

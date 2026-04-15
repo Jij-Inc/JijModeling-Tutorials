@@ -60,6 +60,22 @@ problem
 2. `for` 部は自然数式 `N_i` に対し、 `for i_1, .., i_k in (N_1, .., N_k)` の形の単一のループであること。
    + 個数と型が合っていれば、変数名は何でも構いませんし、複雑な式を書くこともできます。
 
+以下は、複数の `for`-節を使ってしまい、エラーになっている例です：
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def problem(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
+```
+
 ## 軸に沿った `min` / `max` のサポート
 
 旧来は {py:func}`jm.sum <jijmodeling.sum>` や {py:meth}`Expression.sum <jijmodeling.Expression.sum>` では `axis` キーワード引数により、多次元配列の特定の軸に沿った和を取ることができましたが、今回のバージョンからは {py:func}`jm.min <jijmodeling.min>` と {py:func}`jm.max <jijmodeling.max>`（そしてその対応する `Expression` メソッド）にも同様の機能が追加されました。
@@ -186,3 +202,4 @@ problem.generate_random_dataset(seed=17)
 ## その他の変更
 
 - バージョン条件を緩和し、Python 3.11 以降の任意の Python 3 でのインストールを許容しました。
+- Decorator API の `sum` などで不正な内包表記を使った際のエラーメッセージが、具体的なコード上の位置を報告するようになりました。
