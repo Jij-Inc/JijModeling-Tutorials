@@ -562,6 +562,23 @@ def double_sum_example_alt(problem: jm.DecoratedProblem):
 double_sum_example_alt
 ```
 
+Also, in places such as the right-hand side of `in` in Decorator API comprehensions and the `domain=` keyword argument of `Constraint`, you can omit `jm.product` and represent the Cartesian product with a tuple as follows:
+
+```{code-cell} ipython3
+@jm.Problem.define("Double Sum Example (Alt)")
+def double_sum_example_alt(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    Q = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+
+    # Note: the Cartesian product is represented by a tuple, not product
+    problem += jm.sum(Q[i, j] for (i, j) in (N, M))
+
+
+double_sum_example_alt
+```
+
 With `if`, you can build more complex examples:
 
 ```{code-cell} ipython3

@@ -540,6 +540,23 @@ def double_sum_example_alt(problem: jm.DecoratedProblem):
 double_sum_example_alt
 ```
 
+また、Decorator API での内包表記の `in` の右辺や、`Constraint` の `domain=` キーワード引数などでは、`jm.product` を省略して次のようにタプルで直積を表すことができます：
+
+```{code-cell} ipython3
+@jm.Problem.define("Double Sum Example (Alt)")
+def double_sum_example_alt(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    Q = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+
+    # 注目！ productではなく、タプルで直積を表している
+    problem += jm.sum(Q[i, j] for (i, j) in (N, M))
+
+
+double_sum_example_alt
+```
+
 `if`文を使えば、更に以下のような複雑な例も書くことができます：
 
 ```{code-cell} ipython3
