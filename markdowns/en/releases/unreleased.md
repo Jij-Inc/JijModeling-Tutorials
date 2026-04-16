@@ -166,6 +166,21 @@ problem.generate_random_dataset(seed=17)
 
 Starting with this release, data is generated successfully in cases like the example above.
 
+#### Fixed a bug where `latex` specifications were ignored in LaTeX output for decision variable bounds
+
+We fixed a bug where the values of the `latex=` keyword argument for other variables were ignored when outputting decision variable bounds in $\LaTeX$.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("LaTeX bugfix example")
+L = problem.Float("L", latex=r"\ell")
+U = problem.Float("U", latex=r"\mathcal{U}")
+x = problem.ContinuousVar("x", lower=L, upper=U)
+problem += x
+
+problem
+```
 
 ## Other Changes
 

@@ -163,6 +163,20 @@ problem.generate_random_dataset(seed=17)
 
 今回のリリースから、上記のように問題なくデータが生成されるようになりました。
 
+#### 決定変数の上下界のLaTeX出力で `latex` 指定が無視されていた問題の修正
+
+決定変数の上下界を $\LaTeX$ 出力する際に、他の変数の `latex=` キーワード引数の値が無視されていた問題を修正しました。
+
+```{code-cell} ipython3
+problem = jm.Problem("LaTeX bugfix example")
+L = problem.Float("L", latex=r"\ell")
+U = problem.Float("U", latex=r"\mathcal{U}")
+x = problem.ContinuousVar("x", lower=L, upper=U)
+problem += x
+
+problem
+```
+
 ## その他の変更
 
 - バージョン条件を緩和し、Python 3.11 以降の任意の Python 3 でのインストールを許容しました。
