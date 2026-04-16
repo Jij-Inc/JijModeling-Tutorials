@@ -176,7 +176,7 @@ import jijmodeling as jm
 problem = jm.Problem("LaTeX bugfix example")
 L = problem.Float("L", latex=r"\ell")
 U = problem.Float("U", latex=r"\mathcal{U}")
-x = problem.ContinuousVar("x", lower=L, upper=U)
+x = problem.ContinuousVar("x", lower_bound=L, upper_bound=U)
 problem += x
 
 problem

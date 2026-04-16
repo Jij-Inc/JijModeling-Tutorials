@@ -168,10 +168,12 @@ problem.generate_random_dataset(seed=17)
 決定変数の上下界を $\LaTeX$ 出力する際に、他の変数の `latex=` キーワード引数の値が無視されていた問題を修正しました。
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
 problem = jm.Problem("LaTeX bugfix example")
 L = problem.Float("L", latex=r"\ell")
 U = problem.Float("U", latex=r"\mathcal{U}")
-x = problem.ContinuousVar("x", lower=L, upper=U)
+x = problem.ContinuousVar("x", lower_bound=L, upper_bound=U)
 problem += x
 
 problem
