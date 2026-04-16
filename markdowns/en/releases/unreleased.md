@@ -39,62 +39,6 @@ Sums = problem.NamedExpr("Sums", jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)
 problem
 ```
 
-When using the Decorator API, you can also use a comprehension syntax with `jm.genarray` as follows:
-
-```{code-cell} ipython3
-@jm.Problem.define("genarray example")
-def problem(problem):
-    N = problem.Natural()
-    M = problem.Natural()
-    a = problem.Float(shape=(N, M))
-    x = problem.BinaryVar(shape=N)
-    Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i, j in (N, M)))
-
-
-problem
-```
-
-Comprehensions used with `jm.genarray` MUST satisfy the following conditions:
-
-1. It must be a **generator expression** enclosed in parentheses (or omitted). List comprehensions enclosed in `[ ]` are not supported.
-2. The `for` clause must be a single loop of the form `for p in e`, where `e` is a natural-number expression or tuple expression of natural numbers, and `p` is a pattern.
-   + `p` may be any pattern that matches `e`.
-
-The following is an example that raises an error because it uses multiple `for` clauses:
-
-```{code-cell} ipython3
-try:
-
-    @jm.Problem.define("genarray example")
-    def problem(problem):
-        N = problem.Natural()
-        M = problem.Natural()
-        a = problem.Float(shape=(N, M))
-        x = problem.BinaryVar(shape=N)
-        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
-except SyntaxError as e:
-    print(str(e))
-```
-
-Also, the right-hand side of `in` in `genarray` specifies only the shape.
-In particular, be careful not to use `jm.product` as shown below, because it creates a set and results in an error:
-
-```{code-cell} ipython3
-try:
-
-    @jm.Problem.define("genarray example")
-    def _(problem):
-        N = problem.Natural()
-        M = problem.Natural()
-        a = problem.Float(shape=(N, M))
-        x = problem.BinaryVar(shape=N)
-        Sums = problem.NamedExpr(
-            jm.genarray(a[i, j] * x[i] for i, j in jm.product(N, M))
-        )
-except Exception as e:
-    print(str(e))
-```
-
 ### Support for `min` / `max` along axes
 
 Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum <jijmodeling.Expression.sum>` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument.
