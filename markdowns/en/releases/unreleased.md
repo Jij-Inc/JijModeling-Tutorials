@@ -57,8 +57,8 @@ problem
 Comprehensions used with `jm.genarray` MUST satisfy the following conditions:
 
 1. It must be a **generator expression** enclosed in parentheses (or omitted). List comprehensions enclosed in `[ ]` are not supported.
-2. The `for` clause must be a single loop of the form `for i_1, .., i_k in (N_1, .., N_k)` for natural-number expressions `N_i`.
-   If the arity and types match, the variable names may be arbitrary, and the expression itself may be complex.
+2. The `for` clause must be a single loop of the form `for p in e`, where `e` is a natural-number expression or tuple expression of natural numbers, and `p` is a pattern.
+   + `p` may be any pattern that matches `e`.
 
 The following is an example that raises an error because it uses multiple `for` clauses:
 
