@@ -182,6 +182,9 @@ problem += x
 problem
 ```
 
+In previous releases, the `latex` specifications were ignored in the code above, and the bounds were displayed as $L \leq x \leq U$.
+Starting with this release, the settings are preserved as shown above, and the bounds are displayed as $\ell \leq x \leq \mathcal{U}$.
+
 ## Other Changes
 
 - Relaxed version bounds to allow installation on any Python 3 version from Python 3.11 onwards.
