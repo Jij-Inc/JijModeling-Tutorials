@@ -76,6 +76,25 @@ except SyntaxError as e:
     print(str(e))
 ```
 
+また、`genarray` の `in` の右辺はあくまでもシェイプを指定するものです。
+特に、以下のように`jm.product` を使ってしまうと集合になってしまい、エラーとなるので注意してください：
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def _(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(
+            jm.genarray(a[i, j] * x[i] for i, j in jm.product(N, M))
+        )
+except Exception as e:
+    print(str(e))
+```
+
 ## 軸に沿った `min` / `max` のサポート
 
 旧来は {py:func}`jm.sum <jijmodeling.sum>` や {py:meth}`Expression.sum <jijmodeling.Expression.sum>` では `axis` キーワード引数により、多次元配列の特定の軸に沿った和を取ることができましたが、今回のバージョンからは {py:func}`jm.min <jijmodeling.min>` と {py:func}`jm.max <jijmodeling.max>`（そしてその対応する `Expression` メソッド）にも同様の機能が追加されました。
