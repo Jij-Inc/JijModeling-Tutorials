@@ -28,16 +28,47 @@ kernelspec:
 import jijmodeling as jm
 
 
+problem = jm.Problem("genarray example")
+N = problem.Natural("N")
+M = problem.Natural("M")
+a = problem.Float("a", shape=(N, M))
+x = problem.BinaryVar("x", shape=N)
+Sums = problem.NamedExpr("Sums", jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
+
+
+problem
+```
+
+また、Decorator API を利用している場合、以下のように `jm.genarray` で内包表記を用いることもできます：
+
+```{code-cell} ipython3
 @jm.Problem.define("genarray example")
 def problem(problem):
     N = problem.Natural()
     M = problem.Natural()
     a = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=N)
-    Sums = problem.NamedExpr(jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
+    Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i, j in (N, M)))
 
 
 problem
+```
+
+`genarray` の内包表記では、`for .. in ...` は一つしか許容されません。
+以下は、複数の `for`-節を使ってしまい、エラーになっている例です：
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def problem(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
 ```
 
 ## 軸に沿った `min` / `max` のサポート
@@ -184,3 +215,4 @@ problem
 ## その他の変更
 
 - バージョン条件を緩和し、Python 3.11 以降の任意の Python 3 でのインストールを許容しました。
+- Decorator API の `sum` などで不正な内包表記を使った際のエラーメッセージが、具体的なコード上の位置を報告するようになりました。

@@ -244,7 +244,45 @@ except Exception as e:
     print(e)
 ```
 
-:::{admonition} 決定変数による除算について
+### 代替記法：`genarray` による配列の構築
+
+上の例では、`y + z` のように、非自明なブロードキャストを伴う演算は（意図的に）エラーになっていました。
+このような場合、{py:func}`~jijmodeling.genarray` 関数を使い、陽にシェイプと成分の式を指定することで、結果の配列を構築できるようになります：
+
+```{code-cell} ipython3
+A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
+display(A)
+problem.infer(A)
+```
+
+また、Decorator API を利用している場合、以下のように `jm.genarray` で内包表記を用いることもできます：
+
+```{code-cell} ipython3
+@problem.update
+def _(problem: jm.DecoratedProblem):
+    A = jm.genarray(y[i, j] + z[i, j, k] for i, j, k in (N, M, N))
+    display(A)
+    display(problem.infer(A))
+```
+
+`genarray` の内包表記では、`for .. in ...` は一つしか許容されません。
+以下のように、複数の `for`-節を使ってしまうとエラーになるので注意してください：
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def _(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
+```
+
+::{admonition} 決定変数による除算について
 :class: caution
 
 モデルの構築の時点では、決定変数が現れうる式は加減乗除の左右どちらの辺にも現れることができます。
@@ -492,6 +530,23 @@ def double_sum_example_alt(problem: jm.DecoratedProblem):
     Q = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=(N, M))
     problem += jm.sum(Q[i, j] for (i, j) in jm.product(N, M))
+
+
+double_sum_example_alt
+```
+
+また、Decorator API での内包表記の `in` の右辺や、`Constraint` の `domain=` キーワード引数などでは、`jm.product` を省略して次のようにタプルで直積を表すことができます：
+
+```{code-cell} ipython3
+@jm.Problem.define("Double Sum Example (Alt)")
+def double_sum_example_alt(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    Q = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+
+    # 注目！ productではなく、タプルで直積を表している
+    problem += jm.sum(Q[i, j] for (i, j) in (N, M))
 
 
 double_sum_example_alt

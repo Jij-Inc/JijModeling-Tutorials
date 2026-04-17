@@ -28,21 +28,53 @@ This is similar to {py:func}`~numpy.fromfunction` in NumPy.
 import jijmodeling as jm
 
 
+problem = jm.Problem("genarray example")
+N = problem.Natural("N")
+M = problem.Natural("M")
+a = problem.Float("a", shape=(N, M))
+x = problem.BinaryVar("x", shape=N)
+Sums = problem.NamedExpr("Sums", jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
+
+
+problem
+```
+
+When using the Decorator API, you can also use a comprehension syntax with `jm.genarray` as follows:
+
+```{code-cell} ipython3
 @jm.Problem.define("genarray example")
 def problem(problem):
     N = problem.Natural()
     M = problem.Natural()
     a = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=N)
-    Sums = problem.NamedExpr(jm.genarray(lambda i, j: a[i, j] * x[i], (N, M)))
+    Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i, j in (N, M)))
 
 
 problem
 ```
 
+Only one `for .. in ...` clause is allowed in a `genarray` comprehension.
+The following is an example that raises an error because it uses multiple `for` clauses:
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def problem(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
+```
+
 ### Support for `min` / `max` along axes
 
-Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum <jijmodeling.Expression.sum>` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument. Starting with this version, the same functionality has been added to {py:func}`jm.min <jijmodeling.min>` and {py:func}`jm.max <jijmodeling.max>` as well as their corresponding `Expression` methods.
+Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum <jijmodeling.Expression.sum>` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument.
+Starting with this version, the same functionality has been added to {py:func}`jm.min <jijmodeling.min>` and {py:func}`jm.max <jijmodeling.max>` as well as their corresponding `Expression` methods.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -188,3 +220,4 @@ Starting with this release, the settings are preserved as shown above, and the b
 ## Other Changes
 
 - Relaxed version bounds to allow installation on any Python 3 version from Python 3.11 onwards.
+- Error messages for invalid comprehensions used with the Decorator API in `sum` and similar constructs now report the specific location in the source code.
