@@ -255,6 +255,55 @@ display(A)
 problem.infer(A)
 ```
 
+また、Decorator API を利用している場合、以下のように `jm.genarray` で内包表記を用いることもできます：
+
+```{code-cell} ipython3
+@problem.update
+def _(problem: jm.DecoratedProblem):
+    A = jm.genarray(y[i, j] + z[i, j, k] for i, j, k in (N, M, N))
+    display(A)
+    display(problem.infer(A))
+```
+
+`jm.genarray` で使える内包表記は以下の条件に従う必要があります：
+
+1. 丸括弧で囲まれた**ジェネレータ式**であること。 `[ ]` で囲まれたリスト内包表記は利用できません。
+2. `for` 部は自然数式または自然数のタプル式 `e` パターン `p` に対し、 `for p in e` の形の単一のループであること。
+   + `p` は `E` に合致するパターンであれば何でも構いません。
+
+以下は、複数の `for`-節を使ってしまい、エラーになっている例です：
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def _(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
+```
+
+また、`genarray` の `in` の右辺はあくまでもシェイプを指定するものです。
+特に、以下のように`jm.product` を使ってしまうと集合になってしまい、エラーとなるので注意してください：
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def _(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i, j in jm.product(N, M)))
+except Exception as e:
+    print(str(e))
+```
+
 :::{admonition} 決定変数による除算について
 :class: caution
 
