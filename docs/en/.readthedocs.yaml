@@ -5,16 +5,12 @@ build:
   tools:
     python: "3.11"
   jobs:
-    pre_build:
-      # Generate the Sphinx configuration for this Jupyter Book so it builds.
-      - "jupyter-book config sphinx docs/en/"
-
-python:
-  install:
-    - method: pip
-      path: .
-      extra_requirements:
-      - dev
-
-sphinx:
-  configuration: docs/en/conf.py
+    install:
+      - python -m pip install --upgrade --no-cache-dir pip setuptools 
+      - python -m pip install --upgrade --no-cache-dir sphinx
+      - python -m pip install --upgrade --upgrade-strategy only-if-needed --no-cache-dir ".[dev]" 
+    build:
+      html:
+        - jupyter-book build docs/en --all
+        - cp -r docs/en/_build/html/* "${READTHEDOCS_OUTPUT}/html"
+        - cp -r apis "${READTHEDOCS_OUTPUT}/html/references/"
