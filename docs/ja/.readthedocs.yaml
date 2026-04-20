@@ -13,5 +13,6 @@ build:
     build:
       html:
         - jupyter-book build docs/ja --all
+        - mkdir -p "${READTHEDOCS_OUTPUT}/html/references/"
         - cp -r docs/ja/_build/html/* "${READTHEDOCS_OUTPUT}/html"
         - cp -r apis "${READTHEDOCS_OUTPUT}/html/references/"
