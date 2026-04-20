@@ -1,7 +1,7 @@
 # Tutorial and Learning materials for JijModeling 
 
-[![Book-EN](https://img.shields.io/badge/Book-English-blue)](https://jij-inc.github.io/JijModeling-Tutorials/en)
-[![Book-JA](https://img.shields.io/badge/Book-日本語-blue)](https://jij-inc.github.io/JijModeling-Tutorials/ja)
+[![Book-EN](https://img.shields.io/badge/Book-English-blue)](https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1/introduction.html)
+[![Book-JA](https://img.shields.io/badge/Book-日本語-blue)](https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/jijmodeling1/introduction.html)
 [![Discord-EN](https://img.shields.io/badge/Discord-English-default?logo=Discord)](https://discord.gg/bcP4g4ar6J)
 [![Discord-JP](https://img.shields.io/badge/Discord-日本語-default?logo=Discord)](https://discord.gg/34WkHwvY3Y)
 
@@ -18,8 +18,8 @@ There are Jupyter Books in both Japanese and English.
 
 | Language | Path | GitHub Pages |
 |----------|------|--------------|
-| English  | [docs/en](./docs/en) | [![Book-EN](https://img.shields.io/badge/Book-English-blue)](https://jij-inc.github.io/JijModeling-Tutorials/en) |
-| 日本語   | [docs/ja](./docs/ja) | [![Book-JA](https://img.shields.io/badge/Book-日本語-blue)](https://jij-inc.github.io/JijModeling-Tutorials/ja) |
+| English  | [docs/en](./docs/en) | [![Book-EN](https://img.shields.io/badge/Book-English-blue)](https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1/introduction.html) |
+| 日本語   | [docs/ja](./docs/ja) | [![Book-JA](https://img.shields.io/badge/Book-日本語-blue)](https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/jijmodeling1/introduction.html) |
 
 Each notebook is managed independently and translated manually.
 
