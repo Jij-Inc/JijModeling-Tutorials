@@ -221,3 +221,4 @@ Starting with this release, the settings are preserved as shown above, and the b
 
 - Relaxed version bounds to allow installation on any Python 3 version from Python 3.11 onwards.
 - Error messages for invalid comprehensions used with the Decorator API in `sum` and similar constructs now report the specific location in the source code.
+- {py:meth}`Problem.used_placeholders <jijmodeling.Problem.used_placeholders>` has been deprecated because its purpose is unclear, and {py:class}`~jijmodeling.Compiler` also requires values for all placeholders. Use {py:meth}`Problem.placeholders <jijmodeling.Problem.placeholders>` instead.

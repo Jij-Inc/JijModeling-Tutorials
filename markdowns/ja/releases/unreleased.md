@@ -216,3 +216,4 @@ problem
 
 - バージョン条件を緩和し、Python 3.11 以降の任意の Python 3 でのインストールを許容しました。
 - Decorator API の `sum` などで不正な内包表記を使った際のエラーメッセージが、具体的なコード上の位置を報告するようになりました。
+- {py:meth}`Problem.used_placeholders <jijmodeling.Problem.used_placeholders>` は用途が明確でなく、{py:class}`~jijmodeling.Compiler` も全てのプレースホルダーの値を要求するため、廃止予定となりました。かわりに {py:meth}`Problem.placeholders <jijmodeling.Problem.placeholders>` を使用してください。
