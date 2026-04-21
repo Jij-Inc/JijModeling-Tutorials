@@ -226,6 +226,35 @@ problem
 In previous releases, the `latex` specifications were ignored in the code above, and the bounds were displayed as $L \leq x \leq U$.
 Starting with this release, the settings are preserved as shown above, and the bounds are displayed as $\ell \leq x \leq \mathcal{U}$.
 
+### Fixed a bug where problem evaluation with constraint detection crashed when decision variables were subscripted by tuples
+
+We fixed a bug where problem evaluation (with `constraint_detection=True`) crashed when decision variables were subscripted by tuples. For example, the following code used to crash previously:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("dict-keyed binary var with tuple subscripts")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    K = problem.Placeholder(ndim=1, dtype=(jm.DataType.NATURAL, jm.DataType.NATURAL))
+    x = problem.BinaryVar(dict_keys=K)
+
+    problem += problem.Constraint(
+        "sweeps",
+        (jm.sum(x[k] for k in K if k[0] == i) <= 1 for i in jm.range(N)),
+    )
+
+
+instance_data = {
+    "N": 3,
+    "K": [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1)],
+}
+
+compiler = jm.Compiler.from_problem(problem, instance_data)
+instance = compiler.eval_problem(problem, constraint_detection=True)
+```
+
 ## Other Changes
 
 - Relaxed version bounds to allow installation on any Python 3 version from Python 3.11 onwards.
