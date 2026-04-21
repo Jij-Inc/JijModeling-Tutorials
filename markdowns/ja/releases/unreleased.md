@@ -219,6 +219,35 @@ problem
 
 これまでのリリースでは、上記のコードでは `latex` 指定が無視され、$L \leq x \leq U$ のように表示されていましたが、上記のように設定が保たれるようになり、$\ell \leq x \leq \mathcal{U}$ と表示されるようになりました。
 
+### 決定変数がタプルで添字付けされている場合に制約検出付きの問題評価がクラッシュするバグの修正
+
+決定変数がタプル型のキーを持つ辞書で添字付けされている時、制約検出が有効な状態（デフォルトや、 `constraint_detection` キーワード引数が `False` 以外の場合）で `eval_problem` がクラッシュするバグを修正しました。たとえば、以前のバージョンでは以下のコードはクラッシュしていました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("dict-keyed binary var with tuple subscripts")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    K = problem.Placeholder(ndim=1, dtype=(jm.DataType.NATURAL, jm.DataType.NATURAL))
+    x = problem.BinaryVar(dict_keys=K)
+
+    problem += problem.Constraint(
+        "sweeps",
+        (jm.sum(x[k] for k in K if k[0] == i) <= 1 for i in jm.range(N)),
+    )
+
+
+instance_data = {
+    "N": 3,
+    "K": [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1)],
+}
+
+compiler = jm.Compiler.from_problem(problem, instance_data)
+instance = compiler.eval_problem(problem, constraint_detection=True)
+```
+
 ## その他の変更
 
 - バージョン条件を緩和し、Python 3.11 以降の任意の Python 3 でのインストールを許容しました。
