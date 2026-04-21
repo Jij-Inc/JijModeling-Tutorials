@@ -228,7 +228,7 @@ Starting with this release, the settings are preserved as shown above, and the b
 
 ### Fixed a bug where problem evaluation with constraint detection crashed when decision variables were subscripted by tuples
 
-We fixed a bug where problem evaluation (with `constraint_detection=True`) crashed when decision variables were subscripted by tuples. For example, the following code used to crash previously:
+We fixed a bug where `eval_problem` crashed when decision variables were subscripted with tuples and constraint detection was enabled (this is the case by default, or when the `constraint_detection` keyword argument was set to something other than `False`). For example, the following code used to crash in previous versions:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
