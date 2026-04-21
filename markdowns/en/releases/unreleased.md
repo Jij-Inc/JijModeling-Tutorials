@@ -15,6 +15,15 @@ kernelspec:
 
 +++
 
+## Performance Improvements
+
+### Significant performance improvements for dictionaries
+
+We improved the internal processing of dictionaries, achieving a significant performance improvement of about 30x compared with the previous implementation.
+If you have been avoiding dictionaries because of performance concerns, this is a good opportunity to try using them.
+
++++
+
 ## Feature Enhancements
 
 +++
