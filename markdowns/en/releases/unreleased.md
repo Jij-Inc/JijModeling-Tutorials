@@ -24,6 +24,18 @@ If you have been avoiding dictionaries because of performance concerns, this is 
 
 +++
 
+## Breaking Changes
+
+### Protobuf schema changes
+
+JijModeling 2.4.0 brings the breaking changes to the Protobuf schema for {py:class}`~jijmodeling.Problem`.
+As a result, Problems serialized to Protobuf with version 2.4.0 or later can no longer be loaded by JijModeling versions 2.3.x or earlier.
+On the other hand, Problems serialized with versions 2.3.x or earlier can be loaded by JijModeling versions 2.4.0 or later.
+This may affect data storage and exchange through MINTO, but in that case, updating the dependent JijModeling version to 2.4.0 or later will allow both existing and new data to be loaded without issue.
+Also, this only affects direct use of JijModeling's Protobuf schema; there is no particular impact on the OMMX format.
+
++++
+
 ## Feature Enhancements
 
 +++
