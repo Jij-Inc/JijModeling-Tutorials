@@ -257,7 +257,45 @@ except Exception as e:
     print(e)
 ```
 
-:::{admonition} Division by decision variables
+### Alternative syntax: constructing arrays with `genarray`
+
+In the example above, operations involving nontrivial broadcasting, such as `y + z`, result in an (intentional) error.
+In such cases, you can use the {py:func}`~jijmodeling.genarray` function to construct the resulting array explicitly by specifying the shape and the expression for each entry:
+
+```{code-cell} ipython3
+A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
+display(A)
+problem.infer(A)
+```
+
+When using the Decorator API, you can also use a comprehension with `jm.genarray` as follows:
+
+```{code-cell} ipython3
+@problem.update
+def _(problem: jm.DecoratedProblem):
+    A = jm.genarray(y[i, j] + z[i, j, k] for i, j, k in (N, M, N))
+    display(A)
+    display(problem.infer(A))
+```
+
+Only one `for .. in ...` clause is allowed in a `genarray` comprehension.
+Be careful, because using multiple `for` clauses as shown below raises an error:
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("genarray example")
+    def _(problem):
+        N = problem.Natural()
+        M = problem.Natural()
+        a = problem.Float(shape=(N, M))
+        x = problem.BinaryVar(shape=N)
+        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
+except SyntaxError as e:
+    print(str(e))
+```
+
+::{admonition} Division by decision variables
 :class: caution
 
 At the modeling stage, decision variables can appear on either side of arithmetic operators.
@@ -514,6 +552,23 @@ def double_sum_example_alt(problem: jm.DecoratedProblem):
     Q = problem.Float(shape=(N, M))
     x = problem.BinaryVar(shape=(N, M))
     problem += jm.sum(Q[i, j] for (i, j) in jm.product(N, M))
+
+
+double_sum_example_alt
+```
+
+Also, in places such as the right-hand side of `in` in Decorator API comprehensions and the `domain=` keyword argument of `Constraint`, you can omit `jm.product` and represent the Cartesian product with a tuple as follows:
+
+```{code-cell} ipython3
+@jm.Problem.define("Double Sum Example (Alt)")
+def double_sum_example_alt(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    Q = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+
+    # Note: the Cartesian product is represented by a tuple, not product
+    problem += jm.sum(Q[i, j] for (i, j) in (N, M))
 
 
 double_sum_example_alt
