@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
+# JijModeling 2.4.0 Release Notes
 
 +++
 
@@ -270,6 +270,15 @@ instance = compiler.eval_problem(problem, constraint_detection=True)
 ### Fixed a bug where the sum of binary `{0, 1}` expressions had type Binary instead of Natural
 
 We fixed a bug where an expression that `sum`s another expression of binary type (`{0, 1}`) was typed as `Binary` instead of `Natural`. For example, the sum $\sum_i x_i$ of binary variables $x_0, x_1, \ldots$ can take values of $2$ or more, so the result type had to be `Natural` instead of `Binary`.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("Sum of binary example")
+N = problem.Natural("N")
+x = problem.BinaryVar("x", shape=N)
+problem.infer(x.sum())
+```
 
 ## Other Changes
 

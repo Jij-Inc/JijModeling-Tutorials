@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
+# JijModeling 2.4.0 リリースノート
 
 +++
 
@@ -263,6 +263,15 @@ instance = compiler.eval_problem(problem, constraint_detection=True)
 ### バイナリ`{0, 1}`型の式の総和が自然数型ではなくバイナリ型になっていた問題を修正
 
 バイナリ型（`{0, 1}`）の式を `sum` で総和した式の型が `Natural` ではなく `Binary` になってしまっていた問題を修正しました。たとえば、バイナリ変数 $x_0, x_1, \ldots$ の総和 $\sum_i x_i$ は $0$ や $1$ だけでなく $2$ 以上の値も取りうるため、結果の型は `Binary` ではなく `Natural` であるべきです。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("Sum of binary example")
+N = problem.Natural("N")
+x = problem.BinaryVar("x", shape=N)
+problem.infer(x.sum())
+```
 
 ## その他の変更
 
