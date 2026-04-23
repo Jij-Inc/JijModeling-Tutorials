@@ -219,7 +219,7 @@ problem.generate_random_dataset(seed=17)
 
 Starting with this release, data is generated successfully in cases like the example above.
 
-#### Fixed a bug where `latex` specifications were ignored in LaTeX output for decision variable bounds
+### Fixed a bug where `latex` specifications were ignored in LaTeX output for decision variable bounds
 
 We fixed a bug where the values of the `latex=` keyword argument for other variables were ignored when outputting decision variable bounds in $\LaTeX$.
 
