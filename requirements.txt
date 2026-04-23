@@ -6,7 +6,7 @@ dimod==0.12.21
     #   openjij
 jij-cimod==1.7.3
     # via openjij
-jijmodeling==2.3.2
+jijmodeling==2.4.0
     # via jijmodeling-tutorial (pyproject.toml)
 numpy==2.3.5
     # via
@@ -30,7 +30,7 @@ ommx-pyscipopt-adapter==2.5.1
     # via jijmodeling-tutorial (pyproject.toml)
 openjij==0.11.6
     # via ommx-openjij-adapter
-orjson==3.11.7
+orjson==3.11.8
     # via jijmodeling
 pandas==2.3.3
     # via
@@ -56,5 +56,5 @@ typing-extensions==4.15.0
     # via
     #   jijmodeling
     #   ommx
-tzdata==2025.3
+tzdata==2026.1
     # via pandas
