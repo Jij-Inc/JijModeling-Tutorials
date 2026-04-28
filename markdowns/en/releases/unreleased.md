@@ -27,8 +27,10 @@ kernelspec:
 
 +++
 
-### Bugfix 1
+### Fixed deserialization of Constraints
 
+When using `from_protobuf`, `Constraint`s were not deserialized correctly, which
+lead to a "does not have a shape" error when using the problem in `eval`. This has been fixed.
 
 ## Other Changes
 
