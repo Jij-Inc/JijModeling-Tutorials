@@ -18,15 +18,15 @@ numpy==2.3.5
     #   pandas
     #   pyscipopt
     #   scipy
-ommx==2.5.1
+ommx==2.5.2
     # via
     #   jijmodeling-tutorial (pyproject.toml)
     #   jijmodeling
     #   ommx-openjij-adapter
     #   ommx-pyscipopt-adapter
-ommx-openjij-adapter==2.5.1
+ommx-openjij-adapter==2.5.2
     # via jijmodeling-tutorial (pyproject.toml)
-ommx-pyscipopt-adapter==2.5.1
+ommx-pyscipopt-adapter==2.5.2
     # via jijmodeling-tutorial (pyproject.toml)
 openjij==0.11.6
     # via ommx-openjij-adapter
@@ -56,5 +56,5 @@ typing-extensions==4.15.0
     # via
     #   jijmodeling
     #   ommx
-tzdata==2026.1
+tzdata==2026.2
     # via pandas

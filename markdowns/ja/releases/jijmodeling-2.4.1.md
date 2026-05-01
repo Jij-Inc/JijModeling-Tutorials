@@ -11,27 +11,12 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
+# JijModeling 2.4.1 リリースノート
+
+## バグ修正
 
 +++
 
-## 機能強化
-
-+++
-
-### 機能 1
-
-+++
-
-## `Constraint`のデシリアライズバグ修正
+### `Constraint`のデシリアライズバグ修正
 
 `from_protobuf`で`Constraint`が正しくデシリアライズされず、`eval`時に"does not have a shape"という例外が発生するというバグを修正しました。
-
-+++
-
-### バグ修正 1：
-
-
-## その他の変更
-
-- 変更 1：

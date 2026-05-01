@@ -11,17 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
-
-+++
-
-## Feature Enhancements
-
-+++
-
-### Feature 1
-
-+++
+# JijModeling 2.4.1 Release Notes
 
 ## Bugfixes
 
@@ -31,7 +21,3 @@ kernelspec:
 
 When using `from_protobuf`, `Constraint`s were not deserialized correctly, which
 lead to a "does not have a shape" error when using the problem in `eval`. This has been fixed.
-
-## Other Changes
-
-- Change 1
