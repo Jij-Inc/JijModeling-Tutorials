@@ -19,17 +19,24 @@ kernelspec:
 
 +++
 
-### 機能1
+### Decorator API における `jm.min`、`jm.max`、`jm.set` の内包表記サポート
 
-+++
+旧来は、Decorator API を利用する際に内包表記（Python のジェネレータ式）を引数として受け取れるのは {py:func}`jm.sum <jijmodeling.sum>` と {py:func}`jm.prod <jijmodeling.prod>` のみでした。
 
-## バグ修正
+本バージョンから、{py:func}`jm.min <jijmodeling.min>`、{py:func}`jm.max <jijmodeling.max>`、{py:func}`jm.set <jijmodeling.set>` の一引数呼び出しでも、同様に内包表記を受け取れるようになりました。
 
-+++
+```{code-cell} ipython3
+import jijmodeling as jm
 
-### バグ修正1：
+
+@jm.Problem.define("min/max/set comprehension example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    x = problem.BinaryVar(shape=N)
+
+    nonzero = jm.set(i for i in N if i != 0)
+    problem += jm.min(x[i] for i in N) + jm.max(x[i] for i in nonzero)
 
 
-## その他の変更
-
-- 変更1：
+problem
+```
