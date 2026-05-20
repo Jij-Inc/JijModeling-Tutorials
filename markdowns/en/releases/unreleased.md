@@ -40,3 +40,23 @@ def problem(problem: jm.DecoratedProblem):
 
 problem
 ```
+
+## Bug Fixes
+
++++
+
+### Fix bug where operations between subscript elements and numeric types failed
+
+Fixed an issue where numeric operations on `Constraint` subscript elements, as shown below, were incorrectly treated as type errors.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Example")
+def problem(problem: jm.DecoratedProblem):
+    K = problem.Float(ndim=1)
+    x = problem.BinaryVar()
+    problem += problem.Constraint("c", [k * x <= 0 for k in K])
+
+problem
+```
