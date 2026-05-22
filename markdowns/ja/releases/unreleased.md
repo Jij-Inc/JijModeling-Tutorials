@@ -41,12 +41,12 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
-### `Placeholder` の `dtype` に上限付き自然数とカテゴリラベルを指定できるように
+### `Placeholder` の `dtype` に上限付き自然数とカテゴリーラベルを指定できるように
 
 {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>`（および `Graph`、`PartialDict`、`TotalDict` などの型付き構築子）の `dtype` 引数は、これまで `jm.DataType`、NumPy のスカラー型、あるいはそれらから構成されるタプルに限られていました。
 本バージョンから、`dtype` には次のものも追加で指定できるようになりました：
 
-- 自然数式 `n`：値が `n` より真に小さい自然数（すなわち $\{0, 1, \dots, n - 1\}$ のいずれか）であることを表します。`n` には Python の整数リテラルのほか、自然数型の他のプレースホルダや {py:class}`~jijmodeling.NamedExpr` などの式も渡せます。
+- 自然数式 `n`：値が `n` より真に小さい自然数（すなわち $\{0, 1, \dots, n - 1\}$ のいずれか）であることを表します。`n` には Python の整数リテラルのほか、自然数型の他のプレースホルダーや {py:class}`~jijmodeling.NamedExpr` などの式も渡せます。
 - {py:class}`~jijmodeling.CategoryLabel` `L`：値が `L` のラベルのうちのいずれかであることを表します。
 - 上記（あるいは他の指定可能な `dtype`）を要素とするタプル `(T, T, ...)`。
 
