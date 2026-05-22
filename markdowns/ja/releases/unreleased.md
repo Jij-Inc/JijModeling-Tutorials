@@ -40,3 +40,51 @@ def problem(problem: jm.DecoratedProblem):
 
 problem
 ```
+
+### `Placeholder` の `dtype` に上限付き自然数とカテゴリラベルを指定できるように
+
+{py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>`（および `Graph`、`PartialDict`、`TotalDict` などの型付き構築子）の `dtype` 引数は、これまで `jm.DataType`、NumPy のスカラー型、あるいはそれらから構成されるタプルに限られていました。
+本バージョンから、`dtype` には次のものも追加で指定できるようになりました：
+
+- 自然数式 `n`：値が `n` より真に小さい自然数（すなわち $\{0, 1, \dots, n - 1\}$ のいずれか）であることを表します。`n` には Python の整数リテラルのほか、自然数型の他のプレースホルダや {py:class}`~jijmodeling.NamedExpr` などの式も渡せます。
+- {py:class}`~jijmodeling.CategoryLabel` `L`：値が `L` のラベルのうちのいずれかであることを表します。
+- 上記（あるいは他の指定可能な `dtype`）を要素とするタプル `(T, T, ...)`。
+
+たとえば、以下の、無向グラフ $G = (V, E)$ についての最適化問題を考えます。以前のバージョンでは辺の端点の型は単なる自然数として宣言する必要がありましたが、本リリースから、端点が $[0, V)$ の範囲に収まることを `dtype` を通じて表現できるようになりました：
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("max cut", sense=jm.ProblemSense.MAXIMIZE)
+V = problem.Natural("V")
+# `E` の各要素が `[0, V)` のペアであることを直接宣言できるようになりました
+# （従来は dtype=(jm.DataType.Natural, jm.DataType.Natural) と書く必要がありました）。
+# この宣言は、 `problem.graph("E", dtype=V)` と書くこともできます。
+E = problem.Placeholder("E", dtype=(V, V), ndim=1)
+x = problem.BinaryVar("x", shape=(V,))
+problem += jm.map(lambda u, v: (x[u] - x[v]) ** 2, E).sum()
+
+problem
+```
+
+また、グラフの頂点にラベルを用いる場合を想定して、{py:class}`~jijmodeling.CategoryLabel` をそのまま `dtype` として指定することもできるようになりました。
+以下の例は、ラベルが頂点として使われるグラフの上で（{py:meth}`Problem.Graph` を用いて）同じ問題を定義するものです。
+
+```{code-cell} ipython3
+problem = jm.Problem("max cut on a labeled graph", sense=jm.ProblemSense.MAXIMIZE)
+L = problem.CategoryLabel("L")
+edges = problem.Graph("edges", dtype=L)
+x = problem.BinaryVar("x", dict_keys=L)
+problem += jm.map(lambda u, v: (x[u] - x[v]) ** 2, edges).sum()
+
+compiler = jm.Compiler.from_problem(
+    problem,
+    {
+        "L": ["A", "B", "C"],
+        "edges": [("A", "B"), ("B", "C"), ("C", "A")],
+    },
+)
+instance = compiler.eval_problem(problem)
+```
+
+インスタンスデータとして与えられた値が宣言された `dtype` と整合しない場合（たとえば、頂点インデックスが `V` 以上であったり、`L` に含まれないラベルが渡されたりした場合）、コンパイラは範囲外エラーを報告します。
