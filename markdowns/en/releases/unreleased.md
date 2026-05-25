@@ -40,3 +40,33 @@ def problem(problem: jm.DecoratedProblem):
 
 problem
 ```
+
+### Math output: More readable constraint indices
+
+Constraints created by directly comparing dictionaries or arrays are now rendered in $\LaTeX$ output using $\forall$, improving readability.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("container-vs-scalar-comp")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    L = problem.CategoryLabel()
+    x = problem.BinaryVar(shape=N)
+    y = problem.BinaryVar(dict_keys=(L, N - 1))
+
+    problem += problem.Constraint(
+        "scalar-vs-tensor",
+        1 <= x
+    )
+    problem += problem.Constraint(
+        "tensor-vs-tensor",
+        x <= x
+    )
+    problem += problem.Constraint(
+        "dict-vs-scalar",
+        y <= 5
+    )
+problem
+```
