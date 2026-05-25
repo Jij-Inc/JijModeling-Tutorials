@@ -55,6 +55,7 @@ def problem(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
     x = problem.BinaryVar(shape=N)
     y = problem.BinaryVar(dict_keys=(L, N - 1))
+    z = problem.BinaryVar(dict_keys=(L, N - 1))
 
     problem += problem.Constraint(
         "scalar-vs-tensor",
@@ -68,5 +69,10 @@ def problem(problem: jm.DecoratedProblem):
         "dict-vs-scalar",
         y <= 5
     )
+    problem += problem.Constraint(
+        "dict-vs-dict",
+        y <= z
+    )
+
 problem
 ```
