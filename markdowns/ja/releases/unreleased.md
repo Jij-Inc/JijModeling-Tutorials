@@ -40,3 +40,39 @@ def problem(problem: jm.DecoratedProblem):
 
 problem
 ```
+
+### 数式出力：制約の添え字が読みやすく
+
+辞書や配列同士の直接比較による制約条件が、$\LaTeX$ 出力では $\forall$ を使って出力されるようになり、可読性が向上しました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("container-vs-scalar-comp")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    L = problem.CategoryLabel()
+    x = problem.BinaryVar(shape=N)
+    y = problem.BinaryVar(dict_keys=(L, N - 1))
+    z = problem.BinaryVar(dict_keys=(L, N - 1))
+
+    problem += problem.Constraint(
+        "scalar-vs-tensor",
+        1 <= x
+    )
+    problem += problem.Constraint(
+        "tensor-vs-tensor",
+        x <= x
+    )
+    problem += problem.Constraint(
+        "dict-vs-scalar",
+        y <= 5
+    )
+    problem += problem.Constraint(
+        "dict-vs-dict",
+        y <= z
+    )
+
+problem
+```
