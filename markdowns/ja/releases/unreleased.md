@@ -124,3 +124,24 @@ instance = compiler.eval_problem(problem)
 ```
 
 インスタンスデータとして与えられた値が宣言された `dtype` と整合しない場合（たとえば、頂点インデックスが `V` 以上であったり、`L` に含まれないラベルが渡されたりした場合）、コンパイラは範囲外エラーを報告します。
+
+
+## バグ修正
+
++++
+
+### 添え字の要素と数値型の演算に失敗していたバグの修正
+
+以下のように `Constraint` の添え字の要素に対する数値演算が誤って型エラーとして判定されていた問題を修正しました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Example")
+def problem(problem: jm.DecoratedProblem):
+    K = problem.Float(ndim=1)
+    x = problem.BinaryVar()
+    problem += problem.Constraint("c", [k * x <= 0 for k in K])
+
+problem
+```
