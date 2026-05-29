@@ -57,22 +57,11 @@ def problem(problem: jm.DecoratedProblem):
     y = problem.BinaryVar(dict_keys=(L, N - 1))
     z = problem.BinaryVar(dict_keys=(L, N - 1))
 
-    problem += problem.Constraint(
-        "scalar-vs-tensor",
-        1 <= x
-    )
-    problem += problem.Constraint(
-        "tensor-vs-tensor",
-        x <= x
-    )
-    problem += problem.Constraint(
-        "dict-vs-scalar",
-        y <= 5
-    )
-    problem += problem.Constraint(
-        "dict-vs-dict",
-        y <= z
-    )
+    problem += problem.Constraint("scalar-vs-tensor", 1 <= x)
+    problem += problem.Constraint("tensor-vs-tensor", x <= x)
+    problem += problem.Constraint("dict-vs-scalar", y <= 5)
+    problem += problem.Constraint("dict-vs-dict", y <= z)
+
 
 problem
 ```
@@ -137,11 +126,30 @@ instance = compiler.eval_problem(problem)
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("Example")
 def problem(problem: jm.DecoratedProblem):
     K = problem.Float(ndim=1)
     x = problem.BinaryVar()
     problem += problem.Constraint("c", [k * x <= 0 for k in K])
+
+
+problem
+```
+
+### `product` や `filter` の絡む数式出力を改善
+
+旧来は `product` や `filter` などを含む式が場合によって複雑な式として表示されていましたが、内包表記を使った読みやすい出力がされるようになりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("product and filter example")
+N = problem.Natural("N")
+M = problem.Natural("M")
+x = problem.BinaryVar("x", shape=(N, M))
+diags = problem.NamedExpr("diags", jm.product(N, M).filter(lambda i, j: i == j))
+problem += jm.sum(diags, lambda i, j: x[i, j])
 
 problem
 ```
