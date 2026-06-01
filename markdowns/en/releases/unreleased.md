@@ -148,8 +148,5 @@ problem = jm.Problem("product and filter example")
 N = problem.Natural("N")
 M = problem.Natural("M")
 x = problem.BinaryVar("x", shape=(N, M))
-diags = problem.NamedExpr("diags", jm.product(N, M).filter(lambda i, j: i == j))
-problem += jm.sum(diags, lambda i, j: x[i, j])
-
-problem
+jm.product(N, M).filter(lambda i, j: i == j)
 ```
