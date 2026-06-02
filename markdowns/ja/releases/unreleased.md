@@ -75,7 +75,35 @@ problem
 - {py:class}`~jijmodeling.CategoryLabel` `L`：値が `L` のラベルのうちのいずれかであることを表します。
 - 上記（あるいは他の指定可能な `dtype`）を要素とするタプル `(T, T, ...)`。
 
-たとえば、以下の、無向グラフ $G = (V, E)$ についての最適化問題を考えます。以前のバージョンでは辺の端点の型は単なる自然数として宣言する必要がありましたが、本リリースから、端点が $[0, V)$ の範囲に収まることを `dtype` を通じて表現できるようになりました：
+上記の `dtype` に関する追加に合わせて、型付き構築子である {py:meth}`Problem.Natural <jijmodeling.Problem.Natural>`（およびそのエイリアスである {py:meth}`Problem.Length <jijmodeling.Problem.Length>` と {py:meth}`Problem.Dim <jijmodeling.Problem.Dim>`）でも `less_than=natexpr` キーワード引数を指定できるようになりました。これは `Placeholder(dtype=natexpr)` と同じく上限付き自然数型のプレースホルダーを宣言するもので、自然数値のプレースホルダーであるという意図をより明瞭に表現する書き方です。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("bounded natural shorthand")
+N = problem.Natural("N")
+i = problem.Natural("i", less_than=N)
+x = problem.BinaryVar("x", shape=(N,))
+problem += x[i]
+
+problem
+```
+
+Decorator API でも同じキーワード引数を利用できます。
+
+```{code-cell} ipython3
+@jm.Problem.define("bounded natural shorthand in Decorator API")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    i = problem.Dim(less_than=N)
+    x = problem.BinaryVar(shape=(N,))
+    problem += x[i]
+
+
+problem
+```
+
+より複雑な例として、以下の、無向グラフ $G = (V, E)$ についての最適化問題を考えます。以前のバージョンでは辺の端点の型は単なる自然数として宣言する必要がありましたが、本リリースから、端点が $[0, V)$ の範囲に収まることを `dtype` を通じて表現できるようになりました：
 
 ```{code-cell} ipython3
 import jijmodeling as jm
