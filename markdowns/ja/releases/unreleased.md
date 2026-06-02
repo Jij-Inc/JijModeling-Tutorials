@@ -114,6 +114,35 @@ instance = compiler.eval_problem(problem)
 
 インスタンスデータとして与えられた値が宣言された `dtype` と整合しない場合（たとえば、頂点インデックスが `V` 以上であったり、`L` に含まれないラベルが渡されたりした場合）、コンパイラは範囲外エラーを報告します。
 
++++
+
+### 目的関数を代入で再設定できるように
+
+これまで目的関数は {py:meth}`+= <jijmodeling.Problem.__iadd__>` による加算で設定していましたが、本バージョンから {py:attr}`Problem.objective <jijmodeling.Problem.objective>` に直接代入して置き換えられるようになりました。
+{py:class}`~jijmodeling.DecoratedProblem` でも同じように `problem.objective = ...` と書けます。
+
+たとえば、一度設定した目的関数を別の式に置き換えたり、`problem.objective = 0` として目的関数を明示的にリセットしたりできます。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("set objective example")
+x = problem.BinaryVar("x")
+y = problem.BinaryVar("y")
+
+problem.objective = x
+problem.objective = y
+problem.objective = 0
+
+
+@problem.update
+def _(problem: jm.DecoratedProblem):
+    z = problem.BinaryVar()
+    problem.objective = z
+
+
+problem
+```
 
 ## バグ修正
 
