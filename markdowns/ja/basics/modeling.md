@@ -79,16 +79,16 @@ problem
 
 既存の項が置き換えられたのではなく、$y$ が加算され $x + y$ が新たな目的関数となっていることが分かります。
 
-また、`Problem.objective` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
+また、JijModeling 2.5.0 以降では、`Problem.objective` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
 
 ```{code-cell} ipython3
-problem.objective = 0
+problem.objective = y
 
 problem
 ```
 
 目的関数の項を削除したい場合、目的関数の項の一覧を（Python の）リストなどで持っておき、あとからそれを使って目的関数を設定するなどするとよいでしょう。
-また、JijModeling 2.3.1 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
+更に、JijModeling 2.3.1 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
 
 :::{admonition} `problem.objective` に対する加減算は未対応
 :class: important

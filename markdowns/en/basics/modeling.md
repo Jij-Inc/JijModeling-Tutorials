@@ -54,16 +54,16 @@ problem
 
 You can see that the existing term was not replaced; instead, $y$ was added and the new objective is $x + y$.
 
-You can also assign an expression directly to `Problem.objective` to discard the previous objective and replace it with a new one.
+Since JijModeling 2.5.0, you can also assign an expression directly to `Problem.objective` to discard the previous objective and replace it with a new one.
 
 ```{code-cell} ipython3
-problem.objective = 0
+problem.objective = y
 
 problem
 ```
 
 If you might need to remove objective terms later, keep a list of terms in Python and set the objective from that list when needed.
-Since JijModeling 2.3.1, you can also "subtract" scalar {py:class}`~jijmodeling.Expression` objects from the objective by using the {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on a {py:class}`~jijmodeling.Problem`.
+Additionally, since JijModeling 2.3.1, you can also "subtract" scalar {py:class}`~jijmodeling.Expression` objects from the objective by using the {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on a {py:class}`~jijmodeling.Problem`.
 
 :::{admonition} Addition and subtraction on `problem.objective` are not supported
 :class: important
