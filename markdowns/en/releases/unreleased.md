@@ -75,7 +75,35 @@ Starting with this version, `dtype` additionally accepts:
 - a {py:class}`~jijmodeling.CategoryLabel` `L`, declaring that the values are labels drawn from `L`.
 - a tuple `(T, T, ...)` whose components are any of the above (or any other accepted `dtype`).
 
-For example, consider the the following optimization problem involving an undirected graph $G = (V, E)$. Previously, edge endpoints had to be declared as plain naturals; with this release you can express the intent that they must lie in $[0, V)$:
+Along with the additions on `dtype` as described above, the shorthand constructors {py:meth}`Problem.Natural <jijmodeling.Problem.Natural>` (and its aliases: {py:meth}`Problem.Length <jijmodeling.Problem.Length>` and {py:meth}`Problem.Dim <jijmodeling.Problem.Dim>`) now also accept a `less_than=natexpr` keyword argument. This declares the same bounded-natural type placeholder variable as `Placeholder(dtype=natexpr)`, while more clearly communicating the intent of it being a scalar natural placeholder:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("bounded natural shorthand")
+N = problem.Natural("N")
+i = problem.Natural("i", less_than=N)
+x = problem.BinaryVar("x", shape=(N,))
+problem += x[i]
+
+problem
+```
+
+The same keyword argument is available in the Decorator API:
+
+```{code-cell} ipython3
+@jm.Problem.define("bounded natural shorthand in Decorator API")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    i = problem.Dim(less_than=N)
+    x = problem.BinaryVar(shape=(N,))
+    problem += x[i]
+
+
+problem
+```
+
+For a more complex example, consider the following optimization problem involving an undirected graph $G = (V, E)$. Previously, edge endpoints had to be declared as plain naturals; with this release you can express the intent that they must lie in $[0, V)$:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
