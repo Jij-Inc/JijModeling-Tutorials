@@ -146,7 +146,7 @@ When a value supplied through the instance data is not consistent with the decla
 
 ### Objective functions can now be replaced by assignment
 
-Previously, objective functions were set by adding terms with {py:meth}`+= <jijmodeling.Problem.__iadd__>`. In this version, you can now replace the objective function directly by assigning to {py:attr}`Problem.objective <jijmodeling.Problem.objective>`.
+In this version, you can now replace the objective function directly by assigning to {py:attr}`Problem.objective <jijmodeling.Problem.objective>`.
 The same `problem.objective = ...` syntax is also available for {py:class}`~jijmodeling.DecoratedProblem`.
 
 For example, you can replace an already-defined objective with another expression, or explicitly reset it with `problem.objective = 0`.
