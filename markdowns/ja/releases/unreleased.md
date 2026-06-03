@@ -146,7 +146,7 @@ instance = compiler.eval_problem(problem)
 
 ### 目的関数を代入で再設定できるように
 
-これまで目的関数は {py:meth}`+= <jijmodeling.Problem.__iadd__>` による加算で設定していましたが、本バージョンから {py:attr}`Problem.objective <jijmodeling.Problem.objective>` に直接代入して置き換えられるようになりました。
+本バージョンから {py:attr}`Problem.objective <jijmodeling.Problem.objective>` に直接代入して置き換えられるようになりました。
 {py:class}`~jijmodeling.DecoratedProblem` でも同じように `problem.objective = ...` と書けます。
 
 たとえば、一度設定した目的関数を別の式に置き換えたり、`problem.objective = 0` として目的関数を明示的にリセットしたりできます。
