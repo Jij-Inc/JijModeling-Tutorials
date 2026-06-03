@@ -207,3 +207,37 @@ M = problem.Natural("M")
 x = problem.BinaryVar("x", shape=(N, M))
 jm.product(N, M).filter(lambda i, j: i == j)
 ```
+
+### 生成関数による辞書の生成
+
+本バージョンから、{py:func}`~jijmodeling.gendict` 関数により、キー集合と生成関数を指定して配列を生成できるようになりました。
+これは配列版の {py:func}`~jijmodeling.gendict` や numpy の {py:func}`~numpy.fromfunction` と類似の機能です。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("gendict example")
+K = problem.CategoryLabel("K")
+a = problem.Float("a", dict_keys=K)
+x = problem.BinaryVar("x", dict_keys=K)
+Sums = problem.NamedExpr("Sums", jm.gendict(K, lambda k: a[k] * x[k]))
+
+
+problem
+```
+
+また、`jm.genarray` と同じように、Decorator API を利用している場合、内包表記を用いることもできます。ただし、`for .. in ...` は一つしか許容されません。
+
+```{code-cell} ipython3
+@jm.Problem.define("gendict example")
+def problem(problem):
+    problem = jm.Problem("gendict example")
+    K = problem.CategoryLabel("K")
+    a = problem.Float("a", dict_keys=K)
+    x = problem.BinaryVar("x", dict_keys=K)
+    Sums = problem.NamedExpr("Sums", jm.gendict(a[k] * x[k] for k in K))
+
+
+problem
+```

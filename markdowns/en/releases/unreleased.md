@@ -207,3 +207,37 @@ M = problem.Natural("M")
 x = problem.BinaryVar("x", shape=(N, M))
 jm.product(N, M).filter(lambda i, j: i == j)
 ```
+
+### Generating dictionaries with generator functions
+
+Starting with this version, the {py:func}`~jijmodeling.gendict` function can be used to generate dictionaries by specifying a set of keys and a generator function.
+This is similar to the array version {py:func}`~jijmodeling.gendict`, and to NumPy's {py:func}`~numpy.fromfunction`.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("gendict example")
+K = problem.CategoryLabel("K")
+a = problem.Float("a", dict_keys=K)
+x = problem.BinaryVar("x", dict_keys=K)
+Sums = problem.NamedExpr("Sums", jm.gendict(K, lambda k: a[k] * x[k]))
+
+
+problem
+```
+
+Like `genarray`, using comprehensions is supported when using the Decorator API, but only one `for .. in ...` clause is allowed in a comprehension.
+
+```{code-cell} ipython3
+@jm.Problem.define("gendict example")
+def problem(problem):
+    problem = jm.Problem("gendict example")
+    K = problem.CategoryLabel("K")
+    a = problem.Float("a", dict_keys=K)
+    x = problem.BinaryVar("x", dict_keys=K)
+    Sums = problem.NamedExpr("Sums", jm.gendict(a[k] * x[k] for k in K))
+
+
+problem
+```
