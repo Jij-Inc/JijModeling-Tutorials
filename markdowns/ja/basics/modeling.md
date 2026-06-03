@@ -79,7 +79,10 @@ problem
 
 既存の項が置き換えられたのではなく、$y$ が加算され $x + y$ が新たな目的関数となっていることが分かります。
 
-また、JijModeling 2.5.0 以降では、`Problem.objective` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
+:::{admonition} 目的関数の置き換え
+:class: tip
+JijModeling 2.5.0 以降では、`Problem.objective` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
+:::
 
 ```{code-cell} ipython3
 problem.objective = y
