@@ -93,13 +93,6 @@ problem
 目的関数の項を削除したい場合、目的関数の項の一覧を（Python の）リストなどで持っておき、あとからそれを使って目的関数を設定するなどするとよいでしょう。
 更に、JijModeling 2.3.1 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
 
-:::{admonition} `problem.objective` に対する加減算は未対応
-:class: important
-
-`problem.objective` の値を代入により変更することはできますが、JijModeling 2.5 の時点では `problem.objective += y` のように `problem.objective` に対して直接 `+=` や `-=` を呼び出すことはできません。
-こうした用途では、単純に `problem` に対して `+=` や `-=` を呼び出してください。
-:::
-
 
 ## 制約条件の設定
 
