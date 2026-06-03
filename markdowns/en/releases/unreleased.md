@@ -227,7 +227,7 @@ Sums = problem.NamedExpr("Sums", jm.gendict(K, lambda k: a[k] * x[k]))
 problem
 ```
 
-Like `genarray`, using comprehensions is supported when using the Decorator API, but only only one `for .. in ...` clause is allowed in a comprehension.
+Like `genarray`, using comprehensions is supported when using the Decorator API, but only one `for .. in ...` clause is allowed in a comprehension.
 
 ```{code-cell} ipython3
 @jm.Problem.define("gendict example")
