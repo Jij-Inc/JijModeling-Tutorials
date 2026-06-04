@@ -175,7 +175,7 @@ problem
 ### Generating dictionaries with generator functions
 
 Starting with this version, the {py:func}`~jijmodeling.gendict` function can be used to generate dictionaries by specifying a set of keys and a generator function.
-This is similar to the array version {py:func}`~jijmodeling.gendict`, and to NumPy's {py:func}`~numpy.fromfunction`.
+This is similar to the array version {py:func}`~jijmodeling.genarray`, and to NumPy's {py:func}`~numpy.fromfunction`.
 
 ```{code-cell} ipython3
 import jijmodeling as jm

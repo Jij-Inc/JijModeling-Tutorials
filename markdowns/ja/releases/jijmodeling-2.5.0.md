@@ -175,7 +175,7 @@ problem
 ### 生成関数による辞書の生成
 
 本バージョンから、{py:func}`~jijmodeling.gendict` 関数により、キー集合と生成関数を指定して配列を生成できるようになりました。
-これは配列版の {py:func}`~jijmodeling.gendict` や numpy の {py:func}`~numpy.fromfunction` と類似の機能です。
+これは配列の {py:func}`~jijmodeling.genarray` や numpy の {py:func}`~numpy.fromfunction` と類似の機能です。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
