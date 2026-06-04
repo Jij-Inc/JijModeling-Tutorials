@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.1
+    jupytext_version: 1.19.3
 kernelspec:
   display_name: .venv
   language: python
@@ -77,14 +77,24 @@ problem += y
 problem
 ```
 
-既存の項が置き換えられたのではなく、$y$ が加算され $x + y$ が新たな目的関数となっていることが分かります。
-目的関数の項を削除したい場合、目的関数の項の一覧を（Python の）リストなどで持っておき、あとからそれを使って目的関数を設定するなどするとよいでしょう。
+既存の項が置き換えられるのではなく、$y$ が加算され $x + y$ が新たな目的関数となっていることが分かります。
 
 :::{admonition} 目的関数から項を「引く」操作
 :class: tip
 
 JijModeling 2.3.1 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
 :::
+
+:::{admonition} 目的関数の置き換え
+:class: tip
+JijModeling 2.5.0 以降では、`Problem.objective` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
+:::
+
+```{code-cell} ipython3
+problem.objective = y
+
+problem
+```
 
 ## 制約条件の設定
 
