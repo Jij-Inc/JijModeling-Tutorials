@@ -17,7 +17,7 @@ kernelspec:
 
 ## `generate_random_instance` とは
 
-{py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` とは、数理モデルのプレースホルダーの定義に従ってインスタンスデータをランダムに生成し、その数理モデルとインスタンスデータをコンパイルして OMMX インスタンスを出力するメソッドです。詳しい利用方法は {doc}`こちら <./advanced/generation>` を参照してください。
+{py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` とは、数理モデルのプレースホルダーの定義に従ってインスタンスデータをランダムに生成し、その数理モデルとインスタンスデータをコンパイルして OMMX インスタンスを出力するメソッドです。詳しい利用方法は [こちら](./generation.ipynb) を参照してください。
 
 +++
 
@@ -97,7 +97,7 @@ for _ in range(100):
 
 ## 注意点
 
-JijModeling の表現力は発展途上にあります。そのため、必ずしも数理モデルの変更だけで {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` が通るようになるわけではありません。そのような場合には、 {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` の生成するプレースホルダーの値の範囲を {doc}`こちら <./advanced/generation>` のドキュメントに従って調整してみることをおすすめします。
+JijModeling の表現力は発展途上にあります。そのため、必ずしも数理モデルの変更だけで {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` が通るようになるわけではありません。そのような場合には、 {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` の生成するプレースホルダーの値の範囲を [こちら](./generation.ipynb) に従って調整してみることをおすすめします。
 
 +++
 
