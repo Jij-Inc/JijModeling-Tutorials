@@ -17,8 +17,12 @@ parts:
     chapters:
       - file: basics/overview
       - file: basics/problem
-      - file: basics/variables
       - file: basics/expressions
+      - file: basics/placeholders
+      - file: basics/decision_variables
+      - file: basics/arithmetic-and-comparison
+      - file: basics/arrays-and-dicts
+      - file: basics/set-and-logical-ops
       - file: basics/modeling
       - file: basics/instance_generation
   - caption: Advanced
