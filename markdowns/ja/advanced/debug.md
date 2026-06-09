@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# 数理モデルのデバッグ手法
+# インスタンスのランダム生成を用いたデバッグ
 
 本ドキュメントでは、JijModeling で書かれた数理モデルのデバッグ手法として、 {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` を使った方法を紹介します。このデバッグ手法はあくまで「数理モデルの各要素（プレースホルダーや決定変数、それらの成す式）のバグを探す方法」であることに注意してください。
 

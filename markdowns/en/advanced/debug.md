@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Debugging Methods for Mathematical Models
+# Debugging Methods Using Random Instance Generation
 
 In this document, we introduce a debugging method for mathematical models written in JijModeling using {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>`. Note that this method is specifically intended to find bugs in each element of a mathematical model (placeholders, decision variables, and the expressions composed of them).
 
