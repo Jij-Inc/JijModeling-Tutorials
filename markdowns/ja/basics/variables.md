@@ -132,7 +132,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 | 種類 | 数式 | 説明 | 別名 |
 | :--- | :--: | :-- | :-- |
 | {py:meth}`~jijmodeling.Problem.Binary` | $\{0, 1\}$ | $0$ または $1$ の値をとる二値プレースホルダー。 | - |
-| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。 | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
+| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ または $\{0, \ldots, N-1\}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。`less_than` キーワード引数に別の自然数式 `N` を指定することで、$\{0, \ldots, N-1\}$ の範囲に制限できる。 | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
 | {py:meth}`~jijmodeling.Problem.Integer` | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
 | {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
 | これらのタプル | $\mathbb{Z} \times \mathbb{R}$ | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
@@ -175,7 +175,17 @@ deco_problem
 :::{admonition} {py:meth}`~jijmodeling.Problem.Placeholder` 構築子
 :class: tip
 
-上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な {py:meth}`~jijmodeling.Problem.Placeholder` 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。`dtype`に対しては、`jm.DataType`列挙体のバリアントの他、Python 組み込みの型指定子 `float`, `int` や、Numpy の型指定子 `numpy.uint*`, `numpy.int*` などが使えます（`*` 以下のビット数の情報は単純に無視されます）。
+上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な {py:meth}`~jijmodeling.Problem.Placeholder` 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。`dtype`には、
+
+- `jm.DataType`列挙体のバリアント
+- Python 組み込みの型指定子 `float`, `int`
+- NumPy の型指定子 `numpy.uint*`, `numpy.int*`（`*` 以下のビット数の情報は単純に無視されます）
+- （指定された自然数 `N` **未満**の自然数の型 $\{0, \ldots, N-1\}$ という指定をするための）自然数式
+- カテゴリーラベル
+- これらのタプル
+
+などが指定できます。
+
 次節で触れるタプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、`Placeholder` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
 :::
 
@@ -459,17 +469,15 @@ partial_shape
 :class: tip
 
 JijModeling では、有向グラフ構造に相当する {py:meth}`~jijmodeling.Problem.Graph` プレースホルダー構築子を提供しています。
-たとえば、`G = problem.Graph()` とすると、$G$ は適当な頂点数を持つグラフにあたるプレースホルダーとして宣言されます。
+たとえば、`V` が超点数を表す自然数式のとき、`G = problem.Graph(dtype=V)` とすると、$G$ は $\{0, \ldots, V-1\}$ を頂点集合として持つグラフの辺集合にあたるプレースホルダーとして宣言されます。
+
 実は、この構築子は一次元配列と「[単独のプレースホルダー](#single_ph)」で触れたタプルの組み合わせで表現されており、次のように書いたのと同値です：
 
 ```python
-G = problem.Placeholder(
-    dtype=typing.Tuple[jm.DataType.NATURAL, jm.DataType.NATURAL],
-    ndim=1
-)
+G = problem.Placeholder(dtype=(V, V), ndim=1)
 ```
 
-ですので、`N = G.len_at(0)` とすることで $G$ の頂点数を取得することができますし、配列に関する種々の演算を使ってグラフを操作することができるようになります。
+ですので、`N = G.len_at(0)` とすることで $G$ の（重複を込みで数えた）辺の総数を取得することができますし、配列に関する種々の演算を使ってグラフを操作することができるようになります。
 このように、JijModeling ではタプルと配列を組み合わせて、複雑な構造を表現できるようになっているのです。
 :::
 
