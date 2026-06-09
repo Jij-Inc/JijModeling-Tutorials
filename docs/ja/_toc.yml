@@ -20,9 +20,9 @@ parts:
       - file: basics/expressions
       - file: basics/placeholders
       - file: basics/decision_variables
-      - file: basics/arithmetic-and-comparison
-      - file: basics/arrays-and-dicts
-      - file: basics/set-and-logical-ops
+      - file: basics/arithmetic_and_comparison
+      - file: basics/arrays_and_dicts
+      - file: basics/set_and_logical_ops
       - file: basics/modeling
       - file: basics/instance_generation
   - caption: Advanced

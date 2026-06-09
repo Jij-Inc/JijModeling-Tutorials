@@ -154,3 +154,7 @@ except Exception as e:
 | `ExpressoinFunction` | 一つ以上の {py:class}`~jijmodeling.Expression` オブジェクトを取り、 {py:class}`~jijmodeling.Expression` を返す関数。Pythonの型ヒントの仕組み上、最大5つの引数までしか列挙していませんが、実際には引数の個数に上限はありません。 |
 
 :::
+
+## 式のつくりかた
+
+これ以降では、次の数節に分けて具体的な式の構築方法を見ていきます。
