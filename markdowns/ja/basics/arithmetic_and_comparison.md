@@ -282,7 +282,7 @@ except SyntaxError as e:
     print(str(e))
 ```
 
-::{admonition} 決定変数による除算について
+:::{admonition} 決定変数による除算について
 :class: caution
 
 モデルの構築の時点では、決定変数が現れうる式は加減乗除の左右どちらの辺にも現れることができます。
