@@ -13,99 +13,28 @@ kernelspec:
 
 # プレースホルダーの定義
 
-本節では、JijModeling において現れる二種類の変数、**決定変数**と**プレースホルダー**について、それぞれの役割と定義の仕方を学びます。
+本節では、JijModeling において現れる二種類の変数のうち、ユーザーが入力するデータである**プレースホルダー**について、その方法と式中での役割を見ていきます。
 まずはいつも通りのモジュールのインポートから始めましょう。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 ```
 
-以上を踏まえて、決定変数・プレースホルダーそれぞれの種類と宣言方法について見ていきましょう。
-
 :::{hint}
-以下では構成の都合上決定変数→プレースホルダーの順に宣言方法を見ていきますが、変数間の依存関係さえ守られていれば定義する順番に特に制限はありません。
+説明の都合上、本節ではプレースホルダーを先に採り上げていますが、変数間の依存関係さえ守られていれば定義する順番に特に制限はありません。
 :::
 
 (single_vars)=
 ## 単独の変数の宣言
 
-この節では、決定変数・プレースホルダーの種類と、単独の（添え字がついていない）変数の宣言方法について学びます。
-「[概要](./overview)」や「[数理モデルの宣言](./problem)」でも説明したように、JijModeling ではこれらの決定変数は特定の数理モデルに紐付けて登録・宣言されます。
-
-### 単独の決定変数
-
-決定変数は各種ソルバーが制約条件と目的関数に基づいて値を決定する変数です。JijModeling は汎用モデラーであるため、代表的な以下の種類をサポートしています：
-
-| 種類 | 数式 | 説明 |
-| :---- | :--: | :--- |
-| {py:meth}`~jijmodeling.Problem.BinaryVar` | $\{0, 1\}$ | $0$ または $1$ の値を取るバイナリ変数。上下界の設定は不要。 |
-| {py:meth}`~jijmodeling.Problem.IntegerVar` | $\mathbb{Z}$ | 整数変数。上下界の設定が必要。 |
-| {py:meth}`~jijmodeling.Problem.ContinuousVar` | $\mathbb{R}$ | 実数値を取る連続変数。上下界の設定が必要。 |
-| {py:meth}`~jijmodeling.Problem.SemiIntegerVar` | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
-| {py:meth}`~jijmodeling.Problem.SemiContinuousVar` | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
-
-特定の種類の決定変数を宣言するには、その変数を登録する `Problem` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
-それでは、バイナリ変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $W' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
-Plain API では次のように定義できます：
-
-```{code-cell} ipython3
-problem = jm.Problem("Model with Variables")
-x = problem.BinaryVar("x", description="適当な二値変数")
-W = problem.ContinuousVar(
-    "W'",
-    lower_bound=-5,
-    upper_bound=10.5,
-    description="これまた適当な連続変数",
-)
-
-problem
-```
-
-第 1 引数は変数の名前を表す必須引数です。また、`upper_bound`および`lower_bound`は変数の上下界を表すキーワード引数であり、バイナリ変数以外は必ず指定しなければいけません。
-`description`は `Problem` のものと同様、人間があとでみてわかりやすい説明を書くための省略可能なキーワード引数です。
-
-:::{admonition} 単独の決定変数の上下界
-:class: tip
-
-`upper_bound`および`lower_bound`には、**決定変数を含まない**任意の JijModeling の式を書くことができます。
-どのような式が書けるのかは次節「{doc}`./expressions`」を参考にしてください。
-:::
-
-更に、**Decorator API を使うと名前の指定を省略**でき、この場合 Python 変数と同じ変数名が自動的に使われます。
-次は Decorator API で同様のモデルを定義している例です。
-
-```{code-cell} ipython3
-@jm.Problem.define("Model with Variables")
-def deco_problem(deco_problem: jm.DecoratedProblem):
-    # Decorator API の内側なので、 x の名前を省略している
-    x = deco_problem.BinaryVar(description="適当な二値変数")
-    # Decorator API 内であっても、名前を明示することもできる
-    W = deco_problem.ContinuousVar(
-        "W'",
-        lower_bound=-5,
-        upper_bound=10.5,
-        description="これまた適当な連続変数",
-    )
-
-
-deco_problem
-```
-
-この例では、$x$ の変数名を省略して宣言していますが、ちゃんと期待通りの $x$ として出力されています。
-Decorator API 内での変数名の省略は義務ではなく、上のセルでの $W'$ のように名前を明示することもできます。
-
-:::{admonition} 変数名省略の条件
-:class: caution
-
-Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` のように「変数一つ `=` Var の宣言一つ」のような形をしているときのみです。
-`x, y = (problem.BinaryVar(), problem.BinaryVar())` のように複数同時に宣言した場合などはエラーとなりますので注意してください。
-:::
+この節では、プレースホルダーの種類と、単独の（添え字がついていない）プレースホルダーの宣言方法について学びます。
+「[概要](./overview)」や「[数理モデルの宣言](./problem)」でも説明したように、JijModeling ではこれらは特定の数理モデルに紐付けて登録・宣言されます。
 
 (single_ph)=
 ### 単独のプレースホルダー
 
-決定変数にも種類があるように、プレースホルダーにも種類があり、宣言時に指定する必要があります。
-プレースホルダーはコンパイル時にユーザーが入力し得る値ですので、決定変数よりも種類が多くなっています。
+プレースホルダーは宣言時に種類を指定する必要があります。
+プレースホルダーはコンパイル時にユーザーが入力し得る値であり、入力データに関する情報を適切に表現するために幾つかの種類があります。
 代表的なプレースホルダーの型は以下の通りです：
 
 | 種類 | 数式 | 説明 | 別名 |
@@ -116,8 +45,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 | {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
 | これらのタプル | $\mathbb{Z} \times \mathbb{R}$ | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
 
-決定変数と同様、「種類」に挙げたものと同じ名前の Problem のメソッドを呼ぶことで、プレースホルダーが宣言できます。ただし、プレースホルダーに上下界を指定する必要はなく、また指定のための引数も存在しないという違いがあります。
-基本的には、決定変数から `*Var` を取ったものがプレースホルダーとしてだと思っておけばよいですが、`Float` のみ名前が違うことに留意してください。
+プレースホルダーを宣言するには、上記の種類と同じ名前の Problem のメソッドを呼ぶ必要があります。
 
 :::{admonition} プレースホルダーの使い分け
 :class: hint
@@ -133,19 +61,31 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 
 ```{code-cell} ipython3
 problem = jm.Problem("Another Problem with Placeholder")
-ub = problem.Float("ub", description="決定変数 $x$ の上界")
-x = problem.ContinuousVar("x", lower_bound=0, upper_bound=ub)
+A = problem.Float("A")
 problem
 ```
 
-式が表しているように、このモデルは決定変数$x$を一つだけ持ち、それが後からユーザーの入力するプレースホルダー $ub$ によって上からおさえられている、というモデルになっています。
-決定変数の場合と同様、Decorator API を使えば Python 変数と同じ名前の場合プレースホルダーの名前を省略できます。
+ここでは、 `A` という実数値のプレースホルダーを一つだけ持つ数理モデルを定義しています。
+このようにして宣言されたプレースホルダーは、{py:class}`~jijmodeling.Placeholder` クラスのインスタンスとして表され、プレースホルダーのメタデータを保持しています。
+
+```{code-cell} ipython3
+A
+```
+
+また、プレースホルダーが式中に現れた場合、自動的にその値を参照する式として扱われます。
+ためしに、`A` に $1$ を足してみましょう。
+
+```{code-cell} ipython3
+A + 1
+```
+
+また、Decorator API を使えば、Python 変数と同じ名前の場合、宣言時にプレースホルダーの名前を省略できます。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Another Problem with Placeholder")
 def deco_problem(problem: jm.DecoratedProblem):
-    ub = problem.Float(description="決定変数 $x$ の上界")
-    x = problem.ContinuousVar(lower_bound=0, upper_bound=ub)
+    A = problem.Float()
+    display(A + 1)
 
 
 deco_problem
@@ -155,27 +95,23 @@ deco_problem
 :class: tip
 
 上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な {py:meth}`~jijmodeling.Problem.Placeholder` 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。`dtype`に対しては、`jm.DataType`列挙体のバリアントの他、Python 組み込みの型指定子 `float`, `int` や、Numpy の型指定子 `numpy.uint*`, `numpy.int*` などが使えます（`*` 以下のビット数の情報は単純に無視されます）。
-次節で触れるタプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、`Placeholder` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
+タプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、`Placeholder` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
 :::
 
 (var_info)=
-## 変数の情報の取得
+## プレースホルダーの情報の取得
 
-上記のようにして数理モデルに登録された決定変数・プレースホルダーの一覧は、`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティおよび {py:attr}`~jijmodeling.DecoratedProblem.placeholders` プロパティにより取得できます。
-また、これらの一覧には、以下で扱う添え字つき変数の情報も含まれています。
-
-両者は変数名をキーとし、それぞれのメタデータを値とする辞書を返します。
-
-```{code-cell} ipython3
-deco_problem.decision_vars
-```
+数理モデルに登録されたプレースホルダーの一覧は、`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.placeholders` プロパティにより取得できます。
+このプロパティはプレースホルダー名をキーとし、それぞれのメタデータを値とする辞書を返します。
+また、この一覧には、以下で扱う添え字つき変数の情報も含まれています。
 
 ```{code-cell} ipython3
 deco_problem.placeholders
 ```
 
-こうした変数のメタデータは、変数式としても振る舞います。
-そのため、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
+このようにして得られるプレースホルダーのメタデータは {py:class}`~jijmodeling.Placeholder` オブジェクトであり、宣言時に返ってくるオブジェクトと同じものです。
+従って、{py:attr}`~jijmodeling.Problem.placeholders` に含まれる {py:class}`~jijmodeling.Placeholder` オブジェクトも変数式として使うことができます。
+特に、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
 
 :::{tip}
 将来的には `@problem.update` が定義済の変数たちを引数として取れるようにする変更が予定されています。期待してお待ちください！
@@ -184,7 +120,7 @@ deco_problem.placeholders
 (family)=
 ## 添え字つき変数の宣言
 
-前節まででは、単独の決定変数・プレースホルダーを定義する方法を見てきました。
+前節まででは、単独のプレースホルダーを定義する方法を見てきました。
 しかし、一般に数理最適化問題の定式化の際には、添え字つきの変数からなる族を定義することが必須になってきます。
 たとえば、クイックスタートの節（[SCIP版](../quickstart/scip)、[OpenJij版](../quickstart/openjij)）でも採り上げた典型的なナップサック問題を考えてみましょう。
 
