@@ -45,4 +45,4 @@ def min_fail(problem: jm.DecoratedProblem):
 
 ## その他の変更
 
-- 変更1：
+- 変更 1：
