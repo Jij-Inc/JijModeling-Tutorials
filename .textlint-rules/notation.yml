@@ -46,3 +46,5 @@ rules:
     pattern: tensor
   - expected: ナップサック
     pattern: ナップザック
+  - expected: 試しに
+    pattern: ためしに
