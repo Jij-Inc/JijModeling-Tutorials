@@ -113,7 +113,7 @@ problem
 ```{code-cell} ipython3
 problem = jm.Problem("SumAlongEdgeSet")
 V = problem.Natural("V")
-E = problem.Graph("E")
+E = problem.Graph("E", dtype=V)
 x = problem.BinaryVar("x", shape=(V,))
 problem += jm.map(lambda i, j: x[i] * x[j], E).sum()
 
@@ -126,7 +126,7 @@ problem
 @jm.Problem.define("SumAlongEdgeSet")
 def problem(problem: jm.DecoratedProblem):
     V = problem.Natural()
-    E = problem.Graph()
+    E = problem.Graph(dtype=V)
     x = problem.BinaryVar(shape=(V,))
     problem += jm.sum(x[i] * x[j] for (i, j) in E)
 

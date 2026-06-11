@@ -555,12 +555,13 @@ problem = jm.Problem("EdgeSum", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     V = problem.Natural() # Number of vertices
     # Method 1: Using tuple types for cleaner edge representation.
-    E = problem.Graph()
+    E = problem.Graph(dtype=V)
     # Equivalently:
-    # E = problem.Placeholder(dtype=Tuple[np.uint, np.uint], ndim=1)
-    # By default, Graph requires vertices to be natural numbers,
-    # but you can specify them with `vertex` keyword argument:
-    # E = problem.Graph(vertex=jm.DataType.FLOAT) # Graph with vertices labelled with floating-point numbers.
+    # E = problem.Placeholder(dtype=(V, V), ndim=1)
+    # By default, Graph vertices are labelled with natural numbers,
+    # but you can also specify the vertex label type
+    # (e.g. float or category labels) with the `dtype` argument:
+    # E = problem.Graph(dtype=jm.DataType.FLOAT) # Graph with vertices labelled with floating-point numbers.
     x = problem.BinaryVar(shape=(V,))
     
     # Tuple unpacking in comprehension.
@@ -900,7 +901,7 @@ Replace every direct module-level constructor with its Problem-bound equivalent:
 ### Step 4: Prefer Typed Placeholder Constructors
 
 - ❌ **Generic (avoid)**: `N = problem.Placeholder(dtype=jm.DataType.NATURAL)` / `a = problem.Placeholder(ndim=1)`
-- ✅ **Preferred (recommended)**: `N = problem.Length()` / `a = problem.Float(ndim=1)` / `W = problem.Float()` / `K = problem.Integer()` / `G = problem.Graph()`
+- ✅ **Preferred (recommended)**: `N = problem.Length()` / `a = problem.Float(ndim=1)` / `W = problem.Float()` / `K = problem.Integer()` / `G = problem.Graph(dtype=V)`
 - ▶︎ Use `Placeholder` only with explicit `dtype` argument.
 
 ### Step 5: Update Constraint Syntax
