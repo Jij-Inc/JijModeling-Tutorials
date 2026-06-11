@@ -18,6 +18,7 @@ parts:
       - file: basics/overview
       - file: basics/problem
       - file: basics/expressions
+      - file: basics/variables
       - file: basics/placeholders
       - file: basics/decision_variables
       - file: basics/arithmetic_and_comparison
