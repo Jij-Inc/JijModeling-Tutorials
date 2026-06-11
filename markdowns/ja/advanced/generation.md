@@ -13,7 +13,7 @@ kernelspec:
 
 # インスタンスのランダム生成の使い方
 
-{py:class}`~jijmodeling.Problem`には、 問題のスキーマ（つまり、プレースホルダー）に基づいたインスタンスデータのランダム生成が行えるメソッドがあります。本節では、そのランダム生成における設定などを説明します。
+{py:class}`~jijmodeling.Problem`には、 問題のスキーマ（つまり、プレースホルダー）に基づいたインスタンスデータのランダム生成が行えるメソッドがあります。本章では、そのランダム生成における設定などを説明します。
 
 メソッドは２つあり、以下の通りになります。
 - {py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` は、{py:meth}`Problem.eval` に渡すインスタンスデータを返します。
