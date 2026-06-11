@@ -19,7 +19,7 @@ kernelspec:
 import jijmodeling as jm
 ```
 
-(single_phs)=
+(single_ph)=
 ## 単独のプレースホルダーの宣言
 この節では、プレースホルダーの種類と、単独のプレースホルダーの宣言方法について学びます。
 
