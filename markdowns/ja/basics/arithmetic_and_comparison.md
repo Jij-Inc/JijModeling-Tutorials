@@ -56,7 +56,7 @@ z = problem.ContinuousVar(
     lower_bound=-1,
     upper_bound=42,
     shape=(N, M, N),
-    description="2次元配列の決定変数",
+    description="3次元配列の決定変数",
 )
 S = problem.TotalDict("S", dtype=float, dict_keys=N, description="スカラーの全域辞書")
 s = problem.ContinuousVar("s", lower_bound=0, upper_bound=10, dict_keys=N)
@@ -126,7 +126,7 @@ def _(problem: jm.DecoratedProblem):
     display(problem.infer(A))
 ```
 
-詳細は {doc}`arrays_and_dicts` の[該当する説明部分](#generators)を参照してください。
+詳細は {ref}`generators` を参照してください。
 
 :::{admonition} 決定変数による除算について
 :class: caution
@@ -150,7 +150,7 @@ JijModeling の式では、加減乗除だけではなく、三角関数（{py:m
 等値演算子（{py:meth}`== <jijmodeling.Expression.__eq__>`, {py:meth}` != <jijmodeling.Expression.__ne__>`）や順序比較演算子（{py:meth}`< <jijmodeling.Expression.__lt__>`, {py:meth}`<= <jijmodeling.Expression.__le__>`, {py:meth}`> <jijmodeling.Expression.__gt__>`, {py:meth}`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
 <!-- markdownlint-enable -->
 
-これら比較演算子の**両辺が共に決定変数を含まない**場合、値は真偽値型 `Bool` の式として評価されます。一方、両辺の少なくとも一方が決定変数を含みうる場合、これは特別な**比較型**として扱われます。これは、制約条件の定義では決定変数を現れる式同士を比較できる必要がある一方、内包表記などで使われる場合は真偽値が確定する比較式が使える必要があるためです。
+これら比較演算子の**両辺が共に決定変数を含まない**場合、値は真偽値型 `Bool` の式として評価されます。一方、両辺の少なくとも一方が決定変数を含みうる場合、これは特別な**比較型**として扱われます。これは、制約条件の定義では決定変数が現れる式同士を比較できる必要がある一方、内包表記などで使われる場合は真偽値が確定する比較式が使える必要があるためです。
 
 現状では、比較演算子はスカラーやカテゴリーラベル、またはそれらから成る配列・辞書に対して用いることができます。
 配列や辞書に対する比較演算子の仕様条件は、算術演算のオーバーロード規則と同様です。
