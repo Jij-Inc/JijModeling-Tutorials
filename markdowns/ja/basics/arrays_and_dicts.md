@@ -150,7 +150,7 @@ problem = jm.Problem("Array and Dict Example")
 N = problem.Natural("N")
 L = problem.CategoryLabel("L")
 x = problem.BinaryVar("x", dict_keys=(L))
-jm.gendict((L, N), lambda l, n: x[l] + n)
+jm.gendict(lambda l, n: x[l] + n, (L, N))
 ```
 
 {py:func}`~jijmodeling.gendict` も Decorator API では唯一つの `for` 節のみからなる内包表記をサポートしています。
@@ -163,7 +163,7 @@ def _(problem: jm.DecoratedProblem):
 
 ## 添え字による要素アクセスと像
 
-Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndarray` と同様、JijModeling の式でも `x[i, j]` のような多次元の添え字（インデックス）を用いることができます。
+Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndarray` と同様、JijModeling の式でも `x[i, j]` のように多次元の添え字（インデックス）を用いてコレクションの要素にアクセスすることができます。
 具体的には、JijModeling では次の型を持つ式に対して添え字を用いることができます：
 
 1. （多次元）配列
@@ -177,7 +177,7 @@ Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndar
 添え字は `x[i,j,k]` のように複数成分を同時に書くことができますが、タプルの成分数や、配列の次元、辞書のタプル長を越える添え字を用いると型エラーとなります。
 
 配列の添え字では、更に`x[:, 1]` のようなスライス記法を用いることができます。
-この場合、`x[:, 1]` は第 0 次元は全て保持しつつ第 1 次元では `1` 番目のものからなる新たな配列を返しますが。`x`が二次元配列であれば返値は一次元配列、三次元以上の$N$次元であれば$N-1$次元配列となり、一次元以下である場合は型エラーとなります。
+この場合、`x[:, 1]` は第 0 次元は全て保持しつつ第 1 次元では `1` 番目のものからなる新たな配列を返します。`x`が二次元配列であれば返値は一次元配列、三次元以上の$N$次元であれば$N-1$次元配列となり、一次元以下である場合は型エラーとなります。
 また、`x[1, 1:N:2]`のようにステップ数や終了インデックスを指定するスライスもサポートしています。
 スライス記法の詳細については、Python 公式ドキュメントの「{external+python:ref}`slicings`」を参照してください。
 
