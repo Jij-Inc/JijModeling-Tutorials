@@ -36,7 +36,7 @@ import jijmodeling as jm
 ただし、決定変数の場合は `Float` ではなく `ContinuousVar` となっている点に注意してください。
 
 特定の種類の決定変数を宣言するには、その変数を登録する `Problem` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
-それでは、バイナリ変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $W' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
+それでは、バイナリ変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $C' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
 Plain API では次のように定義できます：
 
 ```{code-cell} ipython3
@@ -83,7 +83,7 @@ deco_problem
 ```
 
 この例では、$x$ の変数名を省略して宣言していますが、ちゃんと期待通りの $x$ として出力されています。
-Decorator API 内での変数名の省略は義務ではなく、上のセルでの $W'$ のように名前を明示することもできます。
+Decorator API 内での変数名の省略は義務ではなく、上のセルでの $C'$ のように名前を明示することもできます。
 
 :::{admonition} 変数名省略の条件
 :class: caution
@@ -95,7 +95,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 (var_info)=
 ## 決定変数の情報の取得
 
-決定プレースホルダーの場合と同様、決定変数の一覧も`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティにより取得でき、以下で扱う添え字つき変数の情報も含まれています。
+プレースホルダーの場合と同様、決定変数の一覧も`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティにより取得でき、以下で扱う添え字つき変数の情報も含まれています。
 
 ```{code-cell} ipython3
 deco_problem.decision_vars
@@ -215,7 +215,7 @@ s = problem.ContinuousVar(
 
 ### 決定変数の辞書
 
-決定変数の辞書に関しては、『[決定変数の「個数」](#dec-var-count)』で触れたようにコンパイル後に個数が確定している必要があるため、`TotalDict` のみしか宣言できないようになっています。
+決定変数の辞書に関しては、『{ref}`決定変数の「個数」 <dec-var-count>`』で触れたようにコンパイル後に個数が確定している必要があるため、`TotalDict` のみしか宣言できないようになっています。
 決定変数の辞書を宣言するには、`BinaryVar`, `IntegerVar`, ... などの構築子に対して、`dict_keys` キーワード引数を渡すことで宣言できます。
 これは、決定変数の配列の宣言に `shape` を渡す必要があったのと同じです。
 
@@ -241,7 +241,7 @@ x = problem_for_dict.BinaryVar("x", dict_keys=(L, N))
 problem_for_dict
 ```
 
-また、決定変数辞書の `lower_bound` および `upper_bound` の設定についても、「[決定変数配列の上下界](#dec_var_array_bounds)」の節で紹介したのと同様に、以下の値を指定することができます：
+また、決定変数辞書の `lower_bound` および `upper_bound` の設定についても、「{ref}`決定変数配列の上下界 <dec_var_array_bounds>`」の節で紹介したのと同様に、以下の値を指定することができます：
 
 1. スカラー
 2. スカラーを要素に持ち、同じキー集合を持つ `TotalDict`
