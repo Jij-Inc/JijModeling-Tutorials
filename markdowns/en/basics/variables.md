@@ -133,7 +133,7 @@ Representative placeholder types include:
 | Type | Mathematical Notation | Description | Alias |
 | :--- | :------------------: | :-- | :-- |
 | {py:meth}`~jijmodeling.Problem.Binary` | $\{0, 1\}$ | A binary placeholder taking value $0$ or $1$. | - |
-| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ | Natural numbers including zero. Used for array sizes and indices. | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
+| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ or $\{0, \ldots, N-1\}$ | Natural numbers including zero. Used for array sizes and indices. Specify the `less_than` keyword argument to limit the range to $\{0, \ldots, N-1\}$. | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
 | {py:meth}`~jijmodeling.Problem.Integer` | $\mathbb{Z}$ | An integer value, including negatives. | - |
 | {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | A general real-valued (floating point) placeholder. | - |
 | Tuples of the above | $\mathbb{Z} \times \mathbb{R}$ | Fixed-length tuples with per-component types, often used with lists. | - |
@@ -179,7 +179,16 @@ deco_problem
 
 The constructors listed above, such as `problem.Float` and `problem.Natural`, are special cases of the more general {py:meth}`~jijmodeling.Problem.Placeholder` constructor.
 For example, `problem.Natural` is implemented as `problem.Placeholder(dtype=jm.DataType.NATURAL)`.
-For `dtype`, you can use `jm.DataType` variants, Python built-in types like `float` and `int`, or NumPy dtypes such as `numpy.uint*` and `numpy.int*` (the bit width is ignored).
+
+You can specify the following for the `dtype` argument of `Placeholder`:
+
+- `jm.DataType` variants
+- Python built-in types like `float` and `int`
+- NumPy dtypes such as `numpy.uint*` and `numpy.int*` (the bit width is ignored)
+- natural-valued expressions (for specifying the type of natural numbers **less than** a given natural number `N`)
+- category labels
+- tuples of the above
+
 For more complex types like tuples (discussed later), use `Placeholder` to specify details.
 Like other specialized constructors, `Placeholder` also supports name omission in the Decorator API.
 :::
@@ -467,17 +476,15 @@ partial_shape
 :class: tip
 
 JijModeling provides a {py:meth}`~jijmodeling.Problem.Graph` placeholder constructor corresponding to directed graph structures.
-For example, `G = problem.Graph()` declares a placeholder graph with some number of vertices.
+For example, when `V` is an natural-valued expression, `G = problem.Graph(dtype=V)` declares a placeholder standing for the edge set of a graph with vertex set $\{0, \ldots, V-1\}$.
+
 This constructor is actually equivalent to a one-dimensional array of tuples described in "[Single placeholders](#single_ph)" and can be written as:
 
 ```python
-G = problem.Placeholder(
-    dtype=typing.Tuple[jm.DataType.NATURAL, jm.DataType.NATURAL],
-    ndim=1
-)
+G = problem.Placeholder(dtype=(V, V), ndim=1)
 ```
 
-Therefore, you can obtain the number of vertices via `N = G.len_at(0)` and use array operations to work with graphs.
+Therefore, you can obtain the number of edges (counting multiplicities) via `N = G.len_at(0)` and use array operations to work with graphs.
 In this way, JijModeling lets you represent complex structures by combining tuples and arrays.
 :::
 
