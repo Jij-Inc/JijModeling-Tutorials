@@ -186,6 +186,8 @@ partial_knapsack.placeholders
 また、次元が$1$の場合は単に自然数を表す式で与えることもできます。
 ここでは、[先程定義した](#partial_knapsack_def) 部分的なナップサック問題に対して、各アイテムの価値を表す一次元配列 `v` と、重さを表す一次元配列 `w` を追加で宣言してみましょう：
 
+(partial_knapsack_update)=
+
 ```{code-cell} ipython3
 @partial_knapsack.update
 def _(problem: jm.DecoratedProblem):
