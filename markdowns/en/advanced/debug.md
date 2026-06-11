@@ -52,7 +52,7 @@ Now, let us run {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.
 
 ```{code-cell} ipython3
 try:
-    for _ in range(100):
+    for _ in range(50):
         _ = gcp_bad_modeling.generate_random_instance()
 except jm.ModelingError as e:
     print(e)
@@ -83,7 +83,7 @@ gcp_good_modeling
 Now, let us verify again whether this fix has removed the bug.
 
 ```{code-cell} ipython3
-for _ in range(100):
+for _ in range(50):
     _ = gcp_good_modeling.generate_random_instance()
 ```
 
