@@ -193,14 +193,22 @@ def _(problem: jm.DecoratedProblem):
 partial_knapsack
 ```
 
-:::{admonition} シェイプを部分的にだけ指定する
-:class: tip
+また、**プレースホルダーの配列の `shape` の成分には `None` を指定する**ことができます。
+この場合、`None` に指定された次元も一定の長さであることが要求されますが、その長さはコンパイル時に与えられた**インスタンスデータの値から推論**されます。
+この機能は、以下のように部分的に長さに制約がある配列を定義したい場合に便利です：
 
-`shape` キーワード引数に渡すタプルの要素には、自然数式以外にも `None` を渡すことができます。
-この場合、`None` が指定された軸の長さについては、コンパイル時に与えられたインスタンスデータの値から推論されることになります。
-これは、一部の軸の長さは既に定義された変数から決定できるような場合、残りの軸に対応するプレースホルダーを先に定義せずに省略できるようになります。
-与えられたデータで軸の長さが一定でなかった場合、コンパイル時エラーとなります。
-:::
+```{code-cell} ipython3
+@jm.Problem.define("Partially determined shape")
+def partial_shape(problem: jm.DecoratedProblem):
+    a = problem.Float(ndim=1)
+    N = a.len_at(0)
+    c = problem.Float(shape=(N, None))
+    M = c.len_at(1)
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(a[i] * c[i, j] * x[i, j] for i in N for j in M)
+
+partial_shape
+```
 
 #### 次元のみを指定した配列の宣言
 
@@ -213,7 +221,7 @@ partial_knapsack
 `ndim` と `shape` キーワード引数を同時に指定することもできますが、この場合 `shape`の成分数と `ndim` の値が正確に一致している必要があります。
 :::
 
-たとえば、上で定義した `partial_knapsack` は `ndim` と次節で触れる {py:meth}`~jijmodeling.Expression.len_at` 関数を使って次のように定義することができます：
+たとえば、上で定義した `partial_knapsack` は `ndim` を使って次のように定義することができます：
 
 (partial_knapsack_ndim)=
 
@@ -260,23 +268,6 @@ w = problem.Float(ndim=1, description="各アイテムの重量")
 ```
 
 しかし、これでは $v, w$ の間のシェイプの関係が表現できないため、JijModeling 2 以降ではこのような**長さの一致性が強制できない定義は強く非推奨**としており、**シェイプの間に非自明な関係がある場合は必ずどこかで `shape` を指定する**ことを強く推奨します。
-
-更に、[決定変数の場合](#array_of_dec_vars)と異なり、**プレースホルダーの配列の `shape` の成分には `None` を指定する**ことができます。
-この場合、`None` に指定された次元も一定の長さであることが要求されますが、その長さはコンパイル時に与えられた**インスタンスデータの値から推論**されます。
-この機能は、以下のように部分的に長さに制約がある配列を定義したい場合に便利です：
-
-```{code-cell} ipython3
-@jm.Problem.define("Partially determined shape")
-def partial_shape(problem: jm.DecoratedProblem):
-    a = problem.Float(ndim=1)
-    N = a.len_at(0)
-    c = problem.Float(shape=(N, None))
-    M = c.len_at(1)
-    x = problem.BinaryVar(shape=(N, M))
-    problem += jm.sum(a[i] * c[i, j] * x[i, j] for i in N for j in M)
-
-partial_shape
-```
 
 :::{admonition} タプルの配列としてのグラフ
 :class: tip
