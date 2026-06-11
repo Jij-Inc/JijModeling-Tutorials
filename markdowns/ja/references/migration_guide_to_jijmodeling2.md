@@ -563,11 +563,12 @@ problem = jm.Problem("EdgeSum", sense=jm.ProblemSense.MINIMIZE)
 def _(problem: jm.DecoratedProblem):
     V = problem.Natural() # 頂点数
     # 方法1：よりクリーンなエッジ表現のためにタプル型を使用。
-    E = problem.Graph()
+    E = problem.Graph(dtype=V)
     # または：
-    # E = problem.Placeholder(dtype=Tuple[np.uint, np.uint], ndim=1)
-    # デフォルトで Graph の自然数は自然数値だが、 vertex キーワード引数により指定もできる。
-    # E = problem.Graph(vertex=jm.DataType.FLOAT) # 浮動小数点数値の頂点を持つグラフ
+    # E = problem.Placeholder(dtype=(V, V), ndim=1)
+    # デフォルトでは Graph の頂点は自然数でラベル付けされるものとモデリングされるが、
+    # dtype キーワード引数で頂点の型（例：浮動小数点数やカテゴリラベル）を任意に指定できる。
+    # E = problem.Graph(dtype=jm.DataType.FLOAT) # 浮動小数点数値の頂点を持つグラフ
     x = problem.BinaryVar(shape=(V,))
     
     # 内包表記でのタプルアンパック。
@@ -907,7 +908,7 @@ JijModeling 1 から 2 へコードを移行するには、以下の段階的な
 ### ステップ4：型付きプレースホルダーコンストラクタを優先
 
 - ❌ **汎用（避ける）**: `N = problem.Placeholder(dtype=jm.DataType.NATURAL)` / `a = problem.Placeholder(ndim=1)`
-- ✅ **優先（推奨）**: `N = problem.Length()` / `a = problem.Float(ndim=1)` / `W = problem.Float()` / `K = problem.Integer()` / `G = problem.Graph()`
+- ✅ **優先（推奨）**: `N = problem.Length()` / `a = problem.Float(ndim=1)` / `W = problem.Float()` / `K = problem.Integer()` / `G = problem.Graph(dtype=V)`
 - ▶︎ `Placeholder`は明示的な`dtype`引数と共にのみ使用してください。
 
 ### ステップ5：制約構文の更新

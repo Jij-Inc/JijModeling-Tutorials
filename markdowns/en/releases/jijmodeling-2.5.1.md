@@ -11,18 +11,15 @@ kernelspec:
   name: python3
 ---
 
-:::{admonition} This Release has been Yanked!
-:class: important
+# JijModeling 2.5.1 Release Notes
 
-This release has been yanked due the unintended argument ordering of `gendict`.
-The release has already been marked uninstallable and replaced by [2.5.1](jijmodeling-2.5.1), which fixes the issue.
-Please use version 2.5.1 or later instead of this version.
+:::{admonition} This Note includes the contents of 2.5.0
+:class: info
+
+
+As JijModeling 2.5.0 has been yanked, this note contains also contains the changes in 2.5.0.
 
 :::
-
-
-
-# JijModeling 2.5.0 Release Notes
 
 +++
 
@@ -196,7 +193,7 @@ problem = jm.Problem("gendict example")
 K = problem.CategoryLabel("K")
 a = problem.Float("a", dict_keys=K)
 x = problem.BinaryVar("x", dict_keys=K)
-Sums = problem.NamedExpr("Sums", jm.gendict(K, lambda k: a[k] * x[k]))
+Sums = problem.NamedExpr("Sums", jm.gendict(lambda k: a[k] * x[k], K))
 
 
 problem
@@ -252,3 +249,18 @@ M = problem.Natural("M")
 x = problem.BinaryVar("x", shape=(N, M))
 jm.product(N, M).filter(lambda i, j: i == j)
 ```
+
+### Fix bug where `problem.eval()` failed when using a comprehension over a singleton list in a constraint family definition
+
+In previous versions, a problem definition like the following passed JijModeling's type checks, as it should, but calling {py:meth}`Problem.eval <jijmodeling.Problem.eval>` raised the error `Could not convert value from function of decision variable to SubscriptItem.`.
+
+```{code-cell} ipython3
+@jm.Problem.define("Min fail")
+def min_fail(problem: jm.DecoratedProblem):
+    x = problem.BinaryVar("x", shape=(1,))
+    problem += problem.Constraint(
+        "c", [x[j] == 0 for i in jm.range(1) for j in [i + 0]]
+    )
+```
+
+This version fixes the issue so that {py:meth}`Problem.eval <jijmodeling.Problem.eval>` works correctly for definitions like the one above.
