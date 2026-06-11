@@ -13,7 +13,7 @@ kernelspec:
 
 # コレクションの畳み込み（総和など）と論理演算
 
-本節では、前節までで見てきたコレクション型に対し、「集合」型を経由して総和や総積などの畳み込み演算やフィルタリングなどを行う方法について説明します。
+本章では、前章までで見てきたコレクション型に対し、「集合」型を経由して総和や総積などの畳み込み演算やフィルタリングなどを行う方法について説明します。
 また、真偽値や集合に対する論理演算についても併せて説明します。
 
 ```{code-cell} ipython3
@@ -22,7 +22,7 @@ import jijmodeling as jm
 
 ## JijModeling における「集合」と他の型からの変換
 
-JijModeling では、「特定の型の値からなる一連の値」を表す概念である**集合**をサポートしています。前節の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字の集合**を表す式を返します。
+JijModeling では、「特定の型の値からなる一連の値」を表す概念である**集合**をサポートしています。前章の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字の集合**を表す式を返します。
 この集合の概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
 
 :::{admonition} JijModeling の集合はストリーム
