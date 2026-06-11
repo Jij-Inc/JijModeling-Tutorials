@@ -15,7 +15,7 @@ kernelspec:
 :class: important
 
 This release has been yanked due the unintended argument ordering of `gendict`.
-The release has already been marked uninstallable and replaced by [2.5.1](jijmodeling-2.5.1.md), which fixes the issue.
+The release has already been marked uninstallable and replaced by [2.5.1](jijmodeling-2.5.1), which fixes the issue.
 Please use version 2.5.1 or later instead of this version.
 
 :::
