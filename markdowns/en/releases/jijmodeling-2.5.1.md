@@ -11,7 +11,15 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling 2.5.0 Release Notes
+# JijModeling 2.5.1 Release Notes
+
+:::{admonition} This Note includes the contents of 2.5.0
+:class: info
+
+
+As JijModeling 2.5.0 has been yanked, this note contains also contains the changes in 2.5.0.
+
+:::
 
 +++
 
