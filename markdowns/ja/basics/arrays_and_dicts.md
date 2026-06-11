@@ -161,6 +161,11 @@ def _(problem: jm.DecoratedProblem):
     display(jm.gendict(x[l] + n for (l, n) in (L, N)))
 ```
 
+## 配列・辞書の定義域の取得
+
+配列のシェイプを表すタプルは、{py:meth}`Expression.shape <jijmodeling.Expression.shape>` メソッドで、辞書のキー集合を表す式は {py:meth}`Expression.keys <jijmodeling.Expression.keys>` メソッドでそれぞれ取得することができます。
+これらの式は、配列や辞書の定義域を表す式であり、数理モデルの定式化の際に、定義域を渡る総和や制約条件を定義する際などに使うことができます。
+
 ## 添え字による要素アクセスと像
 
 Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndarray` と同様、JijModeling の式でも `x[i, j]` のように多次元の添え字（インデックス）を用いてコレクションの要素にアクセスすることができます。
@@ -180,18 +185,3 @@ Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndar
 この場合、`x[:, 1]` は第 0 次元は全て保持しつつ第 1 次元では `1` 番目のものからなる新たな配列を返します。`x`が二次元配列であれば返値は一次元配列、三次元以上の$N$次元であれば$N-1$次元配列となり、一次元以下である場合は型エラーとなります。
 また、`x[1, 1:N:2]`のようにステップ数や終了インデックスを指定するスライスもサポートしています。
 スライス記法の詳細については、Python 公式ドキュメントの「{external+python:ref}`slicings`」を参照してください。
-
-### 配列式や辞書式の添え字の集合の取得
-
-配列型や辞書型を持つ式に対しては、その添え字の集合を取得することができます。
-配列に対しては {py:meth}`~jijmodeling.Expression.indices` によりインデックスの全体を、辞書に対しては {py:meth}`~jijmodeling.Expression.keys` によりキー集合を取得することができます。
-これを使うと、たとえば `PartialDict` プレースホルダーと同じ定義域を持つような辞書型の決定変数を以下のようにして定義することができます。
-
-```{code-cell} ipython3
-problem = jm.Problem("Index and Keys Example")
-N = problem.Length("N")
-L = problem.CategoryLabel("L")
-S = problem.PartialDict("S", dtype=float, dict_keys=(N, L))
-x = problem.BinaryVar("x", dict_keys=S.keys())
-problem
-```

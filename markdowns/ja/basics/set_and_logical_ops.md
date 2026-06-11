@@ -20,7 +20,7 @@ kernelspec:
 import jijmodeling as jm
 ```
 
-### JijModeling における「集合」と他の型からの変換
+## JijModeling における「集合」と他の型からの変換
 
 JijModeling では、「特定の型の値からなる一連の値」を表す概念である**集合**をサポートしています。前節の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字の集合**を表す式を返します。
 この集合の概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
