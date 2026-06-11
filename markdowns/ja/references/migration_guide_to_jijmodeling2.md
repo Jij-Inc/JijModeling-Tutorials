@@ -81,7 +81,7 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
 ### 現在のバージョンで欠けているものは？
 
 <div class="alert alert-block alert-info">
-<b>注意:</b> このセクションでは、現在のJijModeling 2で利用できない機能を列挙しています。
+<b>注意:</b> この節では、現在のJijModeling 2で利用できない機能を列挙しています。
 </div>
 
 JijModeling 1 に存在し、現時点の JijModeling 2 で欠けている機能のは次のとおりです：
@@ -89,10 +89,6 @@ JijModeling 1 に存在し、現時点の JijModeling 2 で欠けている機能
 1. 複雑な構文木書き換え API
 
 また、JijModeling 2 正式リリース後に予定されている変更は以下の通りです：
-
-1. 従属変数情報の評価機構・OMMX への保存機能
-
-これらの機能は JijModeling 2 正式リリース後に随時実装されていく予定です。
 
 +++
 
