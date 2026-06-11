@@ -185,7 +185,7 @@ problem = jm.Problem("gendict example")
 K = problem.CategoryLabel("K")
 a = problem.Float("a", dict_keys=K)
 x = problem.BinaryVar("x", dict_keys=K)
-Sums = problem.NamedExpr("Sums", jm.gendict(K, lambda k: a[k] * x[k]))
+Sums = problem.NamedExpr("Sums", jm.gendict(lambda k: a[k] * x[k], K))
 
 
 problem

@@ -185,7 +185,7 @@ problem = jm.Problem("gendict example")
 K = problem.CategoryLabel("K")
 a = problem.Float("a", dict_keys=K)
 x = problem.BinaryVar("x", dict_keys=K)
-Sums = problem.NamedExpr("Sums", jm.gendict(K, lambda k: a[k] * x[k]))
+Sums = problem.NamedExpr("Sums", jm.gendict(lambda k: a[k] * x[k], K))
 
 
 problem
@@ -241,3 +241,34 @@ M = problem.Natural("M")
 x = problem.BinaryVar("x", shape=(N, M))
 jm.product(N, M).filter(lambda i, j: i == j)
 ```
+
+### 制約族の定義で singleton list に対する comprehension をした時に `problem.eval()` が失敗するバグの修正
+
+以前は次のような問題定義が、JijModeling の型検査は（期待通り）通過するものの、 {py:meth}`Problem.eval <jijmodeling.Problem.eval>` を呼び出すと `Could not convert value from function of decision variable to SubscriptItem.` というエラーが発生するバグがありました。
+
+```{code-cell} ipython3
+@jm.Problem.define("Min fail")
+def min_fail(problem: jm.DecoratedProblem):
+    x = problem.BinaryVar("x", shape=(1,))
+    problem += problem.Constraint(
+        "c", [x[j] == 0 for i in jm.range(1) for j in [i + 0]]
+    )
+```
+
+本バージョンでは、上記の様な定義に対しても {py:meth}`Problem.eval <jijmodeling.Problem.eval>` が正常に動作するように修正しました。
+
+
+### Fix bug where `problem.eval()` failed when using a comprehension over a singleton list in a constraint family definition
+
+In previous versions, a problem definition like the following passed JijModeling's type checks, as it should, but calling {py:meth}`Problem.eval <jijmodeling.Problem.eval>` raised the error `Could not convert value from function of decision variable to SubscriptItem.`.
+
+```{code-cell} ipython3
+@jm.Problem.define("Min fail")
+def min_fail(problem: jm.DecoratedProblem):
+    x = problem.BinaryVar("x", shape=(1,))
+    problem += problem.Constraint(
+        "c", [x[j] == 0 for i in jm.range(1) for j in [i + 0]]
+    )
+```
+
+This version fixes the issue so that {py:meth}`Problem.eval <jijmodeling.Problem.eval>` works correctly for definitions like the one above.
