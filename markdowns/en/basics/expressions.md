@@ -295,7 +295,7 @@ except SyntaxError as e:
     print(str(e))
 ```
 
-::{admonition} Division by decision variables
+:::{admonition} Division by decision variables
 :class: caution
 
 At the modeling stage, decision variables can appear on either side of arithmetic operators.

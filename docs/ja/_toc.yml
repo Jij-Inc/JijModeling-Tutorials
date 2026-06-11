@@ -25,6 +25,7 @@ parts:
     chapters:
       - file: advanced/named_expr
       - file: advanced/generation
+      - file: advanced/debug
       - file: advanced/serialize
   - caption: Reference
     chapters:

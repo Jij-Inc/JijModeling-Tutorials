@@ -24,6 +24,7 @@ parts:
     chapters:
       - file: advanced/named_expr
       - file: advanced/generation
+      - file: advanced/debug
       - file: advanced/serialize
   - caption: Reference
     chapters:
@@ -33,7 +34,7 @@ parts:
         title: JijModeling API Reference
       - url: https://jij-inc-jijzept-tutorials-en.readthedocs-hosted.com/en/
         title: Typical Problems
-  - caption: Release Note
+  - caption: Release Notes
     chapters:
       - file: releases/unreleased
       - file: releases/jijmodeling-2.5.0
