@@ -34,7 +34,7 @@ import jijmodeling as jm
 plain_problem = jm.Problem(
     "Empty Problem",
     sense=jm.ProblemSense.MAXIMIZE,
-    description="何の目的関数も制約条件も設定されていない、説明目的の最適化問題",
+    description="何の目的関数も制約条件も設定されていない、説明目的の数理モデル",
 )
 ```
 
@@ -57,7 +57,7 @@ plain_problem
 @jm.Problem.define(
     "Empty Problem",
     sense=jm.ProblemSense.MAXIMIZE,
-    description="何の目的関数も制約条件も設定されていない、説明目的の最適化問題",
+    description="何の目的関数も制約条件も設定されていない、説明目的の数理モデル",
 )
 def deco_problem(problem: jm.DecoratedProblem):
     pass  # 何もしない
