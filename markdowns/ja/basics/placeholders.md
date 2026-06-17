@@ -149,14 +149,24 @@ Problem オブジェクトに登録されているカテゴリーラベルの一
 数理モデルに登録されたプレースホルダーの一覧は、`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.placeholders` プロパティにより取得できます。
 このプロパティはプレースホルダー名をキーとし、それぞれのメタデータを値とする辞書を返します。
 また、この一覧には、以下で扱う添え字つき変数の情報も含まれています。
+また、カテゴリーラベルについては、`Problem` オブジェクトの {py:attr}`~jijmodeling.Problem.category_labels` プロパティにより、同様にカテゴリーラベル名をキーとする辞書が得られます。
 
 ```{code-cell} ipython3
-partial_knapsack.placeholders
+import jijmodeling as jm
+
+ph_catlab_problem = jm.Problem("Placeholder and Category Label Info")
+N = ph_catlab_problem.Length("N")
+L = ph_catlab_problem.CategoryLabel("L", description="適当なカテゴリーラベル")
+A = ph_catlab_problem.Float("A", dict_keys=(N, L))
+
+print(f"Placeholders: {ph_catlab_problem.placeholders}")
+print(f"Category Labels: {ph_catlab_problem.category_labels}")
 ```
 
-このようにして得られるプレースホルダーのメタデータは {py:class}`~jijmodeling.Placeholder` オブジェクトであり、宣言時に返ってくるオブジェクトと同じものです。
-従って、{py:attr}`~jijmodeling.Problem.placeholders` に含まれる {py:class}`~jijmodeling.Placeholder` オブジェクトも変数式として使うことができます。
+このようにして得られるメタデータは、プレースホルダーについては {py:class}`~jijmodeling.Placeholder` オブジェクト、カテゴリーラベルについては {py:class}`~jijmodeling.CategoryLabel` オブジェクトであり、宣言時に返ってくるオブジェクトと同じものです。
+従って、これらの辞書に要素として含まれるオブジェクトも変数式として使うことができます。
 特に、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
+
 
 :::{tip}
 将来的には `@problem.update` が定義済の変数たちを引数として取れるようにする変更が予定されています。期待してお待ちください！
