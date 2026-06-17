@@ -215,7 +215,7 @@ s = problem.ContinuousVar(
 
 ### 決定変数の辞書
 
-決定変数の辞書に関しては、『{ref}`決定変数の「個数」 <dec-var-count>`』で触れたようにコンパイル後に個数が確定している必要があるため、`TotalDict` のみしか宣言できないようになっています。
+決定変数の辞書に関しては、『[決定変数の「個数」](#dec-var-count)』で触れたようにコンパイル後に個数が確定している必要があるため、`TotalDict` のみしか宣言できないようになっています。
 決定変数の辞書を宣言するには、`BinaryVar`, `IntegerVar`, ... などの構築子に対して、`dict_keys` キーワード引数を渡すことで宣言できます。
 これは、決定変数の配列の宣言に `shape` を渡す必要があったのと同じです。
 
@@ -241,7 +241,7 @@ x = problem_for_dict.BinaryVar("x", dict_keys=(L, N))
 problem_for_dict
 ```
 
-また、決定変数辞書の `lower_bound` および `upper_bound` の設定についても、「{ref}`決定変数配列の上下界 <dec_var_array_bounds>`」の節で紹介したのと同様に、以下の値を指定することができます：
+また、決定変数辞書の `lower_bound` および `upper_bound` の設定についても、「[決定変数配列の上下界](#dec_var_array_bounds)」の節で紹介したのと同様に、以下の値を指定することができます：
 
 1. スカラー
 2. スカラーを要素に持ち、同じキー集合を持つ `TotalDict`
