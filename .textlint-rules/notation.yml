@@ -48,3 +48,5 @@ rules:
     pattern: ナップザック
   - expected: 試しに
     pattern: ためしに
+  - expected: 最適化問題
+    pattern: 数理最適化問題
