@@ -126,7 +126,7 @@ def _(problem: jm.DecoratedProblem):
     display(problem.infer(A))
 ```
 
-詳細は {ref}`generators` を参照してください。
+詳細は {doc}`arrays_and_dicts` の[該当する説明部分](#generators)を参照してください。
 
 :::{admonition} 決定変数による除算について
 :class: caution
