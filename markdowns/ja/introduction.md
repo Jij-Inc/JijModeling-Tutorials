@@ -40,7 +40,7 @@ JijModeling では、数理モデルの記号的な定義と、入力される�
 :alt: JijModeling で記述された数理モデルは、OMMX を経て各種ソルバーに渡される
 :width: 75%
 
-JijModeling と OMMX による数理最適化問題の求解の流れ
+JijModeling と OMMX による最適化問題の求解の流れ
 :::
 
 JijModeling で定義された数理モデルは、最終的に[OMMX Message形式](https://jij-inc.github.io/ommx/ja/introduction.html)で表現されたインスタンスへと**コンパイル**されます。
@@ -148,11 +148,11 @@ jijmodeling.__version__
 
 ## 本ドキュメントの構成
 
-本ドキュメントは数理最適化問題を JijModeling で解くために必要な情報を提供します。
+本ドキュメントは最適化問題を JijModeling で解くために必要な情報を提供します。
 数理最適化そのものについては、JijZept の資料『[数理最適化の基礎](https://www.jijzept.com/ja/docs/tutorials/optimization_basics/01-introduction/)』などをご参照ください。
 本稿の各章の内容は以下の通りです：
 
-1. **クイックスタート**：ナップサック問題の例を通して、JijModeling における数理最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModeling の利用方法はどちらも同じですので、お好みの方をお読みください。
+1. **クイックスタート**：ナップサック問題の例を通して、JijModeling における最適化問題の定式化・求解方法について学びます。使うソルバーにより二つにわかれていますが、JijModeling の利用方法はどちらも同じですので、お好みの方をお読みください。
     - {doc}`./quickstart/scip`: 数理最適化ソルバー[SCIP](https://www.scipopt.org/)と組み合わせる方法を取り扱っています。
     - {doc}`./quickstart/openjij`: [OpenJij](https://tutorial.openjij.org/ja/intro.html)と組み合わせる方法を取り扱っています。
 2. **{doc}`JijModeling の基本 <./basics/overview>`**：JijModeling を用いたモデリングの基本構成要素を解説します。
