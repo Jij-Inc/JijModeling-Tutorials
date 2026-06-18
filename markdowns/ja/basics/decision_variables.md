@@ -198,11 +198,17 @@ multidim_arrays
 
 これらの指定方法は、上下界でそれぞれ別のものを使うことができます。次は (1) と (2) を使って上下界が与えられている例です。
 
-```python
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("Bounds for variable arrays")
 N = problem.Length("N")
 lb = problem.Integer("lb")
 ubs = problem.Integer("ub", shape=N)
-a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ub)
+a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ubs)
+
+problem
 ```
 
  `lb` はゼロ次元のスカラー、 `ub` は長さ $N$ の一次元配列として宣言されたプレースホルダーです。
@@ -213,14 +219,22 @@ a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ub)
 
 (3) の添え字からの関数式として与える例としては、やや人工的ですが次のような例が考えられます：
 
-```python
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("Another bound examples with lambda")
+
 N = problem.Length("N")
 M = problem.Length("M")
 s = problem.ContinuousVar(
+    "s",
     shape=(N,M),
     lower_bound=0,
     upper_bound=lambda i, j: i + j,
 )
+
+problem
 ```
 
 この例では、シェイプ $N \times M$ の二次元配列 $s$ に対し、以下のように上下界が設定されることになります：
