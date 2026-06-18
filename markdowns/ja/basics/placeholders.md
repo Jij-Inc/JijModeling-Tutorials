@@ -119,6 +119,9 @@ Decorator API で変数名を省略できるのは、`x = problem.Float(...)` �
 Plain API でのカテゴリーラベルの宣言方法は以下のようになります：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 problem_catlab_plain = jm.Problem("Category Label Only")
 L_plain = problem_catlab_plain.CategoryLabel("L", description="適当なカテゴリーラベル")
 
@@ -129,6 +132,9 @@ problem_catlab_plain
 また、Decorator API を使うとプレースホルダーの場合と同様にカテゴリーラベル名を省略できます（もちろん明示することもできます）：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Category Label Only")
 def problem_catlab_deco(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel(description="適当なカテゴリーラベル")
