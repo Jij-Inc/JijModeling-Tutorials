@@ -15,10 +15,6 @@ kernelspec:
 
 本章では、JijModeling において現れる二種類の変数、**決定変数**と**プレースホルダー**について、それぞれの概念的な説明を行います。
 
-```{code-cell} ipython3
-import jijmodeling as jm
-```
-
 ## JijModelingにおける二種類の「変数」
 
 JijModeling では、大きく分けて二種類の**変数**が存在します。
