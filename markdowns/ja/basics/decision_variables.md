@@ -16,10 +16,6 @@ kernelspec:
 以下では、数理モデルの重要な構成要素の一つである**決定変数**について、JijModeling での宣言方法を見ていきます。
 まずはいつも通りのモジュールのインポートから始めましょう。
 
-```{code-cell} ipython3
-import jijmodeling as jm
-```
-
 ## 単独の決定変数
 
 決定変数は各種ソルバーが制約条件と目的関数に基づいて値を決定する変数です。JijModeling は汎用モデラーであるため、代表的な以下の種類をサポートしています：
@@ -40,6 +36,9 @@ import jijmodeling as jm
 Plain API では次のように定義できます：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 problem = jm.Problem("Model with Variables")
 x = problem.BinaryVar("x", description="適当な二値変数")
 C = problem.ContinuousVar(
@@ -66,6 +65,9 @@ problem
 次は Decorator API で同様のモデルを定義している例です。
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Model with Variables")
 def deco_problem(deco_problem: jm.DecoratedProblem):
     # Decorator API の内側なので、 x の名前を省略している
@@ -98,6 +100,22 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 プレースホルダーの場合と同様、決定変数の一覧も`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティにより取得でき、以下で扱う添え字つき変数の情報も含まれています。
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Model with Variables")
+def deco_problem(deco_problem: jm.DecoratedProblem):
+    # Decorator API の内側なので、 x の名前を省略している
+    x = deco_problem.BinaryVar(description="適当な二値変数")
+    # Decorator API 内であっても、名前を明示することもできる
+    C = deco_problem.ContinuousVar(
+        "C'",
+        lower_bound=-5,
+        upper_bound=10.5,
+        description="これまた適当な連続変数",
+    )
+
+
 deco_problem.decision_vars
 ```
 
@@ -117,16 +135,6 @@ deco_problem.decision_vars
 (array_of_dec_vars)=
 ### 決定変数の配列
 
-以下ではナップサック問題の定義を例として使うため、プレースホルダーのみが宣言されたモデルを定義しておきましょう。
-
-```{code-cell} ipython3
-knapsack = jm.Problem("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
-W = knapsack.Float("W", description="ナップサックの耐荷重")
-N = knapsack.Length("N", description="アイテム数")
-v = knapsack.Float("v", shape=(N,), description="各アイテムの価値")
-w = knapsack.Float("w", shape=(N,), description="各アイテムの重量")
-```
-
 決定変数の配列は、プレースホルダーの場合と同様、`BinaryVar` などの構築子に `shape=` キーワード引数として自然数から成る固定長のタプルを表す式を指定することで宣言でき、$1$次元の場合は単に自然数を表す式で与えることもできます。
 
 :::{admonition} 決定変数の配列のシェイプの指定
@@ -135,14 +143,22 @@ w = knapsack.Float("w", shape=(N,), description="各アイテムの重量")
 決定変数の数はプレースホルダーの値のみから確定する必要があるため、プレースホルダーの場合と異なり **`shape` 引数の成分に `None` を指定することはできず**、また **`ndim=`  キーワード引数を使うこともできません**。
 :::
 
-試しに、ナップサック問題に「アイテム$i$を入れるときだけ$1$となる」決定変数$x_i$を追加しましょう。
-
-(partial_knapsack_def)=
+それでは、適切な決定変数を持つようなナップサック問題を定義してみましょう。
 
 ```{code-cell} ipython3
-@knapsack.update
-def _(problem: jm.DecoratedProblem):
-    x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
+import jijmodeling as jm
+
+
+@jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
+def knapsack(knapsack: jm.DecoratedProblem):
+    # プレースホルダーたちの宣言
+    W = knapsack.Float("W", description="ナップサックの耐荷重")
+    N = knapsack.Length("N", description="アイテム数")
+    v = knapsack.Float("v", shape=(N,), description="各アイテムの価値")
+    w = knapsack.Float("w", shape=(N,), description="各アイテムの重量")
+
+    # 決定変数の宣言
+    x = knapsack.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
 
 
 knapsack
@@ -157,6 +173,9 @@ knapsack
 (multidim_arrays)=
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
 N = multidim_arrays.Length("N")  # Plain API なので変数名を指定している
 M = multidim_arrays.Length("M")
@@ -233,6 +252,9 @@ s = problem.ContinuousVar(
 以下は、カテゴリーラベルと自然数の集合のタプルをキーに持つ決定変数の辞書を定義している例です：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 problem_for_dict = jm.Problem("Dec Var Keys demonstration")
 N = problem_for_dict.Length("N")
 L = problem_for_dict.CategoryLabel("L")
@@ -252,6 +274,9 @@ problem_for_dict
 以下はナップサック問題をカテゴリーラベルを使って定式化しなおしたものです：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Knapsack (vars only, CATEGORY LABEL)")
 def knapsack_cat_dict(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
@@ -272,6 +297,9 @@ knapsack_cat_dict
 このような場合に、`PartialDict` は大きな効力を発揮します：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Knapsack (vars only, with synergy)")
 def knapsack_synergy(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
