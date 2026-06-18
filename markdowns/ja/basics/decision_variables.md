@@ -28,8 +28,8 @@ kernelspec:
 | {py:meth}`~jijmodeling.Problem.SemiIntegerVar` | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
 | {py:meth}`~jijmodeling.Problem.SemiContinuousVar` | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
 
-概ねプレースホルダーの構築子と似ていますが、`*Var` で終わるものが決定変数、ついていないものがプレースホルダーの構築子になっています。
-ただし、決定変数の場合は `Float` ではなく `ContinuousVar` となっている点に注意してください。
+概ねプレースホルダーの構築子と似ていますが、`*Var` で終わるものが決定変数、そうでないものがプレースホルダーの構築子です。
+また、連続値の決定変数は `FloatVar` ではなく `ContinuousVar` となっている点に注意してください。
 
 特定の種類の決定変数を宣言するには、その変数を登録する `Problem` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
 それでは、バイナリ変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $C' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
@@ -105,9 +105,7 @@ import jijmodeling as jm
 
 @jm.Problem.define("Model with Variables")
 def deco_problem(deco_problem: jm.DecoratedProblem):
-    # Decorator API の内側なので、 x の名前を省略している
     x = deco_problem.BinaryVar(description="適当な二値変数")
-    # Decorator API 内であっても、名前を明示することもできる
     C = deco_problem.ContinuousVar(
         "C'",
         lower_bound=-5,
