@@ -141,7 +141,7 @@ w = knapsack.Float("w", shape=(N,), description="各アイテムの重量")
 
 ```{code-cell} ipython3
 @knapsack.update
-def knapsack(problem: jm.DecoratedProblem):
+def _(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
 
 
