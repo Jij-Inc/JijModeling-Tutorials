@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.3
+    jupytext_version: 1.19.1
 kernelspec:
   display_name: .venv
   language: python
@@ -19,7 +19,9 @@ kernelspec:
 
 +++
 
-### 機能1
+### `generate_random_instance` の `fixed_variables` キーワード引数追加
+
+`eval`に渡す `fixed_variabes`を指定できるよう、`generate_random_instance`にキーワード引数を追加しました。
 
 +++
 
@@ -27,9 +29,9 @@ kernelspec:
 
 +++
 
-### バグ修正1：
+### バグ修正 1：
 
 
 ## その他の変更
 
-- 変更1：
+- 変更 1：

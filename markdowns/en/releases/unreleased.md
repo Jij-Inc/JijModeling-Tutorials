@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.3
+    jupytext_version: 1.19.1
 kernelspec:
   display_name: .venv
   language: python
@@ -19,7 +19,9 @@ kernelspec:
 
 +++
 
-### Feature 1
+### Add `fixed_variables` keyword argument to `generate_random_instance`
+
+Added a keyword arugment to specify `fixed_variabes` to be passed to `eval` when using `generate_random_instance`.
 
 +++
 
