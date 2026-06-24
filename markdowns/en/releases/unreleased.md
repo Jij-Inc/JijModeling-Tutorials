@@ -19,7 +19,9 @@ kernelspec:
 
 +++
 
-### Feature 1
+### Add `fixed_variables` keyword argument to `generate_random_instance`
+
+Added a keyword arugment to specify `fixed_variabes` to be passed to `eval` when using `generate_random_instance`.
 
 +++
 
