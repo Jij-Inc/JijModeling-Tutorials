@@ -141,25 +141,22 @@ deco_problem.decision_vars
 決定変数の数はプレースホルダーの値のみから確定する必要があるため、プレースホルダーの場合と異なり **`shape` 引数の成分に `None` を指定することはできず**、また **`ndim=`  キーワード引数を使うこともできません**。
 :::
 
-それでは、適切な決定変数を持つようなナップサック問題を定義してみましょう。
+それでは、$N$個の決定変数から成るようなバイナリ変数の配列$x$を持つモデルを定義してみましょう：
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
 
-@jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
-def knapsack(knapsack: jm.DecoratedProblem):
-    # プレースホルダーたちの宣言
-    W = knapsack.Float("W", description="ナップサックの耐荷重")
-    N = knapsack.Length("N", description="アイテム数")
-    v = knapsack.Float("v", shape=(N,), description="各アイテムの価値")
-    w = knapsack.Float("w", shape=(N,), description="各アイテムの重量")
+@jm.Problem.define("Example Problem", sense=jm.ProblemSense.MAXIMIZE)
+def problem(problem: jm.DecoratedProblem):
+    # 個数を確定させるため、プレースホルダー $N$ を宣言する必要がある
+    N = problem.Length()
 
-    # 決定変数の宣言
-    x = knapsack.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
+    # $x$ の宣言
+    x = problem.BinaryVar(shape=N)
 
 
-knapsack
+problem
 ```
 
 :::{tip}
