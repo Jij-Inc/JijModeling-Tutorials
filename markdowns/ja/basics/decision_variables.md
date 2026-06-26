@@ -183,7 +183,7 @@ multidim_arrays
 ```
 
 (dec_var_array_bounds)=
-### 決定変数配列の上下界の指定
+#### 決定変数配列の上下界の指定
 
 決定変数の配列に対しては、次に該当するような式を `upper_bound` / `lower_bound` に指定することができます：
 
