@@ -29,7 +29,9 @@ Added a keyword arugment to specify `fixed_variabes` to be passed to `eval` when
 
 +++
 
-### Bugfix 1
+### Bugfix 1: Fixed `min` folding to `max` during OMMX compilation
+
+Fixed a bug where {py:func}`~jijmodeling.min` over constants incorrectly computed the maximum value when compiling to OMMX.
 
 
 ## Other Changes
