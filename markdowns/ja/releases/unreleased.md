@@ -23,6 +23,30 @@ kernelspec:
 
 `eval`に渡す `fixed_variabes`を指定できるよう、`generate_random_instance`にキーワード引数を追加しました。
 
+### エラーコードの付与と包括的なエラーガイドの提供
+
+本リリースから、以下のように全てのエラーメッセージにエラーコードが付与されるようになりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("Test Problem")
+N = problem.Natural("N")
+x = problem.BinaryVar("x", shape=(N,))
+try:
+    problem += x
+except Exception as e:
+    print(e)
+```
+
+`[]` 内部の `E-TE0004` が個別のエラーメッセージに対応します。
+
+また、各エラーコードごとにありうる理由や対処法をまとめたインデックスが公開併せて公開されています。
+
+個別のコードごとに https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/error_codes/error/E-TE0004.html などとしてアクセスすることができます。
+一部のターミナルでは、上のようなエラーメッセージ中の `[E-TE0004]` の部分にハイパーリンクが設定されており、直接開くことができます。
+また、エラーの一覧やカテゴリ別の概説についても https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/error_codes/index.html から確認できます。
+
 +++
 
 ## バグ修正
