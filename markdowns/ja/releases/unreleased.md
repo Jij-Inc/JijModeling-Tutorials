@@ -45,7 +45,7 @@ except Exception as e:
 
 個別のコードごとに https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/error_codes/error/E-TE0004.html などとしてアクセスすることができます。
 一部のターミナルでは、上のようなエラーメッセージ中の `[E-TE0004]` の部分にハイパーリンクが設定されており、直接開くことができます。
-また、エラーの一覧やカテゴリ別の概説についても https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/error_codes/index.html から確認できます。
+また、エラーの一覧やカテゴリー別の概説についても https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/error_codes/index.html から確認できます。
 
 +++
 
