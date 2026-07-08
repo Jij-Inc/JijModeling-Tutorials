@@ -14,7 +14,7 @@ kernelspec:
 # Mathematical Model Formulation
 
 Based on the explanations in the previous sections, we now describe how to formulate a mathematical model.
-Decision variables and placeholders are covered in {doc}`variables`, so here we focus on how to set objectives and constraints.
+Decision variables and placeholders are covered in {doc}`decision_variables` and {doc}`placeholders`, so here we focus on how to set objectives and constraints.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
