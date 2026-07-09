@@ -47,6 +47,8 @@ plain_problem = jm.Problem(
 plain_problem
 ```
 
+この時点では目的関数を設定していないため、ここでは $0$ が目的変数として表示されています。
+
 :::{admonition} `description` 内の数式の書き方
 :class: important
 
@@ -56,8 +58,6 @@ Jupyter Notebook などでの数式表示では、`description` は通常の文�
 
 この注意事項は、Problem 以外のオブジェクトの `description` にも同様に適用されます。
 :::
-
-この時点では目的関数を設定していないため、ここでは $0$ が目的変数として表示されています。
 
 ### Decorator API による Problem オブジェクトの作成
 

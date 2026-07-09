@@ -47,6 +47,8 @@ You can display the object to check such metadata within Jupyter:
 plain_problem
 ```
 
+Since no objective has been set yet, $0$ is shown as the objective at this stage.
+
 :::{admonition} Writing mathematical notation in `description`
 :class: important
 
@@ -56,8 +58,6 @@ For example, writing `description="when x_i = 1, ..."` makes `_` invalid as a La
 
 This note also applies to `description` values on objects other than `Problem`.
 :::
-
-Since no objective has been set yet, $0$ is shown as the objective at this stage.
 
 ### Creating a `Problem` object with the Decorator API
 
