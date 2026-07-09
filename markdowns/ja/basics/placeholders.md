@@ -15,10 +15,6 @@ kernelspec:
 
 本章では、JijModeling において現れる二種類の変数のうち、ユーザーが入力するデータである**プレースホルダー**とその変種**カテゴリーラベル**について、その宣言方法や情報の取得方法について述べていきます。
 
-```{code-cell} ipython3
-import jijmodeling as jm
-```
-
 (single_ph)=
 ## 単独のプレースホルダーの宣言
 この節では、プレースホルダーの種類と、単独のプレースホルダーの宣言方法について学びます。
@@ -51,11 +47,13 @@ import jijmodeling as jm
 Plain API では次のようにして宣言できます：
 
 ```{code-cell} ipython3
-partial_knapsack = jm.Problem("Knapsack (Placeholders only)", sense=jm.ProblemSense.MAXIMIZE)
-W = partial_knapsack.Float("W", description="ナップサックの耐荷重")
-N = partial_knapsack.Length("N", description="アイテム数")
+import jijmodeling as jm
 
-partial_knapsack
+knapsack_placeholders = jm.Problem("Knapsack (Placeholders only)", sense=jm.ProblemSense.MAXIMIZE)
+W = knapsack_placeholders.Float("W", description="ナップサックの耐荷重")
+N = knapsack_placeholders.Length("N", description="アイテム数")
+
+knapsack_placeholders
 ```
 
 ここでは、耐荷重を表す実数値のプレースホルダー `W` と、アイテム数を表す自然数のプレースホルダー `N` を一つずつ持つ数理モデルを定義しています。
@@ -78,16 +76,16 @@ W + 1
 
 また、Decorator API を使えば、Python 変数と同じ名前の場合、宣言時にプレースホルダーの名前を省略できます。
 
-(partial_knapsack_def)=
+(knapsack_placeholders_def)=
 
 ```{code-cell} ipython3
 @jm.Problem.define("Another Problem with Placeholder")
-def partial_knapsack(problem: jm.DecoratedProblem):
+def knapsack_placeholders(problem: jm.DecoratedProblem):
     W = problem.Float(description="ナップサックの耐荷重")
     N = problem.Length(description="アイテム数")
 
 
-partial_knapsack
+knapsack_placeholders
 ```
 
 :::{admonition} 変数名省略の条件
@@ -121,6 +119,9 @@ Decorator API で変数名を省略できるのは、`x = problem.Float(...)` �
 Plain API でのカテゴリーラベルの宣言方法は以下のようになります：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 problem_catlab_plain = jm.Problem("Category Label Only")
 L_plain = problem_catlab_plain.CategoryLabel("L", description="適当なカテゴリーラベル")
 
@@ -131,6 +132,9 @@ problem_catlab_plain
 また、Decorator API を使うとプレースホルダーの場合と同様にカテゴリーラベル名を省略できます（もちろん明示することもできます）：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Category Label Only")
 def problem_catlab_deco(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel(description="適当なカテゴリーラベル")
@@ -142,13 +146,12 @@ problem_catlab_deco
 Problem オブジェクトに登録されているカテゴリーラベルの一覧は、{py:attr}`~jijmodeling.Problem.category_labels` プロパティにより取得できます。
 また、個別のカテゴリーラベルに属する値の個数を表す式は {py:func}`jm.count() <jijmodeling.count>` 関数や {py:meth}`jm.CategoryLabel.count() <jijmodeling.CategoryLabel.count>` メソッドにより取得できます（数式上は $\#L$と表記されます）。
 
-
 (ph_cl_info)=
 ## プレースホルダーおよびカテゴリーラベルの情報の取得
 
 数理モデルに登録されたプレースホルダーの一覧は、`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.placeholders` プロパティにより取得できます。
 このプロパティはプレースホルダー名をキーとし、それぞれのメタデータを値とする辞書を返します。
-また、この一覧には、以下で扱う添え字つき変数の情報も含まれています。
+この一覧には、以下で扱う添え字つき変数の情報も含まれています。
 また、カテゴリーラベルについては、`Problem` オブジェクトの {py:attr}`~jijmodeling.Problem.category_labels` プロパティにより、同様にカテゴリーラベル名をキーとする辞書が得られます。
 
 ```{code-cell} ipython3
@@ -194,14 +197,17 @@ print(f"Category Labels: {ph_catlab_problem.category_labels}")
 プレースホルダー配列の宣言で最も推奨されるものは、 `shape` キーワード引数を使うことです。
 `shape`キーワード引数には、自然数から成る固定長のタプルを表す式を指定することができます。
 また、次元が$1$の場合は単に自然数を表す式で与えることもできます。
-ここでは、先程定義した部分的なナップサック問題に対して、各アイテムの価値を表す一次元配列 `v` と、重さを表す一次元配列 `w` を追加で宣言してみましょう：
+ここでは、$N$や$W$などの単独のプレースホルダーだけではなく、各アイテムの価値を表す一次元配列 `v` と、重さを表す一次元配列 `w` を持つようなナップサック問題を部分的に定義してみましょう。：
 
-(partial_knapsack_update)=
+(knapsack_placeholders_update)=
 
 ```{code-cell} ipython3
-@partial_knapsack.update
-def _(problem: jm.DecoratedProblem):
-    N = problem.placeholders["N"]  # 先程定義したプレースホルダー N を参照
+import jijmodeling as jm
+
+@jm.Problem.define("Knapsack (Placeholders only, with arrays)", sense=jm.ProblemSense.MAXIMIZE)
+def knapsack_placeholders(problem: jm.DecoratedProblem):
+    W = problem.Float(description="ナップサックの耐荷重")
+    N = problem.Length(description="アイテム数")
 
     # shape キーワード引数を使い長さ N の一次元配列を宣言
     # 一次元なので、shape=N としても shape=(N,) としても同じ意味
@@ -209,7 +215,7 @@ def _(problem: jm.DecoratedProblem):
     w = problem.Float(description="各アイテムの重さ", shape=N)
 
 
-partial_knapsack
+knapsack_placeholders
 ```
 
 また、**プレースホルダーの配列の `shape` の成分には `None` を指定する**ことができます。
@@ -217,6 +223,9 @@ partial_knapsack
 この機能は、以下のように部分的に長さに制約がある配列を定義したい場合に便利です：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Partially determined shape")
 def partial_shape(problem: jm.DecoratedProblem):
     a = problem.Float(ndim=1)
@@ -240,27 +249,30 @@ partial_shape
 `ndim` と `shape` キーワード引数を同時に指定することもできますが、この場合 `shape`の成分数と `ndim` の値が正確に一致している必要があります。
 :::
 
-たとえば、上で定義した `partial_knapsack` は `ndim` を使って次のように定義することができます：
+たとえば、上で定義した `knapsack_placeholders` は `ndim` を使って次のように定義することができます：
 
-(partial_knapsack_ndim)=
+(knapsack_placeholders_ndim)=
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Knapsack (vars only, with ndim)", sense=jm.ProblemSense.MAXIMIZE)
-def partial_knapsack_ndim(problem: jm.DecoratedProblem):
+def knapsack_placeholders_ndim(problem: jm.DecoratedProblem):
     W = problem.Float(description="ナップサックの耐荷重")
     v = problem.Float(ndim=1, description="各アイテムの価値")
     N = v.len_at(0)
     w = problem.Float(shape=N, description="各アイテムの重さ")
 
 
-partial_knapsack_ndim
+knapsack_placeholders_ndim
 ```
 
 ここで、{py:meth}`~jijmodeling.Expression.len_at` メソッドは与えられた配列 `array` の $i$ 番目の軸の長さを返すメソッドです。
 $w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配列として宣言しておき、残る $w$, $x$ はその長さを使って `shape` を指定する形にしているのです。
 このように、最初に $N$ を独立して定義する方法と、配列の長さから復元する方法とでは、定義される数理モデルは意味的には同じですが、インスタンスデータの与え方が異なります。
-たとえば、最初の `partial_knapsack` の例（[定義](#partial_knapsack_def)およびその[更新](#partial_knapsack_update)）では、$N$ も `Length` プレースホルダーとして宣言しているため、**{doc}`インスタンスの生成 <./instance_generation>`時**に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
-一方で、$N$ をプレースホルダーではなく `len_at` を使って別の式として構築している [`partial_knapsack_ndim`](#partial_knapsack_ndim) では、$N$の値は入力値 `v` から推論されるため、コンパイル時には `W`, `v`, `w` の値のみを指定するだけで済みます。
+たとえば、最初の `knapsack_placeholders` の例（[定義](#knapsack_placeholders_def)およびその[更新](#knapsack_placeholders_update)）では、$N$ も `Length` プレースホルダーとして宣言しているため、**{doc}`インスタンスの生成 <./instance_generation>`時**に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
+一方で、$N$ をプレースホルダーではなく `len_at` を使って別の式として構築している [`knapsack_placeholders_ndim`](#knapsack_placeholders_ndim) では、$N$の値は入力値 `v` から推論されるため、コンパイル時には `W`, `v`, `w` の値のみを指定するだけで済みます。
 
 どういう時に長さに相当するプレースホルダーを導入し、どういう時に `ndim` + `len_at` を使うべきでしょうか？
 一つの目安は、**単一の配列内の複数軸の長さの間に依存関係がある場合**、長さに相当するプレースホルダーを定義するべき、というものです。
@@ -268,6 +280,9 @@ $w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配�
 例として、距離行列を表すシェイプ $N \times N$ の多次元配列 $d$ を定義することを考えます：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Distance matrix")
 def dist_matrix(problem: jm.DecoratedProblem):
     N = problem.Length()
@@ -279,7 +294,7 @@ dist_matrix
 
 この例では、二次元配列$d$の二つの軸はどちらも長さ$N$を持つ必要があり、この制約は `ndim=2` という指定では表現できず、まず$N$を定義し `shape` に指定する必要があるのです。
 
-また、旧来の JijModeling 1 系統では、Placeholder には永らく `ndim` 宣言しか存在しなかったため、たとえば上の `partial_knapsack_ndim` は次のように定義されることが多くありました：
+また、旧来の JijModeling 1 系統では、Placeholder には永らく `ndim` 宣言しか存在しなかったため、たとえば上の `knapsack_placeholders_ndim` は次のように定義されることが多くありました：
 
 ```python
 v = problem.Float(ndim=1, description="各アイテムの価値")
@@ -299,6 +314,8 @@ G = problem.Placeholder(dtype=(V, V), ndim=1)
 ```
 
 ですので、`N = G.len_at(0)` とすることで $G$ の（重複を込みで数えた）辺の総数を取得することができますし、配列に関する種々の演算を使ってグラフを操作することができるようになります。
+
+また、後述する辞書を使えば、辺にラベルがついたようなグラフも表現できるようになります。
 このように、JijModeling ではタプルと配列を組み合わせて、複雑な構造を表現できるようになっているのです。
 :::
 
@@ -339,3 +356,20 @@ JijModeling 1 系統には、シェイプが均一ではない Jagged Array と�
 
 プレースホルダー配列における `ndim` 相当の引数は存在しません。これは、キーの型を省略して成分数だけ与えた場合、インスタンスデータへのアクセスなしに具体的なキーの型を確定することができないためです。
 :::
+
+以下は、ナップサック問題の各アイテムを、自然数ではなくカテゴリーラベルとして宣言し、各アイテムの価値と重さをその辞書として宣言する例です：
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Knapsack with dict placeholders", sense=jm.ProblemSense.MAXIMIZE)
+def knapsack_dict(problem: jm.DecoratedProblem):
+    W = problem.Float(description="ナップサックの耐荷重")
+    L = problem.CategoryLabel(description="アイテムのカテゴリーラベル")
+    v = problem.Float(description="各アイテムの価値", dict_keys=L)
+    w = problem.Float(description="各アイテムの重さ", dict_keys=L)
+
+
+knapsack_dict
+```

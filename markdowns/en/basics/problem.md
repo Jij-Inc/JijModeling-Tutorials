@@ -49,6 +49,16 @@ plain_problem
 
 Since no objective has been set yet, $0$ is shown as the objective at this stage.
 
+:::{admonition} Writing mathematical notation in `description`
+:class: important
+
+In mathematical displays such as Jupyter Notebook output, `description` is interpreted as a normal string.
+Therefore, when you write mathematical notation inside `description`, enclose the mathematical part in `$..$`.
+For example, writing `description="when x_i = 1, ..."` makes `_` invalid as a LaTeX string, so write `description="when $x_i = 1$, ..."` to have it treated as mathematics.
+
+This note also applies to `description` values on objects other than `Problem`.
+:::
+
 ### Creating a `Problem` object with the Decorator API
 
 Here is the same model defined with the Decorator API using {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`:

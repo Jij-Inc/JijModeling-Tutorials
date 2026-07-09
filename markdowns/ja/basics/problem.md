@@ -49,6 +49,16 @@ plain_problem
 
 この時点では目的関数を設定していないため、ここでは $0$ が目的変数として表示されています。
 
+:::{admonition} `description` 内の数式の書き方
+:class: important
+
+Jupyter Notebook などでの数式表示では、`description` は通常の文字列として解釈されます。
+このため、数式を `description` 内に記述する際には、数式部分は `$..$` で囲む必要があります。
+特に、 `description="x_i = 1 のとき……"` などと書いてしまうと、`_` が LaTeX の文字列としては不正となってしまうため、数式扱いをさせるために`description="$x_i = 1$ のとき……"` のように書く必要があります。
+
+この注意事項は、Problem 以外のオブジェクトの `description` にも同様に適用されます。
+:::
+
 ### Decorator API による Problem オブジェクトの作成
 
 次に、Decorator API を使って `Problem` オブジェクトを作成する方法を見てみましょう:

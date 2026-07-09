@@ -16,11 +16,7 @@ kernelspec:
 以下では、数理モデルの重要な構成要素の一つである**決定変数**について、JijModeling での宣言方法を見ていきます。
 まずはいつも通りのモジュールのインポートから始めましょう。
 
-```{code-cell} ipython3
-import jijmodeling as jm
-```
-
-## 単独の決定変数
+## 単独の決定変数とその上下界の宣言
 
 決定変数は各種ソルバーが制約条件と目的関数に基づいて値を決定する変数です。JijModeling は汎用モデラーであるため、代表的な以下の種類をサポートしています：
 
@@ -32,14 +28,17 @@ import jijmodeling as jm
 | {py:meth}`~jijmodeling.Problem.SemiIntegerVar` | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
 | {py:meth}`~jijmodeling.Problem.SemiContinuousVar` | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
 
-概ねプレースホルダーの構築子と似ていますが、`*Var` で終わるものが決定変数、ついていないものがプレースホルダーの構築子になっています。
-ただし、決定変数の場合は `Float` ではなく `ContinuousVar` となっている点に注意してください。
+概ねプレースホルダーの構築子と似ていますが、`*Var` で終わるものが決定変数、そうでないものがプレースホルダーの構築子です。
+また、連続値の決定変数は `FloatVar` ではなく `ContinuousVar` となっている点に注意してください。
 
 特定の種類の決定変数を宣言するには、その変数を登録する `Problem` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
 それでは、バイナリ変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $C' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
 Plain API では次のように定義できます：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 problem = jm.Problem("Model with Variables")
 x = problem.BinaryVar("x", description="適当な二値変数")
 C = problem.ContinuousVar(
@@ -53,7 +52,7 @@ problem
 ```
 
 第 1 引数は変数の名前を表す必須引数です。また、`upper_bound`および`lower_bound`は変数の上下界を表すキーワード引数であり、バイナリ変数以外は必ず指定しなければいけません。
-`description`は `Problem` のものと同様、人間があとでみてわかりやすい説明を書くための省略可能なキーワード引数です。
+`description`は `Problem` のものと同様、人間がわかりやすい説明を書くための省略可能なキーワード引数です。
 
 :::{admonition} 単独の決定変数の上下界
 :class: tip
@@ -66,6 +65,9 @@ problem
 次は Decorator API で同様のモデルを定義している例です。
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Model with Variables")
 def deco_problem(deco_problem: jm.DecoratedProblem):
     # Decorator API の内側なので、 x の名前を省略している
@@ -98,6 +100,20 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 プレースホルダーの場合と同様、決定変数の一覧も`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティにより取得でき、以下で扱う添え字つき変数の情報も含まれています。
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Model with Variables")
+def deco_problem(deco_problem: jm.DecoratedProblem):
+    x = deco_problem.BinaryVar(description="適当な二値変数")
+    C = deco_problem.ContinuousVar(
+        "C'",
+        lower_bound=-5,
+        upper_bound=10.5,
+        description="これまた適当な連続変数",
+    )
+
+
 deco_problem.decision_vars
 ```
 
@@ -117,16 +133,6 @@ deco_problem.decision_vars
 (array_of_dec_vars)=
 ### 決定変数の配列
 
-以下ではナップサック問題の定義を例として使うため、プレースホルダーのみが宣言されたモデルを定義しておきましょう。
-
-```{code-cell} ipython3
-knapsack = jm.Problem("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
-W = knapsack.Float("W", description="ナップサックの耐荷重")
-N = knapsack.Length("N", description="アイテム数")
-v = knapsack.Float("v", shape=(N,), description="各アイテムの価値")
-w = knapsack.Float("w", shape=(N,), description="各アイテムの重量")
-```
-
 決定変数の配列は、プレースホルダーの場合と同様、`BinaryVar` などの構築子に `shape=` キーワード引数として自然数から成る固定長のタプルを表す式を指定することで宣言でき、$1$次元の場合は単に自然数を表す式で与えることもできます。
 
 :::{admonition} 決定変数の配列のシェイプの指定
@@ -135,17 +141,22 @@ w = knapsack.Float("w", shape=(N,), description="各アイテムの重量")
 決定変数の数はプレースホルダーの値のみから確定する必要があるため、プレースホルダーの場合と異なり **`shape` 引数の成分に `None` を指定することはできず**、また **`ndim=`  キーワード引数を使うこともできません**。
 :::
 
-試しに、ナップサック問題に「アイテム$i$を入れるときだけ$1$となる」決定変数$x_i$を追加しましょう。
-
-(partial_knapsack_def)=
+それでは、$N$個の決定変数から成るようなバイナリ変数の配列$x$を持つモデルを定義してみましょう：
 
 ```{code-cell} ipython3
-@knapsack.update
-def knapsack(problem: jm.DecoratedProblem):
-    x = problem.BinaryVar(shape=N, description="アイテム $i$ を入れるときだけ $1$")
+import jijmodeling as jm
 
 
-knapsack
+@jm.Problem.define("Example Problem", sense=jm.ProblemSense.MAXIMIZE)
+def problem(problem: jm.DecoratedProblem):
+    # 個数を確定させるため、プレースホルダー $N$ を宣言する必要がある
+    N = problem.Length()
+
+    # $x$ の宣言
+    x = problem.BinaryVar(shape=N)
+
+
+problem
 ```
 
 :::{tip}
@@ -157,6 +168,9 @@ knapsack
 (multidim_arrays)=
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 multidim_arrays = jm.Problem("multidimensional arrays", sense=jm.ProblemSense.MINIMIZE)
 N = multidim_arrays.Length("N")  # Plain API なので変数名を指定している
 M = multidim_arrays.Length("M")
@@ -169,7 +183,7 @@ multidim_arrays
 ```
 
 (dec_var_array_bounds)=
-### 決定変数配列の上下界の指定
+#### 決定変数配列の上下界の指定
 
 決定変数の配列に対しては、次に該当するような式を `upper_bound` / `lower_bound` に指定することができます：
 
@@ -181,11 +195,17 @@ multidim_arrays
 
 これらの指定方法は、上下界でそれぞれ別のものを使うことができます。次は (1) と (2) を使って上下界が与えられている例です。
 
-```python
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("Bounds for variable arrays")
 N = problem.Length("N")
 lb = problem.Integer("lb")
 ubs = problem.Integer("ub", shape=N)
-a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ub)
+a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ubs)
+
+problem
 ```
 
  `lb` はゼロ次元のスカラー、 `ub` は長さ $N$ の一次元配列として宣言されたプレースホルダーです。
@@ -196,14 +216,22 @@ a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ub)
 
 (3) の添え字からの関数式として与える例としては、やや人工的ですが次のような例が考えられます：
 
-```python
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("Another bound examples with lambda")
+
 N = problem.Length("N")
 M = problem.Length("M")
 s = problem.ContinuousVar(
+    "s",
     shape=(N,M),
     lower_bound=0,
     upper_bound=lambda i, j: i + j,
 )
+
+problem
 ```
 
 この例では、シェイプ $N \times M$ の二次元配列 $s$ に対し、以下のように上下界が設定されることになります：
@@ -233,6 +261,9 @@ s = problem.ContinuousVar(
 以下は、カテゴリーラベルと自然数の集合のタプルをキーに持つ決定変数の辞書を定義している例です：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 problem_for_dict = jm.Problem("Dec Var Keys demonstration")
 N = problem_for_dict.Length("N")
 L = problem_for_dict.CategoryLabel("L")
@@ -241,7 +272,9 @@ x = problem_for_dict.BinaryVar("x", dict_keys=(L, N))
 problem_for_dict
 ```
 
-また、決定変数辞書の `lower_bound` および `upper_bound` の設定についても、「[決定変数配列の上下界](#dec_var_array_bounds)」の節で紹介したのと同様に、以下の値を指定することができます：
+#### 決定変数の辞書の上下界の指定
+
+決定変数の辞書の `lower_bound` および `upper_bound` の設定についても、「[決定変数配列の上下界](#dec_var_array_bounds)」の節で紹介したのと同様に、以下の値を指定することができます：
 
 1. スカラー
 2. スカラーを要素に持ち、同じキー集合を持つ `TotalDict`
@@ -252,6 +285,9 @@ problem_for_dict
 以下はナップサック問題をカテゴリーラベルを使って定式化しなおしたものです：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Knapsack (vars only, CATEGORY LABEL)")
 def knapsack_cat_dict(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
@@ -272,6 +308,9 @@ knapsack_cat_dict
 このような場合に、`PartialDict` は大きな効力を発揮します：
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("Knapsack (vars only, with synergy)")
 def knapsack_synergy(problem: jm.DecoratedProblem):
     L = problem.CategoryLabel()
