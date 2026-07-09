@@ -18,6 +18,8 @@ parts:
       - file: basics/overview
       - file: basics/problem
       - file: basics/variables
+      - file: basics/placeholders
+      - file: basics/decision_variables
       - file: basics/expressions
       - file: basics/modeling
       - file: basics/instance_generation
