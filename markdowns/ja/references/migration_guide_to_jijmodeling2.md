@@ -339,7 +339,7 @@ problem.Constraint("cap", C <= N)
 
 - `@jm.Problem.define(name, ...)` は Decorator API を使って新たな`Problem`オブジェクトを作成するのに使われます。
   - `@jm.Problem.define(..)` は Problem コンストラクタと同じ引数を受け取って`Problem`オブジェクトを新たに生成し、装飾されている関数と同じ名前の変数に束縛します。
-- `@problem.update` デコレータは、既に定義済の数理最適化問題 `problem`の内容を Decorator API を使って更新するのに利用されます。
+- `@problem.update` デコレータは、既に定義済の最適化問題 `problem`の内容を Decorator API を使って更新するのに利用されます。
   - 関数は定義と同時に即座に実行されて元の `problem` が更新されるため、ユーザーが関数自体を呼び出す必要はありません。また、装飾される関数の名前は結果に影響しません。
   - `@problem.update` は一つの `problem` に対して複数回適用できます。この場合、各デコレータで定義した制約条件と目的関数はその `problem` に対して逐次的に追加されます。  
 - いずれのデコレータでもブロックの関数の返値は無視されます

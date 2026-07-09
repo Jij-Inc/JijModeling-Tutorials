@@ -24,7 +24,9 @@ For a general introduction to mathematical optimization, see other references su
 This section covers the following topics:
 
 1. **{doc}`problem`**: In JijModeling, variables and constraints are always registered into a specific mathematical model. We start with how to declare a model.
-2. **{doc}`variables`**: We discuss decision variables and placeholders (parameters that are substituted with instance data), along with their families and how to declare them.
+2. **{doc}`variables`**: We discuss the kinds of **variables** that are basic components of mathematical models, such as placeholders and decision variables.
+   + **{doc}`placeholders`**: How to declare **placeholders**, variables whose values are provided by users when compiling a mathematical model, and **category labels**.
+   + **{doc}`decision_variables`**: How to declare **decision variables**, variables whose values are determined by a solver after compilation.
 3. **{doc}`expressions`**: How to build expressions in JijModeling, used for objectives, constraints, and variable shapes.
 4. **{doc}`modeling`**: How to set objectives and constraints using the elements above.
 5. **{doc}`instance_generation`**: How to provide instance data and generate instances, with a brief note on the configuration of constraint detection.
