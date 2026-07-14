@@ -131,7 +131,7 @@ tasks:
   sync_paired_notebooks:
     desc: Synchronize paired notebooks and markdown files
     cmds:
-      - find docs -name "*.ipynb" -not -path "*/_build/*" -exec uv run jupytext --sync --use-source-timestamp --execute {} \;
+      - find docs -name "*.ipynb" -not -path "*/*/releases/*" -not -path "*/_build/*" -exec uv run jupytext --sync --use-source-timestamp --execute {} \;
 
   sync_markdowns_to_notebooks:
     cmds:
