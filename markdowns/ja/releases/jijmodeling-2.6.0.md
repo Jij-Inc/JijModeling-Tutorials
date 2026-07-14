@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
+# JijModeling 2.6.0 リリースノート
 
 +++
 
@@ -60,7 +60,3 @@ OMMX へのコンパイル時に、定数上の {py:func}`~jijmodeling.min` が�
 ### バグ修正 2： {py:func}`~jijmodeling.count` 関数を含むモデルがシリアライズできなかった問題の修正
 
 モデル内で CategoryLabel に対する {py:func}`~jijmodeling.count` 関数を使っていた場合、Protobuf 形式へのシリアライズ時に意図せず実行時エラーとなっていた問題を修正しました。
-
-## その他の変更
-
-- 変更 1：
