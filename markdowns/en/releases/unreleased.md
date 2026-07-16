@@ -39,7 +39,7 @@ except Exception as e:
     print(e)
 ```
 
-The manual article now also provides more detailed troubleshooting steps.
+The "Possible Fix" column in the Error Code Index is now also more detailed.
 
 +++
 
