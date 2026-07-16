@@ -39,7 +39,7 @@ except Exception as e:
     print(e)
 ```
 
-The "Possible Fix" column in the Error Code Index is now also more detailed.
+The corresponding entry in the Error Code Index is now also more detailed.
 
 +++
 
