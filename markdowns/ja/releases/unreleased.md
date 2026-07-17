@@ -19,6 +19,16 @@ kernelspec:
 
 +++
 
+### JijModeling v1 以上の速度・メモリ効率を達成
+
+コンパイラ基盤の大幅な見直しが行われ、一部のベンチマークでは従来に比べて約10倍の速度向上が達成されました。
+
+<!-- TODO: グラフを挿入 -->
+
+またメモリ使用量にも改善が見られています。 <!-- TODO: 数字を出す -->
+
+この改善により、JijModeling 2 は以前の JijModeling 1 と同等かそれ以上のパフォーマンスを達成するようになりましたので、これを機に JijModeling 2 への移行を是非検討してください。
+
 ### [Type Mismatch エラー](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-TE0004.html)の改善
 
 Type Mismatch エラーが必要に応じて実際に型が合わなかった項を含むようになりました。
