@@ -50,6 +50,7 @@ import jijmodeling as jm
 
 @jm.Problem.define("Vars Beautiful")
 def problem(problem: jm.DecoratedProblem):
+    C = problem.CategoryLabel()
     N = problem.Natural()
     M = problem.Natural()
     w = problem.Float(shape=(N, M))
