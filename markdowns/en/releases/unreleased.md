@@ -41,7 +41,29 @@ except Exception as e:
 
 The corresponding entry in the Error Code Index is now also more detailed.
 
-+++
+### Improved math output for subscripted variables
+
+Subscripted variables are now displayed in a more readable way.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Vars Beautiful")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    M = problem.Natural()
+    w = problem.Float(shape=(N, M))
+
+    x = problem.ContinuousVar(
+        shape=(N, M),
+        lower_bound=w,
+        upper_bound=2,
+        description="Subscripts are easier to understand",
+    )
+
+
+problem
+```
 
 ## Bugfixes
 
