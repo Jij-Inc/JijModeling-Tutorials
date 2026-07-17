@@ -61,6 +61,11 @@ def problem(problem: jm.DecoratedProblem):
         upper_bound=2,
         description="添え字がわかりやすくなった",
     )
+    z = problem.IntegerVar(
+        dict_keys=(C, N),
+        lower_bound=lambda c, i: i,
+        upper_bound=42,
+    )
 
 
 problem

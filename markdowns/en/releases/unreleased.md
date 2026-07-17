@@ -50,6 +50,7 @@ import jijmodeling as jm
 
 @jm.Problem.define("Vars Beautiful")
 def problem(problem: jm.DecoratedProblem):
+    C = problem.CategoryLabel()
     N = problem.Natural()
     M = problem.Natural()
     w = problem.Float(shape=(N, M))
@@ -58,7 +59,12 @@ def problem(problem: jm.DecoratedProblem):
         shape=(N, M),
         lower_bound=w,
         upper_bound=2,
-        description="Subscripts are easier to understand",
+        description="添え字がわかりやすくなった",
+    )
+    z = problem.IntegerVar(
+        dict_keys=(C, N),
+        lower_bound=lambda c, i: i,
+        upper_bound=42,
     )
 
 
