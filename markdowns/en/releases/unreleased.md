@@ -66,7 +66,7 @@ def problem(problem: jm.DecoratedProblem):
         lower_bound=lambda c, i: i,
         upper_bound=42,
     )
-
+    u = problem.BinaryVar()
 
 problem
 ```
