@@ -75,8 +75,26 @@ problem
 
 +++
 
-### Bugfix 1
+### Fixed an internal error for `jm.range` with computed bounds
 
+Previously, passing a computed expression such as `N - 1` as a bound of `jm.range` caused an internal error ([E-CE0007](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-CE0007.html)) when the model was evaluated, showing a message that asked users to report it as a bug in JijModeling. This affected not only `domain=` of constraints but every place where `jm.range` is evaluated, such as the index set of a summation (ranges with literal or bare-placeholder bounds like `jm.range(N)` were unaffected).
+
+With this fix, ranges whose bounds contain expressions now evaluate correctly.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("RangeWithComputedBounds")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(x[i] for i in jm.range(N - 1))
+    problem += problem.Constraint("fix", lambda i: x[i] == 0, domain=jm.range(N - 1))
+
+display(problem)
+
+problem.eval({"N": 4})
+```
 
 ## Other Changes
 
