@@ -43,7 +43,7 @@ except Exception as e:
 
 ### 添え字つき変数の数式出力の改善
 
-添え字つきの変数の表示がよりよみやすくなりました。
+添え字つきの変数の表示がより読みやすくなりました。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
