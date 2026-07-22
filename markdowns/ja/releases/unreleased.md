@@ -41,7 +41,35 @@ except Exception as e:
 
 合わせて、エラーコードインデックスの当該エラーの内容がより詳細になりました。
 
-+++
+### 添え字つき変数の数式出力の改善
+
+添え字つきの変数の表示がより読みやすくなりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Vars Beautiful")
+def problem(problem: jm.DecoratedProblem):
+    C = problem.CategoryLabel()
+    N = problem.Natural()
+    M = problem.Natural()
+    w = problem.Float(shape=(N, M))
+
+    x = problem.ContinuousVar(
+        shape=(N, M),
+        lower_bound=w,
+        upper_bound=2,
+        description="添え字がわかりやすくなった",
+    )
+    z = problem.IntegerVar(
+        dict_keys=(C, N),
+        lower_bound=lambda c, i: i,
+        upper_bound=42,
+    )
+    u = problem.BinaryVar()
+
+problem
+```
 
 ## バグ修正
 
