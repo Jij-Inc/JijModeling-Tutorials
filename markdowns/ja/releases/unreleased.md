@@ -75,8 +75,26 @@ problem
 
 +++
 
-### バグ修正1：
+### 引数に式を含む `jm.range` が内部エラーになる問題を修正
 
+これまで、`jm.range` の引数に `N - 1` のような計算式を渡すと、モデルの評価時に内部エラー（[E-CE0007](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-CE0007.html)）が発生し、JijModeling 側のバグとして報告されていました。この問題は制約の `domain=` に限らず、総和の添字集合など `jm.range` を評価する全ての箇所で発生していました（リテラルや単独のプレースホルダーを引数とする `jm.range(N)` などは影響を受けません）。
+
+今回の修正により、引数に式を含む range も正しく評価されるようになりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("RangeWithComputedBounds")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(x[i] for i in jm.range(N - 1))
+    problem += problem.Constraint("fix", lambda i: x[i] == 0, domain=jm.range(N - 1))
+
+display(problem)
+
+problem.eval({"N": 4})
+```
 
 ## その他の変更
 
