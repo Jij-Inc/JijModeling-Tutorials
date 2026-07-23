@@ -75,11 +75,11 @@ problem
 
 +++
 
-### 端点に式を含む `jm.range` が内部エラーになる問題を修正
+### 引数に式を含む `jm.range` が内部エラーになる問題を修正
 
-これまで、`jm.range` の引数に `N - 1` のような計算式を渡すと、モデルの評価時に内部エラー（[E-CE0007](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-CE0007.html)）が発生し、JijModeling 側のバグとして報告されていました。この問題は制約の `domain=` に限らず、総和の添字集合など `jm.range` を評価する全ての箇所で発生していました（リテラルや単独のプレースホルダーを端点とする `jm.range(N)` などは影響を受けません）。
+これまで、`jm.range` の引数に `N - 1` のような計算式を渡すと、モデルの評価時に内部エラー（[E-CE0007](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-CE0007.html)）が発生し、JijModeling 側のバグとして報告されていました。この問題は制約の `domain=` に限らず、総和の添字集合など `jm.range` を評価する全ての箇所で発生していました（リテラルや単独のプレースホルダーを引数とする `jm.range(N)` などは影響を受けません）。
 
-今回の修正により、端点に式を含む range も正しく評価されるようになりました。
+今回の修正により、引数に式を含む range も正しく評価されるようになりました。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
