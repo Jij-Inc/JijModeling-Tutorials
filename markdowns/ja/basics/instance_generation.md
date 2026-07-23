@@ -156,7 +156,8 @@ compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
 
 また、一度作成した Compiler は、プレースホルダーと決定変数を共有する複数のモデルに対して使い回すことができ、**決定変数や制約条件の ID の対応関係も保存**されます。
 この機能は、同じパラメーターを持ちつつ制約条件や目的関数を変化させた複数のモデルを同時にコンパイルし、結果を比較する用途などに便利です。
-逆に言えば、複数のインスタンス間で決定変数や制約条件の ID の対応関係を共有したい場合、個別に {py:meth}`jijmodeling.Problem.eval` メソッドを呼び出すのではなく、単一の {py:class}`~jijmodeling.Compiler` オブジェクトを共有してコンパイルする必要があります。
+逆に、{py:meth}`jijmodeling.Problem.eval` メソッドは毎回新しい {py:class}`~jijmodeling.Compiler` オジェクトを作成するため、呼び出しの度に ID と決定変数や制約条件の対応関係が変わってしまう可能性があります。
+ID の対応関係を保持したい場合、単一の {py:class}`~jijmodeling.Compiler` オブジェクトを作成し {py:meth}`jijmodeling.Compiler.eval_problem` メソッドを呼び出すようにしてください。
 
 :::{admonition} OMMX SDK を用いた問題の変形
 :class: tip

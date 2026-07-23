@@ -174,9 +174,8 @@ Once created, a Compiler can be reused across multiple models that share placeho
 variables, and the **ID mappings for decision variables and constraints are preserved**. This is useful for
 cases like compiling multiple models with the same parameters but different objectives or constraints
 and comparing their results.
-Conversely, if you want to share the ID mappings for decision variables and constraints across multiple
-instances, you need to compile them using a single shared {py:class}`~jijmodeling.Compiler` object,
-rather than calling {py:meth}`jijmodeling.Problem.eval` separately for each instance.
+On the other hand, since each call to {py:meth}`jijmodeling.Problem.eval` creates a new Compiler, IDs for the same decision variables and constraints may differ between generated instances.
+When IDs must remain consistent, create one {py:class}`~jijmodeling.Compiler` explicitly and reuse {py:meth}`jijmodeling.Compiler.eval_problem`.
 
 :::{admonition} Transforming problems with the OMMX SDK
 :class: tip
