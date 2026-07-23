@@ -171,9 +171,12 @@ These `eval_function` and `eval_constraint` methods are useful for debugging, an
 transform a compiled {py:class}`ommx.v1.Instance`.
 
 Once created, a Compiler can be reused across multiple models that share placeholders and decision
-variables, and the ID mappings for decision variables and constraints are preserved. This is useful for
+variables, and the **ID mappings for decision variables and constraints are preserved**. This is useful for
 cases like compiling multiple models with the same parameters but different objectives or constraints
 and comparing their results.
+Conversely, if you want to share the ID mappings for decision variables and constraints across multiple
+instances, you need to compile them using a single shared {py:class}`~jijmodeling.Compiler` object,
+rather than calling {py:meth}`jijmodeling.Problem.eval` separately for each instance.
 
 :::{admonition} Transforming problems with the OMMX SDK
 :class: tip
