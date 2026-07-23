@@ -51,14 +51,60 @@ except Exception as e:
 
 The corresponding entry in the Error Code Index is now also more detailed.
 
-+++
+### Improved math output for subscripted variables
+
+Subscripted variables are now displayed in a more readable way.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Vars Beautiful")
+def problem(problem: jm.DecoratedProblem):
+    C = problem.CategoryLabel()
+    N = problem.Natural()
+    M = problem.Natural()
+    w = problem.Float(shape=(N, M))
+
+    x = problem.ContinuousVar(
+        shape=(N, M),
+        lower_bound=w,
+        upper_bound=2,
+        description="添え字がわかりやすくなった",
+    )
+    z = problem.IntegerVar(
+        dict_keys=(C, N),
+        lower_bound=lambda c, i: i,
+        upper_bound=42,
+    )
+    u = problem.BinaryVar()
+
+problem
+```
 
 ## Bugfixes
 
 +++
 
-### Bugfix 1
+### Fixed an internal error for `jm.range` with computed arguments
 
+Previously, passing a computed expression such as `N - 1` as a argument of `jm.range` caused an internal error ([E-CE0007](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-CE0007.html)) when the model was evaluated, showing a message that asked users to report it as a bug in JijModeling. This affected not only `domain=` of constraints but every place where `jm.range` is evaluated, such as the index set of a summation (ranges with literal or bare-placeholder arguments like `jm.range(N)` were unaffected).
+
+With this fix, ranges whose arguments contain expressions now evaluate correctly.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("RangeWithComputedBounds")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(x[i] for i in jm.range(N - 1))
+    problem += problem.Constraint("fix", lambda i: x[i] == 0, domain=jm.range(N - 1))
+
+display(problem)
+
+problem.eval({"N": 4})
+```
 
 ## Other Changes
 
