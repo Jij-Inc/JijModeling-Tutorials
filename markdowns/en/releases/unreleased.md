@@ -19,15 +19,31 @@ kernelspec:
 
 +++
 
-### Achieved speed and memory efficiency equal to or better than JijModeling v1
+### Improved compiler speed and memory efficiency
 
-The compiler infrastructure has been substantially redesigned, achieving approximately a 10x speed improvement over the previous implementation in some benchmarks.
+Major compiler optimizations have substantially improved execution speed and memory efficiency :tada:
 
-<!-- TODO: Insert graph -->
+Benchmarks show speedups of up to 7.6x over JijModeling 2.6.0 and up to 4.5x over JijModeling 1.x. The representative execution times below are normalized to 1.0 for 2.7.0. A larger value means that the comparison version took longer than this release.
 
-Memory usage has also improved. <!-- TODO: Add numbers -->
+:::{figure} ../images/compiler-ir-timing.svg
+:alt: Vertical bar chart comparing relative execution time for JijModeling 1.x, 2.6.0, and 2.7.0 across representative Knapsack, supportcase18, and FMA workloads
+:width: 100%
 
-With these improvements, JijModeling 2 now achieves performance equal to or much better than the previous JijModeling 1, so please consider migrating to JijModeling 2.
+Relative compilation time in representative benchmarks. The labels above the bars are ratios to 2.7.0 (1.0 or higher means that 2.7.0 is as fast or faster).
+:::
+
+Memory allocation per compilation has also decreased substantially. Specifically, the total memory allocated per compilation decreased by 76–97% compared with 2.6.0 and by 51–94% compared with JijModeling 1.x.
+
+:::{figure} ../images/compiler-ir-memory.svg
+:alt: Vertical bar chart comparing total memory allocated per compilation for JijModeling 1.x, 2.6.0, and 2.7.0 across the same ordered Knapsack, supportcase18, and FMA workloads as the timing chart
+:width: 100%
+
+Total memory allocated per compilation in representative benchmarks
+:::
+
+All benchmarks were run on a Google Cloud `n2-standard-8` VM (8 vCPUs, 32 GB, Ubuntu 26.04 LTS, x86_64).
+
+Models whose compilation time is a bottleneck can benefit substantially from these improvements, so please consider migrating to JijModeling 2.
 
 ### Improvements to the [Type Mismatch error](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-TE0004.html)
 
