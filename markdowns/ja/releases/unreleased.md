@@ -23,7 +23,7 @@ kernelspec:
 
 旧来は、`@Problem.update`ですでに定義されている決定変数やプレスホルダーを使う場合、`problem.decision_vars`などを手動でアクセスして取得する必要がありました。このバージョンでは関数の引数が Problem から自動的に取得されるようになりました。
 
-````{code-cell} ipython3
+```{code-cell} ipython3
 import jijmodeling as jm
 @jm.Problem.define("MyProblem")
 def problem(problem):
@@ -44,7 +44,7 @@ def _myupdate(
     # いつも通り、新しい決定変数やプレスホルダーの定義も可
     v = problem.Float(ndim=1, description="Values of the items")
     problem += jm.sum(v * x)
-```:
+```
 
 ### [Type Mismatch エラー](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-TE0004.html)の改善
 
