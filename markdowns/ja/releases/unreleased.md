@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.1
 kernelspec:
   display_name: .venv
   language: python
@@ -18,6 +18,33 @@ kernelspec:
 ## 機能強化
 
 +++
+
+### Decorator API の update 使用時、引数の自動取得が可能に
+
+旧来は、`@Problem.update`ですでに定義されている決定変数やプレスホルダーを使う場合、`problem.decision_vars`などを手動でアクセスして取得する必要がありました。このバージョンでは関数の引数が Problem から自動的に取得されるようになりました。
+
+````{code-cell} ipython3
+import jijmodeling as jm
+@jm.Problem.define("MyProblem")
+def problem(problem):
+  w = problem.Float(ndim=1, description="Weights of the items")
+  N = w.len_at(0)
+  W = problem.Float(description="Total weight")
+  x = problem.BinaryVar(shape=(N,), description="Selected items")
+
+@problem.update
+def _myupdate(
+    problem: jm.DecoratedProblem,
+    w: jm.Placeholder,
+    W: jm.Placeholder,
+    x: jm.DecisionVar,
+):
+    problem += problem.Constraint("weight", jm.sum(w * x) <= W)
+    
+    # いつも通り、新しい決定変数やプレスホルダーの定義も可
+    v = problem.Float(ndim=1, description="Values of the items")
+    problem += jm.sum(v * x)
+```:
 
 ### [Type Mismatch エラー](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-TE0004.html)の改善
 
@@ -37,7 +64,7 @@ try:
         problem += x[W] # Error!
 except Exception as e:
     print(e)
-```
+````
 
 合わせて、エラーコードインデックスの当該エラーの内容がより詳細になりました。
 
