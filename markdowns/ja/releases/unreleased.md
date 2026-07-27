@@ -64,7 +64,7 @@ try:
         problem += x[W] # Error!
 except Exception as e:
     print(e)
-````
+```
 
 合わせて、エラーコードインデックスの当該エラーの内容がより詳細になりました。
 
