@@ -21,7 +21,7 @@ kernelspec:
 
 ### Improved compiler speed and memory efficiency
 
-Major compiler optimizations have substantially improved execution speed and memory efficiency :tada:
+Major compiler optimizations have substantially improved execution speed and memory efficiency 🎉
 
 Benchmarks show speedups of up to 8x over JijModeling 2.6.0 and up to 5x over JijModeling 1.x. The representative execution times below are normalized to 1.0 for 2.7.0. A larger value means that the comparison version took longer than this release.
 
