@@ -23,19 +23,19 @@ kernelspec:
 
 Major compiler optimizations have substantially improved execution speed and memory efficiency 🎉
 
-Benchmarks show speedups of up to 8x over JijModeling 2.6.0 and up to 5x over JijModeling 1.x. The representative execution times below are normalized to 1.0 for 2.7.0. A larger value means that the comparison version took longer than this release.
+Benchmarks show speedups of up to 8x over JijModeling 2.6.0 and up to 5x over 1.14.2. The representative execution times below are normalized to 1.0 for 2.7.0. A larger value means that the comparison version took longer than this release.
 
 :::{figure} ../images/compiler-ir-timing.svg
-:alt: Vertical bar chart comparing relative execution time for JijModeling 1.x, 2.6.0, and 2.7.0 across representative Knapsack, supportcase18, and FMA workloads
+:alt: Vertical bar chart comparing relative execution time for JijModeling 1.14.2, 2.6.0, and 2.7.0 across representative Knapsack, supportcase18, and FMA workloads
 :width: 100%
 
 Relative compilation time in representative benchmarks. The labels above the bars are ratios to 2.7.0 (1.0 or higher means that 2.7.0 is as fast or faster).
 :::
 
-Memory allocation per compilation has also decreased substantially. Specifically, the total memory allocated per compilation decreased by 76–97% compared with 2.6.0 and by 51–94% compared with JijModeling 1.x.
+Memory allocation per compilation has also decreased substantially. Specifically, the total memory allocated per compilation decreased by 76–97% compared with 2.6.0 and by 51–94% compared with 1.14.2.
 
 :::{figure} ../images/compiler-ir-memory.svg
-:alt: Vertical bar chart comparing total memory allocated per compilation for JijModeling 1.x, 2.6.0, and 2.7.0 across the same ordered Knapsack, supportcase18, and FMA workloads as the timing chart
+:alt: Vertical bar chart comparing total memory allocated per compilation for JijModeling 1.14.2, 2.6.0, and 2.7.0 across the same ordered Knapsack, supportcase18, and FMA workloads as the timing chart
 :width: 100%
 
 Total memory allocated per compilation in representative benchmarks
