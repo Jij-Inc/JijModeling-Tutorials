@@ -23,7 +23,7 @@ kernelspec:
 
 Major compiler optimizations have substantially improved execution speed and memory efficiency :tada:
 
-Benchmarks show speedups of up to 7.6x over JijModeling 2.6.0 and up to 4.5x over JijModeling 1.x. The representative execution times below are normalized to 1.0 for 2.7.0. A larger value means that the comparison version took longer than this release.
+Benchmarks show speedups of up to 8x over JijModeling 2.6.0 and up to 5x over JijModeling 1.x. The representative execution times below are normalized to 1.0 for 2.7.0. A larger value means that the comparison version took longer than this release.
 
 :::{figure} ../images/compiler-ir-timing.svg
 :alt: Vertical bar chart comparing relative execution time for JijModeling 1.x, 2.6.0, and 2.7.0 across representative Knapsack, supportcase18, and FMA workloads
