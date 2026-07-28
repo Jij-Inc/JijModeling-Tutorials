@@ -19,6 +19,32 @@ kernelspec:
 
 +++
 
+### Improved compiler speed and memory efficiency
+
+Major compiler optimizations have substantially improved execution speed and memory efficiency 🎉
+
+Benchmarks show speedups of up to 8x over JijModeling 2.6.0 and up to 5x over 1.14.2. The representative execution times below are normalized to 1.0 for 2.7.0. A larger value means that the comparison version took longer than this release.
+
+:::{figure} ../images/compiler-ir-timing.svg
+:alt: Vertical bar chart comparing relative execution time for JijModeling 1.14.2, 2.6.0, and 2.7.0 across representative Knapsack, supportcase18, and FMA workloads
+:width: 100%
+
+Relative compilation time in representative benchmarks. The labels above the bars are ratios to 2.7.0 (1.0 or higher means that 2.7.0 is as fast or faster).
+:::
+
+Memory allocation per compilation has also decreased substantially. Specifically, the total memory allocated per compilation decreased by 76–97% compared with 2.6.0 and by 51–94% compared with 1.14.2.
+
+:::{figure} ../images/compiler-ir-memory.svg
+:alt: Vertical bar chart comparing total memory allocated per compilation for JijModeling 1.14.2, 2.6.0, and 2.7.0 across the same ordered Knapsack, supportcase18, and FMA workloads as the timing chart
+:width: 100%
+
+Total memory allocated per compilation in representative benchmarks
+:::
+
+All benchmarks were run on a Google Cloud `n2-standard-8` VM (8 vCPUs, 32 GB, Ubuntu 26.04 LTS, x86_64).
+
+Models whose compilation time is a bottleneck can benefit substantially from these improvements, so please consider migrating to JijModeling 2.
+
 ### Improvements to the [Type Mismatch error](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-TE0004.html)
 
 The Type Mismatch error now includes the term whose type actually mismatched when needed.
