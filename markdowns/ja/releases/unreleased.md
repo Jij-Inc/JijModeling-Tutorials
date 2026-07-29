@@ -46,6 +46,37 @@ kernelspec:
 
 特にコンパイル時間が課題となるモデルで大きな改善が得られていますので、これを機に JijModeling 2 への移行をぜひ検討してください。
 
+### Decorator API の update 関数で引数の自動取得が可能に
+
+{py:meth}`@Problem.update <jijmodeling.Problem.update>` が追加引数で定義済の決定変数やプレスホルダーを取れるようになりました。
+旧来は他のブロックで定義されたパラメーターは `problem.decision_vars` などで手動アクセスする必要がありましたが、今回のリリースから対象のパラメーターを直接関数の引数として自動的に取得できるようになりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("MyProblem")
+def problem(problem):
+    w = problem.Float(ndim=1, description="Weights of the items")
+    N = w.len_at(0)
+    W = problem.Float(description="Total weight")
+    x = problem.BinaryVar(shape=(N,), description="Selected items")
+
+
+@problem.update
+def _myupdate(
+    problem: jm.DecoratedProblem,
+    w: jm.Placeholder,
+    W: jm.Placeholder,
+    x: jm.DecisionVar,
+):
+    problem += problem.Constraint("weight", jm.sum(w * x) <= W)
+
+    # いつも通り、新しい決定変数やプレスホルダーの定義も可
+    v = problem.Float(ndim=1, description="Values of the items")
+    problem += jm.sum(v * x)
+```
+
 ### [Type Mismatch エラー](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-TE0004.html)の改善
 
 Type Mismatch エラーが必要に応じて実際に型が合わなかった項を含むようになりました。
@@ -55,13 +86,14 @@ import jijmodeling as jm
 
 
 try:
+
     @jm.Problem.define("MyProblem")
     def problem(problem: jm.DecoratedProblem):
         N = problem.Length()
         W = problem.Float()
         x = problem.BinaryVar(shape=N)
 
-        problem += x[W] # Error!
+        problem += x[W]  # Error!
 except Exception as e:
     print(e)
 ```
@@ -74,6 +106,7 @@ except Exception as e:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
 
 @jm.Problem.define("Vars Beautiful")
 def problem(problem: jm.DecoratedProblem):
@@ -95,6 +128,7 @@ def problem(problem: jm.DecoratedProblem):
     )
     u = problem.BinaryVar()
 
+
 problem
 ```
 
@@ -111,12 +145,14 @@ problem
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("RangeWithComputedBounds")
 def problem(problem: jm.DecoratedProblem):
     N = problem.Natural()
     x = problem.BinaryVar(shape=(N,))
     problem += jm.sum(x[i] for i in jm.range(N - 1))
     problem += problem.Constraint("fix", lambda i: x[i] == 0, domain=jm.range(N - 1))
+
 
 display(problem)
 

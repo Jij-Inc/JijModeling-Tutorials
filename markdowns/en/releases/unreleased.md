@@ -45,6 +45,40 @@ All benchmarks were run on a Google Cloud `n2-standard-8` VM (8 vCPUs, 32 GB, Ub
 
 Models whose compilation time is a bottleneck can benefit substantially from these improvements, so please consider migrating to JijModeling 2.
 
+### Automatically obtain parameters when using the update decorator API
+
+Previously, when using `@Problem.update`, you'd have to manually obtain
+already-defined objects (eg. decision variables, placeholders) by
+accessing `problems.decision_vars` and the like. Now, you can define additional
+parameters to the function which will be automatically obtained (by name) from
+that problem.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("MyProblem")
+def problem(problem):
+    w = problem.Float(ndim=1, description="Weights of the items")
+    N = w.len_at(0)
+    W = problem.Float(description="Total weight")
+    x = problem.BinaryVar(shape=(N,), description="Selected items")
+
+
+@problem.update
+def _myupdate(
+    problem: jm.DecoratedProblem,
+    w: jm.Placeholder,
+    W: jm.Placeholder,
+    x: jm.DecisionVar,
+):
+    problem += problem.Constraint("weight", jm.sum(w * x) <= W)
+
+    # as before, you can still define new variables and placeholders:
+    v = problem.Float(ndim=1, description="Values of the items")
+    problem += jm.sum(v * x)
+```
+
 ### Improvements to the [Type Mismatch error](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-TE0004.html)
 
 The Type Mismatch error now includes the term whose type actually mismatched when needed.
@@ -54,13 +88,14 @@ import jijmodeling as jm
 
 
 try:
+
     @jm.Problem.define("MyProblem")
     def problem(problem: jm.DecoratedProblem):
         N = problem.Length()
         W = problem.Float()
         x = problem.BinaryVar(shape=N)
 
-        problem += x[W] # Error!
+        problem += x[W]  # Error!
 except Exception as e:
     print(e)
 ```
@@ -73,6 +108,7 @@ Subscripted variables are now displayed in a more readable way.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
 
 @jm.Problem.define("Vars Beautiful")
 def problem(problem: jm.DecoratedProblem):
@@ -94,6 +130,7 @@ def problem(problem: jm.DecoratedProblem):
     )
     u = problem.BinaryVar()
 
+
 problem
 ```
 
@@ -110,12 +147,14 @@ With this fix, ranges whose arguments contain expressions now evaluate correctly
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("RangeWithComputedBounds")
 def problem(problem: jm.DecoratedProblem):
     N = problem.Natural()
     x = problem.BinaryVar(shape=(N,))
     problem += jm.sum(x[i] for i in jm.range(N - 1))
     problem += problem.Constraint("fix", lambda i: x[i] == 0, domain=jm.range(N - 1))
+
 
 display(problem)
 
