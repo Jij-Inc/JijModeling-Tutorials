@@ -133,18 +133,48 @@ deco_problem
 
 We use `_` as the function name in the `@problem.update` example -- the function name has no effect on the result, so you can choose any name you like.
 
-:::{admonition} Decorated functions and variable scope
-:class: caution
+(update_parameters)=
+### Decorated functions and variable scope
 
-Python variables defined inside functions decorated with `@jm.Problem.define()` or `@problem.update` cannot be accessed outside the function.
+Python variables defined inside functions decorated with `@jm.Problem.define()` or `@problem.update` cannot be accessed directly from outside the function.
 More precisely, while the model-level variables and constraints are registered in the corresponding `Problem` object, the Python variables that refer to them stay inside the function scope.
 
-To address this, since JijModeling 2.7.0, the second and subsequent arguments of a {py:meth}`~jijmodeling.Problem.update` function can bind variables already defined in the {py:class}`~jijmodeling.Problem`, including placeholders, category labels, decision variables, and named expressions.
-These items are obtained automatically from the Problem based on the argument names, allowing an `update` function to receive the variables it needs through its arguments.
-See {ref}`update_parameters` for details on specifying additional arguments.
+To make such cases easy to handle, since JijModeling 2.7.0, the second and subsequent arguments of a {py:meth}`~jijmodeling.Problem.update` function can bind variables already defined in the {py:class}`~jijmodeling.Problem`, including placeholders, category labels, decision variables, and named expressions.
+Starting with the second argument, declare arguments with the same names as the items you want to obtain and use the corresponding type annotations below.
 
-If you are using a version earlier than 2.7.0, you can achieve the same result by retrieving the metadata from the `Problem` as described in the following sections before performing the update.
-:::
+| Item to obtain | Type annotation |
+| :-- | :-- |
+| Placeholder | `jm.Placeholder` |
+| Category label | `jm.CategoryLabel` |
+| Decision variable | `jm.DecisionVar` |
+| Named expression | `jm.NamedExpr` |
+
+Each argument name must match the name passed as the first argument to the corresponding constructor.
+If the name was omitted through the Decorator API, it matches the Python variable name.
+When type annotations are omitted, the appropriate variables are still matched by name, but specifying annotations is recommended whenever possible because it enables more precise type checking and editor completion.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Updated Problem")
+def updated_problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    L = problem.CategoryLabel()
+    x = problem.BinaryVar(shape=N)
+    total = problem.NamedExpr(x.sum())
+
+@updated_problem.update
+def _(
+    problem: jm.DecoratedProblem,
+    N: jm.Placeholder,
+    total: jm.NamedExpr,
+):
+    problem += problem.Constraint("select", total <= N)
+```
+
+As this example shows, the additional arguments to `@problem.update` need only include the variables required by that update, rather than every variable defined in the Problem.
+
+If you are using a version earlier than 2.7.0, you can achieve the same result by retrieving items directly from the metadata held by the `Problem`, such as `placeholders`, and binding them manually as described in the following sections.
 
 Now, let's move on to the concrete features you need to build models in the next sections.
 
