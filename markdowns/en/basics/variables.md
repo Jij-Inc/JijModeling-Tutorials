@@ -170,4 +170,42 @@ Declared variables are represented as objects that store their metadata, but at 
 In particular, when a variable object appears as part of another expression, it is automatically converted into an expression that refers to the variable with that name.
 When a variable appears in an expression, a single variable behaves as an expression of the corresponding type, while an indexed variable behaves as an array or dictionary expression made of variables, depending on how it is represented.
 
+(update_parameters)=
+## Obtaining previously defined items with `@problem.update`
+
+When updating a Problem incrementally with multiple {py:meth}`@problem.update <jijmodeling.Problem.update>` decorators, you can obtain variables defined in earlier blocks as additional arguments.
+Starting with the second argument, declare arguments with the same names as the items you want to obtain and use the corresponding type annotations below.
+
+| Item to obtain | Type annotation |
+| :-- | :-- |
+| Placeholder | `jm.Placeholder` |
+| Category label | `jm.CategoryLabel` |
+| Decision variable | `jm.DecisionVar` |
+| Named expression | `jm.NamedExpr` |
+
+Each argument name must match the name passed as the first argument to the corresponding constructor.
+If the name was omitted through the Decorator API, it matches the Python variable name.
+When type annotations are omitted, the appropriate variables are still matched by name, but specifying annotations is recommended whenever possible because it enables more precise type checking and editor completion.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Updated Problem")
+def updated_problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    L = problem.CategoryLabel()
+    x = problem.BinaryVar(shape=N)
+    total = problem.NamedExpr(x.sum())
+
+@updated_problem.update
+def _(
+    problem: jm.DecoratedProblem,
+    N: jm.Placeholder,
+    total: jm.NamedExpr,
+):
+    problem += problem.Constraint("select", total <= N)
+```
+
+As this example shows, the additional arguments to `@problem.update` need only include the variables required by that update, rather than every variable defined in the Problem.
+
 From the next chapter, we will look at how to declare placeholders and decision variables, both as single variables and as indexed variables.
