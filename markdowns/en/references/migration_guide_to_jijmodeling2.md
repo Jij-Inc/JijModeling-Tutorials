@@ -86,10 +86,6 @@ Here is the list of features currently missing in JijModeling 2 that existed in 
 
 1. Complex AST traversal API
 
-These changes are planned after the official release of JijModeling 2:
-
-1. Evaluation mechanism on dependent variables and encoding feature of dependent variable information into OMMX
-
 These features are planned to be implemented gradually after the official release of JijModeling 2.
 
 +++
@@ -336,6 +332,7 @@ Keep the following in mind:
 - `@problem.update` updates an already-defined optimization problem `problem` via the Decorator API.
   - The decorated function executes immediately at definition time and mutates the original `problem`, so you never call the function manually. The name of the decorated function doesn't affect the result.
   - You can apply `@problem.update` to the same `problem` multiple times. Each invocation appends the parameters, objectives, and constraints defined in that block.
+  - **New in JijModeling 2.7**: Starting with the second argument of the update function, you can declare arguments with the same names as previously defined items. Annotate placeholders with `jm.Placeholder`, category labels with `jm.CategoryLabel`, decision variables with `jm.DecisionVar`, and named expressions with `jm.NamedExpr`; the corresponding items are then passed automatically from the Problem.
 - Both decorators ignore the return value of the decorated function.
 
 Each `@problem.update` / `@jm.Problem.define` block runs in its own function scope, so Python variables defined in one block aren't visible to the others. Consider:
@@ -363,7 +360,19 @@ def _update(my_problem: jm.DecoratedProblem):
     # ... code using N and x ...
 ```
 
-This scoping is admittedly inconvenient, so we're planning to add helper interfaces for easier variable access. Stay tuned!
+Since JijModeling 2.7.0, you can also obtain previously defined variables directly as additional arguments to an `@problem.update` block:
+
+```python
+@my_problem.update
+def _update(
+    my_problem: jm.DecoratedProblem,
+    N: jm.Placeholder,
+    x: jm.DecisionVar,
+):
+    # N and x are obtained automatically from my_problem
+```
+
+The type annotations on additional parameters can be omitted, but specifying them is recommended for editor completion and type checking.
 
 ### Variable Name Elision in Decorator API
 

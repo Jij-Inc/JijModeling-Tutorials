@@ -139,7 +139,11 @@ We use `_` as the function name in the `@problem.update` example -- the function
 Python variables defined inside functions decorated with `@jm.Problem.define()` or `@problem.update` cannot be accessed outside the function.
 More precisely, while the model-level variables and constraints are registered in the corresponding `Problem` object, the Python variables that refer to them stay inside the function scope.
 
-Therefore, when you update a model incrementally with `@jm.Problem.define()` and multiple `@problem.update` decorators, keep in mind that you must retrieve previously declared items from the `Problem`'s metadata as described in later sections.
+To address this, since JijModeling 2.7.0, the second and subsequent arguments of a {py:meth}`~jijmodeling.Problem.update` function can bind variables already defined in the {py:class}`~jijmodeling.Problem`, including placeholders, category labels, decision variables, and named expressions.
+These items are obtained automatically from the Problem based on the argument names, allowing an `update` function to receive the variables it needs through its arguments.
+See {ref}`update_parameters` for details on specifying additional arguments.
+
+If you are using a version earlier than 2.7.0, you can achieve the same result by retrieving the metadata from the `Problem` as described in the following sections before performing the update.
 :::
 
 Now, let's move on to the concrete features you need to build models in the next sections.

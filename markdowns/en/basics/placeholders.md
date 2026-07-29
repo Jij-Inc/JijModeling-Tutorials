@@ -174,7 +174,8 @@ Therefore, objects contained in these dictionaries can also be used as variable 
 This is especially useful when you update a `Problem` incrementally with multiple `@problem.update` or `@jm.Problem.define()` decorators and need to refer to variables defined in earlier decorator blocks.
 
 :::{tip}
-In the future, `@problem.update` is planned to accept already-defined variables as arguments. Stay tuned.
+Since JijModeling 2.7.0, `@problem.update` can obtain placeholders and category labels as additional arguments.
+See {ref}`update_parameters` for details.
 :::
 
 (ph_family)=

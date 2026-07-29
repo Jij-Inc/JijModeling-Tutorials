@@ -168,4 +168,41 @@ JijModeling では、宣言された変数はそのメタデータを保存す�
 特に、他の式の構成要素の一部として現れた場合、変数オブジェクトは自動的にその名前の変数を参照する式に自動的に変換されます。
 変数が式中に現れた場合、単独の変数の場合は対応する型の式に、添え字つきの変数の場合は表現に応じて変数から成る配列や辞書の式として振る舞います。
 
+(update_parameters)=
+## `@problem.update` で定義済みの要素を取得する
+
+複数の {py:meth}`@problem.update <jijmodeling.Problem.update>` を使って Problem を逐次的に更新する場合、以前のブロックで定義した変数を追加引数として取得できます。
+第 2 引数以降には取得したい要素と同じ名前の引数を、それぞれ次の型注釈とともに指定します。
+
+| 取得する要素 | 型注釈 |
+| :-- | :-- |
+| プレースホルダー | `jm.Placeholder` |
+| カテゴリーラベル | `jm.CategoryLabel` |
+| 決定変数 | `jm.DecisionVar` |
+| 名前付き数式 | `jm.NamedExpr` |
+
+引数名はそれぞれ対応する構築子の第 1 引数で指定した名前と同じである必要があります。Decorator API により省略した場合は、Python 上の変数名と一致します。
+型註釈を省略した場合は適宜名寄せを行い適切な変数が取得されますが、型註釈によりエディタ上での型検査・補完などが詳しく働くようになるため、可能な限り指定することを推奨します。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Updated Problem")
+def updated_problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    L = problem.CategoryLabel()
+    x = problem.BinaryVar(shape=N)
+    total = problem.NamedExpr(x.sum())
+
+@updated_problem.update
+def _(
+    problem: jm.DecoratedProblem,
+    N: jm.Placeholder,
+    total: jm.NamedExpr,
+):
+    problem += problem.Constraint("select", total <= N)
+```
+
+この例のように、`@problem.update` の追加引数は全ての変数を列挙する必要はなく、必要なもののみを指定して使うことができます。
+
 それでは、次章から、プレースホルダーと決定変数のそれぞれについて、単独や添え字つきでの宣言方法について見ていきましょう。

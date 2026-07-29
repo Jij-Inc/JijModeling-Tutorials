@@ -122,7 +122,8 @@ deco_problem.decision_vars
 特に、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
 
 :::{tip}
-将来的には `@problem.update` が定義済の変数たちを引数として取れるようにする変更が予定されています。期待してお待ちください！
+JijModeling 2.7.0 以降では、`@problem.update` で決定変数を追加引数として取得できます。
+詳しくは「{ref}`update_parameters`」を参照してください。
 :::
 
 (family)=
