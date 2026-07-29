@@ -119,12 +119,6 @@ deco_problem.decision_vars
 
 このようにして得られる決定変数のメタデータは {py:class}`~jijmodeling.DecisionVar` オブジェクトであり、宣言時に返ってくるオブジェクトと同じものです。
 従って、{py:attr}`~jijmodeling.Problem.decision_vars` に含まれる {py:class}`~jijmodeling.DecisionVar` オブジェクトも変数式として使うことができます。
-特に、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
-
-:::{tip}
-JijModeling 2.7.0 以降では、`@problem.update` で決定変数を追加引数として取得できます。
-詳しくは「{ref}`update_parameters`」を参照してください。
-:::
 
 (family)=
 ## 添え字つき決定変数の宣言

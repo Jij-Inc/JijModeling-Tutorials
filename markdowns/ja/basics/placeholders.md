@@ -168,12 +168,6 @@ print(f"Category Labels: {ph_catlab_problem.category_labels}")
 
 このようにして得られるメタデータは、プレースホルダーについては {py:class}`~jijmodeling.Placeholder` オブジェクト、カテゴリーラベルについては {py:class}`~jijmodeling.CategoryLabel` オブジェクトであり、宣言時に返ってくるオブジェクトと同じものです。
 従って、これらの辞書に要素として含まれるオブジェクトも変数式として使うことができます。
-特に、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
-
-:::{tip}
-JijModeling 2.7.0 以降では、`@problem.update` でプレースホルダーやカテゴリーラベルを追加引数として取得できます。
-詳しくは「{ref}`update_parameters`」を参照してください。
-:::
 
 (ph_family)=
 ## 添え字つきプレースホルダーの宣言

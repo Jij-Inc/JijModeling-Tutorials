@@ -122,12 +122,6 @@ deco_problem.decision_vars
 
 Decision-variable metadata obtained this way is represented by {py:class}`~jijmodeling.DecisionVar` objects, the same objects returned at declaration time.
 Therefore, {py:class}`~jijmodeling.DecisionVar` objects contained in {py:attr}`~jijmodeling.Problem.decision_vars` can also be used as variable expressions.
-This is especially useful when you update a `Problem` incrementally with multiple `@problem.update` or `@jm.Problem.define()` decorators and need to refer to variables defined in earlier decorator blocks.
-
-:::{tip}
-Since JijModeling 2.7.0, `@problem.update` can obtain decision variables as additional arguments.
-See {ref}`update_parameters` for details.
-:::
 
 (family)=
 ## Declaring indexed decision variables
