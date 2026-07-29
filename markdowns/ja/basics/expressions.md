@@ -259,13 +259,7 @@ problem.infer(A)
 
 ```{code-cell} ipython3
 @problem.update
-def _(
-    problem: jm.DecoratedProblem,
-    N: jm.Placeholder,
-    M: jm.Placeholder,
-    y: jm.DecisionVar,
-    z: jm.DecisionVar,
-):
+def _(problem: jm.DecoratedProblem):
     A = jm.genarray(y[i, j] + z[i, j, k] for i, j, k in (N, M, N))
     display(A)
     display(problem.infer(A))
