@@ -19,22 +19,51 @@ kernelspec:
 
 +++
 
+### Improved compiler speed and memory efficiency
+
+Major compiler optimizations have substantially improved execution speed and memory efficiency 🎉
+
+Benchmarks show speedups of up to 8x over JijModeling 2.6.0 and up to 5x over 1.14.2. The representative execution times below are normalized to 1.0 for 2.7.0. A larger value means that the comparison version took longer than this release.
+
+:::{figure} ../images/compiler-ir-timing.svg
+:alt: Vertical bar chart comparing relative execution time for JijModeling 1.14.2, 2.6.0, and 2.7.0 across representative Knapsack, supportcase18, and FMA workloads
+:width: 100%
+
+Relative compilation time in representative benchmarks. The labels above the bars are ratios to 2.7.0 (1.0 or higher means that 2.7.0 is as fast or faster).
+:::
+
+Memory allocation per compilation has also decreased substantially. Specifically, the total memory allocated per compilation decreased by 76–97% compared with 2.6.0 and by 51–94% compared with 1.14.2.
+
+:::{figure} ../images/compiler-ir-memory.svg
+:alt: Vertical bar chart comparing total memory allocated per compilation for JijModeling 1.14.2, 2.6.0, and 2.7.0 across the same ordered Knapsack, supportcase18, and FMA workloads as the timing chart
+:width: 100%
+
+Total memory allocated per compilation in representative benchmarks
+:::
+
+All benchmarks were run on a Google Cloud `n2-standard-8` VM (8 vCPUs, 32 GB, Ubuntu 26.04 LTS, x86_64).
+
+Models whose compilation time is a bottleneck can benefit substantially from these improvements, so please consider migrating to JijModeling 2.
+
 ### Automatically obtain parameters when using the update decorator API
 
 Previously, when using `@Problem.update`, you'd have to manually obtain
-already-defined objects (eg. decision variables, placeholders) manually by
+already-defined objects (eg. decision variables, placeholders) by
 accessing `problems.decision_vars` and the like. Now, you can define additional
 parameters to the function which will be automatically obtained (by name) from
 that problem.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
+
 @jm.Problem.define("MyProblem")
 def problem(problem):
-  w = problem.Float(ndim=1, description="Weights of the items")
-  N = w.len_at(0)
-  W = problem.Float(description="Total weight")
-  x = problem.BinaryVar(shape=(N,), description="Selected items")
+    w = problem.Float(ndim=1, description="Weights of the items")
+    N = w.len_at(0)
+    W = problem.Float(description="Total weight")
+    x = problem.BinaryVar(shape=(N,), description="Selected items")
+
 
 @problem.update
 def _myupdate(
@@ -44,7 +73,7 @@ def _myupdate(
     x: jm.DecisionVar,
 ):
     problem += problem.Constraint("weight", jm.sum(w * x) <= W)
-    
+
     # as before, you can still define new variables and placeholders:
     v = problem.Float(ndim=1, description="Values of the items")
     problem += jm.sum(v * x)
@@ -59,13 +88,14 @@ import jijmodeling as jm
 
 
 try:
+
     @jm.Problem.define("MyProblem")
     def problem(problem: jm.DecoratedProblem):
         N = problem.Length()
         W = problem.Float()
         x = problem.BinaryVar(shape=N)
 
-        problem += x[W] # Error!
+        problem += x[W]  # Error!
 except Exception as e:
     print(e)
 ```
@@ -78,6 +108,7 @@ Subscripted variables are now displayed in a more readable way.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
 
 @jm.Problem.define("Vars Beautiful")
 def problem(problem: jm.DecoratedProblem):
@@ -99,6 +130,7 @@ def problem(problem: jm.DecoratedProblem):
     )
     u = problem.BinaryVar()
 
+
 problem
 ```
 
@@ -115,12 +147,14 @@ With this fix, ranges whose arguments contain expressions now evaluate correctly
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("RangeWithComputedBounds")
 def problem(problem: jm.DecoratedProblem):
     N = problem.Natural()
     x = problem.BinaryVar(shape=(N,))
     problem += jm.sum(x[i] for i in jm.range(N - 1))
     problem += problem.Constraint("fix", lambda i: x[i] == 0, domain=jm.range(N - 1))
+
 
 display(problem)
 
