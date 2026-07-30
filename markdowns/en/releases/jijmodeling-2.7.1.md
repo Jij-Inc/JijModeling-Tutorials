@@ -11,25 +11,10 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
+# JijModeling 2.7.1 Release Notes
 
 +++
 
-## 機能強化
+## Other Changes
 
-+++
-
-### 機能1
-
-+++
-
-## バグ修正
-
-+++
-
-### バグ修正1：
-
-
-## その他の変更
-
-- 変更1：
+- Now expressions in stack traces on error messages are displayed in a more readable format.

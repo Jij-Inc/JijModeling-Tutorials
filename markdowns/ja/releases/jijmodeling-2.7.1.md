@@ -11,25 +11,10 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
+# JijModeling X.XX.X リリースノート
 
 +++
 
-## Feature Enhancements
+## その他の変更
 
-+++
-
-### Feature 1
-
-+++
-
-## Bugfixes
-
-+++
-
-### Bugfix 1
-
-
-## Other Changes
-
-- Change 1
+- エラー画面のスタックトレースに表示される式の表示がより読みやすくなりました。
