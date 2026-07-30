@@ -4,14 +4,14 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.5
 kernelspec:
   display_name: .venv
   language: python
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
+# JijModeling 2.7.0 Release Notes
 
 +++
 
@@ -77,6 +77,9 @@ def _myupdate(
     # as before, you can still define new variables and placeholders:
     v = problem.Float(ndim=1, description="Values of the items")
     problem += jm.sum(v * x)
+
+
+problem
 ```
 
 ### Improvements to the [Type Mismatch error](https://jij-inc-jijmodeling.readthedocs-hosted.com/en/v2.6.0/error_codes/error/E-TE0004.html)
@@ -160,7 +163,3 @@ display(problem)
 
 problem.eval({"N": 4})
 ```
-
-## Other Changes
-
--
