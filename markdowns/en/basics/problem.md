@@ -134,7 +134,7 @@ deco_problem
 We use `_` as the function name in the `@problem.update` example -- the function name has no effect on the result, so you can choose any name you like.
 
 (update_parameters)=
-### Decorated functions and variable scope
+### Variable rebinding in the Decorator API
 
 Python variables defined inside functions decorated with `@jm.Problem.define()` or `@problem.update` cannot be accessed directly from outside the function.
 More precisely, while the model-level variables and constraints are registered in the corresponding `Problem` object, the Python variables that refer to them stay inside the function scope.
