@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.5
 kernelspec:
   display_name: .venv
   language: python
@@ -118,11 +118,13 @@ problem.Constraint("BAD2", (x + y) <= 1 |  (y + z) >= 2) # ERROR! 論理演算�
 
 ```{code-cell} ipython3
 @knapsack_problem.update
-def _(problem: jm.DecoratedProblem):
-    N = problem.placeholders["N"]
-    w = problem.placeholders["w"]
-    W = problem.placeholders["W"]
-    x = problem.decision_vars["x"]
+def _(
+    problem: jm.DecoratedProblem,
+    N: jm.Placeholder,
+    w: jm.Placeholder,
+    W: jm.Placeholder,
+    x: jm.DecisionVar,
+):
     problem += problem.Constraint("weight", jm.sum(w[i] * x[i] for i in N) <= W)
 
 

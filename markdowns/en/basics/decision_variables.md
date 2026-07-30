@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.5
 kernelspec:
   display_name: .venv
   language: python
@@ -122,11 +122,6 @@ deco_problem.decision_vars
 
 Decision-variable metadata obtained this way is represented by {py:class}`~jijmodeling.DecisionVar` objects, the same objects returned at declaration time.
 Therefore, {py:class}`~jijmodeling.DecisionVar` objects contained in {py:attr}`~jijmodeling.Problem.decision_vars` can also be used as variable expressions.
-This is especially useful when you update a `Problem` incrementally with multiple `@problem.update` or `@jm.Problem.define()` decorators and need to refer to variables defined in earlier decorator blocks.
-
-:::{tip}
-In the future, `@problem.update` is planned to accept already-defined variables as arguments. Stay tuned.
-:::
 
 (family)=
 ## Declaring indexed decision variables

@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.5
 kernelspec:
   display_name: .venv
   language: python
@@ -171,11 +171,6 @@ print(f"Category Labels: {ph_catlab_problem.category_labels}")
 
 The metadata obtained this way is represented by {py:class}`~jijmodeling.Placeholder` objects for placeholders and {py:class}`~jijmodeling.CategoryLabel` objects for category labels, the same objects returned at declaration time.
 Therefore, objects contained in these dictionaries can also be used as variable expressions.
-This is especially useful when you update a `Problem` incrementally with multiple `@problem.update` or `@jm.Problem.define()` decorators and need to refer to variables defined in earlier decorator blocks.
-
-:::{tip}
-In the future, `@problem.update` is planned to accept already-defined variables as arguments. Stay tuned.
-:::
 
 (ph_family)=
 ## Declaring indexed placeholders

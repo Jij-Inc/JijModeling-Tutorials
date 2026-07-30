@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.5
 kernelspec:
   display_name: .venv
   language: python
@@ -168,12 +168,6 @@ print(f"Category Labels: {ph_catlab_problem.category_labels}")
 
 このようにして得られるメタデータは、プレースホルダーについては {py:class}`~jijmodeling.Placeholder` オブジェクト、カテゴリーラベルについては {py:class}`~jijmodeling.CategoryLabel` オブジェクトであり、宣言時に返ってくるオブジェクトと同じものです。
 従って、これらの辞書に要素として含まれるオブジェクトも変数式として使うことができます。
-特に、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
-
-
-:::{tip}
-将来的には `@problem.update` が定義済の変数たちを引数として取れるようにする変更が予定されています。期待してお待ちください！
-:::
 
 (ph_family)=
 ## 添え字つきプレースホルダーの宣言

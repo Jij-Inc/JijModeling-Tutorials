@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.5
 kernelspec:
   display_name: .venv
   language: python
@@ -119,11 +119,6 @@ deco_problem.decision_vars
 
 このようにして得られる決定変数のメタデータは {py:class}`~jijmodeling.DecisionVar` オブジェクトであり、宣言時に返ってくるオブジェクトと同じものです。
 従って、{py:attr}`~jijmodeling.Problem.decision_vars` に含まれる {py:class}`~jijmodeling.DecisionVar` オブジェクトも変数式として使うことができます。
-特に、複数の `@problem.update` や `@jm.Problem.define()` デコレータで逐次的に Problem を更新していく場合、それ以前のデコレータブロック内で定義された変数を参照するために使うことができます。
-
-:::{tip}
-将来的には `@problem.update` が定義済の変数たちを引数として取れるようにする変更が予定されています。期待してお待ちください！
-:::
 
 (family)=
 ## 添え字つき決定変数の宣言

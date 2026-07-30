@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.5
 kernelspec:
   display_name: .venv
   language: python
@@ -87,10 +87,6 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
 JijModeling 1 に存在し、現時点の JijModeling 2 で欠けている機能のは次のとおりです：
 
 1. 複雑な構文木書き換え API
-
-また、JijModeling 2 正式リリース後に予定されている変更は以下の通りです：
-
-1. 従属変数情報の評価機構・OMMX への保存機能
 
 これらの機能は JijModeling 2 正式リリース後に随時実装されていく予定です。
 
@@ -341,7 +337,8 @@ problem.Constraint("cap", C <= N)
   - `@jm.Problem.define(..)` は Problem コンストラクタと同じ引数を受け取って`Problem`オブジェクトを新たに生成し、装飾されている関数と同じ名前の変数に束縛します。
 - `@problem.update` デコレータは、既に定義済の最適化問題 `problem`の内容を Decorator API を使って更新するのに利用されます。
   - 関数は定義と同時に即座に実行されて元の `problem` が更新されるため、ユーザーが関数自体を呼び出す必要はありません。また、装飾される関数の名前は結果に影響しません。
-  - `@problem.update` は一つの `problem` に対して複数回適用できます。この場合、各デコレータで定義した制約条件と目的関数はその `problem` に対して逐次的に追加されます。  
+  - `@problem.update` は一つの `problem` に対して複数回適用できます。この場合、各デコレータで定義した制約条件と目的関数はその `problem` に対して逐次的に追加されます。
+  - **New in JijModeling 2.7**: 更新関数の第 2 引数以降には、定義済みの要素と同じ名前の引数を宣言できます。プレースホルダーには `jm.Placeholder`、カテゴリーラベルには `jm.CategoryLabel`、決定変数には `jm.DecisionVar`、名前付き数式には `jm.NamedExpr` の型注釈を指定すると、対応する要素が Problem から自動的に渡されます。
 - いずれのデコレータでもブロックの関数の返値は無視されます
 
 個々の `@problem.update`/`@jm.Problem.define` ブロックは別々の関数スコープで実行されるため、ある関数内で定義された Python 変数は、別のブロックのものとは共有されません。
@@ -358,7 +355,7 @@ def _update(my_problem: jm.DecoratedProblem):
     # ❗️ NとxはスコープOutOfScope！
 ```
 
-上の例では場合、変数`N`と`x`（Python 変数として）は`_update`でスコープ外です。
+上の例では場合、変数 `N` と `x`（Python 変数として）は `_update` のスコープ外です。
 もちろん、問題自体には `N` と `x` の情報が登録されているため、`Problem.placeholders`または`Problem.decision_vars` 属性を使用して情報を再度取得することができます：
 
 ```python
@@ -367,10 +364,22 @@ def _update(my_problem: jm.DecoratedProblem):
     N = my_problem.placeholders["N"]
     x = my_problem.decision_vars["x"]
 
-    # ... NとxPlaceholderコード ...
+    # ... N と x を使ったモデル構築コード ...
 ```
 
-これはかなり不便なので、`@problem.update`に簡単な変数アクセスのためのインターフェースを提供する予定です。今後の更新にご期待ください！
+また、 JijModeling 2.7.0 以降では、`@problem.update` ブロックの追加引数として定義済みの変数を直接取得することができます：
+
+```python
+@my_problem.update
+def _update(
+    my_problem: jm.DecoratedProblem,
+    N: jm.Placeholder,
+    x: jm.DecisionVar,
+):
+    # N と x は my_problem から自動的に取得される
+```
+
+追加パラメータの型は省略できますが、補完や型検査の観点から、型注釈を付けることを推奨します。
 
 ### Decorator API での変数名の省略
 
