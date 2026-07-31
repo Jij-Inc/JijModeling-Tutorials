@@ -35,7 +35,7 @@ Sums = problem.NamedExpr("Sums", jm.gendict(K, lambda k: a[k] * x[k]))
 
 
 problem
-+++
+```
 
 ## バグ修正
 
@@ -47,4 +47,3 @@ problem
 ## その他の変更
 
 - 変更 1：
-```
