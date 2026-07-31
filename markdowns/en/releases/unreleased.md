@@ -19,9 +19,23 @@ kernelspec:
 
 +++
 
-### Feature 1
+### Improvement to gendict's LaTeX output 
 
-+++
+The $\LaTeX$ output for `gendict` expressions is now styled closer to `genarray`s.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("gendict example")
+K = problem.CategoryLabel("K")
+a = problem.Float("a", dict_keys=K)
+x = problem.BinaryVar("x", dict_keys=K)
+Sums = problem.NamedExpr("Sums", jm.gendict(lambda k: a[k] * x[k], K))
+
+
+problem
+```
 
 ## Bugfixes
 
