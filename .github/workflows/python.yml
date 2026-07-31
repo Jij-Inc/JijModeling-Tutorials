@@ -59,6 +59,13 @@ jobs:
             exit 1;
           fi
 
+      - name: Check release note placeholders
+        run: |
+          if grep -Fn 'JijModeling X.XX.X' markdowns/*/releases/*.md; then
+            echo "[ERROR] Release note placeholder 'JijModeling X.XX.X' found!" >&2;
+            exit 1;
+          fi
+
       - name: Check if `unreleased` is not in TOC
         run: |
           for LANG in ja en ; do
