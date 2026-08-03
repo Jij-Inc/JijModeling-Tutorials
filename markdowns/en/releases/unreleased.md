@@ -37,9 +37,45 @@ Sums = problem.NamedExpr("Sums", jm.gendict(lambda k: a[k] * x[k], K))
 problem
 ```
 
-## Bugfixes
+### Trailing `if` clauses in `gendict` comprehensions
 
-+++
+The Decorator API now supports an `if` clause after a single `for` clause in a
+`gendict` comprehension. This makes it possible to flexibly define dictionaries
+with restricted domains using `gendict` comprehensions.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("gendict-if")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    c = problem.Float(dict_keys=N)
+    A = problem.NamedExpr(jm.gendict(c[i] * 2 for i in N if i != 0))
+
+
+problem
+```
+
+The following example uses multiple `if` clauses.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("gendict-tuple-if")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    L = problem.CategoryLabel()
+    avoid = problem.Placeholder(dtype=L)
+    c = problem.Float(dict_keys=(N, L))
+    OffDiag = problem.NamedExpr(
+        jm.gendict(i + c[i, l] for (i, l) in (N, L) if i % 2 != 0 if l != avoid)
+    )
+
+
+problem
+```
 
 ### Bugfix 1
 
