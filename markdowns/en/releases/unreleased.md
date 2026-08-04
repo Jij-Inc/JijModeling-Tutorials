@@ -37,7 +37,7 @@ Sums = problem.NamedExpr("Sums", jm.gendict(lambda k: a[k] * x[k], K))
 problem
 ```
 
-### Trailing `if` clauses in `gendict` comprehensions
+### `if` clauses in `gendict` comprehensions
 
 The Decorator API now supports an `if` clause after a single `for` clause in a `gendict` comprehension.
 This makes it possible to flexibly define dictionaries with restricted domains using `gendict` comprehensions.
