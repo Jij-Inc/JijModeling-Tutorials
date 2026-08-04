@@ -37,10 +37,10 @@ Sums = problem.NamedExpr("Sums", jm.gendict(lambda k: a[k] * x[k], K))
 problem
 ```
 
-### `gendict` 内包表記での末尾 `if` 節
+### `gendict` 内包表記での `if` 節
 
 Decorator API の `gendict` 内包表記で、単一の `for` 節のあとに `if` 節を書けるようになりました。
-これにより、定義域を絞り込んだ辞書を `gendict` 内包表記で柔軟に定義できるよう
+これにより、定義域を絞り込んだ辞書を `gendict` 内包表記で柔軟に定義できるようになりました。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
