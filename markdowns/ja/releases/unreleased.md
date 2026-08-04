@@ -76,6 +76,8 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
+## バグ修正
+
 ### バグ修正 1：
 
 

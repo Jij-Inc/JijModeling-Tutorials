@@ -77,6 +77,8 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
+## Bugfixes
+
 ### Bugfix 1
 
 
