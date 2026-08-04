@@ -39,9 +39,8 @@ problem
 
 ### Trailing `if` clauses in `gendict` comprehensions
 
-The Decorator API now supports an `if` clause after a single `for` clause in a
-`gendict` comprehension. This makes it possible to flexibly define dictionaries
-with restricted domains using `gendict` comprehensions.
+The Decorator API now supports an `if` clause after a single `for` clause in a `gendict` comprehension.
+This makes it possible to flexibly define dictionaries with restricted domains using `gendict` comprehensions.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
