@@ -360,9 +360,9 @@ If `x` is 1D or scalar, it is a type error.
 Slices with step and end indices, like `x[1, 1:N:2]`, are also supported.
 For details on slice syntax, see the Python docs on "{external+python:ref}`slicings`".
 
-### Getting the indices of array/dictionary expressions
+### Getting the index set of array/dictionary expressions
 
-For array and dictionary expressions, you can obtain the stream of their indices.
+For array and dictionary expressions, you can obtain their index sets.
 For arrays, use {py:meth}`~jijmodeling.Expression.indices`; for dictionaries, use {py:meth}`~jijmodeling.Expression.keys`.
 For example, you can define a dictionary decision variable with the same domain as a `PartialDict` placeholder as follows:
 
@@ -380,7 +380,7 @@ problem
 ### Streams in JijModeling
 
 JijModeling supports the concept of a **stream**: an ordered, lazily evaluated sequence of values of a specific type, which may contain duplicates.
-The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return expressions that represent **streams of indices**.
+The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return expressions that represent **index sets**.
 Streams are used to iterate over index ranges, compute sums/products, and define indexed constraints.
 Use {py:func}`jijmodeling.unique` when you need duplicates removed.
 

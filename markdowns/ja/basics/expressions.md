@@ -343,10 +343,10 @@ Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndar
 また、`x[1, 1:N:2]`のようにステップ数や終了インデックスを指定するスライスもサポートしています。
 スライス記法の詳細については、Python 公式ドキュメントの「{external+python:ref}`slicings`」を参照してください。
 
-### 配列式や辞書式の添え字の取得
+### 配列式や辞書式の添え字の集合の取得
 
-配列型や辞書型を持つ式に対しては、その添え字のストリームを取得することができます。
-配列に対しては {py:meth}`~jijmodeling.Expression.indices` によりインデックスの全体を、辞書に対しては {py:meth}`~jijmodeling.Expression.keys` によりキー全体を取得することができます。
+配列型や辞書型を持つ式に対しては、その添え字の集合を取得することができます。
+配列に対しては {py:meth}`~jijmodeling.Expression.indices` によりインデックスの全体を、辞書に対しては {py:meth}`~jijmodeling.Expression.keys` によりキー集合を取得することができます。
 これを使うと、たとえば `PartialDict` プレースホルダーと同じ定義域を持つような辞書型の決定変数を以下のようにして定義することができます。
 
 ```{code-cell} ipython3
@@ -362,7 +362,7 @@ problem
 
 ### JijModeling における「ストリーム」
 
-JijModeling では、「特定の型の値からなる、順序を持った遅延評価の列」を表す概念である**ストリーム**をサポートしています。ストリームは要素の重複も許容します。前節の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字のストリーム**を表す式を返します。
+JijModeling では、「特定の型の値からなる、順序を持った遅延評価の列」を表す概念である**ストリーム**をサポートしています。ストリームは要素の重複も許容します。前節の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字の集合**を表す式を返します。
 このストリームの概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
 重複を取り除きたい場合は {py:func}`jijmodeling.unique` 関数を使ってください。
 

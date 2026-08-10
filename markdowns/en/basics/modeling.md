@@ -298,7 +298,7 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
-In this example, $N$ and $M$ are one-dimensional streams of indices, and you cannot tell whether they overlap until you supply data. For instance, with the following instance data, the problem compiles into an instance without issues:
+In this example, $N$ and $M$ are one-dimensional index sets, and you cannot tell whether they overlap until you supply data. For instance, with the following instance data, the problem compiles into an instance without issues:
 
 ```{code-cell} ipython3
 instance_ok = problem.eval({"N": [0, 2, 4], "M": [1, 3, 5]})

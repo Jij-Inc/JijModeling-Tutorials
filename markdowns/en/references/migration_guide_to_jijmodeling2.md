@@ -530,7 +530,7 @@ objective = jm.sum(i, x[i])
 @jm.Problem.define("SumAlongSet", sense=jm.ProblemSense.MINIMIZE)
 def problem(problem: jm.DecoratedProblem):
     N = problem.Length()
-    C = problem.Natural(shape=(N,))  # Explicit dtype for index streams.
+    C = problem.Natural(shape=(N,))  # Explicit dtype for index sets.
     x = problem.BinaryVar(shape=(N,))
     
     # Sum over index set.
