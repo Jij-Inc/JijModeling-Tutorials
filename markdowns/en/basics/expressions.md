@@ -635,5 +635,5 @@ Unlike `and`/`or`, `&` and `|` have lower precedence than `==` and `!=`. For exa
 Therefore, when using `&` or `|`, always parenthesize each comparison, e.g., `(a >= b) & (c == d)`.
 :::
 
-Set-algebra operations are also available on stream expressions: union is `|`, and intersection is `&`.
-Complement is not supported because it may be infinite; instead, use {py:func}`jijmodeling.diff` to take differences.
+Logical operations can also be used on stream expressions: union is `|`, and intersection is `&`.
+Complement is not supported because it may be infinite; instead, use {py:func}`jijmodeling.diff` to take set differences.
