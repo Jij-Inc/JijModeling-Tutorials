@@ -23,7 +23,7 @@ kernelspec:
 
 これまでの JijModeling では「走査できる値の列」を表す型は `Set` と呼ばれていましたが、数学的には "Set"（集合）とは重複も順番も持たないものの集まりであるため、誤解の元となっていました。
 
-今回のリリースより、これまで `Set` と呼ばれていたものは `Stream` と呼ばれるようになり、非推奨となった {py:func}`jm.set <jijmodeling.set>` 関数の代わりに {py:func}`jm.stream <jijmodeling.stream>` 関数が導入されました。
+今回のリリースより、これまで `Set` と呼ばれていたものは `Stream` と呼ばれるようになり、非推奨となった {py:func}`jm.set <jijmodeling.set>` 関数のかわりに {py:func}`jm.stream <jijmodeling.stream>` 関数が導入されました。
 これは、一般のプログラミング言語ではこのような「特定の順番を持ち、重複を持った値の列」を**ストリーム**と呼ぶことにならったものです。
 
 ```{code-cell} ipython3
