@@ -19,6 +19,55 @@ kernelspec:
 
 +++
 
+### これまで「集合」と呼んでいたものを「ストリーム」に改称：`jm.set` を非推奨とし `jm.stream` を導入
+
+JijModeling には以前から「走査できる値の列」を表す型があります。`jm.sum` や `jm.map`、`jm.filter` に渡したり、制約の `domain` に指定したりするものです。
+これまでこの型を**集合**と呼び、明示的な変換関数の名前も `jm.set` としていました。
+
+しかし、この名前は誤解を招くものでした。数学的な「集合」は重複を持たず順序も持ちませんが、この型は**元来、順序を保持し重複も許す**ものであり、一般のプログラミング言語でいう*ストリーム*（あるいは*イテレーター*）に相当するからです。
+そこで、今後はこの概念を一貫して**ストリーム**と呼ぶことにし、変換関数も {py:func}`jijmodeling.stream` という名前にしました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("stream example")
+N = problem.Natural("N")
+x = problem.BinaryVar("x", shape=N)
+problem += jm.map(lambda i: x[i], jm.stream(N)).sum()
+
+
+problem
+```
+
+`jm.set` は `jm.stream` の**非推奨の別名**として引き続き利用できます。構築される式はまったく同じであり、Decorator API の内包表記を含め、従来受け付けていた書き方はすべてそのまま使えます：
+
+```{code-cell} ipython3
+import warnings
+
+import jijmodeling as jm
+
+
+with warnings.catch_warnings():
+    # `jm.set` を呼び出すと DeprecationWarning が発生します。
+    warnings.simplefilter("ignore", DeprecationWarning)
+
+    @jm.Problem.define("deprecated jm.set still works")
+    def problem(problem: jm.DecoratedProblem):
+        N = problem.Length()
+        x = problem.BinaryVar(shape=N)
+        domain = jm.set(i for i in N if i != 0)
+        problem += problem.Constraint("fix", lambda i: x[i] == 0, domain=domain)
+
+
+problem
+```
+
+移行は単純な名前の置き換えで完了します。`jm.set(...)` を `jm.stream(...)` に書き換えてください。
+この改称はエラーメッセージやモデルの文字列表現にも反映されており、型は `Set[...]` ではなく `Stream[...]` と、演算は `set(...)` ではなく `stream(...)` と表示されるようになります。
+
++++
+
 ### gendict の LaTeX 出力の改善
 
 `gendict`関数の $\LaTeX$ 出力の体裁を `genarray` と合わせました。

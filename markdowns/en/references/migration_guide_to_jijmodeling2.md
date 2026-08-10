@@ -190,7 +190,7 @@ In this section, we will discuss the details of major difference in JijModeling 
 The semantics of some entities are changed in JijModeling 2, including:
 
 - Decision variable / placeholder constructors (module-level) → Problem-bound factory (`problem.BinaryVar`, etc.).
-- `Element` (index) → `Set`s (a stream of values) + iterator (`(f(i) for i in N if ...)`) or `lambda`-expressions.
+- `Element` (index) → streams of values + iterator (`(f(i) for i in N if ...)`) or `lambda`-expressions.
 - `jm.sum(Element, expr)` / `forall=` argument → Comprehension `jm.sum(expr for i in N if cond)` / constraint collection.
 - `Interpreter` → `Compiler` (plus convenience `problem.eval(data)` path).
 - 2D array as an edge set → Placeholders with tuple elements or `.rows()` helper.
@@ -203,7 +203,7 @@ To summarize:
 | Placeholders | Parameter multi-dimensional arrays (given at evaluation) | `problem.Placeholder(...)`, `problem.Natural(...)`, `problem.Float(...)` | Names can be elided with `@problem.update` or `@jm.Problem.define`; `Natural` is a typed shortcut. |
 | Decision Vars | Optimization variables | `problem.BinaryVar`, `problem.IntegerVar`, `problem.FloatVar`, etc. | Must be constructed in Problem |
 | Expressions | Syntax Tree | algebraic operations, `jm.sum()`、`.sum()`、`.prod()` | In JijModeling 2, expressions can have types other than scalars, and will be typechecked. |
-| Sets | Iterable symbolic domains | placeholder itself (`for i in N`), `jm.product(A,B)`, `jm.filter(...)` | Used with lambdas or comprehensions, replaces `Element` objects. |
+| Streams | Iterable symbolic domains | placeholder itself (`for i in N`), `jm.product(A,B)`, `jm.filter(...)` | Used with lambdas or comprehensions, replaces `Element` objects. |
 | Constraints | Comparison expressions over domains | `problem.Constraint(name, expr)` or family of expressions | Parametrized family of constraints can be expressed using comprehension or `domain` keyword args. |
 | Compiler | evaluator | `Compiler.from_problem(problem, data)` | Compiler that converts optimization problems into OMMX messages/ |
 | Instance | problem instance | `problem.eval(instance_data)` | OMMX Instance |
@@ -213,20 +213,24 @@ To summarize:
 For convenience, most functions on expressions (such as `sum`, `prod`, `map`, `log2`) can be used both in method and prefix styles.
 For example, `x.sum()` and `jm.sum(x)` (or `z.log2()` and `jm.log2(z)`) are interchangeable.
 
-### Sets and Lambdas / Comprehensions instead of Elements
+### Streams and Lambdas / Comprehensions instead of Elements
 
 In JijModeling 1, users had to declare an `Element` belonging to a set (range / collection), which complicates the coding especially when treating higher-order multi-dimensional arrays.
-Instead, JijModeling 2 removes `Element` node and introduces first-class `Set`s and provides an API to range over Sets using lambda expressions and/or Pythonic comprehension syntax.
+Instead, JijModeling 2 removes `Element` node and introduces first-class **streams** and provides an API to range over streams using lambda expressions and/or Pythonic comprehension syntax.
 
-Concretely, the following can be treated as a set:
+Concretely, the following can be treated as a stream:
 
-- Natural number expressions (without decision variables): Natural number $N$ (and hence Length and Dim) is identified with set $\left\{0, \ldots, N-1\right\}$.
-- Arrays: Arrays of any dimension can be treated as a set consisting of each component.
-  - ⚠️ This is a breaking change! Formerly, $(N+1)$-dimensional array is regarded as a set of $N$-dimensional arrays. If you need this behavior, first use `array.rows()` (or `jm.rows(array)`) to convert an $(N+1)$-D array into 1D array of $N$-D arrays.
-- Tuple of set-like values: `(L, R)` is interpreted as the cartesian product ($L \times R$) of $L$ and $R$ as sets.
+- Natural number expressions (without decision variables): Natural number $N$ (and hence Length and Dim) is identified with the stream $0, \ldots, N-1$.
+- Arrays: Arrays of any dimension can be streamed component by component.
+  - ⚠️ This is a breaking change! Formerly, an $(N+1)$-dimensional array was iterated as a collection of $N$-dimensional arrays. If you need this behavior, first use `array.rows()` (or `jm.rows(array)`) to convert an $(N+1)$-D array into 1D array of $N$-D arrays.
+- Tuple of stream-like values: `(L, R)` is interpreted as the cartesian product ($L \times R$) of $L$ and $R$.
 
-These expressions are implicitly treated as Sets when appearing in positions that expect a Set (e.g. the iterable argument of `jm.sum` / `jm.prod`).
-You can also convert expressions into a Set explicitly by calling `jm.set(expr)`.
+These expressions are implicitly treated as streams when appearing in positions that expect one (e.g. the iterable argument of `jm.sum` / `jm.prod`).
+You can also convert expressions into a stream explicitly by calling `jm.stream(expr)`.
+
+<div class="alert alert-block alert-info">
+<b>NOTE:</b> Streams were called "sets" up to JijModeling 2.7.1, and the explicit conversion was <code>jm.set</code>. <code>jm.set</code> still works as a deprecated alias of <code>jm.stream</code>, but it emits a <code>DeprecationWarning</code>.
+</div>
 
 <div class="alert alert-block alert-warning">
 <b>WARNING:</b> Always use <code>jm.sum</code>, not Python's built-in <code>sum</code>, when reducing symbolic expressions. The built-in <code>sum</code> iterates concrete values and will error or yield unintended objects.
@@ -234,7 +238,7 @@ You can also convert expressions into a Set explicitly by calling `jm.set(expr)`
 
 #### Component-wise lower/upper bounds
 
-If you previously manipulated `Element` indices just to assign component-wise bounds to decision variables, JijModeling 2 lets you do that with the Set-based API plus the constructor arguments on `Problem.*Var`. There are two supported ways to supply bounds:
+If you previously manipulated `Element` indices just to assign component-wise bounds to decision variables, JijModeling 2 lets you do that with the stream-based API plus the constructor arguments on `Problem.*Var`. There are two supported ways to supply bounds:
 
 - **Pass containers that have the same shape**: When a decision variable is an $n$-dimensional array (declared via `shape`), you can pass an expression that evaluates to a multi-dimensional array with exactly the same shape to `lower_bound` / `upper_bound`. The same idea applies to dictionary variables (declared via `dict_keys`): provide a dictionary over the full key set and the bounds will be matched element-wise.
 - **Provide lambdas from indices to values**: You can also pass functions like `lambda i, j: L[i, j] - U[j, i]` that accepts the subscript(s) and return the bound. The old `Element`-based recipes translate directly into plain Python functions.
@@ -526,7 +530,7 @@ objective = jm.sum(i, x[i])
 @jm.Problem.define("SumAlongSet", sense=jm.ProblemSense.MINIMIZE)
 def problem(problem: jm.DecoratedProblem):
     N = problem.Length()
-    C = problem.Natural(shape=(N,))  # Explicit dtype for index sets.
+    C = problem.Natural(shape=(N,))  # Explicit dtype for index streams.
     x = problem.BinaryVar(shape=(N,))
     
     # Sum over index set.
@@ -802,7 +806,7 @@ def _(problem: jm.DecoratedProblem):
     K = problem.Placeholder(dtype=jm.DataType.NATURAL, shape=(M,))
     x = problem.BinaryVar(shape=(N,))
     
-    # Generator expression for constraints over sets.
+    # Generator expression for constraints over streams.
     constraint = problem.Constraint(
         "k-hot_constraint", 
         [jm.sum(x[i] for i in C[a]) == K[a] for a in M]

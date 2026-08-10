@@ -193,7 +193,7 @@ JijModeling 2 は、以下の点を念頭に設計されています：
 JijModeling 2 では、いくつかの挙動が変更されています：
 
 - 決定変数・プレースホルダーのコンストラクタ（モジュールレベル）→ 個別の `Problem` に紐付いたコンストラクタ（`problem.BinaryVar()` や `problem.Natural()` など）。
-- `Element`（インデックス）→ `Set`（値のストリーム）+ イテレータ（`(f(i) for i in N if ...)`）または`lambda`式。
+- `Element`（インデックス）→ ストリーム（値の列）+ イテレータ（`(f(i) for i in N if ...)`）または`lambda`式。
 - `jm.sum(Element, expr)` / `forall=`引数 → 内包表記 `jm.sum(expr for i in N if cond)` / 制約コレクション。
 - `Interpreter` → `Compiler`（便利な`problem.eval(data)`パスも含む）。
 - 辺集合としての二次元配列 → タプル要素を持つプレースホルダー、または`.rows()`ヘルパ関数。
@@ -206,7 +206,7 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 | Placeholders | パラメータ多次元配列（評価時に与えられる） | `problem.Placeholder(...)`、`problem.Natural(...)`、`problem.Float(...)` | `@problem.update`や`@jm.Problem.define`で名前を省略可能。`Natural`等は型付きショートカット。Problemに対し構築する必要がある |
 | Decision Vars | 決定変数 | `problem.BinaryVar`、`problem.IntegerVar`、`problem.FloatVar`など | Problemに対し構築する必要がある |
 | Expressions | 構文木 | 代数演算子、`jm.sum`、`.sum()`、`.prod()` | JijModeling 2 から数値以外の値も増え、型検査されるように |
-| Sets | 反復可能なシンボリックドメイン | プレースホルダー自体（`for i in N`）、`jm.product(A,B)`、`jm.filter(...)` | ラムダ式または内包表記と共に使用、`Element`オブジェクトを代替。 |
+| Streams | 反復可能なシンボリックドメイン | プレースホルダー自体（`for i in N`）、`jm.product(A,B)`、`jm.filter(...)` | ラムダ式または内包表記と共に使用、`Element`オブジェクトを代替。 |
 | Constraints | 比較式 | `problem.Constraint(name, expr)` または比較式の族 | パラメータ量化された制約の族は、内包表記または `domain` 引数により表現可能。 |
 | Compiler | 評価器 | `Compiler.from_problem(problem, data)` | 最適化問題や式を OMMXメッセージに変換するコンパイラ |
 | Instance | インスタンス | `problem.eval(instance_data)` | OMMX Instance |
@@ -216,20 +216,24 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 便宜上、式に対するほとんどの関数（`sum`、`prod`、`map`、`log2`など）は、メソッドスタイルとプレフィックススタイルの両方で使用できます。
 たとえば、`x.sum()`と`jm.sum(x)`（または`z.log2()`と`jm.log2(z)`）は交換可能です。
 
-### Setとラムダ式・内包表記による Element の代替
+### ストリームとラムダ式・内包表記による Element の代替
 
 JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽に宣言する必要があり、特に高次多次元配列を扱う際にコーディングが複雑になりました。
-かわりに、JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として`Set`（（多重）集合）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
+かわりに、JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として**ストリーム**（順序を持つ値の列）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
 
-具体的には、以下を `Set` として扱うことができます：
+具体的には、以下をストリームとして扱うことができます：
 
-- 自然数値の式（決定変数を含まない）：自然数$N$（およびそれと同義の `Length` や `Dim`）は集合$\left\{0, \ldots, N-1\right\}$と同一視されます。
-- 配列：任意の次元の配列は、各成分を要素に持つ集合として扱うことができます。
-  - ⚠️ これは破壊的変更です！以前は、$(N+1)$次元配列は$N$次元配列の集合と見なされていました。この挙動が必要な場合は、まず`jm.rows()`関数を使用して$(N+1)$-次元配列を「$N$-次元配列を要素に持つ一次元配列」に変換してください。
-- 集合になりうる型のタプル：`(L, R)`は、集合としての$L$と$R$の直積（$L \times R$）として解釈されます。
+- 自然数値の式（決定変数を含まない）：自然数$N$（およびそれと同義の `Length` や `Dim`）は $0, \ldots, N-1$ を走査するストリームと同一視されます。
+- 配列：任意の次元の配列は、各成分を順に走査するストリームとして扱うことができます。
+  - ⚠️ これは破壊的変更です！以前は、$(N+1)$次元配列は$N$次元配列の並びと見なされていました。この挙動が必要な場合は、まず`jm.rows()`関数を使用して$(N+1)$-次元配列を「$N$-次元配列を要素に持つ一次元配列」に変換してください。
+- ストリームになりうる型のタプル：`(L, R)`は、$L$と$R$の直積（$L \times R$）として解釈されます。
 
-これらの式は、`Set` を期待する位置（例：`jm.sum` / `jm.prod`の引数や制約族の定義域）に現れる場合、暗黙的に Set として扱われます。
-`jm.set(expr)`を呼び出すことで、式を明示的に Set に変換することもできます。
+これらの式は、ストリームを期待する位置（例：`jm.sum` / `jm.prod`の引数や制約族の定義域）に現れる場合、暗黙的にストリームとして扱われます。
+`jm.stream(expr)`を呼び出すことで、式を明示的にストリームに変換することもできます。
+
+<div class="alert alert-block alert-info">
+<b>注:</b> JijModeling 2.7.1 まで、ストリームは「集合」と呼ばれ、明示的な変換関数の名前も <code>jm.set</code> でした。<code>jm.set</code> は <code>jm.stream</code> の非推奨の別名として引き続き利用できますが、呼び出すと <code>DeprecationWarning</code> が発生します。
+</div>
 
 <div class="alert alert-block alert-warning">
 <b>警告:</b> シンボリック式の総和をとる際は、Pythonの組み込み<code>sum</code>関数<b>ではなく</b>、常に<code>jm.sum</code>を使用してください。組み込み<code>sum</code>は（意図的に）JijModeling の処理対象外となっており、コンパイルエラーになるか意図しないオブジェクトを生成します。

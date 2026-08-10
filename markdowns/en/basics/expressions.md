@@ -360,9 +360,9 @@ If `x` is 1D or scalar, it is a type error.
 Slices with step and end indices, like `x[1, 1:N:2]`, are also supported.
 For details on slice syntax, see the Python docs on "{external+python:ref}`slicings`".
 
-### Getting the index set of array/dictionary expressions
+### Getting the indices of array/dictionary expressions
 
-For array and dictionary expressions, you can obtain their index sets.
+For array and dictionary expressions, you can obtain the stream of their indices.
 For arrays, use {py:meth}`~jijmodeling.Expression.indices`; for dictionaries, use {py:meth}`~jijmodeling.Expression.keys`.
 For example, you can define a dictionary decision variable with the same domain as a `PartialDict` placeholder as follows:
 
@@ -375,48 +375,56 @@ x = problem.BinaryVar("x", dict_keys=S.keys())
 problem
 ```
 
-## Set operations and comprehensions for sum/product
+## Streams and comprehensions for sum/product
 
-### "Sets" in JijModeling
+### Streams in JijModeling
 
-JijModeling supports the concept of a **set**, which represents "a sequence of values of a specific type".
-The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return expressions that represent **index sets**.
-Sets are used to iterate over index ranges, compute sums/products, and define indexed constraints.
+JijModeling supports the concept of a **stream**: an ordered, lazily evaluated sequence of values of a specific type.
+The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return expressions that represent **streams of indices**.
+Streams are used to iterate over index ranges, compute sums/products, and define indexed constraints.
 
-:::{admonition} Sets in JijModeling are streams
+:::{admonition} Streams are not mathematical sets
 :class: note
 
-As in other modelers, JijModeling calls them "sets", but mathematically a set has no duplicates and no ordering.
-By contrast, **JijModeling "sets" allow duplicates and preserve order**.
-Strictly speaking, JijModeling sets correspond to **streams** or **iterators** in general programming terms.
+A mathematical set has no duplicates and no ordering.
+A JijModeling **stream allows duplicates and preserves order**, exactly like a **stream** or an **iterator** in general programming terms.
+Use {py:func}`jijmodeling.unique` when you need duplicates removed.
 :::
 
-Some values are automatically converted to sets. For example, a multi-dimensional array becomes a set that scans elements in row-major order, a natural number $N$ becomes the set $\{0, 1, \ldots, N-1\}$, and a category label `L` becomes the set of all values of `L` given at compile time.
-Also, since JijModeling 2.3.1, the {py:func}`jijmodeling.range` function, corresponding to Python's built-in {py:class}`range() <range>`, is available for defining sets consisting of arithmetic progressions of natural numbers.
+Some values are automatically converted to streams. For example, a multi-dimensional array becomes a stream that scans elements in row-major order, a natural number $N$ becomes the stream $0, 1, \ldots, N-1$, and a category label `L` becomes the stream of all values of `L` given at compile time.
+Also, since JijModeling 2.3.1, the {py:func}`jijmodeling.range` function, corresponding to Python's built-in {py:class}`range() <range>`, is available for defining streams consisting of arithmetic progressions of natural numbers.
 
-:::{admonition} Change from JijModeling 1: arrays as "sets"
+:::{admonition} Change from JijModeling 1: iterating over arrays
 :class: caution
 
-In JijModeling 1, when a multi-dimensional array appeared in `belong_to=` or `forall=`, it behaved like a set that iterates over rows.
-That is, if `A` had shape `(N, M)`, iterating over `A` produced a set of `N` elements, each a 1D array of length `M`.
+In JijModeling 1, when a multi-dimensional array appeared in `belong_to=` or `forall=`, it iterated over rows.
+That is, if `A` had shape `(N, M)`, iterating over `A` produced `N` elements, each a 1D array of length `M`.
 
 In JijModeling 2, this behavior was removed, and arrays now iterate over elements in order.
 If you want the old behavior, explicitly convert with {py:func}`~jijmodeling.rows`: use `jm.rows(A)` or `A.rows()`.
 :::
 
-:::{admonition} Dictionary as a "set" in JijModeling
+:::{admonition} Iterating over a dictionary in JijModeling
 :class: important
 
-In JijModeling, dictionary expressions behave like sets that iterate over **values, not keys**.
+In JijModeling, dictionary expressions stream their **values, not their keys**.
 This differs from Python's {py:class}`dict`, but it is defined this way for consistency with multi-dimensional array behavior.
 As a result, if you change placeholders or decision variables that were originally defined as multi-dimensional arrays to dictionaries, you can keep code like `x.sum()` unchanged.
-If you need set-like behavior over key-value pairs or keys, use {py:meth}`~jijmodeling.Expression.items` or {py:meth}`~jijmodeling.Expression.keys`.
+If you need to iterate over key-value pairs or keys, use {py:meth}`~jijmodeling.Expression.items` or {py:meth}`~jijmodeling.Expression.keys`.
 If you want to be explicit that values are being iterated, use {py:meth}`~jijmodeling.Expression.values`.
 :::
 
-Conversion to sets is usually automatic, but you can explicitly convert via {py:func}`~jijmodeling.set`.
+Conversion to a stream is usually automatic, but you can convert explicitly via {py:func}`~jijmodeling.stream`.
 
-### Sum and product over sets
+:::{admonition} Renamed from "set" in JijModeling 2.8.0
+:class: note
+
+Up to JijModeling 2.7.1, streams were called "sets" and the explicit conversion was `jm.set`.
+That name suggested unordered, duplicate-free semantics that JijModeling never had, so the concept is now called a stream throughout.
+`jm.set` still works as a deprecated alias of {py:func}`~jijmodeling.stream` — including its comprehension form in the Decorator API — but it emits a `DeprecationWarning`.
+:::
+
+### Sum and product over streams
 
 Indices become especially powerful when combined with sums/products. Below we introduce several ways to write sums and products.
 
@@ -488,7 +496,7 @@ sum_example_plain_alt
 When using the Plain API without the Decorator API, you need Python {external+python:ref}`lambda expressions <lambda>` to build indexed expressions.
 
 :::{tip}
-When {py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` is called as a single-argument function or method, it computes the sum/product over a set.
+When {py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` is called as a single-argument function or method, it computes the sum/product over a stream.
 So if you simply want the sum of elements in `x`, you can write `jm.sum(x)` or `x.sum()`.
 With the limited broadcasting described earlier, you can also write `jm.sum(a * x)` as above.
 This also works when `x` is a multi-dimensional array.
@@ -609,7 +617,7 @@ filtered_double_sum_example_plain += jm.sum(
 filtered_double_sum_example_plain
 ```
 
-Or you can use {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or the method form {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`) to map with functions that return sets:
+Or you can use {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or the method form {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`) to map with functions that return streams:
 
 ```{code-cell} ipython3
 jm.sum(
@@ -622,7 +630,7 @@ jm.sum(
 
 In principle, you can write any model without the Decorator API, but it becomes complex and hard to read, so we recommend using the Decorator API.
 
-## Logical operations on conditional expressions and sets
+## Logical operations on conditional expressions and streams
 
 So far, conditions in comprehensions and {py:func}`~jijmodeling.filter` were simple, but in practice you often want logical expressions like "and" or "or".
 Python's `and`, `or`, and `not` cannot be overloaded, so JijModeling uses bitwise operators: `&` (and), `|` (or), `~` (not), or the functions {py:func}`jijmodeling.band`, {py:func}`jijmodeling.bor`, {py:func}`jijmodeling.bnot`.
@@ -634,5 +642,5 @@ Unlike `and`/`or`, `&` and `|` have lower precedence than `==` and `!=`. For exa
 Therefore, when using `&` or `|`, always parenthesize each comparison, e.g., `(a >= b) & (c == d)`.
 :::
 
-Logical operations can also be used on set expressions: union is `|`, and intersection is `&`.
-Complement is not supported because it may be infinite; instead, use {py:func}`jijmodeling.diff` to take set differences.
+Set-algebra operations are also available on stream expressions: union is `|`, and intersection is `&`.
+Complement is not supported because it may be infinite; instead, use {py:func}`jijmodeling.diff` to take differences.

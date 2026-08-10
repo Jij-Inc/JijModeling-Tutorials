@@ -343,10 +343,10 @@ Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndar
 また、`x[1, 1:N:2]`のようにステップ数や終了インデックスを指定するスライスもサポートしています。
 スライス記法の詳細については、Python 公式ドキュメントの「{external+python:ref}`slicings`」を参照してください。
 
-### 配列式や辞書式の添え字の集合の取得
+### 配列式や辞書式の添え字の取得
 
-配列型や辞書型を持つ式に対しては、その添え字の集合を取得することができます。
-配列に対しては {py:meth}`~jijmodeling.Expression.indices` によりインデックスの全体を、辞書に対しては {py:meth}`~jijmodeling.Expression.keys` によりキー集合を取得することができます。
+配列型や辞書型を持つ式に対しては、その添え字のストリームを取得することができます。
+配列に対しては {py:meth}`~jijmodeling.Expression.indices` によりインデックスの全体を、辞書に対しては {py:meth}`~jijmodeling.Expression.keys` によりキー全体を取得することができます。
 これを使うと、たとえば `PartialDict` プレースホルダーと同じ定義域を持つような辞書型の決定変数を以下のようにして定義することができます。
 
 ```{code-cell} ipython3
@@ -358,46 +358,54 @@ x = problem.BinaryVar("x", dict_keys=S.keys())
 problem
 ```
 
-## 集合演算と内包表記による総和・総積
+## ストリームと内包表記による総和・総積
 
-### JijModeling における「集合」
+### JijModeling における「ストリーム」
 
-JijModeling では、「特定の型の値からなる一連の値」を表す概念である**集合**をサポートしています。前節の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字の集合**を表す式を返します。
-この集合の概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
+JijModeling では、「特定の型の値からなる、順序を持った遅延評価の列」を表す概念である**ストリーム**をサポートしています。前節の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字のストリーム**を表す式を返します。
+このストリームの概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
 
-:::{admonition} JijModeling の集合はストリーム
+:::{admonition} ストリームは数学的な「集合」ではありません
 :class: note
 
-他のモデラーに倣い JijModeling でも「集合」と呼んでいますが、数学的には「集合」は重複を持たず、列挙する順番も関係ないものです。
-一方で、**JijModeling の「集合」は要素の重複も許容し、要素の順番も保持**します。
-厳密には、JijModeling の「集合」は一般のプログラミング言語では**ストリーム**や**イテレーター**（反復子）と呼ばれるものに相当します。
+数学的な「集合」は重複を持たず、列挙する順番も関係ないものです。
+一方で、**JijModeling のストリームは要素の重複も許容し、要素の順番も保持**します。これは一般のプログラミング言語で**ストリーム**や**イテレーター**（反復子）と呼ばれるものに相当します。
+重複を取り除きたい場合は {py:func}`jijmodeling.unique` 関数を使ってください。
 :::
 
-一部の型の値は自動的に集合へと変換されます。たとえば、多次元配列は、要素を行優先順で走査する集合に、自然数$N$は集合 $\{0, 1, \ldots, N-1\}$ に、カテゴリーラベル `L` はコンパイル時に与えられる`L`の値全体の集合へと自動的に変換されます。
-また、JijModeling 2.3.1 から Python 組込みの {py:class}`range() <range>` 関数に対応する、{py:func}`jijmodeling.range` 関数も提供されており、自然数の等差数列からなる集合を定義することができます。
+一部の型の値は自動的にストリームへと変換されます。たとえば、多次元配列は、要素を行優先順で走査するストリームに、自然数$N$は $0, 1, \ldots, N-1$ を走査するストリームに、カテゴリーラベル `L` はコンパイル時に与えられる`L`の値全体を走査するストリームへと自動的に変換されます。
+また、JijModeling 2.3.1 から Python 組込みの {py:class}`range() <range>` 関数に対応する、{py:func}`jijmodeling.range` 関数も提供されており、自然数の等差数列からなるストリームを定義することができます。
 
-:::{admonition} JijModeling 1 系統からの変更点：配列の「集合」としての振る舞い
+:::{admonition} JijModeling 1 系統からの変更点：配列の走査のされ方
 :class: caution
 
-JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に現れていた場合、内側の行を順に走査する集合のように振る舞っていました。
-つまり、JijModeling 1 では `A` がシェイプ `(N, M)` の配列である場合、`A` に対する走査は長さ `M` の一次元配列からなる `N` 個の要素を持つ集合として扱われていました。
+JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に現れていた場合、内側の行を順に走査していました。
+つまり、JijModeling 1 では `A` がシェイプ `(N, M)` の配列である場合、`A` に対する走査は長さ `M` の一次元配列からなる `N` 個の要素として扱われていました。
 
 JijModeling 2 からは、こうした振る舞いは廃止され、要素を順に走査する挙動になります。旧来の挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い`jm.rows(A)` または `A.rows()` と明示的に変換してください。
 :::
 
-:::{admonition} JijModeling における辞書の「集合」としての振る舞い
+:::{admonition} JijModeling における辞書の走査のされ方
 :class: important
 
-JijModeling では、辞書型の式に対しても、**キーではなく値を走査する**集合のような振る舞いが定義されています。
+JijModeling では、辞書型の式は**キーではなく値を走査する**ストリームになります。
 これは Python の {py:class}`dict` 型の挙動とは異なりますが、多次元配列の振る舞いとの整合性からあえてこの挙動を定めています。
 これにより、たとえば当初は多次元配列として定義されていたプレースホルダーや決定変数を、辞書として扱うようにコードを変更した際に、`x.sum()` のようなコードを変更せずに済むようになります。
-キー値ペアやキーを走査する集合のような振る舞いが必要な場合は、{py:meth}`~jijmodeling.Expression.items` や {py:meth}`~jijmodeling.Expression.keys` メソッドを使ってください。
+キー値ペアやキーを走査したい場合は、{py:meth}`~jijmodeling.Expression.items` や {py:meth}`~jijmodeling.Expression.keys` メソッドを使ってください。
 また、値を走査していることを明示したい場合は {py:meth}`~jijmodeling.Expression.values` メソッドを利用できます。
 :::
 
-基本的に集合への変換は自動的に行われますが、明示的に集合に変換したい場合は {py:func}`~jijmodeling.set` 関数を使うことができます。
+基本的にストリームへの変換は自動的に行われますが、明示的にストリームに変換したい場合は {py:func}`~jijmodeling.stream` 関数を使うことができます。
 
-### 集合の総和・総積
+:::{admonition} JijModeling 2.8.0 での「集合」からの改称
+:class: note
+
+JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び、明示的な変換関数の名前も `jm.set` でした。
+しかし、JijModeling の「集合」は元来、重複を許し順序も保持するものであり、「集合」という名前は誤解を招くものでした。そこで、この概念を一貫してストリームと呼ぶことにしました。
+`jm.set` は {py:func}`~jijmodeling.stream` の非推奨の別名として引き続き利用でき、Decorator API での内包表記もそのまま使えますが、呼び出すと `DeprecationWarning` が発生します。
+:::
+
+### ストリームの総和・総積
 
 添え字は総和・総積と組み合わせると大きな威力を発揮します。以下ではさまざまな総和・総積の記法について説明していきます。
 
@@ -469,7 +477,7 @@ sum_example_plain_alt
 このように、Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
 
 :::{tip}
-{py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合は集合の総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
+{py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合はストリームの総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
 :::
 
 ### 条件つき総和・総積
@@ -587,7 +595,7 @@ filtered_double_sum_example_plain += jm.sum(
 filtered_double_sum_example_plain
 ```
 
-あるいは、 {py:func}`jm.flat_map() <jijmodeling.flat_map>`（またはメソッド形式の {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`）を使うと返値が集合となるような関数をつかって `map` することができるため、以下のように書くこともできます：
+あるいは、 {py:func}`jm.flat_map() <jijmodeling.flat_map>`（またはメソッド形式の {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`）を使うと返値がストリームとなるような関数をつかって `map` することができるため、以下のように書くこともできます：
 
 ```{code-cell} ipython3
 jm.sum(
@@ -600,7 +608,7 @@ jm.sum(
 
 このように、Decorator API を使わずとも原理的に全てのモデルを記述することはできますが、複雑でよみづらくなるため、Decorator API の利用をお勧めしています。
 
-## 条件式と集合の論理演算
+## 条件式とストリームの論理演算
 
 上では内包表記の `if` や {py:func}`~jijmodeling.filter` 関数の中で使われる条件式は、単純な条件のみでしたが、一般には論理式として「かつ」や「または」を使って指定したい場合があります。
 残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりにビット演算子 `&`（かつ）、`|`（または）、`~`（否定）や、関数{py:func}`jijmodeling.band`（かつ）、{py:func}`jijmodeling.bor`（または）、{py:func}`jijmodeling.bnot` を使って論理演算を表現します。
@@ -612,5 +620,5 @@ jm.sum(
 このため、`&` や `|` を使う場合は、常に各比較式を `(a >= b) & (c == d)` のように常に括弧で囲むようにしてください。
 :::
 
-また、論理演算は集合式に対しても使うことができ、和集合は `|`、共通部分集合を `&` により表すことができます。
-ただし、集合の否定（補集合）は無限集合になり得るためサポートしておらず、かわりに {py:func}`jijmodeling.diff` 関数を使って特定の二つの集合の間の差集合を取る操作が提供されています。
+また、集合演算はストリーム式に対しても使うことができ、和集合は `|`、共通部分集合を `&` により表すことができます。
+ただし、否定（補集合）は無限集合になり得るためサポートしておらず、かわりに {py:func}`jijmodeling.diff` 関数を使って特定の二つのストリームの間の差を取る操作が提供されています。

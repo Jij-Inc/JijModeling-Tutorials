@@ -229,11 +229,11 @@ tsp_plain
 
 #### Array-to-array comparisons
 
-Another way to define a family of constraints is to use comparison expressions between arrays or sets.
+Another way to define a family of constraints is to use comparison expressions between arrays or streams.
 As mentioned in {doc}`./expressions`, comparison expressions also support broadcasting.
 Specifically, the comparison expressions that can be used to construct constraints are those whose left and right sides are one of the following combinations:
 
-1. Set and scalar
+1. Stream and scalar
 2. Arrays of the same shape
 3. `TotalDict` objects with the same key set
 
@@ -251,7 +251,7 @@ def tsp_array_comparison(problem: jm.DecoratedProblem):
         d[i, j] * x[t, i] * x[(t + 1) % N, j] for t in N for i in N for j in N
     )
 
-    # Definitions using set-scalar comparison
+    # Definitions using stream-scalar comparison
     problem += problem.Constraint("one time", x.sum(axis=0) == 1)
     problem += problem.Constraint("one city", x.sum(axis=1) == 1)
 
@@ -298,7 +298,7 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
-In this example, $N$ and $M$ are one-dimensional index sets, and you cannot tell whether they overlap until you supply data. For instance, with the following instance data, the problem compiles into an instance without issues:
+In this example, $N$ and $M$ are one-dimensional streams of indices, and you cannot tell whether they overlap until you supply data. For instance, with the following instance data, the problem compiles into an instance without issues:
 
 ```{code-cell} ipython3
 instance_ok = problem.eval({"N": [0, 2, 4], "M": [1, 3, 5]})
