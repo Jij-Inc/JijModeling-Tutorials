@@ -19,13 +19,12 @@ kernelspec:
 
 +++
 
-### これまで「集合」と呼んでいたものを「ストリーム」に改称：`jm.set` を非推奨とし `jm.stream` を導入
+### `Set` を `Stream` に改名
 
-JijModeling には以前から「走査できる値の列」を表す型があります。`jm.sum` や `jm.map`、`jm.filter` に渡したり、制約の `domain` に指定したりするものです。
-これまでこの型を**集合**と呼び、明示的な変換関数の名前も `jm.set` としていました。
+これまでの JijModeling では「走査できる値の列」を表す型は `Set` と呼ばれていましたが、数学的には "Set"（集合）とは重複も順番も持たないものの集まりであるため、誤解の元となっていました。
 
-しかし、この名前は誤解を招くものでした。数学的な「集合」は重複を持たず順序も持ちませんが、この型は**元来、順序を保持し重複も許す**ものであり、一般のプログラミング言語でいう*ストリーム*（あるいは*イテレーター*）に相当するからです。
-そこで、今後はこの概念を一貫して**ストリーム**と呼ぶことにし、変換関数も {py:func}`jijmodeling.stream` という名前にしました。
+今回のリリースより、これまで `Set` と呼ばれていたものは `Stream` と呼ばれるようになり、非推奨となった {py:func}`jm.set <jijmodeling.set>` 関数の代わりに {py:func}`jm.stream <jijmodeling.stream>` 関数が導入されました。
+これは、一般のプログラミング言語ではこのような「特定の順番を持ち、重複を持った値の列」を**ストリーム**と呼ぶことにならったものです。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -33,38 +32,17 @@ import jijmodeling as jm
 
 problem = jm.Problem("stream example")
 N = problem.Natural("N")
-x = problem.BinaryVar("x", shape=N)
-problem += jm.map(lambda i: x[i], jm.stream(N)).sum()
-
-
-problem
+problem.infer(jm.stream(N))
 ```
-
-`jm.set` は `jm.stream` の**非推奨の別名**として引き続き利用できます。構築される式はまったく同じであり、Decorator API の内包表記を含め、従来受け付けていた書き方はすべてそのまま使えます：
 
 ```{code-cell} ipython3
-import warnings
-
-import jijmodeling as jm
-
-
-with warnings.catch_warnings():
-    # `jm.set` を呼び出すと DeprecationWarning が発生します。
-    warnings.simplefilter("ignore", DeprecationWarning)
-
-    @jm.Problem.define("deprecated jm.set still works")
-    def problem(problem: jm.DecoratedProblem):
-        N = problem.Length()
-        x = problem.BinaryVar(shape=N)
-        domain = jm.set(i for i in N if i != 0)
-        problem += problem.Constraint("fix", lambda i: x[i] == 0, domain=domain)
-
-
-problem
+@problem.update
+def _(problem: jm.DecoratedProblem, N: jm.Placeholder):
+    # Decorator API 内では内包表記も利用可能
+    print(problem.infer(jm.stream(2 * i for i in N if i % 2 == 0)))
 ```
 
-移行は単純な名前の置き換えで完了します。`jm.set(...)` を `jm.stream(...)` に書き換えてください。
-この改称はエラーメッセージやモデルの文字列表現にも反映されており、型は `Set[...]` ではなく `Stream[...]` と、演算は `set(...)` ではなく `stream(...)` と表示されるようになります。
+{py:func}`jm.set <jijmodeling.set>` は {py:func}`jm.stream <jijmodeling.stream>` の別名として引き続き利用できますが、**廃止予定**であるため {py:func}`jm.stream <jijmodeling.stream>` への速やかな移行を推奨します。
 
 +++
 
