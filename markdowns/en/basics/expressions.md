@@ -379,17 +379,10 @@ problem
 
 ### Streams in JijModeling
 
-JijModeling supports the concept of a **stream**: an ordered, lazily evaluated sequence of values of a specific type.
+JijModeling supports the concept of a **stream**: an ordered, lazily evaluated sequence of values of a specific type, which may contain duplicates.
 The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return expressions that represent **streams of indices**.
 Streams are used to iterate over index ranges, compute sums/products, and define indexed constraints.
-
-:::{admonition} Streams are not mathematical sets
-:class: note
-
-A mathematical set has no duplicates and no ordering.
-A JijModeling **stream allows duplicates and preserves order**, exactly like a **stream** or an **iterator** in general programming terms.
 Use {py:func}`jijmodeling.unique` when you need duplicates removed.
-:::
 
 Some values are automatically converted to streams. For example, a multi-dimensional array becomes a stream that scans elements in row-major order, a natural number $N$ becomes the stream $0, 1, \ldots, N-1$, and a category label `L` becomes the stream of all values of `L` given at compile time.
 Also, since JijModeling 2.3.1, the {py:func}`jijmodeling.range` function, corresponding to Python's built-in {py:class}`range() <range>`, is available for defining streams consisting of arithmetic progressions of natural numbers.
