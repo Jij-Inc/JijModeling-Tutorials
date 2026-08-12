@@ -379,11 +379,11 @@ problem
 
 ### Streams in JijModeling
 
-JijModeling calls an ordered, lazily evaluated sequence of values of a particular type a **stream**.
-Streams may contain duplicate values.
-The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return expressions that represent **index sets**.
+JijModeling calls an ordered sequence of values of a particular type a **stream**.
+This concept is similar to what Python calls an **iterator**.
+The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return streams corresponding to **index sets**.
 Streams are used when iterating over index ranges, computing sums and products, and defining indexed constraints.
-To remove duplicate elements from a stream, use {py:func}`jijmodeling.unique`.
+Because values may appear more than once in a stream, use {py:func}`jijmodeling.unique` when values must be unique.
 
 Some values are converted to streams automatically.
 For example, a multi-dimensional array yields its elements in row-major order, a natural number $N$ yields $0, 1, \ldots, N-1$, and a category label `L` yields all values assigned to `L` at compile time.
