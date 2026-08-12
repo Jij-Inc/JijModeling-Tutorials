@@ -379,7 +379,7 @@ problem
 
 ### Streams in JijModeling
 
-JijModeling calls an ordered sequence of values of a particular type a **stream**.
+JijModeling provides **streams**, which are sequences of values of a particular type.
 This concept is similar to what Python calls an **iterator**.
 The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return streams corresponding to **index sets**.
 Streams are used when iterating over index ranges, computing sums and products, and defining indexed constraints.
