@@ -19,6 +19,33 @@ kernelspec:
 
 +++
 
+### "Set" is now called "Stream"
+
+Previously, JijModeling called the type representing "a sequence of values that can be iterated over" `Set`. However, because a mathematical "set" is a collection with neither duplicates nor order, this terminology could be misleading.
+
+Starting with this release, what was previously called `Set` is now called `Stream`, and {py:func}`jm.stream <jijmodeling.stream>` has been introduced in place of the deprecated {py:func}`jm.set <jijmodeling.set>` function.
+This follows the convention in general-purpose programming languages of calling such "an ordered sequence of values that may contain duplicates" a **stream**.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("stream example")
+N = problem.Natural("N")
+problem.infer(jm.stream(N))
+```
+
+```{code-cell} ipython3
+@problem.update
+def _(problem: jm.DecoratedProblem, N: jm.Placeholder):
+    # Comprehensions are also supported in the Decorator API.
+    print(problem.infer(jm.stream(2 * i for i in N if i % 2 == 0)))
+```
+
+{py:func}`jm.set <jijmodeling.set>` remains available as an alias of {py:func}`jm.stream <jijmodeling.stream>`, but because it is **scheduled for removal**, we recommend migrating to {py:func}`jm.stream <jijmodeling.stream>` as soon as possible.
+
++++
+
 ### Improvement to gendict's LaTeX output 
 
 The $\LaTeX$ output for `gendict` expressions is now styled closer to `genarray`s.

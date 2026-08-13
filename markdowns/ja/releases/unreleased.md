@@ -19,6 +19,33 @@ kernelspec:
 
 +++
 
+### `Set` を `Stream` に改名
+
+これまでの JijModeling では「走査できる値の列」を表す型は `Set` と呼ばれていましたが、数学的には "Set"（集合）とは重複も順番も持たないものの集まりであるため、誤解の元となっていました。
+
+今回のリリースより、これまで `Set` と呼ばれていたものは `Stream` と呼ばれるようになり、非推奨となった {py:func}`jm.set <jijmodeling.set>` 関数のかわりに {py:func}`jm.stream <jijmodeling.stream>` 関数が導入されました。
+これは、一般のプログラミング言語ではこのような「特定の順番を持ち、重複を持った値の列」を**ストリーム**と呼ぶことにならったものです。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("stream example")
+N = problem.Natural("N")
+problem.infer(jm.stream(N))
+```
+
+```{code-cell} ipython3
+@problem.update
+def _(problem: jm.DecoratedProblem, N: jm.Placeholder):
+    # Decorator API 内では内包表記も利用可能
+    print(problem.infer(jm.stream(2 * i for i in N if i % 2 == 0)))
+```
+
+{py:func}`jm.set <jijmodeling.set>` は {py:func}`jm.stream <jijmodeling.stream>` の別名として引き続き利用できますが、**廃止予定**であるため {py:func}`jm.stream <jijmodeling.stream>` への速やかな移行を推奨します。
+
++++
+
 ### gendict の LaTeX 出力の改善
 
 `gendict`関数の $\LaTeX$ 出力の体裁を `genarray` と合わせました。
