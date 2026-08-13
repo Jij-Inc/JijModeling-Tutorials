@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.4
+    jupytext_version: 1.19.5
 kernelspec:
   display_name: .venv
   language: python
@@ -133,14 +133,47 @@ deco_problem
 
 ここでは `@problem.update` にデコレートされる関数の名前を `_` としていますが、`@problem.update` がデコレートする関数の名前は結果に影響がないため、任意の名前を設定して構いません。
 
-:::{admonition} デコレートされた関数と変数スコープ
-:class: caution
+(update_parameters)=
+### Decorator API での変数の再束縛
 
-`@jm.Problem.define()` デコレータや `@problem.update` デコレータで定義されている Python 変数は、関数定義の外側から参照することはできません。
+`@jm.Problem.define()` デコレータや `@problem.update` デコレータで定義されている Python 変数は、関数定義の外側から直接参照することはできません。
 より正確には、数理モデルとしての変数や制約条件などは対応する `Problem` オブジェクトに登録されますが、その登録されたアイテムに対応する Python 変数は関数スコープの外には漏れない、ということです。
 
-このため、`@jm.Problem.define()` や複数の `@problem.update` デコレータを使って逐次的にモデルを更新する場合、次章以降で説明する方法で `Problem` が持つメタデータを改めて引き出してから更新処理を行う必要があることに注意してください。
-:::
+こうした場合を簡単に扱うため、JijModeling 2.7.0 以降では、{py:meth}`~jijmodeling.Problem.update` 関数の第 2 引数以降で {py:class}`~jijmodeling.Problem` 内で定義済みの変数（プレースホルダー、カテゴリーラベル、決定変数、名前付き数式）を引数として束縛できるようになっています。
+第 2 引数以降には取得したい要素と同じ名前の引数を、それぞれ次の型注釈とともに指定します。
+
+| 取得する要素 | 型注釈 |
+| :-- | :-- |
+| プレースホルダー | `jm.Placeholder` |
+| カテゴリーラベル | `jm.CategoryLabel` |
+| 決定変数 | `jm.DecisionVar` |
+| 名前付き数式 | `jm.NamedExpr` |
+
+引数名はそれぞれ対応する構築子の第 1 引数で指定した名前と同じである必要があります。Decorator API により省略した場合は、Python 上の変数名と一致します。
+型註釈を省略した場合は適宜名寄せを行い適切な変数が取得されますが、型註釈によりエディタ上での型検査・補完などが詳しく働くようになるため、可能な限り指定することを推奨します。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("Updated Problem")
+def updated_problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    L = problem.CategoryLabel()
+    x = problem.BinaryVar(shape=N)
+    total = problem.NamedExpr(x.sum())
+
+@updated_problem.update
+def _(
+    problem: jm.DecoratedProblem,
+    N: jm.Placeholder,
+    total: jm.NamedExpr,
+):
+    problem += problem.Constraint("select", total <= N)
+```
+
+この例のように、`@problem.update` の追加引数はすべての変数を列挙する必要はなく、必要なもののみを指定して使うことができます。
+
+2.7.0 以前をお使いの場合は、次章以降で説明するように `placeholders` などの `Problem` が持つメタデータから直接引き出し手動で束縛することで、同等の処理が可能です。
 
 :::{tip}
 以上まではまだ Decorator API の嬉しさが見えてこないかもしれませんが、以下の各章を見ていくとその価値がわかるでしょう。
