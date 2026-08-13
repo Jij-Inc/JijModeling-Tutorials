@@ -80,6 +80,20 @@ def set_compr_problem(problem: jm.DecoratedProblem):
     display(jm.set(i + x[l, i] for l in L for i in N if i % 2 == 0))
 ```
 
+### {py:func}`~jijmodeling.range` による等差数列の集合
+
+JijModeling 2.3.1 からは、Python 組込みの {py:class}`range() <range>` 関数に対応する {py:func}`~jijmodeling.range` 関数も提供されており、自然数の等差数列からなる集合を定義することができます。
+Python の {py:class}`range() <range>` と同様に、引数を一つだけ与えた場合は $0$ から、二つ与えた場合は第 1 引数から第 2 引数の手前までを走査し、第 3 引数を与えるとその値を刻み幅として使います。
+
+```{code-cell} ipython3
+range_problem = jm.Problem("Set Range Example")
+N = range_problem.Natural("N")
+
+display(jm.range(N))  # 0, 1, ..., N-1
+display(jm.range(1, N))  # 1, 2, ..., N-1
+display(jm.range(1, N, 2))  # 1, 3, 5, ...（N 未満）
+```
+
 ### 集合のフィルタリング
 
 {py:func}`~jijmodeling.filter` 関数を使うと、既存の集合のうち特定の条件を満たす要素だけからなる新たな集合を構築することができます。
@@ -112,6 +126,21 @@ map_problem
 
 :::
 
+### 集合の平坦化写像
+
+{py:func}`~jijmodeling.map` に与える関数が集合を返す場合、その結果は「集合からなる集合」になってしまいます。
+そこで、{py:func}`jm.flat_map() <jijmodeling.flat_map>`（またはメソッド形式の {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`）を使うと、写像した結果を一段階平坦化した集合を得ることができます。
+これにより、Decorator API の内包表記を使わずに複数の添え字に渡る走査を記述することができます。
+
+```{code-cell} ipython3
+flat_map_problem = jm.Problem("Set FlatMap Example")
+N = flat_map_problem.Natural("N")
+M = flat_map_problem.Natural("M")
+
+# 各 i に対し (i, 0), (i, 1), ..., (i, M-1) を並べた集合
+jm.set(N).flat_map(lambda i: jm.map(lambda j: (i, j), M))
+```
+
 ### 集合の直積
 
 {py:func}`~jijmodeling.product` 関数を使うと、複数の集合の直積（デカルト積）を取ることができます。
@@ -129,6 +158,38 @@ jm.product(N, M)
 @product_problem.update
 def _(problem: jm.DecoratedProblem):
     display(jm.set((i, j) for i in N for j in M))
+```
+
+集合が期待される位置では、{py:func}`~jijmodeling.product` を省略して単にタプルを書くことでも直積を表せます。
+Decorator API での内包表記の `in` の右辺や、{py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` の `domain=` キーワード引数などがこれにあたります。
+
+```{code-cell} ipython3
+@jm.Problem.define("Tuple Product Example")
+def tuple_product_example(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    Q = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+
+    # 注目！ jm.product ではなく、タプルで直積を表している
+    problem += jm.sum(Q[i, j] * x[i, j] for (i, j) in (N, M))
+
+
+tuple_product_example
+```
+
+Plain API で `domain=` に与える場合も同様で、この場合は直積の各成分が `lambda` 式の引数として順に渡されます。
+
+```{code-cell} ipython3
+tuple_domain_example = jm.Problem("Tuple Domain Example")
+N = tuple_domain_example.Length("N")
+M = tuple_domain_example.Length("M")
+x = tuple_domain_example.BinaryVar("x", shape=(N, M))
+tuple_domain_example += tuple_domain_example.Constraint(
+    "bound", lambda i, j: x[i, j] <= 1, domain=(N, M)
+)
+
+tuple_domain_example
 ```
 
 ### 配列や辞書の添え字の集合の取得

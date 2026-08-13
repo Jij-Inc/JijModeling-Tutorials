@@ -121,6 +121,9 @@ def _(problem: jm.DecoratedProblem):
     display(jm.genarray(i + j for (i, j) in (N, M)))
 ```
 
+ここで `in` の右辺に現れるタプル `(N, M)` は、`N` と `M` の直積集合を表す省略記法です。
+この記法については「{doc}`set_and_logical_ops`」章で改めて説明します。
+
 {py:func}`~jijmodeling.genarray` で利用できる内包表記は、ただ一つの `for .. in ...` 節のみをサポートしており、また `if` 節は使えません。
 たとえば、以下のように複数の `for`-節を使ってしまうと、エラーとなります：
 

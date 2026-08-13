@@ -153,6 +153,13 @@ except Exception as e:
 
 :::
 
+## 式としてのプレースホルダー、決定変数
+
+「{doc}`variables`」章で見たように、JijModeling では {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` や {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>` などによって決定変数やプレースホルダーを定義します。
+この際に返されるのは、それぞれの変数のメタデータを保持する {py:class}`DecisionVar <jijmodeling.DecisionVar>` や {py:class}`Placeholder <jijmodeling.Placeholder>` オブジェクトですが、これらは式の構築中に現れると、自動的に {py:class}`Expression <jijmodeling.Expression>` オブジェクトへと変換されます。
+上の `Test Problem` の例でも、Python 変数 `x` や `y` はそれぞれ {py:class}`DecisionVar <jijmodeling.DecisionVar>` オブジェクトですが、それを用いて `z = x + y[0]` などのように構築されると、`x`, `y` はそれぞれ決定変数と決定変数の配列を表す式に変換されています。
+また、`z` の定義中に現れる `0` は通常の Python の数値ですが、このような定数も JijModeling の式中に現れると自動で変換されるようになっています。
+
 ## 式のつくりかた
 
 これ以降では、次の数章に分けて具体的な式の構築方法を見ていきます。
