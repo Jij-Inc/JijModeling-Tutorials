@@ -82,7 +82,7 @@ def set_compr_problem(problem: jm.DecoratedProblem):
 
 ### {py:func}`~jijmodeling.range` による等差数列の集合
 
-JijModeling 2.3.1 からは、Python 組込みの {py:class}`range() <range>` 関数に対応する {py:func}`~jijmodeling.range` 関数も提供されており、自然数の等差数列からなる集合を定義することができます。
+JijModeling 2.3.1 からは、Python 組込みの {py:class}`range() <range>` 関数に対応する {py:func}`~jijmodeling.range` 関数も提供されており、整数の等差数列からなる集合を定義することができます。
 Python の {py:class}`range() <range>` と同様に、引数を一つだけ与えた場合は $0$ から、二つ与えた場合は第 1 引数から第 2 引数の手前までを走査し、第 3 引数を与えるとその値を刻み幅として使います。
 
 ```{code-cell} ipython3
@@ -207,7 +207,7 @@ x = problem.BinaryVar("x", dict_keys=S.keys())
 problem
 ```
 
-## 集合演算に対する総和・総積・最大・最小値などの畳み込み
+## 集合に対する総和・総積・最大・最小値などの畳み込み
 
 添え字は総和・総積などの畳み込み演算と組み合わせると大きな威力を発揮します。以下ではさまざまな総和・総積の記法について説明していきます。
 
@@ -234,8 +234,8 @@ sum_example
 :::{admonition} Python 組込みの `sum` 関数を使わないように注意！
 :class: caution
 
-内包表記を用いた畳み込みの記述に使えるのは、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, {py:func}`jm.min() <jijmodeling.min>` のみです。
-誤って Python 組込みの {py:func}`sum` 関数などを使ったり、Decorator API の外側で {py:func}`jm.sum() <jijmodeling.sum>` を使ったりすると、以下のようなエラーが出ますので注意してください：
+Decorator API の内包表記を用いて畳み込みを記述する場合は、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, {py:func}`jm.min() <jijmodeling.min>` を使います。
+誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すと、Python が JijModeling の式 `N` を実行時に反復しようとして、以下のようなエラーになります：
 :::
 
 ```{code-cell} ipython3
@@ -264,7 +264,7 @@ sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
 sum_example_plain
 ```
 
-このような単純な総和の場合、{py:func}`jm.sum() <jijmodeling.sum>` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現することもできます：
+このような単純な総和の場合、{py:func}`jm.sum() <jijmodeling.sum>` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現できます：
 
 ```{code-cell} ipython3
 sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
@@ -297,7 +297,7 @@ sum_example_plain_alt
 :::{admonition} ビット演算の優先順位に注意！
 :class: caution
 
-`and`, `or` などと異なり、`&` や `|` は `==` や `!=` よりも優先順位が低いため、たとえば `a == b & c == d` のように書くと `a == (b & c) == d` と解釈されてしまいます。
+`and`, `or` などと異なり、`&` や `|` は `==` や `!=` よりも優先順位が高いため、たとえば `a == b & c == d` のように書くと `a == (b & c) == d` と解釈されてしまいます。
 このため、`&` や `|` を使う場合は、各比較式を `(a >= b) & (c == d)` のように常に括弧で囲むようにしてください。
 :::
 

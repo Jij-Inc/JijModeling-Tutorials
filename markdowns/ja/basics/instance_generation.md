@@ -79,7 +79,7 @@ random.seed(42)
 N_data = 10
 W_data = random.randint(10, 75)
 v_data = [random.uniform(1, 20) for _ in range(N_data)]
-w_data = np.array([random.uniform(1, 15) for _ in range(N_data)])  # Numpy 配列も可
+w_data = np.array([random.uniform(1, 15) for _ in range(N_data)])  # NumPy 配列も可
 s_data = {(1, 2): 5.0, (1, 4): 3.0, (2, 9): 5.0, (3, 5): 10}
 
 instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data}

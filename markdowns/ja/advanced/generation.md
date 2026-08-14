@@ -69,9 +69,9 @@ problem.generate_random_dataset(default={"value": range(1, 10)}, options={"A": {
 problem.generate_random_dataset(options = {"A": {"value": range(50, 100)}, "B": {"value": range(1, 10)}})
 ```
 
-## 配列プレスホルダー
+## 配列プレースホルダー
 
-配列プレスホルダーの値の範囲指定は基本的にスカラーと同じです。プレースホルダーの`shape`が完全に定義された場合、その`shape`に則した配列が生成されます。要素はすべて`value`範囲内となります（`value`指定がない場合、`default`が参照されます）。
+配列プレースホルダーの値の範囲指定は基本的にスカラーと同じです。プレースホルダーの`shape`が完全に定義された場合、その`shape`に即した配列が生成されます。要素はすべて`value`範囲内となります（`value`指定がない場合、`default`が参照されます）。
 
 ```{code-cell} ipython3
 problem = jm.Problem("my problem")

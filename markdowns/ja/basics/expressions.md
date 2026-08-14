@@ -13,15 +13,15 @@ kernelspec:
 
 # JijModeling の式と型
 
-以下では、数章にわたって JijModeling における色々な**式**の記述方法について説明していきます。
+以下では、数章にわたって JijModeling におけるさまざまな**式**の記述方法について説明していきます。
 また、JijModeling の式は、幾つかの「種類（＝型）」に分類されます。
 JijModeling はこの式の型の情報を Python の型ヒントに加え、独自のより詳細な検査を行う型システムを搭載しており、モデルの構築時に典型的な記述のミスを検出することが可能になっています。
-本章では、JijModeling の「式」とはなにかと「型」の概要について簡単に説明していきます。
+本章では、JijModeling の「式」とは何かと、式の「型」の概要について簡単に説明していきます。
 
 :::{tip}
 以下では頻出と思われるパターンに絞って説明するため、式の構築に使える網羅的な一覧については、API リファレンスの {py:class}`~jijmodeling.Expression` クラスや {py:mod}`~jijmodeling` モジュールのトップレベル関数一覧を参照してください。
 
-また、本サイトの {doc}`../references/cheat_sheet` には、更に複雑な事例集がまとめられていますので、本章を読んだ後にそちらも参照するとよいでしょう。
+また、本サイトの {doc}`../references/cheat_sheet` には、さらに複雑な事例集がまとめられていますので、本章を読んだ後にそちらも参照するとよいでしょう。
 :::
 
 ```{code-cell} ipython3
@@ -30,11 +30,11 @@ import jijmodeling as jm
 
 ## 式とは
 
-JijModeling では数理モデルの定義と入力データを分離することで種々の機能や効率性を達成しています。
-そのため、JijModeling による数理モデルの構築は、数理モデルを直接数式を組み上げるのではなく、まず「入力データを与えられてはじめて具体的な数理モデルになるプログラム」を構築し、そこに入力データを与えて数理モデルの具体例＝インスタンスへとコンパイルする、という流れを取ります。
+JijModeling では、数理モデルの定義と入力データを分離することで、種々の機能や効率性を達成しています。
+そのため、JijModeling を使ったモデリングでは、入力データを数理モデルに直接埋め込むのではなく、まず「入力データを与えられてはじめて具体的な数理モデルになるプログラム」を構築し、後から入力データを与えて数理モデルの具体例、すなわちインスタンスへとコンパイルするという流れになります。
 この「入力データを与えられてはじめて具体的な数理モデルになるプログラム」を、JijModeling では**式**と呼んでいます。
 
-より詳しく言えば、JijModeling の式は具体的な値ではなく、決定変数やプレースホルダー、定数などからはじめてそれらを演算によって繋ぎ合わせた「構文木」の形で保持されています。
+より詳しく言えば、JijModeling の式は具体的な計算結果の値ではなく、決定変数やプレースホルダー、定数などを演算によってつなぎ合わせた「構文木」の形で保持されています。
 次の例を考えましょう：
 
 ```{code-cell} ipython3
@@ -88,15 +88,18 @@ JijModeling を使う上では、こうした型システムの詳細を理解�
 
 (1) はライブラリに Python コードとして同梱されており、 `Pyright` や `ty`、`pyrefly` といった代表的な型検査器によるエディタや Jupyter Notebook 上での補完・静的検査を可能にしています。
 しかし、Python の型ヒントで表現できる制約には制限があり、たとえば配列の添え字サイズの検証などには不向きです。こうした表現力の不足を補うため、JijModeling は (2) の独自の型検査器も内蔵しています。
-(2)の型検査器は Python のユーザーが呼び出すものではなく、モデルへの制約条件や目的関数項の追加、決定変数・プレースホルダーの `shape` の宣言などの際に適宜呼び出され、記述の誤りがないかを（データを入力する以前に）自動的に検証するようになっています。いわば、エディタや Jupyter Notebook 上では「本来の」JijModeling の型システムよりも「粗い」基準で検査を行い、構築の過程でより細分された形で検査を行う形になっているのです。
-具体的には、Python レベルの型検査では「式（{py:class}`Expression <jijmodeling.Expression>`）であるかどうか」しか区別されていませんが、JijModeling 内部ではより詳しく検査されています。
+(2) の型検査器は Python のユーザーが直接呼び出すものではなく、モデルへの制約条件や目的関数項の追加、決定変数・プレースホルダーの `shape` の宣言などの際に適宜呼び出され、記述の誤りがないかをデータの入力前に自動的に検証します。
+エディタや Jupyter Notebook 上では Python の型ヒントに基づく比較的「粗い」基準で検査し、モデルの構築中には JijModeling がより細分化された基準で検査するという二段構えです。
+Python の型ヒントでも {py:class}`Expression <jijmodeling.Expression>`、{py:class}`~jijmodeling.Placeholder`、{py:class}`~jijmodeling.DecisionVar` などの API オブジェクトは区別されます。
+しかし、式のシェイプや辞書のキー集合、決定変数を含むかどうかといった詳細な情報までは表現しきれません。
+JijModeling が搭載する型検査器は、こうした情報も含めて検査します。
 JijModeling が搭載している式の型はいくつかありますが、代表的なものを以下にまとめます：
 
 | 種類 | 数式（表記例） | テキスト表記例 | 説明 |
 | :--- | :----------- | :------------- | :--- |
 | 数値型 | $\mathbb{N}, \mathbb{Z}, \mathbb{R}$ | `natural`, `int`, `float` | 自然数・整数・実数などの数値を表す型。 |
 | カテゴリーラベル型 | $L$ | `CategoryLabel("L")` | ユーザーが後から追加するラベルの集合。 |
-| 多次元配列型 | $\mathop{\mathrm{Array}}[N_1 \times \cdots \times N_k; A]$ | `Array[N1, .., Nk; A]` | `A`型の成分から成る、シェイプ$N_1 \times \cdots \times N_n$ の多次元配列。 |
+| 多次元配列型 | $\mathrm{Array}[N_1, \ldots, N_k; A]$ | `Array[N1, ..., Nk; A]` | `A` 型の成分から成る、シェイプ $N_1 \times \cdots \times N_k$ の多次元配列。 |
 | 辞書型 | $\mathrm{TotalDict}[K; V]$ / $\mathrm{PartialDict}[K; V]$ | `TotalDict[K; V]`, `PartialDict[K; V]` | キー集合 $K$ と値型 $V$ を持つ辞書の型。 |
 | タプル型 | $T \times U$ | `Tuple[int, float]` | 成分ごとに型を持つ固定長タプルの型。 |
 
@@ -148,8 +151,8 @@ except Exception as e:
 
 | 型名 | 説明 |
 | --- | --- |
-| `ExpressionLike` | {py:class}`~jijmodeling.Expression` に変換することができる型を表す。 {py:class}`~jijmodeling.Expression` 自身の他、{py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr`や、Python の数値、文字列、それらからなるタプル、リスト・辞書・Numpy配列などが文脈に応じて使えます。 |
-| `ExpressionFunction` | 一つ以上の {py:class}`~jijmodeling.Expression` オブジェクトを取り、 {py:class}`~jijmodeling.Expression` を返す関数。Pythonの型ヒントの仕組み上、最大5つの引数までしか列挙していませんが、実際には引数の個数に上限はありません。 |
+| `ExpressionLike` | {py:class}`~jijmodeling.Expression` に変換することができる型を表す。{py:class}`~jijmodeling.Expression` 自身のほか、{py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr` や、Python の数値、文字列、それらからなるタプル、リスト・辞書・NumPy 配列などが文脈に応じて使えます。 |
+| `ExpressionFunction` | 一つ以上の {py:class}`~jijmodeling.Expression` オブジェクトを取り、{py:class}`~jijmodeling.Expression` を返す関数。Python の型ヒントの仕組み上、最大 5 つの引数までしか列挙していませんが、実際には引数の個数に上限はありません。 |
 
 :::
 

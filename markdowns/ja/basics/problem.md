@@ -39,7 +39,7 @@ plain_problem = jm.Problem(
 ```
 
 第 1 引数は数理モデルの名前を表す必須引数であり、残る二つのキーワード引数`sense`および`description`はいずれもオプション引数です。
-`sense`は数理モデルが最大化問題（`jm.ProblemSense.MAXIMIZE`）と最小化問題化（`jm.ProblemSense.MINIMIZE`）のどちらであるかを指定する引数であり、省略した場合最小化問題として扱われます。
+`sense`は数理モデルが最大化問題（`jm.ProblemSense.MAXIMIZE`）と最小化問題（`jm.ProblemSense.MINIMIZE`）のどちらであるかを指定する引数であり、省略した場合最小化問題として扱われます。
 `description` は$\LaTeX$出力や OMMX のメタデータなどに出力される、数理モデルの意図を自然言語で表した説明文です。
 表示してみると意図がわかるでしょう。
 
