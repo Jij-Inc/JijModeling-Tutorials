@@ -107,7 +107,7 @@ problem
 
 ### 上限・下限が非有界な決定変数の存在下で制約検出がメモリを大量に消費する問題の修正
 
-`upper_bound=float("inf")` のように決定変数へ無限大の上下界を与え非有界に指定したモデルを制約検出が有能な状態でコンパイルすると、メモリを際限なく消費することがありました。
+`upper_bound=float("inf")` のように決定変数へ無限大の上下界を与えて非有界に指定したモデルを制約検出が有効な状態でコンパイルすると、メモリを際限なく消費することがありました。
 
 今回のリリースではこのバグが修正され、制約検出が有効な状態でも問題なく実行されるようになりました。
 また、併せて上下界に NaN を与えられたり、上界が負の無限大であるなどそもそも充足不能な場合には、定義時にエラーとなるようになりました。
@@ -118,15 +118,14 @@ import jijmodeling as jm
 
 @jm.Problem.define("production", sense=jm.ProblemSense.MINIMIZE)
 def problem(problem: jm.DecoratedProblem):
-    T = problem.Length(description="number of periods")
-    demand = problem.Float(shape=(T,), description="demand per period")
-    # 1 期あたりの生産量に上限を設けない
+    T = problem.Length()
+    demand = problem.Float(shape=(T,))
     x = problem.ContinuousVar(
         lower_bound=0.0, upper_bound=float("inf"), shape=(T,)
     )
 
     problem += jm.sum(x[t] for t in T)
-    problem += problem.Constraint("meet_demand", [x[t] >= demand[t] for t in T])
+    problem += problem.Constraint("constr", [x[t] >= demand[t] for t in T])
 
 
 problem.eval({"T": 3, "demand": [1.0, 2.0, 3.0]})
