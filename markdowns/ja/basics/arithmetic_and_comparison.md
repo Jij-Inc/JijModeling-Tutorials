@@ -146,9 +146,9 @@ JijModeling の式では、加減乗除だけではなく、三角関数（{py:m
 
 ## 比較演算
 
-<!-- markdownlint-disable -->
-等値演算子（{py:meth}`== <jijmodeling.Expression.__eq__>`, {py:meth}`!= <jijmodeling.Expression.__ne__>`）や順序比較演算子（{py:meth}`< <jijmodeling.Expression.__lt__>`, {py:meth}`<= <jijmodeling.Expression.__le__>`, {py:meth}`> <jijmodeling.Expression.__gt__>`, {py:meth}`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
-<!-- markdownlint-enable -->
+```{eval-rst}
+等値演算子（:py:meth:`== <jijmodeling.Expression.__eq__>`, :py:meth:`\!= <jijmodeling.Expression.__ne__>`）や順序比較演算子（:py:meth:`< <jijmodeling.Expression.__lt__>`, :py:meth:`<= <jijmodeling.Expression.__le__>`, :py:meth:`> <jijmodeling.Expression.__gt__>`, :py:meth:`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
+```
 
 これらの比較演算子の**両辺が共に決定変数を含まない**場合、結果は真偽値型 `Bool` の式として推論されます。一方、両辺の少なくとも一方が決定変数を含みうる場合、結果は特別な**比較型**として扱われます。これは、制約条件の定義では決定変数が現れる式同士を比較できる必要がある一方、内包表記などで使われる場合は真偽値が確定する比較式が使える必要があるためです。
 
