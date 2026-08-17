@@ -169,6 +169,8 @@ def _(problem: jm.DecoratedProblem):
     display(jm.gendict(x[l] + n for (l, n) in (L, N)))
 ```
 
+<!-- TODO: 2.8 が出たら、if もサポートされているということを書く -->
+
 ## 配列・辞書の定義域の取得
 
 {py:class}`~jijmodeling.Placeholder` や {py:class}`~jijmodeling.DecisionVar` オブジェクトでは、配列のシェイプを表すタプルを `shape` 属性から取得できます。一方、一般の式については {py:meth}`Expression.shape() <jijmodeling.Expression.shape>` メソッドを使います。
