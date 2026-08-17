@@ -87,7 +87,7 @@ JijModeling 2.3.1 以降では、{py:class}`~jijmodeling.Problem` に対して {
 
 :::{admonition} 目的関数の置き換え
 :class: tip
-JijModeling 2.5.0 以降では、`Problem.objective` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
+JijModeling 2.5.0 以降では、{py:attr}`Problem.objective <jijmodeling.Problem.objective>` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
 :::
 
 ```{code-cell} ipython3
@@ -257,7 +257,7 @@ tsp_array_comparison
 
 ここで、{py:meth}`Expression.sum() <jijmodeling.Expression.sum>` や {py:meth}`jm.sum() <jijmodeling.sum>` メソッドに `axis=i` 引数を与えると、NumPy の {py:func}`numpy.sum` 関数と同様に、単純な総和ではなく、その軸に沿った和を計算した配列を返します（複数の軸をリストとして指定することもできます）。
 
-このため、上の例の `one-city` では `x.sum(axis=1)` は（$0$起点なので）都市を表す$2$番目の軸に沿って和を取り、各時刻に訪問される都市の数を表す配列を計算させています。
+このため、上の例の `one-city` では {py:meth}`x.sum(axis=1) <jijmodeling.Expression.sum>` は（$0$起点なので）都市を表す$2$番目の軸に沿って和を取り、各時刻に訪問される都市の数を表す配列を計算させています。
 実際に型を推論させてみると、一次元配列になっているのがわかります。
 
 ```{code-cell} ipython3

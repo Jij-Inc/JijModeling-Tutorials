@@ -116,7 +116,7 @@ display(A)
 problem.infer(A)
 ```
 
-また、Decorator API を利用している場合、以下のように `jm.genarray` で内包表記を用いることもできます：
+また、Decorator API を利用している場合、以下のように {py:func}`jm.genarray <jijmodeling.genarray>` で内包表記を用いることもできます：
 
 ```{code-cell} ipython3
 @problem.update

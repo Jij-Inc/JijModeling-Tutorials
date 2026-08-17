@@ -133,7 +133,7 @@ instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-`Problem.eval` の返却値は {py:class}`ommx.v1.Instance` オブジェクトです。詳しくは{doc}`../basics/instance_generation` や {external+ommx_doc:doc}`user_guide/instance` を参照してください。
+{py:meth}`Problem.eval <jijmodeling.Problem.eval>` の返却値は {py:class}`ommx.v1.Instance` オブジェクトです。詳しくは{doc}`../basics/instance_generation` や {external+ommx_doc:doc}`user_guide/instance` を参照してください。
 :::
 
 +++
@@ -151,7 +151,7 @@ solution = OMMXPySCIPOptAdapter.solve(instance)
 print(f"目的関数の最適値: {solution.objective}")
 ```
 
-また、`solution` の `decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
+また、`solution` の {py:meth}`decision_variables_df <ommx.v1.Solution.decision_variables_df>` プロパティを使うことで `pandas.DataFrame` オブジェクトとして決定変数の状態を表示できます:
 
 ```{code-cell} ipython3
 solution.decision_variables_df[["name", "subscripts", "value"]]

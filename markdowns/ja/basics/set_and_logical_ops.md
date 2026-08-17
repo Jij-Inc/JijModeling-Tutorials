@@ -48,7 +48,7 @@ JijModeling では、「特定の型の値からなる一連の値」を表す�
 JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に現れていた場合、内側の行を順に走査する集合のように振る舞っていました。
 つまり、JijModeling 1 では `A` がシェイプ `(N, M)` の配列である場合、`A` に対する走査は長さ `M` の一次元配列からなる `N` 個の要素を持つ集合として扱われていました。
 
-JijModeling 2 からは、こうした振る舞いは廃止され、要素を順に走査する挙動になります。旧来の挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い`jm.rows(A)` または `A.rows()` と明示的に変換してください。
+JijModeling 2 からは、こうした振る舞いは廃止され、要素を順に走査する挙動になります。旧来の挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い {py:func}`jm.rows(A) <jijmodeling.rows>` または {py:meth}`A.rows() <jijmodeling.Expression.rows>` と明示的に変換してください。
 :::
 
 :::{admonition} JijModeling における辞書の「集合」としての振る舞い
@@ -56,7 +56,7 @@ JijModeling 2 からは、こうした振る舞いは廃止され、要素を順
 
 JijModeling では、辞書型の式に対しても、**キーではなく値を走査する**集合のような振る舞いが定義されています。
 これは Python の {py:class}`dict` 型の挙動とは異なりますが、多次元配列の振る舞いとの整合性からあえてこの挙動を定めています。
-これにより、たとえば当初は多次元配列として定義されていたプレースホルダーや決定変数を、辞書として扱うようにコードを変更した際に、`x.sum()` のようなコードを変更せずに済むようになります。
+これにより、たとえば当初は多次元配列として定義されていたプレースホルダーや決定変数を、辞書として扱うようにコードを変更した際に、{py:meth}`x.sum() <jijmodeling.Expression.sum>` のようなコードを変更せずに済むようになります。
 キー値ペアやキーを走査する集合のような振る舞いが必要な場合は、{py:meth}`~jijmodeling.Expression.items` や {py:meth}`~jijmodeling.Expression.keys` メソッドを使ってください。
 また、値を走査していることを明示したい場合は {py:meth}`~jijmodeling.Expression.values` メソッドを利用できます。
 :::
@@ -68,7 +68,7 @@ JijModeling では、他の型の値から自動的に変換する以外にも�
 ### {py:func}`~jijmodeling.set` による明示的な集合への変換
 
 基本的に集合への変換は自動的に行われますが、明示的に集合に変換したい場合は {py:func}`~jijmodeling.set` 関数を使うことができます。
-また、Decorator API を使っている場合、`jm.set` に内包表記を与えることで直接集合を構築することもできます。
+また、Decorator API を使っている場合、{py:func}`jm.set <jijmodeling.set>` に内包表記を与えることで直接集合を構築することもできます。
 {py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` と異なり、{py:func}`~jijmodeling.set` では任意の個数の `for` 節や `if` 節を含む内包表記をサポートしています。
 
 ```{code-cell} ipython3
@@ -283,7 +283,7 @@ sum_example_plain_alt
 :::
 
 :::{tip}
-{py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合は集合の総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば `jm.sum(x)` や `x.sum()` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は `jm.sum(a * x)` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
+{py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合は集合の総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば {py:func}`jm.sum(x) <jijmodeling.sum>` や {py:meth}`x.sum() <jijmodeling.Expression.sum>` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は {py:func}`jm.sum(a * x) <jijmodeling.sum>` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
 :::
 
 これらの畳み込み関数と内包表記の `if` 節などを組み合わせることで、より柔軟な畳み込みを表現することができます。

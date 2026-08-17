@@ -167,7 +167,7 @@ OMMX SDK にはコンパイル後の {py:class}`~ommx.v1.Instance` オブジェ�
 こういった機能の詳細については [OMMX の公式ドキュメント](https://jij-inc.github.io/ommx/ja/)を御覧ください。
 :::
 
-### `eval` や `eval_problem` のオプション
+### {py:meth}`eval <jijmodeling.Problem.eval>` や {py:meth}`eval_problem <jijmodeling.Compiler.eval_problem>` のオプション
 
 {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` や {py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` メソッドは、どちらも以下の共通のキーワード限定引数を渡すことで挙動を制御できるようになっています：
 

@@ -98,9 +98,9 @@ Decorator API で変数名を省略できるのは、`x = problem.Float(...)` �
 :::{admonition} {py:meth}`~jijmodeling.Problem.Placeholder` 構築子
 :class: tip
 
-上の表に掲げた `problem.Float`, `problem.Natural` などの構築子は、実はより一般的な {py:meth}`~jijmodeling.Problem.Placeholder` 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。`dtype`には、
+上の表に掲げた {py:meth}`problem.Float <jijmodeling.Problem.Float>`, {py:meth}`problem.Natural <jijmodeling.Problem.Natural>` などの構築子は、実はより一般的な {py:meth}`~jijmodeling.Problem.Placeholder` 構築子の特別な場合になっており、たとえば`problem.Natural` は `problem.Placeholder(dtype=jm.DataType.NATURAL)` の省略記法として実装されています。`dtype`には、
 
-- `jm.DataType`列挙体のバリアント
+- {py:class}`jm.DataType <jijmodeling.DataType>`列挙体のバリアント
 - Python 組み込みの型指定子 `float`, `int`
 - NumPy の型指定子 `numpy.uint*`, `numpy.int*`（`*` 以下のビット数の情報は単純に無視されます）
 - （指定された自然数 `N` **未満**の自然数の型 $\{0, \ldots, N-1\}$ という指定をするための）自然数式
@@ -109,7 +109,7 @@ Decorator API で変数名を省略できるのは、`x = problem.Float(...)` �
 
 などが指定できます。
 
-タプルなどより複雑な型を持つようなものについては、`Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、`Placeholder` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
+タプルなどより複雑な型を持つようなものについては、{py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、{py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
 :::
 
 ## カテゴリーラベルの宣言
@@ -330,7 +330,7 @@ JijModeling 1 系統には、シェイプが均一ではない Jagged Array と�
 
 1. 決定変数を含まない自然数式 $n$
 2. Python 上の文字列のリスト
-3. `problem.CategoryLabel` によって定義されたカテゴリーラベル
+3. {py:meth}`problem.CategoryLabel <jijmodeling.Problem.CategoryLabel>` によって定義されたカテゴリーラベル
 4. (1)-(3) を要素に持つタプル
 
 一方で、`PartialDict` として宣言されている場合、以下が指定できるようになります：
@@ -340,7 +340,7 @@ JijModeling 1 系統には、シェイプが均一ではない Jagged Array と�
 3. 決定変数を含まない自然数式 $n$（$n$ 未満の自然数の集合 $\mathbb{N}_{<n} = \{0, \ldots, n - 1\}$ と同一視）
 4. Python の型識別子 `str`
 5. Python 上の文字列のリスト
-6. `problem.CategoryLabel` によって定義されたカテゴリーラベル
+6. {py:meth}`problem.CategoryLabel <jijmodeling.Problem.CategoryLabel>` によって定義されたカテゴリーラベル
 7. (1)-(6) を要素に持つタプル
 
 また、{py:meth}`~jijmodeling.Problem.TotalDict` 構築子や {py:meth}`~jijmodeling.Problem.PartialDict` を `Problem` オブジェクトに対して呼び出すことでもプレースホルダーの辞書を宣言できます。

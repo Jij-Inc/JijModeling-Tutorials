@@ -76,12 +76,12 @@ def deco_problem(problem: jm.DecoratedProblem):
 deco_problem
 ```
 
-{py:meth}`~jijmodeling.Problem.define` は `jm.Problem()` と全く同じ引数を取りますが、直接変数に束縛するのではなく、直後に関数定義（ここでは `def deco_problem(...)`）を与えるという違いがあります。
-`@jm.Problem.define()` では、関数定義を抜けた段階で宣言されている関数名と同じ名前（ここでは `deco_problem`）の変数に実際の `Problem` オブジェクトの定義が束縛されます。実際、上の例では関数定義を終えた直後に `deco_problem`を（Python 変数として）呼び出してその内容を印字させています。
+{py:meth}`~jijmodeling.Problem.define` は {py:class}`jm.Problem() <jijmodeling.Problem>` と全く同じ引数を取りますが、直接変数に束縛するのではなく、直後に関数定義（ここでは `def deco_problem(...)`）を与えるという違いがあります。
+{py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` では、関数定義を抜けた段階で宣言されている関数名と同じ名前（ここでは `deco_problem`）の変数に実際の `Problem` オブジェクトの定義が束縛されます。実際、上の例では関数定義を終えた直後に `deco_problem`を（Python 変数として）呼び出してその内容を印字させています。
 このように、直前に `@` ではじまる式が付された関数は、その式により**デコレートされている**といいます。
 実際には、このデコレートされた関数定義内では関数の第 1 引数 `problem` に対して種々の関数を呼び出して様々な変更・更新を行ってモデルを構築していくことになります。
 
-:::{admonition} `DecoratedProblem` オブジェクトとは？
+:::{admonition} {py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` オブジェクトとは？
 :class: caution
 
 デコレートされた関数の第 1 引数は `Problem` オブジェクトではなく **`DecoratedProblem` オブジェクトである**ことに注意しましょう。
@@ -131,7 +131,7 @@ deco_problem += x + y
 deco_problem
 ```
 
-ここでは `@problem.update` にデコレートされる関数の名前を `_` としていますが、`@problem.update` がデコレートする関数の名前は結果に影響がないため、任意の名前を設定して構いません。
+ここでは {py:meth}`@problem.update <jijmodeling.Problem.update>` にデコレートされる関数の名前を `_` としていますが、`@problem.update` がデコレートする関数の名前は結果に影響がないため、任意の名前を設定して構いません。
 
 (update_parameters)=
 ### Decorator API での変数の再束縛
@@ -144,10 +144,10 @@ deco_problem
 
 | 取得する要素 | 型注釈 |
 | :-- | :-- |
-| プレースホルダー | `jm.Placeholder` |
-| カテゴリーラベル | `jm.CategoryLabel` |
-| 決定変数 | `jm.DecisionVar` |
-| 名前付き数式 | `jm.NamedExpr` |
+| プレースホルダー | {py:class}`jm.Placeholder <jijmodeling.Placeholder>` |
+| カテゴリーラベル | {py:class}`jm.CategoryLabel <jijmodeling.CategoryLabel>` |
+| 決定変数 | {py:class}`jm.DecisionVar <jijmodeling.DecisionVar>` |
+| 名前付き数式 | {py:class}`jm.NamedExpr <jijmodeling.NamedExpr>` |
 
 引数名はそれぞれ対応する構築子の第 1 引数で指定した名前と同じである必要があります。Decorator API により省略した場合は、Python 上の変数名と一致します。
 型註釈を省略した場合は適宜名寄せを行い適切な変数が取得されますが、型註釈によりエディタ上での型検査・補完などが詳しく働くようになるため、可能な限り指定することを推奨します。
