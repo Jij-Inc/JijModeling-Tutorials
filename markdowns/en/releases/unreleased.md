@@ -115,7 +115,6 @@ In addition, an error is now raised at definition time when a bound is `NaN` or 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
-
 @jm.Problem.define("production", sense=jm.ProblemSense.MINIMIZE)
 def problem(problem: jm.DecoratedProblem):
     T = problem.Length()
@@ -130,3 +129,28 @@ def problem(problem: jm.DecoratedProblem):
 
 problem.eval({"T": 3, "demand": [1.0, 2.0, 3.0]})
 ```
+
+### Fixed an issue where dictionaries could not be mapped
+
+{py:func}`~jijmodeling.map` on a dictionary should return a dictionary whose values have been transformed by the given function, but previously it raised an exception during type checking.
+Starting with this release, it returns a dictionary with the same set of keys as the original and with the function applied to corresponding values.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("Mapped Dicts")
+N = problem.Natural("N")
+L = problem.CategoryLabel("L")
+x = problem.PartialDict(
+    "x",
+    dict_keys=(L, L),
+    dtype=(L, N),
+)
+problem.infer(x)
+```
+
+```{code-cell} ipython3
+problem.infer(x.map(lambda l, n: n))
+```
+
+The example above uses a `PartialDict`, but a `TotalDict` produces the similar result.

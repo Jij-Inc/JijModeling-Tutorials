@@ -115,7 +115,6 @@ problem
 ```{code-cell} ipython3
 import jijmodeling as jm
 
-
 @jm.Problem.define("production", sense=jm.ProblemSense.MINIMIZE)
 def problem(problem: jm.DecoratedProblem):
     T = problem.Length()
@@ -130,3 +129,28 @@ def problem(problem: jm.DecoratedProblem):
 
 problem.eval({"T": 3, "demand": [1.0, 2.0, 3.0]})
 ```
+
+### 辞書を `map` できない問題の修正
+
+辞書に対する {py:func}`~jijmodeling.map` は値を与えられた関数で移した辞書になるべきでしたが、これまでは型検査時に例外となっていました。
+本リリースからは、適用前と同じキー集合を持ち、値に関数が適用された辞書を返すようになりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("Mapped Dicts")
+N = problem.Natural("N")
+L = problem.CategoryLabel("L")
+x = problem.PartialDict(
+    "x",
+    dict_keys=(L, L),
+    dtype=(L, N),
+)
+problem.infer(x)
+```
+
+```{code-cell} ipython3
+problem.infer(x.map(lambda l, n: n))
+```
+
+上は `PartialDict` についての例ですが、`TotalDict` であっても同様の結果となります。
