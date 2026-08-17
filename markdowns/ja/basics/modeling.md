@@ -199,7 +199,7 @@ tsp_decorated
 Plain API のみで記述する場合は、次のようにパラメータを受け取る `lambda` 式を第二引数に与え、`domain=` キーワード引数を合わせて指定します：
 
 ```{code-cell} ipython3
-tsp_plain = jm.Problem("TSP, Decorated", sense=jm.ProblemSense.MINIMIZE)
+tsp_plain = jm.Problem("TSP, Plain", sense=jm.ProblemSense.MINIMIZE)
 C = tsp_plain.CategoryLabel("C", description="Labels of Cities")
 N = C.count()
 x = tsp_plain.BinaryVar(
