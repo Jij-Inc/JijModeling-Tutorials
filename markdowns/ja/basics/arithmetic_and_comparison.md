@@ -105,7 +105,7 @@ except Exception as e:
     print(e)
 ```
 
-### 代替記法：`genarray` や `gendict` による配列の構築
+### 代替記法：{py:func}`genarray <jijmodeling.genarray>` や {py:func}`gendict <jijmodeling.gendict>` による配列の構築
 
 上の例では、`y + z` のように、非自明なブロードキャストを伴う演算は（意図的に）エラーになっていました。
 このような場合、{py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` 関数を使い、陽にシェイプやキー集合と成分の式を指定することで、目的の配列・辞書を構築できるようになります：

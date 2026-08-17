@@ -51,9 +51,9 @@ problem += A * x + B
 problem.generate_random_dataset(default={"value": range(1, 10)})
 ```
 
-上記の例では、`options`がないため、 `A`と`B`の値の生成時は、`default`が参照されます。`range`の区間内でそれぞれ別の値が生成されます。
+上記の例では、`options`がないため、 `A`と`B`の値の生成時は、`default`が参照されます。{py:class}`range <range>`の区間内でそれぞれ別の値が生成されます。
 
-今回使った Python 組み込みの {py:class}`range <range>` は左閉右開になっています（つまり、`range(1,4)`の場合、１、２、３が入って、４は入らない）。{py:mod}`jijmodeling.generation` では、 開区間の{py:func}`jijmodeling.generation.open`や左有界（上界が無限大）の{py:func}`jijmodeling.generation.at_least`など、違うスタイルの範囲を定義するための関数を提供しています。 Python 組み込みの`range`は {py:func}`jijmodeling.generation.closed_open`と同じになります。
+今回使った Python 組み込みの {py:class}`range <range>` は左閉右開になっています（つまり、{py:class}`range(1,4) <range>`の場合、１、２、３が入って、４は入らない）。{py:mod}`jijmodeling.generation` では、 開区間の{py:func}`jijmodeling.generation.open`や左有界（上界が無限大）の{py:func}`jijmodeling.generation.at_least`など、違うスタイルの範囲を定義するための関数を提供しています。 Python 組み込みの {py:class}`range <range>` は {py:func}`jijmodeling.generation.closed_open`と同じになります。
 
 生成された値はプレースホルダーの型に則します。つまり、自然数のプレースホルダーがあった場合、`(-10, 10)` など負数を含む範囲を渡しても、生成されるのは自然数のみです。
 

@@ -121,7 +121,7 @@ map_problem
 :class: info
 
 配列や辞書に対しても {py:func}`~jijmodeling.map` 関数を直接呼び出すことができますが、この場合の結果は集合ではなく、同じシェイプやキー集合を持つ新たな配列や辞書になります。
-特に、これらに対する `map` によってシェイプやキー集合の情報は保たれるため、元のコンテナと同じ添え字を使って写像後の要素にアクセスすることができます。
+特に、これらに対する {py:func}`map <jijmodeling.map>` によってシェイプやキー集合の情報は保たれるため、元のコンテナと同じ添え字を使って写像後の要素にアクセスすることができます。
 また先述の通りこれらの型は自動的に集合に変換され、写像後のコンテナに対する集合演算の挙動の差はありません。
 
 :::
@@ -231,7 +231,7 @@ def sum_example(problem: jm.DecoratedProblem):
 sum_example
 ```
 
-:::{admonition} Python 組込みの `sum` 関数を使わないように注意！
+:::{admonition} Python 組込みの {py:func}`sum` 関数を使わないように注意！
 :class: caution
 
 Decorator API の内包表記を用いて畳み込みを記述する場合は、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, {py:func}`jm.min() <jijmodeling.min>` を使います。

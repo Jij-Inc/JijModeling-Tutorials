@@ -29,6 +29,8 @@ JijModeling では、**配列**と**辞書**の二種類のコレクションが
 1. 変数の**配列**。$0$ から連続的にインデックスがついた配列。NumPy のような多次元配列も対応。
 2. 変数の**辞書**。整数や文字列、あるいはカテゴリーラベルのタプルをキーとする離散的な辞書（連想配列）。
 
+以下、それぞれのコレクションの違いについて個別に見ていきます。
+
 ### JijModeling における（多次元）配列
 
 JijModeling では、一次元やより多次元の配列を扱うことができます。また、単なるスカラーも内部的にはゼロ次元の配列と同値なものとして扱われています。
@@ -102,8 +104,10 @@ JijModeling の辞書には、辞書の「定義域」に関する制約によ�
 
 ### 配列の生成関数：{py:func}`~jijmodeling.genarray`
 
-{py:func}`~jijmodeling.genarray` は NumPy の {py:func}`~numpy.fromfunction` に相当する関数であり、シェイプと添え字から要素への関数（生成関数）を与えることで、新しい配列を生成することができます。
-以下では、`genarray` を用いて、シェイプ $(N, M)$ で各添え字の和を要素に持つ配列を生成しています：
+{py:func}`~jijmodeling.genarray` は NumPy の {py:func}`~numpy.fromfunction` に相当する関数[^numpy-fromfunction]であり、シェイプと添え字から要素への関数（生成関数）を与えることで、新しい配列を生成することができます。
+以下では、{py:func}`genarray <jijmodeling.genarray>` を用いて、シェイプ $(N, M)$ で各添え字の和を要素に持つ配列を生成しています：
+
+[^numpy-fromfunction]: NumPy の {py:func}`~numpy.fromfunction` は生成関数内の具体的な関数の形によって与えたシェイプと違う多次元配列が生成される場合がありますが、JijModeling の {py:func}`~jijmodeling.genarray` は、生成関数の形に関わらず、必ず与えたシェイプの配列を返すことが保証されています。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Array and Dict Example")

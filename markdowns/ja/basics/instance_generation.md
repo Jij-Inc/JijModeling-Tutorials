@@ -152,7 +152,7 @@ x_ = problem.decision_vars["x"]
 compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
 ```
 
-`eval_function` や `eval_constraint` メソッドはデバッグに使える他、コンパイル後の {py:class}`ommx.v1.Instance` を変形する用途などに利用できます。
+{py:meth}`eval_function <jijmodeling.Compiler.eval_function>` や {py:meth}`eval_constraint <jijmodeling.Compiler.eval_constraint>` メソッドはデバッグに使える他、コンパイル後の {py:class}`ommx.v1.Instance` を変形する用途などに利用できます。
 
 また、一度作成した Compiler は、プレースホルダーと決定変数を共有する複数のモデルに対して使い回すことができ、**決定変数や制約条件の ID の対応関係も保存**されます。
 この機能は、同じパラメーターを持ちつつ制約条件や目的関数を変化させた複数のモデルを同時にコンパイルし、結果を比較する用途などに便利です。

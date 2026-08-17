@@ -16,7 +16,7 @@ kernelspec:
 JijModeling では、変数や制約条件などはすべて特定の数理モデルに紐付けて扱われます。
 そこで、本章では個別の要素に入っていく前に数理モデルを宣言する方法について簡単に触れておきます。
 
-## 数理モデルを表す `Problem` オブジェクトの作成
+## 数理モデルを表す {py:class}`Problem <jijmodeling.Problem>` オブジェクトの作成
 
 JijModeling で特定の数理モデルに対応するのは、{py:class}`~jijmodeling.Problem` オブジェクトであり、数理モデルの構築時には最初に宣言することになります。
 まずは、JijModeling ライブラリを `jm` という名前で参照できるようにインポートしておきましょう。
@@ -27,8 +27,8 @@ import jijmodeling as jm
 
 ### Plain API でのオブジェクトの作成
 
-`Problem` を作成する方法には、Plain API と Decorator API を使う二種類の方法があります。
-一つめは、Plain API を使って直接 `Problem` オブジェクトを作成する方法です。
+{py:class}`Problem <jijmodeling.Problem>` を作成する方法には、Plain API と Decorator API を使う二種類の方法があります。
+一つめは、Plain API を使って直接 {py:class}`Problem <jijmodeling.Problem>` オブジェクトを作成する方法です。
 
 ```{code-cell} ipython3
 plain_problem = jm.Problem(
@@ -61,7 +61,7 @@ Jupyter Notebook などでの数式表示では、`description` は通常の文�
 
 ### Decorator API による Problem オブジェクトの作成
 
-次に、Decorator API を使って `Problem` オブジェクトを作成する方法を見てみましょう:
+次に、Decorator API を使って {py:class}`Problem <jijmodeling.Problem>` オブジェクトを作成する方法を見てみましょう:
 
 ```{code-cell} ipython3
 @jm.Problem.define(
@@ -77,32 +77,32 @@ deco_problem
 ```
 
 {py:meth}`~jijmodeling.Problem.define` は {py:class}`jm.Problem() <jijmodeling.Problem>` と全く同じ引数を取りますが、直接変数に束縛するのではなく、直後に関数定義（ここでは `def deco_problem(...)`）を与えるという違いがあります。
-{py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` では、関数定義を抜けた段階で宣言されている関数名と同じ名前（ここでは `deco_problem`）の変数に実際の `Problem` オブジェクトの定義が束縛されます。実際、上の例では関数定義を終えた直後に `deco_problem`を（Python 変数として）呼び出してその内容を印字させています。
+{py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` では、関数定義を抜けた段階で宣言されている関数名と同じ名前（ここでは `deco_problem`）の変数に実際の {py:class}`Problem <jijmodeling.Problem>` オブジェクトの定義が束縛されます。実際、上の例では関数定義を終えた直後に `deco_problem`を（Python 変数として）呼び出してその内容を印字させています。
 このように、直前に `@` ではじまる式が付された関数は、その式により**デコレートされている**といいます。
 実際には、このデコレートされた関数定義内では関数の第 1 引数 `problem` に対して種々の関数を呼び出して様々な変更・更新を行ってモデルを構築していくことになります。
 
 :::{admonition} {py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` オブジェクトとは？
 :class: caution
 
-デコレートされた関数の第 1 引数は `Problem` オブジェクトではなく **`DecoratedProblem` オブジェクトである**ことに注意しましょう。
-`DecoratedProblem` はデコレートされた関数の内側にしか登場し得ない `Problem` ダミーのクラスです。
-`DecoratedProblem` は Decorator API にあわせて Python の型ヒントが指定されており、エディタ上での補完や型検査の恩恵が受けられるように用意されています。
+デコレートされた関数の第 1 引数は {py:class}`Problem <jijmodeling.Problem>` オブジェクトではなく **{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` オブジェクトである**ことに注意しましょう。
+{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` はデコレートされた関数の内側にしか登場し得ない {py:class}`Problem <jijmodeling.Problem>` ダミーのクラスです。
+{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` は Decorator API にあわせて Python の型ヒントが指定されており、エディタ上での補完や型検査の恩恵が受けられるように用意されています。
 :::
 
 今回のように何の変更もしない場合、このような書式はやや冗長に見えるかもしれません。
-しかし、`@jm.Problem.define()` でデコレートされた関数内では特に変数名の省略や内包表記を用いた総和・総積など、Decorator API の自然で直感的な記法を使うことができ、以降の章で見るように実際の問題定義の際には非常に便利です。
+しかし、{py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` でデコレートされた関数内では特に変数名の省略や内包表記を用いた総和・総積など、Decorator API の自然で直感的な記法を使うことができ、以降の章で見るように実際の問題定義の際には非常に便利です。
 
 また、Plain / Decorator どちらの API でもできあがる Problem オブジェクトに差はありませんので、どちらで定義したものであるかを意識する必要は全くありません。
-実際、上で定義した二つの `plain_problem` も `deco_problem` も `Problem`オブジェクトとして「同じ問題」であることが判定できます：
+実際、上で定義した二つの `plain_problem` も `deco_problem` も {py:class}`Problem <jijmodeling.Problem>`オブジェクトとして「同じ問題」であることが判定できます：
 
 ```{code-cell} ipython3
 jm.is_same(plain_problem, deco_problem)
 ```
 
-## `Problem` オブジェクトの更新
+## {py:class}`Problem <jijmodeling.Problem>` オブジェクトの更新
 
-ここではほとんど空の Problem オブジェクトを作成しましたが、実際には決定変数や制約条件、目的関数などを追加し、`Problem` オブジェクトを逐次的に更新してモデルを構築していくのが実際の流れになります。
-いずれの API で定義された `Problem` オブジェクト `problem` も機能に差はありませんので、Plain API を使って更新することもできますし、{py:meth}`@problem.update <jijmodeling.Problem.update>` デコレータを使って Decorator API を用いて更新することもできます。もちろん、両者を混ぜて使うことも可能です。
+ここではほとんど空の Problem オブジェクトを作成しましたが、実際には決定変数や制約条件、目的関数などを追加し、{py:class}`Problem <jijmodeling.Problem>` オブジェクトを逐次的に更新してモデルを構築していくのが実際の流れになります。
+いずれの API で定義された {py:class}`Problem <jijmodeling.Problem>` オブジェクト `problem` も機能に差はありませんので、Plain API を使って更新することもできますし、{py:meth}`@problem.update <jijmodeling.Problem.update>` デコレータを使って Decorator API を用いて更新することもできます。もちろん、両者を混ぜて使うことも可能です。
 試しに、先ほど定義した問題たちに変数を追加してみましょう。
 
 ```{code-cell} ipython3
@@ -131,13 +131,13 @@ deco_problem += x + y
 deco_problem
 ```
 
-ここでは {py:meth}`@problem.update <jijmodeling.Problem.update>` にデコレートされる関数の名前を `_` としていますが、`@problem.update` がデコレートする関数の名前は結果に影響がないため、任意の名前を設定して構いません。
+ここでは {py:meth}`@problem.update <jijmodeling.Problem.update>` にデコレートされる関数の名前を `_` としていますが、{py:meth}`@problem.update <jijmodeling.Problem.update>` がデコレートする関数の名前は結果に影響がないため、任意の名前を設定して構いません。
 
 (update_parameters)=
 ### Decorator API での変数の再束縛
 
-`@jm.Problem.define()` デコレータや `@problem.update` デコレータで定義されている Python 変数は、関数定義の外側から直接参照することはできません。
-より正確には、数理モデルとしての変数や制約条件などは対応する `Problem` オブジェクトに登録されますが、その登録されたアイテムに対応する Python 変数は関数スコープの外には漏れない、ということです。
+{py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` デコレータや {py:meth}`@problem.update <jijmodeling.Problem.update>` デコレータで定義されている Python 変数は、関数定義の外側から直接参照することはできません。
+より正確には、数理モデルとしての変数や制約条件などは対応する {py:class}`Problem <jijmodeling.Problem>` オブジェクトに登録されますが、その登録されたアイテムに対応する Python 変数は関数スコープの外には漏れない、ということです。
 
 こうした場合を簡単に扱うため、JijModeling 2.7.0 以降では、{py:meth}`~jijmodeling.Problem.update` 関数の第 2 引数以降で {py:class}`~jijmodeling.Problem` 内で定義済みの変数（プレースホルダー、カテゴリーラベル、決定変数、名前付き数式）を引数として束縛できるようになっています。
 第 2 引数以降には取得したい要素と同じ名前の引数を、それぞれ次の型注釈とともに指定します。
@@ -171,9 +171,9 @@ def _(
     problem += problem.Constraint("select", total <= N)
 ```
 
-この例のように、`@problem.update` の追加引数はすべての変数を列挙する必要はなく、必要なもののみを指定して使うことができます。
+この例のように、{py:meth}`@problem.update <jijmodeling.Problem.update>` の追加引数はすべての変数を列挙する必要はなく、必要なもののみを指定して使うことができます。
 
-2.7.0 以前をお使いの場合は、次章以降で説明するように `placeholders` などの `Problem` が持つメタデータから直接引き出し手動で束縛することで、同等の処理が可能です。
+2.7.0 以前をお使いの場合は、次章以降で説明するように {py:attr}`placeholders <jijmodeling.Problem.placeholders>` などの {py:class}`Problem <jijmodeling.Problem>` が持つメタデータから直接引き出し手動で束縛することで、同等の処理が可能です。
 
 :::{tip}
 以上まではまだ Decorator API の嬉しさが見えてこないかもしれませんが、以下の各章を見ていくとその価値がわかるでしょう。

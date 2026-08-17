@@ -40,7 +40,7 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
 
 1. **`Element`ノードの削除**: 旧来の `Element` クラスは廃止され、Python のジェネレータ式や内包表記、またはラムダ式を用いるようになります。これにより、より自然な記法を提供します。
 
-2. **決定変数とプレースホルダーはProblemインスタンスに登録するように**: `jm.BinaryVar()`、`jm.IntegerVar()`などのコンストラクタを直接呼び出すことはできなくなりました。すべての決定変数・プレースホルダーは Problem の名前空間に登録されるようになるため、{py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>`、{py:meth}`problem.IntegerVar() <jijmodeling.Problem.IntegerVar>`、{py:meth}`problem.Placeholder <jijmodeling.Problem.Placeholder>`などのように、`Problem`インスタンスを通じて作成する必要があります。
+2. **決定変数とプレースホルダーはProblemインスタンスに登録するように**: `jm.BinaryVar()`、`jm.IntegerVar()`などのコンストラクタを直接呼び出すことはできなくなりました。すべての決定変数・プレースホルダーは Problem の名前空間に登録されるようになるため、{py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>`、{py:meth}`problem.IntegerVar() <jijmodeling.Problem.IntegerVar>`、{py:meth}`problem.Placeholder <jijmodeling.Problem.Placeholder>`などのように、{py:class}`Problem <jijmodeling.Problem>`インスタンスを通じて作成する必要があります。
 
 3. **Decorator API**: JijModeling 2 は **Plain API** と **Decorator API** という二種類の API を提供しています。
    - Plain API は従来の JijModeling 1 に近い記法を提供しています。
@@ -62,7 +62,7 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
       * 実数値：{py:meth}`problem.Float() <jijmodeling.Problem.Float>`
     - これらの利用により意図がより明確になり、また正確な型チェックによる精度の高いエラーメッセージが得られるようになります。高度なケース（タプルなどのカスタム`dtype`）にのみ{py:meth}`Placeholder <jijmodeling.Problem.Placeholder>`を使用してください。
 
-7. **従属変数の導入**：新たに導入された{py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>`や{py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>`宣言により、頻出する部分式を名前つき式として束縛・再利用できるようになりました。これにより、従来の JijModeling で`with_latex()`や`latex=...`で定義された$\LaTeX$上の変数の定義がわからなくなる問題が解消されます。
+7. **従属変数の導入**：新たに導入された{py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>`や{py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>`宣言により、頻出する部分式を名前つき式として束縛・再利用できるようになりました。これにより、従来の JijModeling で {py:meth}`with_latex() <jijmodeling.Expression.with_latex>` や`latex=...`で定義された$\LaTeX$上の変数の定義がわからなくなる問題が解消されます。
 
 8. **新しいデータ型**: JijModeling 2 では辞書型とカテゴリーラベル型が追加されました！
    - 従来 Jagged Array で書いていた多くのケースが、辞書を使ってより簡潔に記述できるようになりました！
@@ -177,7 +177,7 @@ assert all(instance.constraints[i].function.almost_equal(instance_2.constraints[
 
 JijModeling 2 は、以下の点を念頭に設計されています：
 
-- 名前空間の導入：すべてのパラメータ（決定変数、プレースホルダー）は特定の`Problem`に属し、メタデータは式ノード中ではなく Problem に格納されます。
+- 名前空間の導入：すべてのパラメータ（決定変数、プレースホルダー）は特定の {py:class}`Problem <jijmodeling.Problem>` に属し、メタデータは式ノード中ではなく Problem に格納されます。
 - 畳み込みと変数束縛を Pythonic に：`Element`ノードを標準的なジェネレータ・内包表記、または生のラムダ式で置き換えます。
 - ボイラープレートの削減：変数名の省略により、記述の繰り返しを削減します。
 - 安全性の強化：専用の静的型システムが、モデルの構築およびコンパイル時に式の構文的な妥当性（数値の種類、比較、配列・タプルの長さ）を検証します。
@@ -192,9 +192,9 @@ JijModeling 2 は、以下の点を念頭に設計されています：
 
 JijModeling 2 では、いくつかの挙動が変更されています：
 
-- 決定変数・プレースホルダーのコンストラクタ（モジュールレベル）→ 個別の `Problem` に紐付いたコンストラクタ（{py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>` や {py:meth}`problem.Natural() <jijmodeling.Problem.Natural>` など）。
+- 決定変数・プレースホルダーのコンストラクタ（モジュールレベル）→ 個別の {py:class}`Problem <jijmodeling.Problem>` に紐付いたコンストラクタ（{py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>` や {py:meth}`problem.Natural() <jijmodeling.Problem.Natural>` など）。
 - `Element`（インデックス）→ `Set`（値のストリーム）+ イテレータ（`(f(i) for i in N if ...)`）または`lambda`式。
-- `jm.sum(Element, expr)` / `forall=`引数 → 内包表記 `jm.sum(expr for i in N if cond)` / 制約コレクション。
+- `jm.sum(Element, expr)` / `forall=`引数 → 内包表記 {py:func}`jm.sum(expr for i in N if cond) <jijmodeling.sum>` / 制約コレクション。
 - `Interpreter` → {py:class}`Compiler <jijmodeling.Compiler>`（便利な{py:meth}`problem.eval(data) <jijmodeling.Problem.eval>`パスも含む）。
 - 辺集合としての二次元配列 → タプル要素を持つプレースホルダー、または{py:meth}`.rows() <jijmodeling.Expression.rows>`ヘルパ関数。
 
@@ -203,9 +203,9 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 | カテゴリー | 目的 | 典型的なコンストラクタ | 注記 |
 |----------|---------|----------------------|----------|
 | Problem  | 名前空間/モデルルート | {py:class}`jm.Problem(name, sense=...) <jijmodeling.Problem>` | すべてのパラメータと制約の情報を保持 |
-| Placeholders | パラメータ多次元配列（評価時に与えられる） | {py:meth}`problem.Placeholder(...) <jijmodeling.Problem.Placeholder>`、{py:meth}`problem.Natural(...) <jijmodeling.Problem.Natural>`、{py:meth}`problem.Float(...) <jijmodeling.Problem.Float>` | {py:meth}`@problem.update <jijmodeling.Problem.update>`や{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`で名前を省略可能。`Natural`等は型付きショートカット。Problemに対し構築する必要がある |
+| Placeholders | パラメータ多次元配列（評価時に与えられる） | {py:meth}`problem.Placeholder(...) <jijmodeling.Problem.Placeholder>`、{py:meth}`problem.Natural(...) <jijmodeling.Problem.Natural>`、{py:meth}`problem.Float(...) <jijmodeling.Problem.Float>` | {py:meth}`@problem.update <jijmodeling.Problem.update>`や{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`で名前を省略可能。{py:meth}`Natural <jijmodeling.Problem.Natural>`等は型付きショートカット。Problemに対し構築する必要がある |
 | Decision Vars | 決定変数 | {py:meth}`problem.BinaryVar <jijmodeling.Problem.BinaryVar>`、{py:meth}`problem.IntegerVar <jijmodeling.Problem.IntegerVar>`、{py:meth}`problem.ContinuousVar <jijmodeling.Problem.ContinuousVar>`など | Problemに対し構築する必要がある |
-| Expressions | 構文木 | 代数演算子、{py:func}`jm.sum <jijmodeling.sum>`、`.sum()`、`.prod()` | JijModeling 2 から数値以外の値も増え、型検査されるように |
+| Expressions | 構文木 | 代数演算子、{py:func}`jm.sum <jijmodeling.sum>`、{py:meth}`.sum() <jijmodeling.Expression.sum>`、{py:meth}`.prod() <jijmodeling.Expression.prod>` | JijModeling 2 から数値以外の値も増え、型検査されるように |
 | Sets | 反復可能なシンボリックドメイン | プレースホルダー自体（`for i in N`）、{py:func}`jm.product(A,B) <jijmodeling.product>`、{py:func}`jm.filter(...) <jijmodeling.filter>` | ラムダ式または内包表記と共に使用、`Element`オブジェクトを代替。 |
 | Constraints | 比較式 | {py:meth}`problem.Constraint(name, expr) <jijmodeling.Problem.Constraint>` または比較式の族 | パラメータ量化された制約の族は、内包表記または `domain` 引数により表現可能。 |
 | Compiler | 評価器 | {py:meth}`Compiler.from_problem(problem, data) <jijmodeling.Compiler.from_problem>` | 最適化問題や式を OMMXメッセージに変換するコンパイラ |
@@ -333,8 +333,8 @@ problem.Constraint("cap", C <= N)
 どちらも DecoratedProblem を引数に取る関数に対し修飾し、関数内では全く同じ Decorator API の記法が利用できます。
 利用上の注意点は以下の通りです：
 
-- {py:meth}`@jm.Problem.define(name, ...) <jijmodeling.Problem.define>` は Decorator API を使って新たな`Problem`オブジェクトを作成するのに使われます。
-  - {py:meth}`@jm.Problem.define(..) <jijmodeling.Problem.define>` は Problem コンストラクタと同じ引数を受け取って`Problem`オブジェクトを新たに生成し、装飾されている関数と同じ名前の変数に束縛します。
+- {py:meth}`@jm.Problem.define(name, ...) <jijmodeling.Problem.define>` は Decorator API を使って新たな {py:class}`Problem <jijmodeling.Problem>` オブジェクトを作成するのに使われます。
+  - {py:meth}`@jm.Problem.define(..) <jijmodeling.Problem.define>` は Problem コンストラクタと同じ引数を受け取って {py:class}`Problem <jijmodeling.Problem>` オブジェクトを新たに生成し、装飾されている関数と同じ名前の変数に束縛します。
 - {py:meth}`@problem.update <jijmodeling.Problem.update>` デコレータは、既に定義済の最適化問題 `problem`の内容を Decorator API を使って更新するのに利用されます。
   - 関数は定義と同時に即座に実行されて元の `problem` が更新されるため、ユーザーが関数自体を呼び出す必要はありません。また、装飾される関数の名前は結果に影響しません。
   - {py:meth}`@problem.update <jijmodeling.Problem.update>` は一つの `problem` に対して複数回適用できます。この場合、各デコレータで定義した制約条件と目的関数はその `problem` に対して逐次的に追加されます。
@@ -423,7 +423,7 @@ JijModeling 1 と 2 の例外の比較表は次のとおりです：
 |--------------|-----------|------------------|
 | {py:class}`jm.ModelingError <jijmodeling.ModelingError>` | {py:class}`jm.ModelingError <jijmodeling.ModelingError>` | モデル定式化での無効な式によって発生する例外。 |
 | {py:class}`jm.CompileError <jijmodeling.CompileError>` | `jm.InterpreterError` | 評価中にスローされる例外 |
-| {py:class}`jm.TypeError <jijmodeling.TypeError>` | N/A | 無効な型を持つ式でスローされる例外。注意：Pythonの組み込み`TypeError`とは異なります。 |
+| {py:class}`jm.TypeError <jijmodeling.TypeError>` | N/A | 無効な型を持つ式でスローされる例外。注意：Pythonの組み込み {py:exc}`TypeError` とは異なります。 |
 
 
 ### データセット読み込み機能の廃止
@@ -587,7 +587,7 @@ def _(problem: jm.DecoratedProblem):
 problem
 ```
 
-もう一つは、`E`を$(N \times 2)$-次元配列として定式化し、`rows()`関数呼ぶ方法です：
+もう一つは、`E`を$(N \times 2)$-次元配列として定式化し、{py:meth}`rows() <jijmodeling.Expression.rows>` メソッドを呼ぶ方法です：
 
 ```{code-cell} ipython3
 # .rows()を使用した代替方法
@@ -893,7 +893,7 @@ JijModeling 1 から 2 へコードを移行するには、以下の段階的な
 ### ステップ1：インポートとProblem作成の更新
 
 - ✅ import 文は従来通り：`import jijmodeling as jm`
-- ✅ まず問題を作成：`problem = jm.Problem(name, sense)`
+- ✅ まず問題を作成：{py:class}`problem = jm.Problem(name, sense) <jijmodeling.Problem>`
 - ✅ モデル定義関数に{py:meth}`@problem.update <jijmodeling.Problem.update>`（または Problem を新規生成する場合は{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`）デコレータを追加
 
 ### ステップ2：**重要** - 直接変数/プレースホルダー作成の置き換え
@@ -901,38 +901,38 @@ JijModeling 1 から 2 へコードを移行するには、以下の段階的な
 すべての直接モジュールレベルのコンストラクタを Problem に紐づいたものに置き換えます：
 
 - 決定変数：
-    - 例 ❌ `x = jm.BinaryVar("x", shape=(N,))` → ✅ `x = problem.BinaryVar("x", shape=(N,))`
+    - 例 ❌ `x = jm.BinaryVar("x", shape=(N,))` → ✅ {py:meth}`x = problem.BinaryVar("x", shape=(N,)) <jijmodeling.Problem.BinaryVar>`
 - プレースホルダー（型付きを優先）：
-    - ❌ `N = jm.Placeholder("N", dtype=jm.DataType.NATURAL)` → ✅ `N = problem.Natural("N")` または `N = problem.Length()`
-    - ❌ `a = jm.Placeholder("a", ndim=1)` → ✅ `a = problem.Float("a", shape=(N,))`（必要に応じてシェイプを指定）
+    - ❌ `N = jm.Placeholder("N", dtype=jm.DataType.NATURAL)` → ✅ {py:meth}`N = problem.Natural("N") <jijmodeling.Problem.Natural>` または {py:meth}`N = problem.Length() <jijmodeling.Problem.Length>`
+    - ❌ `a = jm.Placeholder("a", ndim=1)` → ✅ {py:meth}`a = problem.Float("a", shape=(N,)) <jijmodeling.Problem.Float>`（必要に応じてシェイプを指定）
     - Decorator API では、変数名を省略することもできます。
 
 ### ステップ3：Element使用の置き換え
 
 - ❌ **定義の削除**: `i = jm.Element("i", belong_to=(0, N))`
 - ❌ **定義の置き換え**: `jm.sum(i, expression)`
-  - ✅ **内包表記**: `jm.sum(expression for i in N)`、または
+  - ✅ **内包表記**: {py:func}`jm.sum(expression for i in N) <jijmodeling.sum>`、または
   - ✅ **二項形式**: {py:func}`jm.sum(N, lambda i: expression) <jijmodeling.sum>`
 
 ### ステップ4：型付きプレースホルダーコンストラクタを優先
 
-- ❌ **汎用（避ける）**: `N = problem.Placeholder(dtype=jm.DataType.NATURAL)` / `a = problem.Placeholder(ndim=1)`
-- ✅ **優先（推奨）**: `N = problem.Length()` / `a = problem.Float(ndim=1)` / `W = problem.Float()` / `K = problem.Integer()` / `G = problem.Graph(dtype=V)`
+- ❌ **汎用（避ける）**: {py:meth}`N = problem.Placeholder(dtype=jm.DataType.NATURAL) <jijmodeling.Problem.Placeholder>` / {py:meth}`a = problem.Placeholder(ndim=1) <jijmodeling.Problem.Placeholder>`
+- ✅ **優先（推奨）**: {py:meth}`N = problem.Length() <jijmodeling.Problem.Length>` / {py:meth}`a = problem.Float(ndim=1) <jijmodeling.Problem.Float>` / {py:meth}`W = problem.Float() <jijmodeling.Problem.Float>` / {py:meth}`K = problem.Integer() <jijmodeling.Problem.Integer>` / {py:meth}`G = problem.Graph(dtype=V) <jijmodeling.Problem.Graph>`
 - ▶︎ {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>`は明示的な`dtype`引数と共にのみ使用してください。
 
 ### ステップ5：制約構文の更新
 
 - ❌ **以下のいずれかで置き換え**: `jm.Constraint("name", expression, forall=element)`
-  - `problem.Constraint("name", (expression for element in domain))`
-  - `problem.Constraint("name", [expression for element in domain])`
-  - `problem.Constraint("name", lambda element: expression, domain=domain)`。
+  - {py:meth}`problem.Constraint("name", (expression for element in domain)) <jijmodeling.Problem.Constraint>`
+  - {py:meth}`problem.Constraint("name", [expression for element in domain]) <jijmodeling.Problem.Constraint>`
+  - {py:meth}`problem.Constraint("name", lambda element: expression, domain=domain) <jijmodeling.Problem.Constraint>`。
 - ジェネレータ式（`(exp for i in t)`）とリスト内包表記（`[exp for i in t]`）は同値なため、どちらか好きな方を選ぶ
 
 ### ステップ6：InterpreterをCompilerに置き換え
 
 - ❌ **置き換え**: `interp = jm.Interpreter(data)`
-  - ✅ **コンパイラで置き換え**: `compiler = jm.Compiler.from_problem(problem, data)`
-  - ✅ **または直接コンパイル**: `instance = problem.eval(data)`
+  - ✅ **コンパイラで置き換え**: {py:meth}`compiler = jm.Compiler.from_problem(problem, data) <jijmodeling.Compiler.from_problem>`
+  - ✅ **または直接コンパイル**: {py:meth}`instance = problem.eval(data) <jijmodeling.Problem.eval>`
 
 ### ステップ7：テストと検証
 
@@ -1010,7 +1010,7 @@ jm.sum((i,), x[i])
 jm.sum(x[i] for i in N)
 ```
 
-### 落とし穴5：デコレータの欠落または間違った`sum`による`'... object is not iterable'`
+### 落とし穴5：デコレータの欠落または間違った {py:func}`sum` による`'... object is not iterable'`
 
 Decorator API で内包表記を使っていると、次のようなエラーが表示される場合があります：
 
@@ -1020,10 +1020,10 @@ TypeError: 'jijmodeling.Placeholder' object is not iterable
 
 多くの場合、こうした例外次の場合に発生します：
 
-1. デコレータ（例：{py:meth}`@problem.update <jijmodeling.Problem.update>`や{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`）が**指定されていない**文脈で、内包表記（例：`jm.sum(x[i] for i in N)`または`problem.Constraint("MyConstraint", [x[i] <= w[i] * v[i - 1] for i in N])`）が使用されている
-2. {py:func}`jm.sum <jijmodeling.sum>`のかわりに Python の組み込み`sum`を呼び出している。
+1. デコレータ（例：{py:meth}`@problem.update <jijmodeling.Problem.update>`や{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`）が**指定されていない**文脈で、内包表記（例：{py:func}`jm.sum(x[i] for i in N) <jijmodeling.sum>`または{py:meth}`problem.Constraint("MyConstraint", [x[i] <= w[i] * v[i - 1] for i in N]) <jijmodeling.Problem.Constraint>`）が使用されている
+2. {py:func}`jm.sum <jijmodeling.sum>`のかわりに Python の組み込み {py:func}`sum` を呼び出している。
 
-### 落とし穴6：Pythonの組み込み`sum`の使用
+### 落とし穴6：Pythonの組み込み {py:func}`sum` の使用
 
 ```python
 # ❌ NG
@@ -1033,8 +1033,8 @@ sum(a[i] * x[i] for i in N)
 jm.sum(a[i] * x[i] for i in N)
 ```
 
-常に{py:func}`jm.sum <jijmodeling.sum>`（またはメソッド形式`expr.sum()`）を使用してください。
-Python の組み込み関数`sum`は具体的な反復可能オブジェクトを期待するため、`TypeError`が発生するか意図しない中間オブジェクトを生成します。
+常に{py:func}`jm.sum <jijmodeling.sum>`（またはメソッド形式 {py:meth}`expr.sum() <jijmodeling.Expression.sum>`）を使用してください。
+Python の組み込み関数 {py:func}`sum` は具体的な反復可能オブジェクトを期待するため、{py:exc}`TypeError`が発生するか意図しない中間オブジェクトを生成します。
 
 ## 移行パターン早見表
 
@@ -1042,11 +1042,11 @@ Python の組み込み関数`sum`は具体的な反復可能オブジェクト�
 
 | パターン名 | 旧記法（JM1） | 置き換え（JM2） |
 |--------------|-----------|------------------|
-| 変数作成 | `jm.BinaryVar("x", shape=...)` | `problem.BinaryVar("x", shape=...)` |
+| 変数作成 | `jm.BinaryVar("x", shape=...)` | {py:meth}`problem.BinaryVar("x", shape=...) <jijmodeling.Problem.BinaryVar>` |
 | 範囲のElement | `i = jm.Element("i", belong_to=(0,N))` | ジェネレータ・内包表記での`for i in N` |
-| 合計 | `jm.sum(i, expr)` | `jm.sum(expr for i in Domain)`または`x.sum()` |
-| 条件付きドメイン | `jm.sum([i,(j,cond)], expr)` | `jm.sum(expr for i in A for j in B if cond)` |
-| 量化制約 | `jm.Constraint(name, body, forall=a)` | `problem.Constraint(name, [body_for_a for a in A])` |
+| 合計 | `jm.sum(i, expr)` | {py:func}`jm.sum(expr for i in Domain) <jijmodeling.sum>`または{py:meth}`x.sum() <jijmodeling.Expression.sum>` |
+| 条件付きドメイン | `jm.sum([i,(j,cond)], expr)` | {py:func}`jm.sum(expr for i in A for j in B if cond) <jijmodeling.sum>` |
+| 量化制約 | `jm.Constraint(name, body, forall=a)` | {py:meth}`problem.Constraint(name, [body_for_a for a in A]) <jijmodeling.Problem.Constraint>` |
 | インタープリタ | `jm.Interpreter(problem)` | {py:meth}`jm.Compiler.from_problem(problem, data) <jijmodeling.Compiler.from_problem>`または{py:meth}`problem.eval(data) <jijmodeling.Problem.eval>` |
 
 ## ベストプラクティス
@@ -1091,7 +1091,7 @@ Decorator API から Plain API への変換は、おおよそ次のように行�
 
 - 名前なしで決定変数またはプレースホルダーを単一の変数に直接バインドする場合、Python 変数名を変数名として渡します。
 - リストまたはジェネレータ内包表記が次のいずれかの位置に現れる場合、{py:func}`jm.flat_map <jijmodeling.flat_map>`、{py:func}`jm.map <jijmodeling.map>`、および{py:func}`jm.filter <jijmodeling.filter>`を使って書き直す：
-  - {py:func}`jm.sum <jijmodeling.sum>`または{py:func}`jm.prod <jijmodeling.prod>`（組み込み Python`sum`関数ではない）の唯一の引数、または
+  - {py:func}`jm.sum <jijmodeling.sum>`または{py:func}`jm.prod <jijmodeling.prod>`（組み込み Python {py:func}`sum` 関数ではない）の唯一の引数、または
   - `domain`キーワード引数なしの{py:meth}`problem.Constraint <jijmodeling.Problem.Constraint>`の 2 番目の引数。ここで`problem`はデコレートされた関数の最初の{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>`引数です。
 
 ### ラムダ式パターン

@@ -31,7 +31,7 @@ kernelspec:
 概ねプレースホルダーの構築子と似ていますが、`*Var` で終わるものが決定変数、そうでないものがプレースホルダーの構築子です。
 また、連続値の決定変数は `FloatVar` ではなく {py:meth}`ContinuousVar <jijmodeling.Problem.ContinuousVar>` となっている点に注意してください。
 
-特定の種類の決定変数を宣言するには、その変数を登録する `Problem` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
+特定の種類の決定変数を宣言するには、その変数を登録する {py:class}`Problem <jijmodeling.Problem>` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
 それでは、バイナリ変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $C' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
 Plain API では次のように定義できます：
 
@@ -52,7 +52,7 @@ problem
 ```
 
 第 1 引数は変数の名前を表す必須引数です。また、`upper_bound`および`lower_bound`は変数の上下界を表すキーワード引数であり、バイナリ変数以外は必ず指定しなければいけません。
-`description`は `Problem` のものと同様、人間がわかりやすい説明を書くための省略可能なキーワード引数です。
+`description`は {py:class}`Problem <jijmodeling.Problem>` のものと同様、人間がわかりやすい説明を書くための省略可能なキーワード引数です。
 
 :::{admonition} 単独の決定変数の上下界
 :class: tip
@@ -91,13 +91,13 @@ Decorator API 内での変数名の省略は義務ではなく、上のセルで
 :class: caution
 
 Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` のように「変数一つ `=` Var の宣言一つ」のような形をしているときのみです。
-`x, y = (problem.BinaryVar(), problem.BinaryVar())` のように複数同時に宣言した場合などはエラーとなりますので注意してください。
+{py:meth}`x, y = (problem.BinaryVar(), problem.BinaryVar()) <jijmodeling.Problem.BinaryVar>` のように複数同時に宣言した場合などはエラーとなりますので注意してください。
 :::
 
 (var_info)=
 ## 決定変数の情報の取得
 
-プレースホルダーの場合と同様、決定変数の一覧も`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティにより取得でき、以下で扱う添え字つき変数の情報も含まれています。
+プレースホルダーの場合と同様、決定変数の一覧も {py:class}`Problem <jijmodeling.Problem>` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティにより取得でき、以下で扱う添え字つき変数の情報も含まれています。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
