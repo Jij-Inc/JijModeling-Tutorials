@@ -105,10 +105,10 @@ except Exception as e:
     print(e)
 ```
 
-### 代替記法：`genarray` による配列の構築
+### 代替記法：`genarray` や `gendict` による配列の構築
 
 上の例では、`y + z` のように、非自明なブロードキャストを伴う演算は（意図的に）エラーになっていました。
-このような場合、{py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` 関数を使い、陽にシェイプと成分の式を指定することで、結果の配列を構築できるようになります：
+このような場合、{py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` 関数を使い、陽にシェイプやキー集合と成分の式を指定することで、目的の配列・辞書を構築できるようになります：
 
 ```{code-cell} ipython3
 A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
@@ -116,7 +116,7 @@ display(A)
 problem.infer(A)
 ```
 
-また、Decorator API を利用している場合、以下のように {py:func}`jm.genarray <jijmodeling.genarray>` で内包表記を用いることもできます：
+また、Decorator API を利用している場合、以下のように内包表記を用いることもできます：
 
 ```{code-cell} ipython3
 @problem.update
