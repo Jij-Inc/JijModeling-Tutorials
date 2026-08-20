@@ -193,7 +193,7 @@ JijModeling 2 は、以下の点を念頭に設計されています：
 JijModeling 2 では、いくつかの挙動が変更されています：
 
 - 決定変数・プレースホルダーのコンストラクタ（モジュールレベル）→ 個別の {py:class}`Problem <jijmodeling.Problem>` に紐付いたコンストラクタ（{py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>` や {py:meth}`problem.Natural() <jijmodeling.Problem.Natural>` など）。
-- `Element`（インデックス）→ `Set`（値のストリーム）+ イテレータ（`(f(i) for i in N if ...)`）または`lambda`式。
+- `Element`（インデックス）→ ストリーム（値の列）+ イテレータ（`(f(i) for i in N if ...)`）または`lambda`式。
 - `jm.sum(Element, expr)` / `forall=`引数 → 内包表記 {py:func}`jm.sum(expr for i in N if cond) <jijmodeling.sum>` / 制約コレクション。
 - `Interpreter` → {py:class}`Compiler <jijmodeling.Compiler>`（便利な{py:meth}`problem.eval(data) <jijmodeling.Problem.eval>`パスも含む）。
 - 辺集合としての二次元配列 → タプル要素を持つプレースホルダー、または{py:meth}`.rows() <jijmodeling.Expression.rows>`ヘルパ関数。
@@ -206,7 +206,7 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 | Placeholders | パラメータ多次元配列（評価時に与えられる） | {py:meth}`problem.Placeholder(...) <jijmodeling.Problem.Placeholder>`、{py:meth}`problem.Natural(...) <jijmodeling.Problem.Natural>`、{py:meth}`problem.Float(...) <jijmodeling.Problem.Float>` | {py:meth}`@problem.update <jijmodeling.Problem.update>`や{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`で名前を省略可能。{py:meth}`Natural <jijmodeling.Problem.Natural>`等は型付きショートカット。Problemに対し構築する必要がある |
 | Decision Vars | 決定変数 | {py:meth}`problem.BinaryVar <jijmodeling.Problem.BinaryVar>`、{py:meth}`problem.IntegerVar <jijmodeling.Problem.IntegerVar>`、{py:meth}`problem.ContinuousVar <jijmodeling.Problem.ContinuousVar>`など | Problemに対し構築する必要がある |
 | Expressions | 構文木 | 代数演算子、{py:func}`jm.sum <jijmodeling.sum>`、{py:meth}`.sum() <jijmodeling.Expression.sum>`、{py:meth}`.prod() <jijmodeling.Expression.prod>` | JijModeling 2 から数値以外の値も増え、型検査されるように |
-| Sets | 反復可能なシンボリックドメイン | プレースホルダー自体（`for i in N`）、{py:func}`jm.product(A,B) <jijmodeling.product>`、{py:func}`jm.filter(...) <jijmodeling.filter>` | ラムダ式または内包表記と共に使用、`Element`オブジェクトを代替。 |
+| Streams | 反復可能なシンボリックドメイン | プレースホルダー自体（`for i in N`）、{py:func}`jm.product(A,B) <jijmodeling.product>`、{py:func}`jm.filter(...) <jijmodeling.filter>` | ラムダ式または内包表記と共に使用、`Element`オブジェクトを代替。 |
 | Constraints | 比較式 | {py:meth}`problem.Constraint(name, expr) <jijmodeling.Problem.Constraint>` または比較式の族 | パラメータ量化された制約の族は、内包表記または `domain` 引数により表現可能。 |
 | Compiler | 評価器 | {py:meth}`Compiler.from_problem(problem, data) <jijmodeling.Compiler.from_problem>` | 最適化問題や式を OMMXメッセージに変換するコンパイラ |
 | Instance | インスタンス | {py:meth}`problem.eval(instance_data) <jijmodeling.Problem.eval>` | OMMX Instance |
@@ -216,20 +216,24 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 便宜上、式に対するほとんどの関数（{py:func}`sum <jijmodeling.sum>`、{py:func}`prod <jijmodeling.prod>`、{py:func}`map <jijmodeling.map>`、{py:func}`log2 <jijmodeling.log2>`など）は、メソッドスタイルとプレフィックススタイルの両方で使用できます。
 たとえば、{py:meth}`x.sum() <jijmodeling.Expression.sum>`と{py:func}`jm.sum(x) <jijmodeling.sum>`（または{py:meth}`z.log2() <jijmodeling.Expression.log2>`と{py:func}`jm.log2(z) <jijmodeling.log2>`）は交換可能です。
 
-### Setとラムダ式・内包表記による Element の代替
+### ストリームとラムダ式・内包表記による Element の代替
 
 JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽に宣言する必要があり、特に高次多次元配列を扱う際にコーディングが複雑になりました。
-かわりに、JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として`Set`（（多重）集合）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
+かわりに、JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として**ストリーム**（順序を持つ値の列）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
 
-具体的には、以下を `Set` として扱うことができます：
+具体的には、以下をストリームとして扱うことができます：
 
-- 自然数値の式（決定変数を含まない）：自然数$N$（およびそれと同義の {py:meth}`Length <jijmodeling.Problem.Length>` や {py:meth}`Dim <jijmodeling.Problem.Dim>`）は集合$\left\{0, \ldots, N-1\right\}$と同一視されます。
-- 配列：任意の次元の配列は、各成分を要素に持つ集合として扱うことができます。
-  - ⚠️ これは破壊的変更です！以前は、$(N+1)$次元配列は$N$次元配列の集合と見なされていました。この挙動が必要な場合は、まず{py:func}`jm.rows() <jijmodeling.rows>`関数を使用して$(N+1)$-次元配列を「$N$-次元配列を要素に持つ一次元配列」に変換してください。
-- 集合になりうる型のタプル：`(L, R)`は、集合としての$L$と$R$の直積（$L \times R$）として解釈されます。
+- 自然数値の式（決定変数を含まない）：自然数$N$（およびそれと同義の {py:meth}`Length <jijmodeling.Problem.Length>` や {py:meth}`Dim <jijmodeling.Problem.Dim>`）は $0, \ldots, N-1$ を走査するストリームと同一視されます。
+- 配列：任意の次元の配列は、各成分を順に走査するストリームとして扱うことができます。
+  - ⚠️ これは破壊的変更です！以前は、$(N+1)$次元配列は$N$次元配列の並びと見なされていました。この挙動が必要な場合は、まず{py:func}`jm.rows() <jijmodeling.rows>`関数を使用して$(N+1)$-次元配列を「$N$-次元配列を要素に持つ一次元配列」に変換してください。
+- ストリームになりうる型のタプル：`(L, R)`は、$L$と$R$の直積（$L \times R$）として解釈されます。
 
-これらの式は、`Set` を期待する位置（例：{py:func}`jm.sum <jijmodeling.sum>` / {py:func}`jm.prod <jijmodeling.prod>`の引数や制約族の定義域）に現れる場合、暗黙的に Set として扱われます。
-{py:func}`jm.set(expr) <jijmodeling.set>`を呼び出すことで、式を明示的に Set に変換することもできます。
+これらの式は、ストリームを期待する位置（例：{py:func}`jm.sum <jijmodeling.sum>` / {py:func}`jm.prod <jijmodeling.prod>`の引数や制約族の定義域）に現れる場合、暗黙的にストリームとして扱われます。
+{py:func}`jm.stream(expr) <jijmodeling.stream>`を呼び出すことで、式を明示的にストリームに変換することもできます。
+
+<div class="alert alert-block alert-info">
+<b>注:</b> JijModeling 2.7.1 まで、ストリームは「集合」と呼ばれ、明示的な変換関数の名前も <code>jm.set</code> でした。<code>jm.set</code> は <code>jm.stream</code> の非推奨の別名として引き続き利用できますが、呼び出すと <code>DeprecationWarning</code> が発生します。
+</div>
 
 <div class="alert alert-block alert-warning">
 <b>警告:</b> シンボリック式の総和をとる際は、Pythonの組み込み<code>sum</code>関数<b>ではなく</b>、常に<code>jm.sum</code>を使用してください。組み込み<code>sum</code>は（意図的に）JijModeling の処理対象外となっており、コンパイルエラーになるか意図しないオブジェクトを生成します。
@@ -237,7 +241,7 @@ JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽
 
 #### 成分ごとの上下限の指定方法
 
-`Element` を介してインデックスをねじ曲げながら決定変数の各成分に上下限を与えていたケースも、JijModeling 2 では `Set` ベースの API と `Problem.*Var` の構築時引数だけで表現できます。上下限は以下の 2 通りで与えられます：
+`Element` を介してインデックスをねじ曲げながら決定変数の各成分に上下限を与えていたケースも、JijModeling 2 ではストリームベースの API と `Problem.*Var` の構築時引数だけで表現できます。上下限は以下の 2 通りで与えられます：
 
 - **同じシェイプの多次元配列・辞書を渡す**：決定変数が多次元配列である場合（`shape`が指定されている場合）、同じシェイプの多次元配列に評価される式を `lower_bound`・`upper_bound` に渡すことで成分ごとの上下界を指定できます。辞書型変数（`dict_keys`が指定されている場合）についても同様で、同じキー集合を持つ（全域な）辞書を渡せば期待通り設定されます。
 - **インデックス→値のラムダ式を渡す**：`lambda i, j: L[i, j] - U[j, i]` のように、添字を受け取って境界値を返す関数を指定することもできます。これにより、従来 `Element` を生成して `L[i, j] - U[j, i]` のように書いていたロジックを純粋な Python のラムダで置き換えられます。

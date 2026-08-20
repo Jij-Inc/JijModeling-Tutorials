@@ -16,7 +16,7 @@ kernelspec:
 {doc}`./placeholders` や {doc}`./decision_variables`では、各種変数の配列や辞書を定義する方法を扱いました。
 JijModeling では、こうした変数から成るものに限らず、一般の要素を持つ配列や辞書（以下まとめて「コレクション」と呼びます）を扱うことができます。
 以下では、各種コレクションの概念について改めて復習した後、それらを生成する関数や要素へのアクセス方法を見ていきます。
-また、次章「{doc}`./set_and_logical_ops`」では、更に配列や辞書を集合と見なして総和や総積を取る方法についても触れます。
+また、次章「{doc}`./stream_and_logical_ops`」では、更に配列や辞書をストリームとして総和や総積を取る方法についても触れます。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -126,7 +126,7 @@ def _(problem: jm.DecoratedProblem):
 ```
 
 ここで `in` の右辺に現れるタプル `(N, M)` は、`N` と `M` の直積集合を表す省略記法です。
-この記法については「{doc}`set_and_logical_ops`」章で改めて説明します。
+この記法については「{doc}`stream_and_logical_ops`」章で改めて説明します。
 
 {py:func}`~jijmodeling.genarray` で利用できる内包表記は、ただ一つの `for .. in ...` 節のみをサポートしており、また `if` 節は使えません。
 たとえば、以下のように複数の `for`-節を使ってしまうと、エラーとなります：
