@@ -105,7 +105,30 @@ problem
 
 ## バグ修正
 
-### バグ修正 1：
+### 上限・下限が非有界な決定変数の存在下で制約検出がメモリを大量に消費する問題の修正
+
+`upper_bound=float("inf")` のように決定変数へ無限大の上下界を与えて非有界に指定したモデルを制約検出が有効な状態でコンパイルすると、メモリを際限なく消費することがありました。
+
+今回のリリースではこのバグが修正され、制約検出が有効な状態でも問題なく実行されるようになりました。
+また、併せて上下界に NaN を与えられたり、上界が負の無限大であるなどそもそも充足不能な場合には、定義時にエラーとなるようになりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("production", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
+    T = problem.Length()
+    demand = problem.Float(shape=(T,))
+    x = problem.ContinuousVar(
+        lower_bound=0.0, upper_bound=float("inf"), shape=(T,)
+    )
+
+    problem += jm.sum(x[t] for t in T)
+    problem += problem.Constraint("constr", [x[t] >= demand[t] for t in T])
+
+
+problem.eval({"T": 3, "demand": [1.0, 2.0, 3.0]})
+```
 
 ### 辞書を `map` できない問題の修正
 
@@ -131,7 +154,3 @@ problem.infer(x.map(lambda l, n: n))
 ```
 
 上は `PartialDict` についての例ですが、`TotalDict` であっても同様の結果となります。
-
-## その他の変更
-
-- 変更 1：

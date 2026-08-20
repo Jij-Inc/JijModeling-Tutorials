@@ -105,7 +105,30 @@ problem
 
 ## Bugfixes
 
-### Bugfix 1
+### Fixed excessive memory consumption during constraint detection with unbounded decision variables
+
+Compiling a model in which a decision variable was made unbounded by giving it an infinite bound — for example, `upper_bound=float("inf")` — could consume memory without limit when constraint detection was enabled.
+
+This bug has been fixed in this release, and such models now compile successfully even when constraint detection is enabled.
+In addition, an error is now raised at definition time when a bound is `NaN` or when the bounds are inherently infeasible, such as when the upper bound is negative infinity.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("production", sense=jm.ProblemSense.MINIMIZE)
+def problem(problem: jm.DecoratedProblem):
+    T = problem.Length()
+    demand = problem.Float(shape=(T,))
+    x = problem.ContinuousVar(
+        lower_bound=0.0, upper_bound=float("inf"), shape=(T,)
+    )
+
+    problem += jm.sum(x[t] for t in T)
+    problem += problem.Constraint("constr", [x[t] >= demand[t] for t in T])
+
+
+problem.eval({"T": 3, "demand": [1.0, 2.0, 3.0]})
+```
 
 ### Fixed an issue where dictionaries could not be mapped
 
@@ -131,7 +154,3 @@ problem.infer(x.map(lambda l, n: n))
 ```
 
 The example above uses a `PartialDict`, but a `TotalDict` produces the similar result.
-
-## Other Changes
-
-- Change 1
