@@ -375,48 +375,52 @@ x = problem.BinaryVar("x", dict_keys=S.keys())
 problem
 ```
 
-## Set operations and comprehensions for sum/product
+## Streams and comprehensions for sums and products
 
-### "Sets" in JijModeling
+### Streams in JijModeling
 
-JijModeling supports the concept of a **set**, which represents "a sequence of values of a specific type".
-The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return expressions that represent **index sets**.
-Sets are used to iterate over index ranges, compute sums/products, and define indexed constraints.
+JijModeling provides **streams**, which are sequences of values of a particular type.
+This concept is similar to what Python calls an **iterator**.
+The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return streams corresponding to **index sets**.
+Streams are used when iterating over index ranges, computing sums and products, and defining indexed constraints.
+Because values may appear more than once in a stream, use {py:func}`jijmodeling.unique` when values must be unique.
 
-:::{admonition} Sets in JijModeling are streams
-:class: note
+Some values are converted to streams automatically.
+For example, a multi-dimensional array yields its elements in row-major order, a natural number $N$ yields $0, 1, \ldots, N-1$, and a category label `L` yields all values assigned to `L` at compile time.
+JijModeling 2.3.1 also introduced the {py:func}`jijmodeling.range` function, which corresponds to Python's built-in {py:class}`range() <range>` and defines streams of natural numbers in arithmetic progression.
 
-As in other modelers, JijModeling calls them "sets", but mathematically a set has no duplicates and no ordering.
-By contrast, **JijModeling "sets" allow duplicates and preserve order**.
-Strictly speaking, JijModeling sets correspond to **streams** or **iterators** in general programming terms.
-:::
-
-Some values are automatically converted to sets. For example, a multi-dimensional array becomes a set that scans elements in row-major order, a natural number $N$ becomes the set $\{0, 1, \ldots, N-1\}$, and a category label `L` becomes the set of all values of `L` given at compile time.
-Also, since JijModeling 2.3.1, the {py:func}`jijmodeling.range` function, corresponding to Python's built-in {py:class}`range() <range>`, is available for defining sets consisting of arithmetic progressions of natural numbers.
-
-:::{admonition} Change from JijModeling 1: arrays as "sets"
+:::{admonition} Change from JijModeling 1: iterating over arrays
 :class: caution
 
-In JijModeling 1, when a multi-dimensional array appeared in `belong_to=` or `forall=`, it behaved like a set that iterates over rows.
-That is, if `A` had shape `(N, M)`, iterating over `A` produced a set of `N` elements, each a 1D array of length `M`.
+In JijModeling 1, iteration over a multi-dimensional array used with `belong_to=` or `forall=` proceeded row by row.
+Thus, iterating over an array `A` with shape `(N, M)` yielded `N` elements, each a 1D array of length `M`.
 
-In JijModeling 2, this behavior was removed, and arrays now iterate over elements in order.
-If you want the old behavior, explicitly convert with {py:func}`~jijmodeling.rows`: use `jm.rows(A)` or `A.rows()`.
+In JijModeling 2, this behavior was removed, and arrays are now iterated element by element.
+To obtain the old behavior, convert the array explicitly with {py:func}`~jijmodeling.rows` by writing `jm.rows(A)` or `A.rows()`.
 :::
 
-:::{admonition} Dictionary as a "set" in JijModeling
+:::{admonition} Iterating over a dictionary in JijModeling
 :class: important
 
-In JijModeling, dictionary expressions behave like sets that iterate over **values, not keys**.
-This differs from Python's {py:class}`dict`, but it is defined this way for consistency with multi-dimensional array behavior.
+In JijModeling, iterating over a dictionary expression yields its **values, not its keys**.
+This differs from the behavior of Python's {py:class}`dict`, but keeps dictionary expressions consistent with multi-dimensional arrays.
 As a result, if you change placeholders or decision variables that were originally defined as multi-dimensional arrays to dictionaries, you can keep code like `x.sum()` unchanged.
-If you need set-like behavior over key-value pairs or keys, use {py:meth}`~jijmodeling.Expression.items` or {py:meth}`~jijmodeling.Expression.keys`.
-If you want to be explicit that values are being iterated, use {py:meth}`~jijmodeling.Expression.values`.
+To iterate over key-value pairs or keys, use {py:meth}`~jijmodeling.Expression.items` or {py:meth}`~jijmodeling.Expression.keys`, respectively.
+To make it explicit that you are iterating over values, use {py:meth}`~jijmodeling.Expression.values`.
 :::
 
-Conversion to sets is usually automatic, but you can explicitly convert via {py:func}`~jijmodeling.set`.
+Conversion to a stream is usually automatic, but you can request it explicitly with {py:func}`~jijmodeling.stream`.
 
-### Sum and product over sets
+:::{admonition} Renamed from "set" in JijModeling 2.8.0
+:class: note
+
+Up to JijModeling 2.7.1, streams were called "sets", and the explicit conversion function was named `jm.set`.
+Because mathematical sets are unordered and contain no duplicates, that terminology was misleading.
+Since JijModeling 2.8.0, the concept has consistently been called a stream.
+`jm.set` remains available as a deprecated alias of {py:func}`~jijmodeling.stream`, including when used with comprehensions in the Decorator API, but calling it emits a `DeprecationWarning`.
+:::
+
+### Sums and products over streams
 
 Indices become especially powerful when combined with sums/products. Below we introduce several ways to write sums and products.
 
@@ -488,7 +492,7 @@ sum_example_plain_alt
 When using the Plain API without the Decorator API, you need Python {external+python:ref}`lambda expressions <lambda>` to build indexed expressions.
 
 :::{tip}
-When {py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` is called as a single-argument function or method, it computes the sum/product over a set.
+When {py:func}`jm.sum() <jijmodeling.sum>` or {py:func}`jm.prod() <jijmodeling.prod>` is called with a single argument, it computes the sum or product over a stream; the corresponding methods behave the same way.
 So if you simply want the sum of elements in `x`, you can write `jm.sum(x)` or `x.sum()`.
 With the limited broadcasting described earlier, you can also write `jm.sum(a * x)` as above.
 This also works when `x` is a multi-dimensional array.
@@ -609,7 +613,7 @@ filtered_double_sum_example_plain += jm.sum(
 filtered_double_sum_example_plain
 ```
 
-Or you can use {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or the method form {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`) to map with functions that return sets:
+Alternatively, {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or the method form {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`) lets you map a function that returns a stream:
 
 ```{code-cell} ipython3
 jm.sum(
@@ -622,7 +626,7 @@ jm.sum(
 
 In principle, you can write any model without the Decorator API, but it becomes complex and hard to read, so we recommend using the Decorator API.
 
-## Logical operations on conditional expressions and sets
+## Logical operations on conditional expressions and streams
 
 So far, conditions in comprehensions and {py:func}`~jijmodeling.filter` were simple, but in practice you often want logical expressions like "and" or "or".
 Python's `and`, `or`, and `not` cannot be overloaded, so JijModeling uses bitwise operators: `&` (and), `|` (or), `~` (not), or the functions {py:func}`jijmodeling.band`, {py:func}`jijmodeling.bor`, {py:func}`jijmodeling.bnot`.
@@ -634,5 +638,5 @@ Unlike `and`/`or`, `&` and `|` have lower precedence than `==` and `!=`. For exa
 Therefore, when using `&` or `|`, always parenthesize each comparison, e.g., `(a >= b) & (c == d)`.
 :::
 
-Logical operations can also be used on set expressions: union is `|`, and intersection is `&`.
-Complement is not supported because it may be infinite; instead, use {py:func}`jijmodeling.diff` to take set differences.
+Logical operations can also be applied to stream expressions: `|` represents union, and `&` represents intersection.
+Complements are not supported because they may be infinite; instead, use {py:func}`jijmodeling.diff` to take the difference between two streams.
