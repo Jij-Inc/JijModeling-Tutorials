@@ -21,13 +21,15 @@ kernelspec:
 
 ### Improved LaTeX output for methods specifying `axis`
 
+Methods like `sum` or `max` with a specified `axis` now render as comprehensions with partial convolution when type information is available:
+
 ```{code-cell} ipython3
 import jijmodeling as jm
 
 problem = jm.Problem("myproblem")
 N = problem.Natural("N")
 a = problem.Integer("a", shape=(N, N))
-A = problem.NamedExpr("A", A.sum(axis=1))
+A = problem.NamedExpr("A", a.sum(axis=1))
 
 problem
 ```

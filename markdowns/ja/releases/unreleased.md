@@ -21,8 +21,7 @@ kernelspec:
 
 ### `axis`指定メソッドの LaTeX 出力の改善
 
-
-`axis`が指定された`sum`や`max`などのメソッドは、型情報が明確な場合、シグマ表記で表示されるようになりました。
+`axis`が指定された`sum`や`max`などの畳み込み演算は、型情報が明確な場合、内包表記と部分的な畳み込みの組み合わせで表示されるようになりました。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -30,7 +29,7 @@ import jijmodeling as jm
 problem = jm.Problem("myproblem")
 N = problem.Natural("N")
 a = problem.Integer("a", shape=(N, N))
-A = problem.NamedExpr("A", A.sum(axis=1))
+A = problem.NamedExpr("A", a.sum(axis=1))
 
 problem
 ```
