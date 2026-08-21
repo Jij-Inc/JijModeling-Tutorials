@@ -34,6 +34,17 @@ A = problem.NamedExpr("A", a.sum(axis=1))
 problem
 ```
 
+### Simplify operations on constants in LaTeX output
+
+Basic operations involving constants will now be simplified when displaying LaTeX. This generally makes equations easier to read, particularly summations which often involved `- 1`s for the termination.
+
+```{code-cell} ipython3
+problem = jm.Problem("TestProblem")
+V = problem.Natural("V")
+problem += jm.map(lambda x: x, V - 1).sum()
+problem
+```
+
 ## Bugfixes
 
 +++

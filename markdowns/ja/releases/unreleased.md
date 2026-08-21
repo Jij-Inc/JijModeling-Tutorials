@@ -34,6 +34,17 @@ A = problem.NamedExpr("A", a.sum(axis=1))
 problem
 ```
 
+### 定数に対する演算の LaTeX 簡略化
+
+定数に対する演算の $\LaTeX$ 出力に簡略化を適応しました。総和でよく見られる `- 1`などが簡略されるようになり、数式全体の可読性が向上しました。
+
+```{code-cell} ipython3
+problem = jm.Problem("TestProblem")
+V = problem.Natural("V")
+problem += jm.map(lambda x: x, V - 1).sum()
+problem
+```
+
 ## バグ修正
 
 +++
