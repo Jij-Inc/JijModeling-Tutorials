@@ -118,9 +118,65 @@ Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndar
    + **許容される添え字**：決定変数を含まず成分数内の自然数型の式
 
 いずれの場合も、添え字に決定変数を含めることはできません。
-添え字は `x[i,j,k]` のように複数成分を同時に書くことができますが、タプルの成分数や、配列の次元、辞書のタプル長を越える添え字を用いると型エラーとなります。
+以下は、配列と辞書に対して添え字を用いて要素にアクセスする例です：
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Array and Dict Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    L = problem.CategoryLabel()
+
+    w = problem.Float(shape=N)  # N要素配列
+    x = problem.BinaryVar(dict_keys=(N, L))  # 辞書
+
+    problem += jm.sum(w[i] * x[i, l] for i in N for l in L)
+
+
+problem
+```
+
+添え字は `x[i,j,k]` のように複数成分を同時に書くことができますが、タプルの成分数や、配列の次元、辞書のタプル長を越える添え字を用いると以下のように型エラーとなります。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Array and Dict Example, oversubscripted")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    M = problem.Natural()
+
+    w = problem.Float(shape=(N, M))  # N × M 配列
+
+    try:
+        problem += jm.sum(w[i, j, i] for i in N for j in M)  # ERROR! 添え字が多すぎる
+    except Exception as e:
+        print(e)
+```
 
 配列の添え字では、更に`x[:, 1]` のようなスライス記法を用いることができます。
-この場合、`x[:, 1]` は第 0 次元は全て保持しつつ第 1 次元では `1` 番目のものからなる新たな配列を返します。`x`が二次元配列であれば返値は一次元配列、三次元以上の$N$次元であれば$N-1$次元配列となり、一次元以下である場合は型エラーとなります。
+この場合、`x[:, 1]` は第 0 次元は全て保持しつつ第 1 次元では `1` 番目のものからなる新たな配列を返します。`x`が二次元配列であれば返値は一次元配列、三次元以上の$N$次元であれば$N-1$次元配列となります。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Slicing example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    M = problem.Natural()
+
+    w = problem.Integer(shape=N)  # N 要素配列
+    x = problem.BinaryVar(shape=(N, M))  # N × M 配列
+
+    problem += problem.Constraint("sum-per-n", [x[i, :].sum() == w[i] for i in N])
+
+
+problem
+```
+
 また、`x[1, 1:N:2]`のようにステップ数や終了インデックスを指定するスライスもサポートしています。
 スライス記法の詳細については、Python 公式ドキュメントの「{external+python:ref}`slicings`」を参照してください。
