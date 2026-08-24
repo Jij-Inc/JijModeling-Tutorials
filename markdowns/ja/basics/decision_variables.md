@@ -91,7 +91,7 @@ Decorator API 内での変数名の省略は義務ではなく、上のセルで
 :class: caution
 
 Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` のように「変数一つ `=` Var の宣言一つ」のような形をしているときのみです。
-{py:meth}`x, y = (problem.BinaryVar(), problem.BinaryVar()) <jijmodeling.Problem.BinaryVar>` のように複数同時に宣言した場合などはエラーとなりますので注意してください。
+`x, y = (problem.BinaryVar(), problem.BinaryVar())` のように複数同時に宣言した場合などはエラーとなりますので注意してください。
 :::
 
 (var_info)=

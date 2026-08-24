@@ -194,7 +194,7 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 
 - 決定変数・プレースホルダーのコンストラクタ（モジュールレベル）→ 個別の {py:class}`Problem <jijmodeling.Problem>` に紐付いたコンストラクタ（{py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>` や {py:meth}`problem.Natural() <jijmodeling.Problem.Natural>` など）。
 - `Element`（インデックス）→ ストリーム（値の列）+ イテレータ（`(f(i) for i in N if ...)`）または`lambda`式。
-- `jm.sum(Element, expr)` / `forall=`引数 → 内包表記 {py:func}`jm.sum(expr for i in N if cond) <jijmodeling.sum>` / 制約コレクション。
+- `jm.sum(Element, expr)` / `forall=`引数 → 内包表記 `jm.sum(expr for i in N if cond)` / 制約コレクション。
 - `Interpreter` → {py:class}`Compiler <jijmodeling.Compiler>`（便利な{py:meth}`problem.eval(data) <jijmodeling.Problem.eval>`パスも含む）。
 - 辺集合としての二次元配列 → タプル要素を持つプレースホルダー、または{py:meth}`.rows() <jijmodeling.Expression.rows>`ヘルパ関数。
 
@@ -897,7 +897,7 @@ JijModeling 1 から 2 へコードを移行するには、以下の段階的な
 ### ステップ1：インポートとProblem作成の更新
 
 - ✅ import 文は従来通り：`import jijmodeling as jm`
-- ✅ まず問題を作成：{py:class}`problem = jm.Problem(name, sense) <jijmodeling.Problem>`
+- ✅ まず問題を作成：`problem = jm.Problem(name, sense)`
 - ✅ モデル定義関数に{py:meth}`@problem.update <jijmodeling.Problem.update>`（または Problem を新規生成する場合は{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`）デコレータを追加
 
 ### ステップ2：**重要** - 直接変数/プレースホルダー作成の置き換え
@@ -905,38 +905,38 @@ JijModeling 1 から 2 へコードを移行するには、以下の段階的な
 すべての直接モジュールレベルのコンストラクタを Problem に紐づいたものに置き換えます：
 
 - 決定変数：
-    - 例 ❌ `x = jm.BinaryVar("x", shape=(N,))` → ✅ {py:meth}`x = problem.BinaryVar("x", shape=(N,)) <jijmodeling.Problem.BinaryVar>`
+    - 例 ❌ `x = jm.BinaryVar("x", shape=(N,))` → ✅ `x = problem.BinaryVar("x", shape=(N,))`
 - プレースホルダー（型付きを優先）：
-    - ❌ `N = jm.Placeholder("N", dtype=jm.DataType.NATURAL)` → ✅ {py:meth}`N = problem.Natural("N") <jijmodeling.Problem.Natural>` または {py:meth}`N = problem.Length() <jijmodeling.Problem.Length>`
-    - ❌ `a = jm.Placeholder("a", ndim=1)` → ✅ {py:meth}`a = problem.Float("a", shape=(N,)) <jijmodeling.Problem.Float>`（必要に応じてシェイプを指定）
+    - ❌ `N = jm.Placeholder("N", dtype=jm.DataType.NATURAL)` → ✅ `N = problem.Natural("N")` または `N = problem.Length()`
+    - ❌ `a = jm.Placeholder("a", ndim=1)` → ✅ `a = problem.Float("a", shape=(N,))`（必要に応じてシェイプを指定）
     - Decorator API では、変数名を省略することもできます。
 
 ### ステップ3：Element使用の置き換え
 
 - ❌ **定義の削除**: `i = jm.Element("i", belong_to=(0, N))`
 - ❌ **定義の置き換え**: `jm.sum(i, expression)`
-  - ✅ **内包表記**: {py:func}`jm.sum(expression for i in N) <jijmodeling.sum>`、または
+  - ✅ **内包表記**: `jm.sum(expression for i in N)`、または
   - ✅ **二項形式**: {py:func}`jm.sum(N, lambda i: expression) <jijmodeling.sum>`
 
 ### ステップ4：型付きプレースホルダーコンストラクタを優先
 
-- ❌ **汎用（避ける）**: {py:meth}`N = problem.Placeholder(dtype=jm.DataType.NATURAL) <jijmodeling.Problem.Placeholder>` / {py:meth}`a = problem.Placeholder(ndim=1) <jijmodeling.Problem.Placeholder>`
-- ✅ **優先（推奨）**: {py:meth}`N = problem.Length() <jijmodeling.Problem.Length>` / {py:meth}`a = problem.Float(ndim=1) <jijmodeling.Problem.Float>` / {py:meth}`W = problem.Float() <jijmodeling.Problem.Float>` / {py:meth}`K = problem.Integer() <jijmodeling.Problem.Integer>` / {py:meth}`G = problem.Graph(dtype=V) <jijmodeling.Problem.Graph>`
+- ❌ **汎用（避ける）**: `N = problem.Placeholder(dtype=jm.DataType.NATURAL)` / `a = problem.Placeholder(ndim=1)`
+- ✅ **優先（推奨）**: `N = problem.Length()` / `a = problem.Float(ndim=1)` / `W = problem.Float()` / `K = problem.Integer()` / `G = problem.Graph(dtype=V)`
 - ▶︎ {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>`は明示的な`dtype`引数と共にのみ使用してください。
 
 ### ステップ5：制約構文の更新
 
 - ❌ **以下のいずれかで置き換え**: `jm.Constraint("name", expression, forall=element)`
-  - {py:meth}`problem.Constraint("name", (expression for element in domain)) <jijmodeling.Problem.Constraint>`
-  - {py:meth}`problem.Constraint("name", [expression for element in domain]) <jijmodeling.Problem.Constraint>`
-  - {py:meth}`problem.Constraint("name", lambda element: expression, domain=domain) <jijmodeling.Problem.Constraint>`。
+  - `problem.Constraint("name", (expression for element in domain))`
+  - `problem.Constraint("name", [expression for element in domain])`
+  - `problem.Constraint("name", lambda element: expression, domain=domain)`。
 - ジェネレータ式（`(exp for i in t)`）とリスト内包表記（`[exp for i in t]`）は同値なため、どちらか好きな方を選ぶ
 
 ### ステップ6：InterpreterをCompilerに置き換え
 
 - ❌ **置き換え**: `interp = jm.Interpreter(data)`
-  - ✅ **コンパイラで置き換え**: {py:meth}`compiler = jm.Compiler.from_problem(problem, data) <jijmodeling.Compiler.from_problem>`
-  - ✅ **または直接コンパイル**: {py:meth}`instance = problem.eval(data) <jijmodeling.Problem.eval>`
+  - ✅ **コンパイラで置き換え**: `compiler = jm.Compiler.from_problem(problem, data)`
+  - ✅ **または直接コンパイル**: `instance = problem.eval(data)`
 
 ### ステップ7：テストと検証
 
@@ -1024,7 +1024,7 @@ TypeError: 'jijmodeling.Placeholder' object is not iterable
 
 多くの場合、こうした例外次の場合に発生します：
 
-1. デコレータ（例：{py:meth}`@problem.update <jijmodeling.Problem.update>`や{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`）が**指定されていない**文脈で、内包表記（例：{py:func}`jm.sum(x[i] for i in N) <jijmodeling.sum>`または{py:meth}`problem.Constraint("MyConstraint", [x[i] <= w[i] * v[i - 1] for i in N]) <jijmodeling.Problem.Constraint>`）が使用されている
+1. デコレータ（例：{py:meth}`@problem.update <jijmodeling.Problem.update>`や{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`）が**指定されていない**文脈で、内包表記（例：`jm.sum(x[i] for i in N)`または`problem.Constraint("MyConstraint", [x[i] <= w[i] * v[i - 1] for i in N])`）が使用されている
 2. {py:func}`jm.sum <jijmodeling.sum>`のかわりに Python の組み込み {py:func}`sum` を呼び出している。
 
 ### 落とし穴6：Pythonの組み込み {py:func}`sum` の使用
@@ -1046,11 +1046,11 @@ Python の組み込み関数 {py:func}`sum` は具体的な反復可能オブジ
 
 | パターン名 | 旧記法（JM1） | 置き換え（JM2） |
 |--------------|-----------|------------------|
-| 変数作成 | `jm.BinaryVar("x", shape=...)` | {py:meth}`problem.BinaryVar("x", shape=...) <jijmodeling.Problem.BinaryVar>` |
+| 変数作成 | `jm.BinaryVar("x", shape=...)` | `problem.BinaryVar("x", shape=...)` |
 | 範囲のElement | `i = jm.Element("i", belong_to=(0,N))` | ジェネレータ・内包表記での`for i in N` |
-| 合計 | `jm.sum(i, expr)` | {py:func}`jm.sum(expr for i in Domain) <jijmodeling.sum>`または{py:meth}`x.sum() <jijmodeling.Expression.sum>` |
-| 条件付きドメイン | `jm.sum([i,(j,cond)], expr)` | {py:func}`jm.sum(expr for i in A for j in B if cond) <jijmodeling.sum>` |
-| 量化制約 | `jm.Constraint(name, body, forall=a)` | {py:meth}`problem.Constraint(name, [body_for_a for a in A]) <jijmodeling.Problem.Constraint>` |
+| 合計 | `jm.sum(i, expr)` | `jm.sum(expr for i in Domain)`または`x.sum()` |
+| 条件付きドメイン | `jm.sum([i,(j,cond)], expr)` | `jm.sum(expr for i in A for j in B if cond)` |
+| 量化制約 | `jm.Constraint(name, body, forall=a)` | `problem.Constraint(name, [body_for_a for a in A])` |
 | インタープリタ | `jm.Interpreter(problem)` | {py:meth}`jm.Compiler.from_problem(problem, data) <jijmodeling.Compiler.from_problem>`または{py:meth}`problem.eval(data) <jijmodeling.Problem.eval>` |
 
 ## ベストプラクティス
