@@ -1046,11 +1046,11 @@ Python の組み込み関数 {py:func}`sum` は具体的な反復可能オブジ
 
 | パターン名 | 旧記法（JM1） | 置き換え（JM2） |
 |--------------|-----------|------------------|
-| 変数作成 | `jm.BinaryVar("x", shape=...)` | `problem.BinaryVar("x", shape=...)` |
+| 変数作成 | `jm.BinaryVar("x", shape=...)` | {py:meth}`problem.BinaryVar("x", shape=...) <jijmodeling.Problem.BinaryVar>` |
 | 範囲のElement | `i = jm.Element("i", belong_to=(0,N))` | ジェネレータ・内包表記での`for i in N` |
-| 合計 | `jm.sum(i, expr)` | `jm.sum(expr for i in Domain)`または`x.sum()` |
-| 条件付きドメイン | `jm.sum([i,(j,cond)], expr)` | `jm.sum(expr for i in A for j in B if cond)` |
-| 量化制約 | `jm.Constraint(name, body, forall=a)` | `problem.Constraint(name, [body_for_a for a in A])` |
+| 合計 | `jm.sum(i, expr)` | {py:func}`jm.sum(expr for i in Domain) <jijmodeling.sum>`または{py:meth}`x.sum() <jijmodeling.Expression.sum>` |
+| 条件付きドメイン | `jm.sum([i,(j,cond)], expr)` | {py:func}`jm.sum(expr for i in A for j in B if cond) <jijmodeling.sum>` |
+| 量化制約 | `jm.Constraint(name, body, forall=a)` | {py:meth}`problem.Constraint(name, [body_for_a for a in A]) <jijmodeling.Problem.Constraint>` |
 | インタープリタ | `jm.Interpreter(problem)` | {py:meth}`jm.Compiler.from_problem(problem, data) <jijmodeling.Compiler.from_problem>`または{py:meth}`problem.eval(data) <jijmodeling.Problem.eval>` |
 
 ## ベストプラクティス
