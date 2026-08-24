@@ -13,6 +13,14 @@ kernelspec:
 
 # ストリームと論理演算
 
+:::{admonition} JijModeling 2.8.0 での「集合」からの改称
+:class: note
+
+JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び、明示的な変換関数の名前も `jm.set` としていましたが、数学的には「集合」とは特定の順番を持たず重複を持たないものであり、「集合」という名前は誤解を招くものでした。
+2.8.0 以後、この概念は一貫してストリームと呼ぶことにしました。
+`jm.set` は {py:func}`~jijmodeling.stream` の非推奨の別名として引き続き利用でき、Decorator API での内包表記もそのまま使えますが、呼び出すと `DeprecationWarning` が発生します。
+:::
+
 本章では、前章までで見てきたコレクション型をストリームとして扱い、総和や総積などの畳み込み演算やフィルタリングなどを行う方法について説明します。
 また、真偽値やストリームに対する論理演算についても併せて説明します。
 
@@ -74,14 +82,6 @@ def stream_compr_problem(problem: jm.DecoratedProblem):
     x = problem.BinaryVar(dict_keys=(L, N))
     display(jm.stream(i + x[l, i] for l in L for i in N if i % 2 == 0))
 ```
-
-:::{admonition} JijModeling 2.8.0 での「集合」からの改称
-:class: note
-
-JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び、明示的な変換関数の名前も `jm.set` としていましたが、数学的には「集合」とは特定の順番を持たず重複を持たないものであり、「集合」という名前は誤解を招くものでした。
-2.8.0 以後、この概念は一貫してストリームと呼ぶことにしました。
-`jm.set` は {py:func}`~jijmodeling.stream` の非推奨の別名として引き続き利用でき、Decorator API での内包表記もそのまま使えますが、呼び出すと `DeprecationWarning` が発生します。
-:::
 
 ### {py:func}`~jijmodeling.range` による等差数列の生成
 
