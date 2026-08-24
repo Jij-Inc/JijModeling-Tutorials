@@ -27,13 +27,13 @@ import jijmodeling as jm
 (generators)=
 ## コレクションの生成：{py:func}`~jijmodeling.genarray` と {py:func}`~jijmodeling.gendict`
 
-配列や辞書は、{doc}`./placeholders`や{doc}`./decision_variables`で説明したように、変数宣言時に導入することもできますが、他の式を使って新たに生成することができます。
+配列や辞書は、{doc}`./placeholders`や{doc}`./decision_variables`で説明したように、変数宣言時に導入することもできますが、他の式を使って新たに生成することもできます。
 配列の生成に使うのが {py:func}`~jijmodeling.genarray`関数、辞書の生成に使うのが {py:func}`~jijmodeling.gendict`関数です。
 
 ### 配列の生成関数：{py:func}`~jijmodeling.genarray`
 
 {py:func}`~jijmodeling.genarray` は NumPy の {py:func}`~numpy.fromfunction` に類似する関数[^numpy-fromfunction]であり、シェイプと添え字から要素への関数（生成関数）を与えることで、新しい配列を生成することができます。
-以下では、{py:func}`genarray <jijmodeling.genarray>` を用いて、シェイプ $(N, M)$ で各添え字の和を要素に持つ配列を生成しています：
+以下では、{py:func}`genarray <jijmodeling.genarray>` を用いて、シェイプ $(N, M)$ の各添え字毎の和を要素に持つ配列を生成しています：
 
 [^numpy-fromfunction]: NumPy の {py:func}`~numpy.fromfunction` は生成関数内の具体的な関数の形によって与えたシェイプと異なる配列やスカラー値が生成される場合がありますが、JijModeling の {py:func}`~jijmodeling.genarray` は、生成関数の形に関わらず、必ず与えたシェイプの配列を返すことが保証されています。
 
@@ -45,7 +45,7 @@ M = problem.Length("M")
 jm.genarray(lambda i, j: i + j, (N, M))
 ```
 
-また、Decorator API 内では内包表記を使いより簡潔に書くこともできます：
+また、Decorator API 内では内包表記を使って簡潔に書くこともできます：
 
 ```{code-cell} ipython3
 @problem.update
