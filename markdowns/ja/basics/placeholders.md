@@ -91,14 +91,14 @@ knapsack_placeholders
 :::{admonition} 変数名省略の条件
 :class: caution
 
-Decorator API で変数名を省略できるのは、{py:meth}`x = problem.Float(...) <jijmodeling.Problem.Float>` のように「変数一つ `=` 変数の宣言一つ」のような形をしているときのみです。
-{py:meth}`problem.Float() <jijmodeling.Problem.Float>` と {py:meth}`problem.Natural() <jijmodeling.Problem.Natural>` を `x, y = (...)` の形で複数同時に宣言した場合などはエラーとなりますので注意してください。
+Decorator API で変数名を省略できるのは、`x = problem.Float(...)` のように「変数一つ `=` 変数の宣言一つ」のような形をしているときのみです。
+`x, y = (problem.Float(), problem.Natural())` のように複数同時に宣言した場合などはエラーとなりますので注意してください。
 :::
 
 :::{admonition} {py:meth}`~jijmodeling.Problem.Placeholder` 構築子
 :class: tip
 
-上の表に掲げた {py:meth}`problem.Float <jijmodeling.Problem.Float>`, {py:meth}`problem.Natural <jijmodeling.Problem.Natural>` などの構築子は、実はより一般的な {py:meth}`~jijmodeling.Problem.Placeholder` 構築子の特別な場合になっており、たとえば {py:meth}`problem.Natural <jijmodeling.Problem.Natural>` は {py:meth}`problem.Placeholder(dtype=jm.DataType.NATURAL) <jijmodeling.Problem.Placeholder>` の省略記法として実装されています。`dtype`には、
+上の表に掲げた {py:meth}`problem.Float <jijmodeling.Problem.Float>`, {py:meth}`problem.Natural <jijmodeling.Problem.Natural>` などの構築子は、実はより一般的な {py:meth}`~jijmodeling.Problem.Placeholder` 構築子の特別な場合になっており、たとえば {py:meth}`problem.Natural <jijmodeling.Problem.Natural>` は  `problem.Placeholder(dtype=jm.DataType.NATURAL)`  の省略記法として実装されています。`dtype`には、
 
 - {py:class}`jm.DataType <jijmodeling.DataType>`列挙体のバリアント
 - Python 組み込みの型指定子 `float`, `int`
@@ -300,14 +300,14 @@ w = problem.Float(ndim=1, description="各アイテムの重量")
 :::{admonition} タプルの配列としてのグラフ
 :class: tip
 
-たとえば、`V` が超点数を表す自然数式のとき、{py:meth}`G = problem.Graph(dtype=V) <jijmodeling.Problem.Graph>` とすると、$G$ は $\{0, \ldots, V-1\}$ を頂点集合として持つグラフの辺集合にあたるプレースホルダーとして宣言されます。
+たとえば、`V` が超点数を表す自然数式のとき、 `G = problem.Graph(dtype=V)` とすると、$G$ は $\{0, \ldots, V-1\}$ を頂点集合として持つグラフの辺集合にあたるプレースホルダーとして宣言されます。
 実は、この構築子は一次元配列と「[単独のプレースホルダー](#single_ph)」で触れたタプルの組み合わせで表現されており、次のように書いたのと同値です：
 
 ```python
 G = problem.Placeholder(dtype=(V, V), ndim=1)
 ```
 
-ですので、{py:meth}`N = G.len_at(0) <jijmodeling.Expression.len_at>` とすることで $G$ の（重複を込みで数えた）辺の総数を取得することができますし、配列に関する種々の演算を使ってグラフを操作することができるようになります。
+ですので、 `N = G.len_at(0)` とすることで $G$ の（重複を込みで数えた）辺の総数を取得することができますし、配列に関する種々の演算を使ってグラフを操作することができるようになります。
 
 また、後述する辞書を使えば、辺にラベルがついたようなグラフも表現できるようになります。
 このように、JijModeling ではタプルと配列を組み合わせて、複雑な構造を表現できるようになっているのです。
