@@ -69,6 +69,16 @@ JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に�
 この挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い `jm.rows(A)` または `A.rows()` と明示的に変換してください。
 :::
 
+### {py:meth}`~jijmodeling.Expression.indices` で配列の添え字のストリームを取得する
+
+{py:meth}`~jijmodeling.Expression.indices` を使うと、配列の添え字の集合（定義域）に対応するストリームを取得することができます。
+
+```{code-cell} ipython3
+problem = jm.Problem("Index and Keys Example")
+S = problem.Float("S", ndim=2)
+problem.infer(S.indices())
+```
+
 ### 辞書を明示的にストリームに変換する
 
 上述の通り、JijModeling の自動変換機能では、辞書型の式は**キーではなく値を走査する**ストリームになります。
@@ -92,6 +102,17 @@ problem.infer(x.items())
 
 ```{code-cell} ipython3
 problem.infer(x.keys())
+```
+
+また、以下は `PartialDict` プレースホルダーと同じ定義域を持つような決定変数の辞書を定義している例です：
+
+```{code-cell} ipython3
+problem = jm.Problem("Index and Keys Example")
+N = problem.Length("N")
+L = problem.CategoryLabel("L")
+S = problem.PartialDict("S", dtype=float, dict_keys=(N, L))
+x = problem.BinaryVar("x", dict_keys=S.keys())
+problem
 ```
 
 ### {py:func}`~jijmodeling.stream` による明示的なストリームへの変換
@@ -219,21 +240,6 @@ tuple_domain_example += tuple_domain_example.Constraint(
 )
 
 tuple_domain_example
-```
-
-### 配列や辞書の添え字の集合の取得
-
-配列型や辞書型を持つ式に対しては、その添え字の集合（定義域）に対応するストリームを取得することができます。
-配列に対しては {py:meth}`~jijmodeling.Expression.indices` によりインデックスの全体を、辞書に対しては {py:meth}`~jijmodeling.Expression.keys` によりキー集合を取得することができます。
-これを使うと、たとえば `PartialDict` プレースホルダーと同じ定義域を持つような辞書型の決定変数を以下のようにして定義することができます。
-
-```{code-cell} ipython3
-problem = jm.Problem("Index and Keys Example")
-N = problem.Length("N")
-L = problem.CategoryLabel("L")
-S = problem.PartialDict("S", dtype=float, dict_keys=(N, L))
-x = problem.BinaryVar("x", dict_keys=S.keys())
-problem
 ```
 
 ## ストリームに対する総和・総積・最大・最小値などの畳み込み
