@@ -28,11 +28,11 @@ This part covers the following topics:
    + **{doc}`placeholders`**: How to declare **placeholders**, variables whose values are provided by users when compiling a mathematical model, and **category labels**.
    + **{doc}`decision_variables`**: How to declare **decision variables**, variables whose values are determined by a solver after compilation.
 3. **{doc}`expressions`**: A brief introduction to JijModeling expressions and their types, which are used for objectives, constraints, and variable shapes.
-4. **{doc}`arithmetic_and_comparison`**: Arithmetic and comparison operations available in expressions.
-5. **{doc}`arrays_and_dicts`**: Data structures such as arrays and dictionaries available in expressions.
-6. **{doc}`stream_and_logical_ops`**: How to sum arrays and dictionaries as streams and combine conditions with logical operations.
-7. **{doc}`modeling`**: How to set objectives and constraints using the elements above.
-8. **{doc}`instance_generation`**: How to provide instance data and generate instances, with a brief note on the configuration of constraint detection.
+   + **{doc}`arithmetic_and_comparison`**: Arithmetic and comparison operations available in expressions.
+   + **{doc}`arrays_and_dicts`**: Data structures such as arrays and dictionaries available in expressions.
+   + **{doc}`stream_and_logical_ops`**: How to sum arrays and dictionaries as streams and combine conditions with logical operations.
+4. **{doc}`modeling`**: How to set objectives and constraints using the elements above.
+5. **{doc}`instance_generation`**: How to provide instance data and generate instances, with a brief note on the configuration of constraint detection.
 
 ## Terminology
 
