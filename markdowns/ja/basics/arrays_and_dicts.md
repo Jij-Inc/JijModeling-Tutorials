@@ -158,7 +158,6 @@ def problem(problem: jm.DecoratedProblem):
 ```
 
 配列の添え字では、更に`x[:, 1]` のようなスライス記法を用いることができます。
-この場合、`x[:, 1]` は第 0 次元は全て保持しつつ第 1 次元では `1` 番目のものからなる新たな配列を返します。`x`が二次元配列であれば返値は一次元配列、三次元以上の$N$次元であれば$N-1$次元配列となります。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
