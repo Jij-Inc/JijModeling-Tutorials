@@ -13,6 +13,18 @@ kernelspec:
 
 # ストリームと論理演算
 
+本章では、前章までで見てきたコレクション型を**ストリーム**として扱い、総和や総積などの畳み込み演算やフィルタリングなどを行う方法について説明します。
+ストリームとは「特定の型の値からなる値の列」であり、Python の**イテレータ**と呼ばれるものに類似する概念です。
+前章の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字の集合**に対応するストリームを返します。
+このストリームの概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
+ストリームには値が重複して現れる場合があるため、値の一意性が必要な場合は {py:func}`~jijmodeling.unique` 関数を使ってください。
+
+また、真偽値やストリームに対する論理演算についても併せて説明します。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+```
+
 :::{admonition} JijModeling 2.8.0 での「集合」からの改称
 :class: note
 
@@ -21,20 +33,11 @@ JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び�
 `jm.set` は {py:func}`~jijmodeling.stream` の非推奨の別名として引き続き利用でき、Decorator API での内包表記もそのまま使えますが、呼び出すと `DeprecationWarning` が発生します。
 :::
 
-本章では、前章までで見てきたコレクション型をストリームとして扱い、総和や総積などの畳み込み演算やフィルタリングなどを行う方法について説明します。
-また、真偽値やストリームに対する論理演算についても併せて説明します。
+## ストリームの構築・合成
 
-```{code-cell} ipython3
-import jijmodeling as jm
-```
+JijModeling では、他の型の値から自動的にストリームに変換したり、明示的に構築したり、既存のストリームを合成して新たなストリームを得るための仕組みや関数が用意されています。
 
-## JijModeling における「ストリーム」と他の型からの変換
-
-JijModeling では、「特定の型の値からなる値の列」である**ストリーム**を提供しています。
-これは Python の**イテレータ**と呼ばれるものに類似する概念です。
-前章の最後で触れた {py:meth}`~jijmodeling.Expression.indices` や {py:meth}`~jijmodeling.Expression.keys` も、実際には**添え字の集合**に対応するストリームを返します。
-このストリームの概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
-ストリームには値が重複して現れる場合があるため、値の一意性が必要な場合は {py:func}`~jijmodeling.unique` 関数を使ってください。
+### 既存の型からの自動変換
 
 一部の型の値は自動的にストリームへと変換されます。具体例は次の通りです：
 
@@ -45,28 +48,52 @@ JijModeling では、「特定の型の値からなる値の列」である**ス
 | 決定変数を含まない自然数式 $N$ | $0, 1, \ldots, N-1$ を走査するストリーム |
 | カテゴリーラベル `L` | コンパイル時に与えられる `L` の値全体を走査するストリーム |
 
+### {py:func}`~jijmodeling.rows` で多次元配列を部分配列のストリームに変換する
+
+上述の通り、多次元配列は**行優先順に各要素を走査**するストリームに自動的に変換されます。
+これ以外にも、内側の行を順に走査するストリームを得たい場合は、{py:func}`~jijmodeling.rows` 関数を使います。
+{py:func}`~jijmodeling.rows` 関数は、実際にはシェイプ $N \times M_1 \times \cdots \times M_n$ 多次元配列を、シェイプ $M_1 \times \ldots \times M_n$ の部分配列から成る長さ $N$ の配列に変換する関数であり、配列の自動変換機能を介してストリームに変換されるようになっています。
+
+```{code-cell} ipython3
+problem = jm.Problem("Row Sum Example")
+N = problem.Length("N")
+M = problem.Length("M")
+K = problem.Length("K")
+x = problem.BinaryVar("x", shape=(N, M, K))
+problem.infer(x.rows())
+```
+
 :::{admonition} JijModeling 1 系統からの変更点：配列の走査のされ方
 :class: caution
 
 JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に現れていた場合、内側の行を順に走査していました。
-つまり、JijModeling 1 では `A` がシェイプ `(N, M)` の配列である場合、`A` に対する走査は長さ `M` の一次元配列を要素に持つ、`N` 個の値から成るストリームとして扱われていました。
-
-JijModeling 2 からは、こうした振る舞いは廃止され、要素を順に走査する挙動になります。旧来の挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い {py:func}`jm.rows(A) <jijmodeling.rows>` または {py:meth}`A.rows() <jijmodeling.Expression.rows>` と明示的に変換してください。
+この挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い `jm.rows(A)` または `A.rows()` と明示的に変換してください。
 :::
 
-:::{admonition} JijModeling における辞書の走査のされ方
-:class: important
+### 辞書を明示的にストリームに変換する
 
-JijModeling では、辞書型の式は**キーではなく値を走査する**ストリームになります。
+上述の通り、JijModeling の自動変換機能では、辞書型の式は**キーではなく値を走査する**ストリームになります。
 これは Python の {py:class}`dict` 型の挙動とは異なりますが、多次元配列の振る舞いとの整合性からあえてこの挙動を定めています。
 これにより、たとえば当初は多次元配列として定義されていたプレースホルダーや決定変数を、辞書として扱うようにコードを変更した際に、{py:meth}`x.sum() <jijmodeling.Expression.sum>` のようなコードを変更せずに済むようになります。
-キー値ペアやキーを走査したい場合は、{py:meth}`~jijmodeling.Expression.items` や {py:meth}`~jijmodeling.Expression.keys` メソッドを使ってください。
-また、値を走査していることを明示したい場合は {py:meth}`~jijmodeling.Expression.values` メソッドを利用できます。
-:::
+キー値ペアやキーを走査したい場合は、{py:meth}`~jijmodeling.Expression.items` や {py:meth}`~jijmodeling.Expression.keys` メソッドを使うことで、キー値ペア（{py:meth}`~jijmodeling.Expression.items`）やキー集合（{py:meth}`~jijmodeling.Expression.keys`）を走査するストリームを得ることができます。
+また、デフォルトの値のストリームへの変換を明示的に行いたい場合は、{py:meth}`~jijmodeling.Expression.values` メソッドを利用できます。
 
-## ストリームの構築・合成
+```{code-cell} ipython3
+problem = jm.Problem("Row Sum Example")
+L = problem.CategoryLabel("L")
+N = problem.Length("N")
+M = problem.Length("M")
+x = problem.TotalDict("x", dict_keys=L, dtype=float)
+problem.infer(x.values())
+```
 
-JijModeling では、他の型の値から自動的に変換する以外にも、新たにストリームを構築したり、既存のストリームを合成して新たなストリームを得るための関数が用意されています。
+```{code-cell} ipython3
+problem.infer(x.items())
+```
+
+```{code-cell} ipython3
+problem.infer(x.keys())
+```
 
 ### {py:func}`~jijmodeling.stream` による明示的なストリームへの変換
 
