@@ -16,7 +16,6 @@ kernelspec:
 本章では、前章までで見てきたコレクションを**ストリーム**として扱い、総和や総積などの畳み込み演算やフィルタリングなどを行う方法について説明します。
 ストリームとは「特定の型の値からなる値の列」であり、Python の**イテレータ**と呼ばれるものに類似する概念です。
 このストリームの概念は、特定の範囲を渡る添え字を使いたい場合や総和・総積を取る場合、または添え字つきの制約条件を定義する際に使われます。
-ストリームには値が重複して現れる場合があるため、値の一意性が必要な場合は {py:func}`~jijmodeling.unique` 関数を使ってください。
 
 また、真偽値やストリームに対する論理演算についても併せて説明します。
 
@@ -152,6 +151,21 @@ display(jm.range(1, N, 2))  # 1, 3, 5, ...（N 未満）
 filter_problem = jm.Problem("Stream Filter Example")
 N = filter_problem.Natural("N")
 N.filter(lambda i: i % 2 == 0)
+```
+
+### ストリームの重複を取り除く {py;func}`~jijmodeling.unique` 関数
+
+先述の通り、ストリームには値が重複して現れる場合があります。
+ストリームから重複する元を取り除くが必要な場合は {py:func}`~jijmodeling.unique` 関数を使うと、複数回現れる要素は最初の出現位置のもののみが残され、一意になったストリームが得られるようになります。
+
+```{code-cell} ipython3
+problem = jm.Problem("Stream Uniquifization Example")
+A = problem.Natural("x", ndim=1)
+problem += A.unique().sum() # 配列をストリームと見做し、重複を取り除いてから総和を取る
+
+instance_data = {"x": [1, 3, 1, 2, 2, 1]}
+instance = problem.eval(instance_data)
+assert instance.objective == 6 # 1, 3, 2 のみが残るため、総和は 6
 ```
 
 ### ストリームの写像
