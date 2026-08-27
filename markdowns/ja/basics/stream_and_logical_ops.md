@@ -31,7 +31,7 @@ JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び�
 `jm.set` は {py:func}`~jijmodeling.stream` の非推奨の別名として引き続き利用でき、Decorator API での内包表記もそのまま使えますが、呼び出すと `DeprecationWarning` が発生します。
 :::
 
-## ストリームの構築・合成
+## ストリームの構築
 
 JijModeling では、他の型の値から自動的にストリームに変換したり、明示的に構築したり、既存のストリームを合成して新たなストリームを得るための仕組みや関数が用意されています。
 
@@ -142,6 +142,93 @@ display(jm.range(N))  # 0, 1, ..., N-1
 display(jm.range(1, N))  # 1, 2, ..., N-1
 display(jm.range(1, N, 2))  # 1, 3, 5, ...（N 未満）
 ```
+
+## ストリームに対する総和・総積・最大・最小値などの畳み込み
+
+ストリームは総和・総積などの畳み込み演算と組み合わせると大きな威力を発揮します。以下ではさまざまな総和・総積の記法について説明していきます。
+
+:::{note}
+簡単のため以下では {py:func}`jm.sum() <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod() <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>`、 {py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` を使った総積・最大・最小値関数も同様に記述できます。
+:::
+
+Decorator API では、総和・総積は直感的な{external+python:ref}`内包表記 <comprehensions>`の形で記述することができます。
+
+以下は、決定変数とプレースホルダーの積の総和を Decorator API を使って書いた例です：
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def sum_example(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    a = problem.Float(shape=(N,))
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(a[i] * x[i] for i in N)
+
+
+sum_example
+```
+
+:::{admonition} Python 組込みの {py:func}`sum` 関数を使わないように注意！
+:class: caution
+
+Decorator API の内包表記を用いて畳み込みを記述する場合は、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, {py:func}`jm.min() <jijmodeling.min>` を使います。
+誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すと、Python が JijModeling の式 `N` を実行時に反復しようとして、以下のようなエラーになります：
+:::
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("Wrong Sum Example")
+    def wrong_sum_example(problem: jm.DecoratedProblem):
+        N = problem.Length()
+        a = problem.Float(shape=(N,))
+        x = problem.BinaryVar(shape=(N,))
+        # ERROR! jm.sum() ではなく、Python 組込みの sum を使っている
+        problem += sum(a[i] * x[i] for i in N)
+except Exception as e:
+    print(e)
+```
+
+また、後ほど説明する {py:func}`jijmodeling.map` 関数を使えば、同じプログラムは Plain API のみで同じものを以下のように書けます：
+
+```{code-cell} ipython3
+sum_example_plain = jm.Problem("Sum Example (Plain)")
+N = sum_example_plain.Length("N")
+a = sum_example_plain.Float("a", shape=(N,))
+x = sum_example_plain.BinaryVar("x", shape=(N,))
+sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
+
+sum_example_plain
+```
+
+このような単純な総和の場合、{py:func}`jm.sum() <jijmodeling.sum>` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現できます：
+
+```{code-cell} ipython3
+sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
+N = sum_example_plain_alt.Length("N")
+a = sum_example_plain_alt.Float("a", shape=(N,))
+x = sum_example_plain_alt.BinaryVar("x", shape=(N,))
+sum_example_plain_alt += jm.sum(N, lambda i: a[i] * x[i])
+
+sum_example_plain_alt
+```
+
+:::{important}
+このような二引数による畳み込みをサポートしているのは、 {py:func}`jm.sum() <jijmodeling.sum>` と {py:func}`jm.prod() <jijmodeling.prod>` のみで、{py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` ではサポートされていません。
+
+このように、Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
+:::
+
+:::{tip}
+{py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合はストリームの総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば {py:func}`jm.sum(x) <jijmodeling.sum>` や {py:meth}`x.sum() <jijmodeling.Expression.sum>` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は {py:func}`jm.sum(a * x) <jijmodeling.sum>` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
+:::
+
+これらの畳み込み関数と内包表記の `if` 節などを組み合わせることで、より柔軟な畳み込みを表現することができます。
+具体例については {doc}`../references/cheat_sheet` を参照してください。
+
+## ストリームの変換
+
+ここまでは、ストリームの構築や畳み込みによる消費の方法について見てきました。
+以下では、既存のストリームを加工したり、複数のストリームを組み合わせて新たなストリームを構築する方法について説明します。
 
 ### ストリームのフィルタリング
 
@@ -255,88 +342,6 @@ tuple_domain_example += tuple_domain_example.Constraint(
 
 tuple_domain_example
 ```
-
-## ストリームに対する総和・総積・最大・最小値などの畳み込み
-
-添え字は総和・総積などの畳み込み演算と組み合わせると大きな威力を発揮します。以下ではさまざまな総和・総積の記法について説明していきます。
-
-:::{note}
-簡単のため以下では {py:func}`jm.sum() <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod() <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>`、 {py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` を使った総積・最大・最小値関数も同様に記述できます。
-:::
-
-Decorator API では、総和・総積は直感的な{external+python:ref}`内包表記 <comprehensions>`の形で記述することができます。
-
-以下は、決定変数とプレースホルダーの積の総和を Decorator API を使って書いた例です：
-
-```{code-cell} ipython3
-@jm.Problem.define("Sum Example")
-def sum_example(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    a = problem.Float(shape=(N,))
-    x = problem.BinaryVar(shape=(N,))
-    problem += jm.sum(a[i] * x[i] for i in N)
-
-
-sum_example
-```
-
-:::{admonition} Python 組込みの {py:func}`sum` 関数を使わないように注意！
-:class: caution
-
-Decorator API の内包表記を用いて畳み込みを記述する場合は、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, {py:func}`jm.min() <jijmodeling.min>` を使います。
-誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すと、Python が JijModeling の式 `N` を実行時に反復しようとして、以下のようなエラーになります：
-:::
-
-```{code-cell} ipython3
-try:
-
-    @jm.Problem.define("Wrong Sum Example")
-    def wrong_sum_example(problem: jm.DecoratedProblem):
-        N = problem.Length()
-        a = problem.Float(shape=(N,))
-        x = problem.BinaryVar(shape=(N,))
-        # ERROR! jm.sum() ではなく、Python 組込みの sum を使っている
-        problem += sum(a[i] * x[i] for i in N)
-except Exception as e:
-    print(e)
-```
-
-先述の {py:func}`jijmodeling.map` 関数を使えば、同じプログラムは Plain API のみで同じものを以下のように書けます：
-
-```{code-cell} ipython3
-sum_example_plain = jm.Problem("Sum Example (Plain)")
-N = sum_example_plain.Length("N")
-a = sum_example_plain.Float("a", shape=(N,))
-x = sum_example_plain.BinaryVar("x", shape=(N,))
-sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
-
-sum_example_plain
-```
-
-このような単純な総和の場合、{py:func}`jm.sum() <jijmodeling.sum>` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現できます：
-
-```{code-cell} ipython3
-sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
-N = sum_example_plain_alt.Length("N")
-a = sum_example_plain_alt.Float("a", shape=(N,))
-x = sum_example_plain_alt.BinaryVar("x", shape=(N,))
-sum_example_plain_alt += jm.sum(N, lambda i: a[i] * x[i])
-
-sum_example_plain_alt
-```
-
-:::{important}
-このような二引数による畳み込みをサポートしているのは、 {py:func}`jm.sum() <jijmodeling.sum>` と {py:func}`jm.prod() <jijmodeling.prod>` のみで、{py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` ではサポートされていません。
-
-このように、Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
-:::
-
-:::{tip}
-{py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合はストリームの総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば {py:func}`jm.sum(x) <jijmodeling.sum>` や {py:meth}`x.sum() <jijmodeling.Expression.sum>` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は {py:func}`jm.sum(a * x) <jijmodeling.sum>` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
-:::
-
-これらの畳み込み関数と内包表記の `if` 節などを組み合わせることで、より柔軟な畳み込みを表現することができます。
-具体例については {doc}`../references/cheat_sheet` を参照してください。
 
 ## 条件式とストリームの論理演算
 

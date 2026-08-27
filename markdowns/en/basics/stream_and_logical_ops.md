@@ -31,7 +31,7 @@ Since version 2.8.0, this concept has consistently been called a stream.
 `jm.set` remains available as a deprecated alias for {py:func}`~jijmodeling.stream`, and existing comprehensions in the Decorator API continue to work, but calling it emits a `DeprecationWarning`.
 :::
 
-## Constructing and Composing Streams
+## Constructing Streams
 
 JijModeling provides mechanisms and functions for automatically converting values of other types into streams, explicitly constructing streams, and composing existing streams into new ones.
 
@@ -142,6 +142,93 @@ display(jm.range(N))  # 0, 1, ..., N-1
 display(jm.range(1, N))  # 1, 2, ..., N-1
 display(jm.range(1, N, 2))  # 1, 3, 5, ... (less than N)
 ```
+
+## Reductions over Streams: Sums, Products, Maximums, Minimums, and More
+
+Streams become especially powerful when combined with reductions such as sums and products. The following section explains the different notations available for sums and products.
+
+:::{note}
+For simplicity, the examples below use {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`). Products with {py:func}`jm.prod() <jijmodeling.prod>` or {py:func}`Expression.prod() <jijmodeling.Expression.prod>`, and maximums and minimums with {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`, can be written in the same way.
+:::
+
+In the Decorator API, sums and products can be written intuitively as {external+python:ref}`comprehensions`.
+
+The following example uses the Decorator API to write the sum of products of decision variables and placeholders:
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def sum_example(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    a = problem.Float(shape=(N,))
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(a[i] * x[i] for i in N)
+
+
+sum_example
+```
+
+:::{admonition} Do Not Use Python's Built-in {py:func}`sum` Function
+:class: caution
+
+When writing a reduction with a Decorator API comprehension, use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, or {py:func}`jm.min() <jijmodeling.min>`.
+If you accidentally pass an expression such as `a[i] * x[i] for i in N` to Python's built-in {py:func}`sum`, Python tries to iterate over the JijModeling expression `N` at runtime, resulting in an error like the following:
+:::
+
+```{code-cell} ipython3
+try:
+
+    @jm.Problem.define("Wrong Sum Example")
+    def wrong_sum_example(problem: jm.DecoratedProblem):
+        N = problem.Length()
+        a = problem.Float(shape=(N,))
+        x = problem.BinaryVar(shape=(N,))
+        # ERROR: using Python's built-in sum instead of jm.sum()
+        problem += sum(a[i] * x[i] for i in N)
+except Exception as e:
+    print(e)
+```
+
+The same program can be written entirely with the Plain API using {py:func}`jijmodeling.map`, which will be explained in the next section:
+
+```{code-cell} ipython3
+sum_example_plain = jm.Problem("Sum Example (Plain)")
+N = sum_example_plain.Length("N")
+a = sum_example_plain.Float("a", shape=(N,))
+x = sum_example_plain.BinaryVar("x", shape=(N,))
+sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
+
+sum_example_plain
+```
+
+For a simple sum like this, you can also pass two arguments to {py:func}`jm.sum() <jijmodeling.sum>`: the domain and a function that returns the term to sum.
+
+```{code-cell} ipython3
+sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
+N = sum_example_plain_alt.Length("N")
+a = sum_example_plain_alt.Float("a", shape=(N,))
+x = sum_example_plain_alt.BinaryVar("x", shape=(N,))
+sum_example_plain_alt += jm.sum(N, lambda i: a[i] * x[i])
+
+sum_example_plain_alt
+```
+
+:::{important}
+This two-argument reduction form is supported only by {py:func}`jm.sum() <jijmodeling.sum>` and {py:func}`jm.prod() <jijmodeling.prod>`, not by {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`.
+
+When using only the Plain API, expressions that traverse indices must be constructed with Python {external+python:ref}`lambda expressions <lambda>`.
+:::
+
+:::{tip}
+When {py:func}`jm.sum() <jijmodeling.sum>` or {py:func}`jm.prod() <jijmodeling.prod>` is called as a single-argument function or method, it takes the sum or product of a stream. To sum the elements of `x`, you can simply write {py:func}`jm.sum(x) <jijmodeling.sum>` or {py:meth}`x.sum() <jijmodeling.Expression.sum>`. With the limited broadcasting described earlier, the example above can also be written as {py:func}`jm.sum(a * x) <jijmodeling.sum>`. The same applies when `x` is a two- or higher-dimensional array.
+:::
+
+Combining these reduction functions with `if` clauses in comprehensions allows more flexible reductions to be expressed.
+For specific examples, see {doc}`../references/cheat_sheet`.
+
+## Transforming Streams
+
+So far, we have seen how to construct streams and consume them through reductions.
+The following sections explain how to transform existing streams and combine multiple streams to construct new ones.
 
 ### Filtering Streams
 
@@ -254,88 +341,6 @@ tuple_domain_example += tuple_domain_example.Constraint(
 
 tuple_domain_example
 ```
-
-## Reductions over Streams: Sums, Products, Maximums, Minimums, and More
-
-Indices become especially powerful when combined with reductions such as sums and products. The following section explains the different notations available for sums and products.
-
-:::{note}
-For simplicity, the examples below use {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`). Products with {py:func}`jm.prod() <jijmodeling.prod>` or {py:func}`Expression.prod() <jijmodeling.Expression.prod>`, and maximums and minimums with {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`, can be written in the same way.
-:::
-
-In the Decorator API, sums and products can be written intuitively as {external+python:ref}`comprehensions`.
-
-The following example uses the Decorator API to write the sum of products of decision variables and placeholders:
-
-```{code-cell} ipython3
-@jm.Problem.define("Sum Example")
-def sum_example(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    a = problem.Float(shape=(N,))
-    x = problem.BinaryVar(shape=(N,))
-    problem += jm.sum(a[i] * x[i] for i in N)
-
-
-sum_example
-```
-
-:::{admonition} Do Not Use Python's Built-in {py:func}`sum` Function
-:class: caution
-
-When writing a reduction with a Decorator API comprehension, use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, or {py:func}`jm.min() <jijmodeling.min>`.
-If you accidentally pass an expression such as `a[i] * x[i] for i in N` to Python's built-in {py:func}`sum`, Python tries to iterate over the JijModeling expression `N` at runtime, resulting in an error like the following:
-:::
-
-```{code-cell} ipython3
-try:
-
-    @jm.Problem.define("Wrong Sum Example")
-    def wrong_sum_example(problem: jm.DecoratedProblem):
-        N = problem.Length()
-        a = problem.Float(shape=(N,))
-        x = problem.BinaryVar(shape=(N,))
-        # ERROR: using Python's built-in sum instead of jm.sum()
-        problem += sum(a[i] * x[i] for i in N)
-except Exception as e:
-    print(e)
-```
-
-Using the {py:func}`jijmodeling.map` function described above, the same program can be written entirely with the Plain API:
-
-```{code-cell} ipython3
-sum_example_plain = jm.Problem("Sum Example (Plain)")
-N = sum_example_plain.Length("N")
-a = sum_example_plain.Float("a", shape=(N,))
-x = sum_example_plain.BinaryVar("x", shape=(N,))
-sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
-
-sum_example_plain
-```
-
-For a simple sum like this, you can also pass two arguments to {py:func}`jm.sum() <jijmodeling.sum>`: the domain and a function that returns the term to sum.
-
-```{code-cell} ipython3
-sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
-N = sum_example_plain_alt.Length("N")
-a = sum_example_plain_alt.Float("a", shape=(N,))
-x = sum_example_plain_alt.BinaryVar("x", shape=(N,))
-sum_example_plain_alt += jm.sum(N, lambda i: a[i] * x[i])
-
-sum_example_plain_alt
-```
-
-:::{important}
-This two-argument reduction form is supported only by {py:func}`jm.sum() <jijmodeling.sum>` and {py:func}`jm.prod() <jijmodeling.prod>`, not by {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`.
-
-When using only the Plain API, expressions that traverse indices must be constructed with Python {external+python:ref}`lambda expressions <lambda>`.
-:::
-
-:::{tip}
-When {py:func}`jm.sum() <jijmodeling.sum>` or {py:func}`jm.prod() <jijmodeling.prod>` is called as a single-argument function or method, it takes the sum or product of a stream. To sum the elements of `x`, you can simply write {py:func}`jm.sum(x) <jijmodeling.sum>` or {py:meth}`x.sum() <jijmodeling.Expression.sum>`. With the limited broadcasting described earlier, the example above can also be written as {py:func}`jm.sum(a * x) <jijmodeling.sum>`. The same applies when `x` is a two- or higher-dimensional array.
-:::
-
-Combining these reduction functions with `if` clauses in comprehensions allows more flexible reductions to be expressed.
-For specific examples, see {doc}`../references/cheat_sheet`.
 
 ## Logical Operations on Conditional Expressions and Streams
 
