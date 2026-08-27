@@ -89,15 +89,13 @@ x = problem.BinaryVar("x", dict_keys=L)
 jm.gendict(lambda l, n: x[l] + n, (L, N))
 ```
 
-{py:func}`~jijmodeling.gendict` も Decorator API ではただ一つの `for` 節のみからなる内包表記をサポートしています。
+{py:func}`~jijmodeling.gendict` も Decorator API ではただ一つの `for` 節と任意個の `if` 節からなる内包表記をサポートしています。
 
 ```{code-cell} ipython3
 @problem.update
 def _(problem: jm.DecoratedProblem):
-    display(jm.gendict(x[l] + n for (l, n) in (L, N)))
+    display(jm.gendict(x[l] + n for (l, n) in (L, N) if n % 2 == 0))
 ```
-
-<!-- TODO: 2.8 が出たら、if もサポートされているということを書く -->
 
 ## 配列・辞書の定義域の取得
 
