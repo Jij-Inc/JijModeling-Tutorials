@@ -57,7 +57,7 @@ sphinx:
       numpy: [https://numpy.org/doc/stable, null]
       python: ["https://docs.python.org/ja/3", "https://docs.python.org/ja/3/objects.inv"]
       ommx_api: ["https://jij-inc.github.io/ommx/python/ommx", null]
-      ommx_doc: ["https://jij-inc.github.io/ommx/ja", null]
+      ommx_doc: ["https://jij-inc.github.io/ommx/en", null]
 
 parse:
   myst_enable_extensions:

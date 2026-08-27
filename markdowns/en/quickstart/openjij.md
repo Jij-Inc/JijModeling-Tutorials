@@ -133,7 +133,7 @@ instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-The return value of `Problem.eval` is an `ommx.v1.Instance` object. For more details about it, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/instance.html).
+The return value of {py:meth}`Problem.eval <jijmodeling.Problem.eval>` is an {py:class}`ommx.v1.Instance` object. For details, see {doc}`../basics/instance_generation` and {external+ommx_doc:doc}`user_guide/instance`.
 :::
 
 +++
@@ -155,7 +155,7 @@ solution = OMMXOpenJijSAAdapter.solve(
 ```
 
 Using `OMMXOpenJijSAAdapter`, you can easily convert an instance defined by `ommx.v1.Instance` to QUBO/HUBO format using the penalty method or log encoding, and solve it.
-Also, the obtained solution can be displayed as a `pandas.DataFrame` object using the `decision_variables_df` property:
+Also, the obtained solution can be displayed as a `pandas.DataFrame` object using the {py:meth}`decision_variables_df <ommx.v1.Solution.decision_variables_df>` property:
 
 ```{code-cell} ipython3
 df = solution.decision_variables_df

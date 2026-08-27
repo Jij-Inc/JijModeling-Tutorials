@@ -152,7 +152,7 @@ When running the code in this document, we strongly recommend using the same ver
 
 This document provides the information you need to formulate mathematical optimization problems with JijModeling.
 For mathematical optimization itself, refer to materials such as JijZept's “[Mathematical Optimization Basics](https://www.jijzept.com/en/docs/tutorials/optimization_basics/01-introduction/)”.
-This document is organized as follows:
+The parts of this document are organized as follows:
 
 1. **Quick Start**: Learn how to formulate and solve optimization problems in JijModeling through the knapsack example. There are two variants depending on the solver, but the JijModeling usage is the same, so choose whichever you prefer.
     - **{doc}`./quickstart/scip`**: Covers using the mathematical optimization solver [SCIP](https://www.scipopt.org/).

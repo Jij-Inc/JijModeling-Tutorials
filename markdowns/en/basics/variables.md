@@ -62,6 +62,7 @@ Category labels are useful when:
 In the following chapters we explain placeholders first and decision variables second, but as long as dependencies between variables are respected, there is no restriction on the order of definition.
 :::
 
+(containers_of_vars)=
 ## Arrays and dictionaries of variables
 
 JijModeling variables can be defined as single variables, or multiple variables can be grouped as arrays or dictionaries.
@@ -102,7 +103,7 @@ Arrays and dictionaries can sometimes substitute for each other, but the followi
 :::
 
 Below we briefly summarize only the parts of arrays and dictionaries related to variable declarations.
-For more general topics and operations, see {doc}`./expressions`.
+For more general generation methods and element access, see {doc}`./arrays_and_dicts`. To learn how to traverse and aggregate them as streams, see {doc}`./stream_and_logical_ops`.
 
 ### Overview of arrays
 
@@ -118,7 +119,7 @@ JijModeling array types separate dimensions and element types with a semicolon `
 | Example | Textual Notation | LaTeX Notation | Meaning |
 | :-- | :--------------- | :------------- | :--- |
 | 1D integer array | `Array[N; int]` | $\mathrm{Array}[N; \mathbb{Z}]$ | Integer array of length $N$ |
-| 2D real array | `Array[N, M; float]` | $\mathrm{Array}[N \times M; \mathbb{R}]$ | $N \times M$ real-valued matrix |
+| 2D real array | `Array[N, M; float]` | $\mathrm{Array}[N, M; \mathbb{R}]$ | $N \times M$ real-valued matrix |
 
 :::
 

@@ -14,9 +14,9 @@ kernelspec:
 # Declaring a mathematical model
 
 In JijModeling, variables, constraints, and other elements are always registered and tied to a specific mathematical model.
-Before we dive into the individual elements, this section briefly explains how to declare a model.
+Before we dive into the individual elements, this chapter briefly explains how to declare a model.
 
-## Creating a `Problem` object that represents a model
+## Creating a {py:class}`Problem <jijmodeling.Problem>` object that represents a model
 
 In JijModeling, a specific model is represented by a {py:class}`~jijmodeling.Problem` object, which you typically declare first when constructing a model.
 First, import the JijModeling library under the name `jm`.
@@ -27,19 +27,19 @@ import jijmodeling as jm
 
 ### Creating a `Problem` object with the Plain API
 
-There are two ways to create a `Problem`: with the **Plain API** and with the **Decorator API**.
-The first way is to directly construct a `Problem` object using the Plain API.
+There are two ways to create a {py:class}`Problem <jijmodeling.Problem>`: with the **Plain API** and with the **Decorator API**.
+The first way is to directly construct a {py:class}`Problem <jijmodeling.Problem>` object using the Plain API.
 
 ```{code-cell} ipython3
 plain_problem = jm.Problem(
     "Empty Problem",
     sense=jm.ProblemSense.MAXIMIZE,
-    description="An optimization problem with no objective or constraints, for demonstration",
+    description="A mathematical model with no objective or constraints, for demonstration",
 )
 ```
 
 The first argument is required and specifies the name of the model. The remaining keyword arguments, `sense` and `description`, are both optional.
-`sense` specifies whether the model is a maximization problem (`jm.ProblemSense.MAXIMIZE`) or a minimization problem (`jm.ProblemSense.MINIMIZE`); if omitted, it defaults to minimization.
+`sense` specifies whether the model is a maximization problem ({py:attr}`jm.ProblemSense.MAXIMIZE <jijmodeling.ProblemSense.MAXIMIZE>`) or a minimization problem ({py:attr}`jm.ProblemSense.MINIMIZE <jijmodeling.ProblemSense.MINIMIZE>`); if omitted, it defaults to minimization.
 `description` is a human-readable description of the purpose of model, used in LaTeX output or OMMX metadata.
 You can display the object to check such metadata within Jupyter:
 
@@ -67,7 +67,7 @@ Here is the same model defined with the Decorator API using {py:meth}`@jm.Proble
 @jm.Problem.define(
     "Empty Problem",
     sense=jm.ProblemSense.MAXIMIZE,
-    description="An optimization problem with no objective or constraints, for demonstration",
+    description="A mathematical model with no objective or constraints, for demonstration",
 )
 def deco_problem(problem: jm.DecoratedProblem):
     pass  # do nothing
@@ -76,34 +76,34 @@ def deco_problem(problem: jm.DecoratedProblem):
 deco_problem
 ```
 
-`@jm.Problem.define()` takes the same arguments as `jm.Problem()`, but instead of binding directly to a variable, it decorates a function definition (here, `def deco_problem(...)`).
-With `@jm.Problem.define`, when the function definition ends, the actual `Problem` instance is bound to a variable with the same name as the function (here, `deco_problem`).
+{py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` takes the same arguments as {py:class}`jm.Problem() <jijmodeling.Problem>`, but instead of binding directly to a variable, it decorates a function definition (here, `def deco_problem(...)`).
+With {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`, when the function definition ends, the actual {py:class}`Problem <jijmodeling.Problem>` instance is bound to a variable with the same name as the function (here, `deco_problem`).
 In the example above, after the function definition, we can print-out `deco_problem` to check its definition.
 A function definition preceded by an expression starting with `@` is called a **decorated** function.
 Inside such a decorated function, you will call various methods on the first argument `problem` to update the model.
 
-:::{admonition} What is a `DecoratedProblem` object?
+:::{admonition} What Is a {py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` Object?
 :class: caution
 
-Note that the first argument of a decorated function is **not** a `Problem` object but a **`DecoratedProblem` object**.
-`DecoratedProblem` is a dummy class that only appears inside decorated functions.
-It is provided with type hints tailored to the Decorator API, so you can benefit from editor completion and type checking.
+Note that the first argument of a decorated function is **not** a {py:class}`Problem <jijmodeling.Problem>` object but a **{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` object**.
+{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` is a dummy {py:class}`Problem <jijmodeling.Problem>` class that only appears inside decorated functions.
+{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` is provided with type hints tailored to the Decorator API, so you can benefit from editor completion and type checking.
 :::
 
 As we haven't made any updates on the problem, this style may look a bit verbose.
-However, inside a function decorated by `@jm.Problem.define`, you can use natural and intuitive Decorator API syntax, such as omitting variable names or using comprehensions for sums and products, which becomes very convenient in real model definitions.
+However, inside a function decorated by {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`, you can use natural and intuitive Decorator API syntax, such as omitting variable names or using comprehensions for sums and products, which becomes very convenient in the model definitions shown in the following chapters.
 
 Also, you can treat models defined with either API in the same way, so you never need to care which API was used.
-In fact, both `plain_problem` and `deco_problem` above are identified as the same model:
+In fact, both `plain_problem` and `deco_problem` above are identified as the same model as {py:class}`Problem <jijmodeling.Problem>` objects:
 
 ```{code-cell} ipython3
 jm.is_same(plain_problem, deco_problem)
 ```
 
-## Updating a `Problem` object
+## Updating a {py:class}`Problem <jijmodeling.Problem>` object
 
-We created almost empty `Problem` objects above, but in practice you update the `Problem` incrementally as you build a model, adding decision variables, constraints, and objectives to the model.
-Regardless of how a model is defined, you can always update it with the Plain API, and you can also update an existing `Problem` object `problem` using the Decorator API via the {py:meth}`@problem.update <jijmodeling.Problem.update>` decorator.
+We created almost empty `Problem` objects above, but in practice you update the {py:class}`Problem <jijmodeling.Problem>` incrementally as you build a model, adding decision variables, constraints, and objectives to the model.
+Regardless of how a model is defined, you can always update it with the Plain API, and you can also update an existing {py:class}`Problem <jijmodeling.Problem>` object `problem` using the Decorator API via the {py:meth}`@problem.update <jijmodeling.Problem.update>` decorator.
 You can also mix the two styles freely.
 Let's add variables to the two problems we defined earlier.
 
@@ -131,23 +131,23 @@ deco_problem += x + y
 deco_problem
 ```
 
-We use `_` as the function name in the `@problem.update` example -- the function name has no effect on the result, so you can choose any name you like.
+We use `_` as the function name in the {py:meth}`@problem.update <jijmodeling.Problem.update>` example -- the function name has no effect on the result, so you can choose any name you like.
 
 (update_parameters)=
 ### Variable rebinding in the Decorator API
 
-Python variables defined inside functions decorated with `@jm.Problem.define()` or `@problem.update` cannot be accessed directly from outside the function.
-More precisely, while the model-level variables and constraints are registered in the corresponding `Problem` object, the Python variables that refer to them stay inside the function scope.
+Python variables defined inside functions decorated with {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` or {py:meth}`@problem.update <jijmodeling.Problem.update>` cannot be accessed directly from outside the function.
+More precisely, while the model-level variables and constraints are registered in the corresponding {py:class}`Problem <jijmodeling.Problem>` object, the Python variables that refer to them stay inside the function scope.
 
 To make such cases easy to handle, since JijModeling 2.7.0, the second and subsequent arguments of a {py:meth}`~jijmodeling.Problem.update` function can bind variables already defined in the {py:class}`~jijmodeling.Problem`, including placeholders, category labels, decision variables, and named expressions.
 Starting with the second argument, declare arguments with the same names as the items you want to obtain and use the corresponding type annotations below.
 
 | Item to obtain | Type annotation |
 | :-- | :-- |
-| Placeholder | `jm.Placeholder` |
-| Category label | `jm.CategoryLabel` |
-| Decision variable | `jm.DecisionVar` |
-| Named expression | `jm.NamedExpr` |
+| Placeholder | {py:class}`jm.Placeholder <jijmodeling.Placeholder>` |
+| Category label | {py:class}`jm.CategoryLabel <jijmodeling.CategoryLabel>` |
+| Decision variable | {py:class}`jm.DecisionVar <jijmodeling.DecisionVar>` |
+| Named expression | {py:class}`jm.NamedExpr <jijmodeling.NamedExpr>` |
 
 Each argument name must match the name passed as the first argument to the corresponding constructor.
 If the name was omitted through the Decorator API, it matches the Python variable name.
@@ -172,12 +172,12 @@ def _(
     problem += problem.Constraint("select", total <= N)
 ```
 
-As this example shows, the additional arguments to `@problem.update` need only include the variables required by that update, rather than every variable defined in the Problem.
+As this example shows, the additional arguments to {py:meth}`@problem.update <jijmodeling.Problem.update>` need only include the variables required by that update, rather than every variable defined in the Problem.
 
-If you are using a version earlier than 2.7.0, you can achieve the same result by retrieving items directly from the metadata held by the `Problem`, such as `placeholders`, and binding them manually as described in the following sections.
-
-Now, let's move on to the concrete features you need to build models in the next sections.
+If you are using a version earlier than 2.7.0, you can achieve the same result by retrieving items directly from metadata such as {py:attr}`placeholders <jijmodeling.Problem.placeholders>` held by the {py:class}`Problem <jijmodeling.Problem>` and binding them manually as described in the following chapters.
 
 :::{tip}
-At this point the benefits of the Decorator API may not be obvious, but they will become clear as you go through the following sections.
+At this point the benefits of the Decorator API may not be obvious, but they will become clear as you go through the following chapters.
 :::
+
+Now, let's move on to the concrete features you need to build models in the next chapter.
