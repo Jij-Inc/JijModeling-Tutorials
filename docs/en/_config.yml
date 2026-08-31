@@ -58,6 +58,7 @@ sphinx:
       python: ["https://docs.python.org/3", "https://docs.python.org/3/objects.inv"]
       ommx_api: ["https://jij-inc.github.io/ommx/python/ommx", null]
       ommx_doc: ["https://jij-inc.github.io/ommx/en", null]
+      zept_tutor: ["https://jij-inc-jijzept-tutorials-en.readthedocs-hosted.com/en/latest", null]
 
 parse:
   myst_enable_extensions:

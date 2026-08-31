@@ -383,6 +383,12 @@ problem
 
 As noted above, `|` has higher precedence than `==`, so removing the parentheses causes this expression to fail.
 
+:::{admonition} Example of a More Complex Conditional Expression
+:class: hint
+
+For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
+:::
+
 ### Logical Operations on Streams
 
 Logical operations can also be applied to stream expressions. In particular, `|` represents a union and `&` represents an intersection.
