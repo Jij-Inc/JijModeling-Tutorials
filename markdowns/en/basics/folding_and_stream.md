@@ -119,7 +119,7 @@ For specific examples, see {doc}`../references/cheat_sheet`.
 
 ## Constructing Streams
 
-JijModeling provides mechanisms and functions for automatically converting values of other types into streams, explicitly constructing streams, and composing existing streams into new ones.
+JijModeling provides various mechanisms and functions for converting values of other types into streams, either explicitly or automatically, and for constructing new streams.
 
 ### Automatic Conversion from Existing Types
 
@@ -169,7 +169,7 @@ problem.infer(S.indices())
 As described above, JijModeling's automatic conversion turns a dictionary expression into a stream over its **values, not its keys**.
 This differs from Python's {py:class}`dict`, but is intentional so that dictionaries behave consistently with multidimensional arrays.
 For example, if a placeholder or decision variable originally defined as a multidimensional array is changed to a dictionary, code such as {py:meth}`x.sum() <jijmodeling.Expression.sum>` does not need to change.
-To traverse key-value pairs or keys, use {py:meth}`~jijmodeling.Expression.items` or {py:meth}`~jijmodeling.Expression.keys`. These methods return streams over key-value pairs and keys, respectively.
+To obtain a stream that traverses key-value pairs, use {py:meth}`~jijmodeling.Expression.items`; to obtain one that traverses keys, use {py:meth}`~jijmodeling.Expression.keys`.
 To make the default conversion to a stream of values explicit, use {py:meth}`~jijmodeling.Expression.values`.
 
 ```{code-cell} ipython3
