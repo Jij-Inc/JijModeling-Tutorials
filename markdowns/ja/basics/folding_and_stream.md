@@ -33,7 +33,8 @@ JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び�
 
 ## ストリームに対する総和・総積・最大・最小値などの畳み込み
 
-JijModeling で数理モデルを定式化する際には、{py:func}`jm.sum <jijmodeling.sum>` による添え字上の総和がよく利用されます。JijModelingの総和・総積などは、ストリームの要素を順に処理する畳み込み演算の形で実現されています。以下では、その具体例として、さまざまな総和・総積の記法について説明していきます。
+JijModeling の総和・総積などは、ストリームの要素を順に処理する畳み込み演算の形で実現されています。
+以下では、その具体例として、さまざまな総和・総積の記法について説明していきます。
 
 :::{note}
 簡単のため以下では {py:func}`jm.sum() <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod() <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>`、 {py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` を使った総積・最大・最小値関数も同様に記述できます。
@@ -55,7 +56,7 @@ def sum_example(problem: jm.DecoratedProblem):
 sum_example
 ```
 
-`in` の後には、次節以降で説明する方法を使って得られる任意のストリームや暗黙にストリームに変換されるような型の値を渡すことができます。この例では、`for i in N` の 自然数 `N` が畳み込みが行われるストリームに対応しています。
+`in` の後には、次節以降で説明する方法を使って得られる任意のストリームや暗黙にストリームに変換されるような型の値を渡すことができます。この例では、`for i in N` の自然数 `N` が畳み込みが行われるストリームに対応しています。
 
 :::{admonition} Python 組込みの {py:func}`sum` 関数を使わないように注意！
 :class: caution
