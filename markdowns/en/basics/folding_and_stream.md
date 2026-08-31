@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Streams and Logical Operations
+# Folding and Streams
 
 This chapter explains how to treat the collections introduced in the preceding chapters as **streams** and apply operations such as reductions and filtering.
 A stream is a sequence of values of a particular type that may contain duplicates. It is similar to what Python calls an **iterator**.

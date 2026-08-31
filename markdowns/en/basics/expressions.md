@@ -174,7 +174,7 @@ The following chapters explain specific ways to construct expressions.
 {doc}`arrays_and_dicts`
 :   Explains how to declare multidimensional arrays and dictionaries and access their elements.
 
-{doc}`stream_and_logical_ops`
+{doc}`folding_and_stream`
 :   Introduces reductions over arrays and dictionaries using streams and the construction of expressions using logical operations.
 
 For concrete examples of these constructs, see {doc}`../references/cheat_sheet`.

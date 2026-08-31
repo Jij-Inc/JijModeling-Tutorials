@@ -30,7 +30,7 @@ This part covers the following topics:
 3. **{doc}`expressions`**: A brief introduction to JijModeling expressions and their types, which are used for objectives, constraints, and variable shapes.
    + **{doc}`arithmetic_and_comparison`**: Arithmetic and comparison operations available in expressions.
    + **{doc}`arrays_and_dicts`**: Data structures such as arrays and dictionaries available in expressions.
-   + **{doc}`stream_and_logical_ops`**: How to sum arrays and dictionaries as streams and combine conditions with logical operations.
+   + **{doc}`folding_and_stream`**: How to sum arrays and dictionaries as streams and combine conditions with logical operations.
 4. **{doc}`modeling`**: How to set objectives and constraints using the elements above.
 5. **{doc}`instance_generation`**: How to provide instance data and generate instances, with a brief note on the configuration of constraint detection.
 

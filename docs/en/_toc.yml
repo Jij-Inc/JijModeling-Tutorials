@@ -22,7 +22,7 @@ parts:
       - file: basics/expressions
       - file: basics/arithmetic_and_comparison
       - file: basics/arrays_and_dicts
-      - file: basics/stream_and_logical_ops
+      - file: basics/folding_and_stream
       - file: basics/modeling
       - file: basics/instance_generation
   - caption: Advanced

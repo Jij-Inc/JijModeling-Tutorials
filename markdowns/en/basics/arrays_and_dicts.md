@@ -18,7 +18,7 @@ JijModeling can also work with arrays and dictionaries containing general elemen
 For a detailed conceptual explanation of arrays and dictionaries and guidance on choosing between them, see [Arrays and dictionaries of variables](#containers_of_vars) in {doc}`./variables`.
 
 This chapter first reviews the different kinds of collections, then explains the functions used to generate them and how to access their elements.
-The next chapter, {doc}`./stream_and_logical_ops`, also explains how to treat arrays and dictionaries as streams and take their sums and products.
+The next chapter, {doc}`./folding_and_stream`, also explains how to treat arrays and dictionaries as streams and take their sums and products.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -54,7 +54,7 @@ def _(problem: jm.DecoratedProblem):
 ```
 
 Here, the tuple `(N, M)` on the right-hand side of `in` is shorthand for the Cartesian product of `N` and `M`.
-This notation is explained further in {doc}`stream_and_logical_ops`.
+This notation is explained further in {doc}`folding_and_stream`.
 
 Comprehensions passed to {py:func}`~jijmodeling.genarray` support exactly one `for` clause and do not support `if` clauses.
 For example, using multiple `for` clauses as follows results in an error:

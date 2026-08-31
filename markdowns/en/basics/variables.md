@@ -103,7 +103,7 @@ Arrays and dictionaries can sometimes substitute for each other, but the followi
 :::
 
 Below we briefly summarize only the parts of arrays and dictionaries related to variable declarations.
-For more general generation methods and element access, see {doc}`./arrays_and_dicts`. To learn how to traverse and aggregate them as streams, see {doc}`./stream_and_logical_ops`.
+For more general generation methods and element access, see {doc}`./arrays_and_dicts`. To learn how to traverse and aggregate them as streams, see {doc}`./folding_and_stream`.
 
 ### Overview of arrays
 

@@ -171,7 +171,7 @@ except Exception as e:
 {doc}`arrays_and_dicts`
 :   多次元配列や辞書の宣言や要素へのアクセス方法などを説明します。
 
-{doc}`stream_and_logical_ops`
+{doc}`folding_and_stream`
 :   ストリームを用いて配列や辞書を畳み込む方法や、論理演算を用いた式の構築方法を紹介します。
 
 また、これらの構文の具体的な用例については、{doc}`../references/cheat_sheet` が参考になるでしょう。
