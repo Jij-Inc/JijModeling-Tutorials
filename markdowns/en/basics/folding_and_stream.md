@@ -33,8 +33,8 @@ Since version 2.8.0, this concept has consistently been called a stream.
 
 ## Folding Streams: Sums, Products, Maximums, Minimums, and More
 
-When formulating mathematical models in JijModeling, indexed sums expressed with {py:func}`jm.sum <jijmodeling.sum>` play an important role.
-Folding operations such as sums and products are formulated by processing the elements of a stream in sequence. This section explains the different notations available for sums and products.
+In JijModeling, operations such as sums and products are implemented as folds that process the elements of a stream in sequence.
+The following examples explain the different notations available for sums and products.
 
 :::{note}
 For simplicity, the examples below use {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`). Products with {py:func}`jm.prod() <jijmodeling.prod>` or {py:func}`Expression.prod() <jijmodeling.Expression.prod>`, and maximums and minimums with {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`, can be written in the same way.
@@ -56,29 +56,14 @@ def sum_example(problem: jm.DecoratedProblem):
 sum_example
 ```
 
-In this example, `N` in `for i in N` is the stream being folded.
-Here, `N` is a natural-number expression, but you can use any stream obtained by the methods described in the following sections or any value of a type that is implicitly converted to a stream.
+After `in`, you can use any stream obtained by the methods described in the following sections or any value of a type that is implicitly converted to a stream. In this example, the natural number `N` in `for i in N` is the stream being folded.
 
 :::{admonition} Do Not Use Python's Built-in {py:func}`sum` Function
 :class: caution
 
 When writing a fold with a Decorator API comprehension, use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, or {py:func}`jm.min() <jijmodeling.min>`.
-If you accidentally pass an expression such as `a[i] * x[i] for i in N` to Python's built-in {py:func}`sum`, Python tries to iterate over the JijModeling expression `N` at runtime, resulting in an error like the following:
+Passing an expression such as `a[i] * x[i] for i in N` to Python's built-in {py:func}`sum` results in an error.
 :::
-
-```{code-cell} ipython3
-try:
-
-    @jm.Problem.define("Wrong Sum Example")
-    def wrong_sum_example(problem: jm.DecoratedProblem):
-        N = problem.Length()
-        a = problem.Float(shape=(N,))
-        x = problem.BinaryVar(shape=(N,))
-        # ERROR: using Python's built-in sum instead of jm.sum()
-        problem += sum(a[i] * x[i] for i in N)
-except Exception as e:
-    print(e)
-```
 
 The same program can be written entirely with the Plain API using {py:func}`jijmodeling.map`, which will be explained in a later section:
 
@@ -105,7 +90,7 @@ sum_example_plain_alt
 ```
 
 :::{important}
-This two-argument folding form is supported only by {py:func}`jm.sum() <jijmodeling.sum>` and {py:func}`jm.prod() <jijmodeling.prod>`, not by {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`.
+Only {py:func}`jm.sum() <jijmodeling.sum>` and {py:func}`jm.prod() <jijmodeling.prod>` support the two-argument folding form; {py:func}`jm.max() <jijmodeling.max>` and {py:func}`jm.min() <jijmodeling.min>` do not.
 
 When using only the Plain API, expressions that traverse indices must be constructed with Python {external+python:ref}`lambda expressions <lambda>`.
 :::
