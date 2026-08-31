@@ -33,8 +33,7 @@ JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び�
 
 ## ストリームに対する総和・総積・最大・最小値などの畳み込み
 
-JijModeling で数理モデルを定式化する際には、{py:func}`jm.sum <jijmodeling.sum>` による添え字上の総和が大きな役割を果たします。
-こうした総和・総積などの畳み込み演算は、ストリームの要素を順に処理する形で定式化されています。以下ではさまざまな総和・総積の記法について説明していきます。
+JijModeling で数理モデルを定式化する際には、{py:func}`jm.sum <jijmodeling.sum>` による添え字上の総和がよく利用されます。JijModelingの総和・総積などは、ストリームの要素を順に処理する畳み込み演算の形で実現されています。以下では、その具体例として、さまざまな総和・総積の記法について説明していきます。
 
 :::{note}
 簡単のため以下では {py:func}`jm.sum() <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod() <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>`、 {py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` を使った総積・最大・最小値関数も同様に記述できます。
@@ -56,29 +55,14 @@ def sum_example(problem: jm.DecoratedProblem):
 sum_example
 ```
 
-この例では、`for i in N` の `N` が畳み込みが行われるストリームに対応しています。
-ここでは `N` は自然数ですが、次節以降で説明する方法を使って得られる任意のストリームや暗黙にストリームに変換されるような型の値を渡すことができます。
+`in` の後には、次節以降で説明する方法を使って得られる任意のストリームや暗黙にストリームに変換されるような型の値を渡すことができます。この例では、`for i in N` の 自然数 `N` が畳み込みが行われるストリームに対応しています。
 
 :::{admonition} Python 組込みの {py:func}`sum` 関数を使わないように注意！
 :class: caution
 
 Decorator API の内包表記を用いて畳み込みを記述する場合は、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, {py:func}`jm.min() <jijmodeling.min>` を使います。
-誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すと、Python が JijModeling の式 `N` を実行時に反復しようとして、以下のようなエラーになります：
+誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すとエラーとなるため、注意してください。
 :::
-
-```{code-cell} ipython3
-try:
-
-    @jm.Problem.define("Wrong Sum Example")
-    def wrong_sum_example(problem: jm.DecoratedProblem):
-        N = problem.Length()
-        a = problem.Float(shape=(N,))
-        x = problem.BinaryVar(shape=(N,))
-        # ERROR! jm.sum() ではなく、Python 組込みの sum を使っている
-        problem += sum(a[i] * x[i] for i in N)
-except Exception as e:
-    print(e)
-```
 
 また、後ほど説明する {py:func}`jijmodeling.map` 関数を使えば、同じプログラムは Plain API のみで同じものを以下のように書けます：
 
@@ -105,9 +89,9 @@ sum_example_plain_alt
 ```
 
 :::{important}
-このような二引数による畳み込みをサポートしているのは、 {py:func}`jm.sum() <jijmodeling.sum>` と {py:func}`jm.prod() <jijmodeling.prod>` のみで、{py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` ではサポートされていません。
+二引数による畳み込みをサポートしているのは、 {py:func}`jm.sum() <jijmodeling.sum>` と {py:func}`jm.prod() <jijmodeling.prod>` のみで、{py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` ではサポートされていません。
 
-このように、Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
+Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
 :::
 
 :::{tip}
