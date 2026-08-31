@@ -387,7 +387,7 @@ problem
 :::{admonition} より複雑な条件式の例
 :class: hint
 
-論理演算を使ってより現実的かつ複雑な条件式を表現する例としては、JijZept 典型問題集の「{external+zept_tutor:doc}`30_radio_telescope_scheduling`」が参考になるでしょう。
+論理演算を使ってより現実的かつ複雑な条件式を表現する例としては、JijZept 典型問題集の「{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`」が参考になるでしょう。
 :::
 
 

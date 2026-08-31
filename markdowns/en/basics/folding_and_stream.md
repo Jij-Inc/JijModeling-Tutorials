@@ -386,7 +386,7 @@ As noted above, `|` has higher precedence than `==`, so removing the parentheses
 :::{admonition} Example of a More Complex Conditional Expression
 :class: hint
 
-For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
+For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
 :::
 
 ### Logical Operations on Streams
