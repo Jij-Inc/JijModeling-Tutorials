@@ -169,7 +169,7 @@ problem.infer(S.indices())
 上述の通り、JijModeling の自動変換機能では、辞書型の式は**キーではなく値を走査する**ストリームになります。
 これは Python の {py:class}`dict` 型の挙動とは異なりますが、多次元配列の振る舞いとの整合性からあえてこの挙動を定めています。
 これにより、たとえば当初は多次元配列として定義されていたプレースホルダーや決定変数を、辞書として扱うようにコードを変更した際に、{py:meth}`x.sum() <jijmodeling.Expression.sum>` のようなコードを変更せずに済むようになります。
-キー値ペアやキーを走査したい場合は、{py:meth}`~jijmodeling.Expression.items` や {py:meth}`~jijmodeling.Expression.keys` メソッドを使うことで、キー値ペア（{py:meth}`~jijmodeling.Expression.items`）やキー集合（{py:meth}`~jijmodeling.Expression.keys`）を走査するストリームを得ることができます。
+キー値ペアを走査したい場合は {py:meth}`~jijmodeling.Expression.items` メソッドを、キーを走査したい場合は {py:meth}`~jijmodeling.Expression.keys` メソッドを使うことで目的のストリームを得ることができます。
 また、デフォルトの値のストリームへの変換を明示的に行いたい場合は、{py:meth}`~jijmodeling.Expression.values` メソッドを利用できます。
 
 ```{code-cell} ipython3
