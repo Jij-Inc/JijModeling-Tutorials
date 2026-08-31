@@ -348,8 +348,10 @@ tuple_domain_example
 
 ## Logical Operations on Conditional Expressions and Streams
 
-The conditions used in the `if` clauses and {py:func}`~jijmodeling.filter` functions above were simple, but conditions often need to combine logical expressions with “and” or “or.”
+In JijModeling, logical operations such as conjunction ("and"), disjunction ("or"), and negation ("not") can be used to express complex conditional expressions and combine streams.
 Because Python's logical operators `and`, `or`, and `not` cannot be overloaded, use the bitwise operators `&` (and), `|` (or), and `~` (not), or the functions {py:func}`jijmodeling.band` (and), {py:func}`jijmodeling.bor` (or), and {py:func}`jijmodeling.bnot` (not).
+
+The following sections explain logical operations on conditional expressions and streams.
 
 :::{admonition} Beware of Bitwise Operator Precedence
 :class: caution
@@ -358,5 +360,137 @@ Unlike `and` and `or`, `&` and `|` have higher precedence than `==` and `!=`. Fo
 When using `&` or `|`, always enclose each comparison in parentheses, as in `(a >= b) & (c == d)`.
 :::
 
-Logical operations can also be applied to stream expressions: `|` represents a union and `&` represents an intersection.
+### Logical Operations on Conditional Expressions
+
+The conditions used in the `if` clauses of comprehensions and in the {py:func}`~jijmodeling.filter` functions above were simple, but conditions often need to combine logical expressions with “and” or “or.”
+
+The following example takes the sum only when `i` is even or `j` is odd:
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    a = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(
+        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
+    )
+
+
+problem
+```
+
+As noted above, `|` has higher precedence than `==`, so removing the parentheses causes this expression to fail.
+
+### Logical Operations on Streams
+
+Logical operations can also be applied to stream expressions. In particular, `|` represents a union and `&` represents an intersection.
 Complementing a stream is not supported because the result could be infinite. Instead, {py:func}`jijmodeling.diff` computes the difference between two specific streams.
+
+The union of two streams traverses the elements of the first stream in order, followed by the elements of the second stream in order.
+The following example sums `x[i]` over the indices in the union of two index sets:
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Union Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar(shape=N)
+    target_a = problem.Natural(less_than=N, ndim=1)
+    target_b = problem.Natural(less_than=N, ndim=1)
+
+    problem += jm.sum(x[i] for i in jm.stream(target_a) | jm.stream(target_b))
+
+
+problem
+```
+
+```{code-cell} ipython3
+import ommx.v1
+
+a_data = [1, 3, 5]
+b_data = [7, 3, 4]
+
+instance_data = {"N": 10, "target_a": a_data, "target_b": b_data}
+compiler = jm.Compiler.from_problem(problem, instance_data)
+xs = [compiler.get_decision_variable_by_name("x", [i]) for i in range(10)]
+
+instance = compiler.eval_problem(problem)
+
+expected = ommx.v1.Function(xs[1] + xs[3] + xs[5] + xs[7] + xs[3] + xs[4])
+assert instance.objective.almost_equal(expected)
+```
+
+The intersection `A & B` is computed by traversing the elements of the first argument, `A`, in order and retaining only those contained in the second argument, `B`.
+In particular, the order and duplicates of elements in `A` are preserved, while the order and number of duplicates in `B` are ignored.
+The following example takes a set of indices $A$ and a partially defined dictionary of coefficients $B$, then sums coefficients only over indices defined in both:
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Intersection Example")
+def problem(problem: jm.DecoratedProblem):
+    L = problem.CategoryLabel()
+    A = problem.Placeholder("A", ndim=1, dtype=L)
+    B = problem.PartialDict("B", dict_keys=L, dtype=float)
+    x = problem.BinaryVar(dict_keys=L)
+
+    problem += jm.sum(B[l] * x[l] for l in jm.stream(A) & B.keys())
+
+
+problem
+```
+
+```{code-cell} ipython3
+import ommx.v1
+
+L_data = ["a", "b", "c", "d", "e"]
+A_data = ["a", "b", "c", "a"]
+B_data = {"e": 1, "c": 10, "d": 100, "a": 1000}
+
+instance_data = {"L": L_data, "A": A_data, "B": B_data}
+compiler = jm.Compiler.from_problem(problem, instance_data)
+xs = {i: compiler.get_decision_variable_by_name("x", [i]) for i in L_data}
+
+instance = compiler.eval_problem(problem)
+expected = ommx.v1.Function(
+    B_data["a"] * xs["a"] + B_data["a"] * xs["a"] + B_data["c"] * xs["c"]
+)
+
+assert instance.objective.almost_equal(expected)
+```
+
+The difference `A.diff(B)` is computed by traversing the elements of the first argument, `A`, in order and retaining only those not contained in the second argument, `B`.
+The two operations handle the order and duplicates of each argument identically; only the membership test against `B` is reversed.
+The following example modifies the `A & B` intersection example to sum only over indices not contained in $A$.
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Intersection Example")
+def problem(problem: jm.DecoratedProblem):
+    L = problem.CategoryLabel()
+    A = problem.Placeholder("A", ndim=1, dtype=L)
+    B = problem.PartialDict("B", dict_keys=L, dtype=float)
+    x = problem.BinaryVar(dict_keys=L)
+
+    problem += jm.sum(B[l] * x[l] for l in B.keys().diff(jm.stream(A)))
+
+
+problem
+```
+
+```{code-cell} ipython3
+import ommx.v1
+
+L_data = ["a", "b", "c", "d", "e"]
+A_data = ["a", "b", "c", "a"]
+B_data = {"e": 1, "c": 10, "d": 100, "a": 1000}
+
+instance_data = {"L": L_data, "A": A_data, "B": B_data}
+compiler = jm.Compiler.from_problem(problem, instance_data)
+xs = {i: compiler.get_decision_variable_by_name("x", [i]) for i in L_data}
+
+instance = compiler.eval_problem(problem)
+expected = ommx.v1.Function(B_data["e"] * xs["e"] + B_data["d"] * xs["d"])
+
+assert instance.objective.almost_equal(expected)
+```
+
+These logical operations do not guarantee unique elements in the resulting stream. Use the previously described {py:func}`~jijmodeling.unique` function to remove duplicates when necessary.

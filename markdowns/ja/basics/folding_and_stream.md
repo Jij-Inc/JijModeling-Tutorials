@@ -252,11 +252,11 @@ N.filter(lambda i: i % 2 == 0)
 ```{code-cell} ipython3
 problem = jm.Problem("Stream Uniquifization Example")
 A = problem.Natural("x", ndim=1)
-problem += A.unique().sum() # 配列をストリームと見做し、重複を取り除いてから総和を取る
+problem += A.unique().sum()  # 配列をストリームと見做し、重複を取り除いてから総和を取る
 
 instance_data = {"x": [1, 3, 1, 2, 2, 1]}
 instance = problem.eval(instance_data)
-assert instance.objective == 6 # 1, 3, 2 のみが残るため、総和は 6
+assert instance.objective == 6  # 1, 3, 2 のみが残るため、総和は 6
 ```
 
 ### ストリームの写像
@@ -349,8 +349,10 @@ tuple_domain_example
 
 ## 条件式とストリームの論理演算
 
-上では内包表記の `if` や {py:func}`~jijmodeling.filter` 関数の中で使われる条件式は、単純な条件のみでしたが、一般には論理式として「かつ」や「または」を使って指定したい場合があります。
+JijModeling では、「論理和（または）」、「論理積（かつ）」、「否定（でない）」などの論理演算を使って、複雑な条件式を表現したり、ストリームを合成したりすることができます。
 残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりにビット演算子 `&`（かつ）、`|`（または）、`~`（否定）や、関数{py:func}`jijmodeling.band`（かつ）、{py:func}`jijmodeling.bor`（または）、{py:func}`jijmodeling.bnot` を使って論理演算を表現します。
+
+以下では、条件式とストリームそれぞれの論理演算について説明します。
 
 :::{admonition} ビット演算の優先順位に注意！
 :class: caution
@@ -359,5 +361,138 @@ tuple_domain_example
 このため、`&` や `|` を使う場合は、各比較式を `(a >= b) & (c == d)` のように常に括弧で囲むようにしてください。
 :::
 
-また、論理演算はストリーム式に対しても使うことができ、和集合は `|`、共通部分集合を `&` により表すことができます。
-ただし、集合の否定（補集合）は無限集合になり得るためサポートしておらず、かわりに {py:func}`jijmodeling.diff` 関数を使って特定の二つのストリームの間の差集合を取る操作が提供されています。
+### 条件式の論理演算
+
+
+上では内包表記の `if` や {py:func}`~jijmodeling.filter` 関数の中で使われる条件式は、単純な条件のみでしたが、一般には論理式として「かつ」や「または」を使って指定したい場合があります。
+
+以下は「`i` が偶数または `j` が奇数の場合」にのみ和をとっている例です：
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    a = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(
+        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
+    )
+
+
+problem
+```
+
+上述の通り、 `|` は `==` よりも演算子の優先順位が高いため、括弧を取ると動かなくなることに注意してください。
+
+### ストリームの論理演算
+
+論理演算はストリーム式に対しても使うことができ、特に `|`により和集合を、`&` により共通部分を表すことができます。
+ただし、集合の否定（補集合）は無限集合になり得るためサポートしておらず、かわりに {py:func}`jijmodeling.diff` 関数を使って特定の二つのストリームの間の差分を取る操作が提供されています。
+
+ストリームの和集合は、最初のストリームの要素を順に走査し、次のストリームの要素を順に走査するものとして表現されます。
+以下は、二つの添え字集合の和集合に入っている添え字に対応する `x[i]` の総和を取る例です：
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Union Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar(shape=N)
+    target_a = problem.Natural(less_than=N, ndim=1)
+    target_b = problem.Natural(less_than=N, ndim=1)
+
+    problem += jm.sum(x[i] for i in jm.stream(target_a) | jm.stream(target_b))
+
+
+problem
+```
+
+```{code-cell} ipython3
+import ommx.v1
+
+a_data = [1, 3, 5]
+b_data = [7, 3, 4]
+
+instance_data = {"N": 10, "target_a": a_data, "target_b": b_data}
+compiler = jm.Compiler.from_problem(problem, instance_data)
+xs = [compiler.get_decision_variable_by_name("x", [i]) for i in range(10)]
+
+instance = compiler.eval_problem(problem)
+
+expected = ommx.v1.Function(xs[1] + xs[3] + xs[5] + xs[7] + xs[3] + xs[4])
+assert instance.objective.almost_equal(expected)
+```
+
+共通部分 `A & B` は、第 1 引数 `A` の要素を順に走査し、第 2 引数 `B` に含まれている場合のみ残す形で計算されます。
+特に、`A` 内の要素の順番や重複は保たれる一方、`B` の要素の順番や重複数は無視されます。
+以下は、添え字の集合 $A$ と部分的に定義された係数の辞書 $B$ が与えられた時に、両者で定義されている添え字の共通部分上でのみ係数和を取る例です：
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Intersection Example")
+def problem(problem: jm.DecoratedProblem):
+    L = problem.CategoryLabel()
+    A = problem.Placeholder("A", ndim=1, dtype=L)
+    B = problem.PartialDict("B", dict_keys=L, dtype=float)
+    x = problem.BinaryVar(dict_keys=L)
+
+    problem += jm.sum(B[l] * x[l] for l in jm.stream(A) & B.keys())
+
+
+problem
+```
+
+```{code-cell} ipython3
+import ommx.v1
+
+L_data = ["a", "b", "c", "d", "e"]
+A_data = ["a", "b", "c", "a"]
+B_data = {"e": 1, "c": 10, "d": 100, "a": 1000}
+
+instance_data = {"L": L_data, "A": A_data, "B": B_data}
+compiler = jm.Compiler.from_problem(problem, instance_data)
+xs = {i: compiler.get_decision_variable_by_name("x", [i]) for i in L_data}
+
+instance = compiler.eval_problem(problem)
+expected = ommx.v1.Function(
+    B_data["a"] * xs["a"] + B_data["a"] * xs["a"] + B_data["c"] * xs["c"]
+)
+
+assert instance.objective.almost_equal(expected)
+```
+
+差分 `A.diff(B)` は、第 1 引数 `A` の要素を順に走査し、第 2 引数 `B` に含まれていない要素のみ残す形で計算されます。
+`B` の役割が反転しているだけで、各引数の要素の順・重複の扱いは `A & B` と同様です。
+以下の例は、共通部分 `A & B` の例添え字 $A$ に含まれない添え字についてだけ総和を取るようにしたものです。
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Intersection Example")
+def problem(problem: jm.DecoratedProblem):
+    L = problem.CategoryLabel()
+    A = problem.Placeholder("A", ndim=1, dtype=L)
+    B = problem.PartialDict("B", dict_keys=L, dtype=float)
+    x = problem.BinaryVar(dict_keys=L)
+
+    problem += jm.sum(B[l] * x[l] for l in B.keys().diff(jm.stream(A)))
+
+
+problem
+```
+
+```{code-cell} ipython3
+import ommx.v1
+
+L_data = ["a", "b", "c", "d", "e"]
+A_data = ["a", "b", "c", "a"]
+B_data = {"e": 1, "c": 10, "d": 100, "a": 1000}
+
+instance_data = {"L": L_data, "A": A_data, "B": B_data}
+compiler = jm.Compiler.from_problem(problem, instance_data)
+xs = {i: compiler.get_decision_variable_by_name("x", [i]) for i in L_data}
+
+instance = compiler.eval_problem(problem)
+expected = ommx.v1.Function(B_data["e"] * xs["e"] + B_data["d"] * xs["d"])
+
+assert instance.objective.almost_equal(expected)
+```
+
+いずれの論理演算も演算結果のストリームで要素の一意性は保証されないため、必要に応じて前述の {py:func}`~jijmodeling.unique` 関数を使って重複を取り除いてください。
