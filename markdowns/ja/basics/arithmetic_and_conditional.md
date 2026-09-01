@@ -196,8 +196,6 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
- `|` は `==` よりも演算子の優先順位が高いため、括弧を取るとこの例が動かなくなることに注意してください。
-
 :::{admonition} より複雑な条件式の例
 :class: hint
 

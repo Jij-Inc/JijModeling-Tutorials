@@ -196,8 +196,6 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
-`|` has higher precedence than `==`, so removing the parentheses causes this example to fail.
-
 :::{admonition} Example of a More Complex Conditional Expression
 :class: hint
 
