@@ -114,8 +114,43 @@ def sum_with_ifs_example(problem: jm.DecoratedProblem):
 sum_with_ifs_example
 ```
 
-The `if` clause can also contain more complex conditions built with the logical operations described later.
-For specific examples, see {doc}`../references/cheat_sheet`.
+### Writing Complex Conditional Expressions with Logical Operations
+
+In JijModeling, logical operations such as conjunction ("and"), disjunction ("or"), and negation ("not") can be used to express complex conditional expressions.
+Because Python's logical operators `and`, `or`, and `not` cannot be overloaded, use the bitwise operators `&` (and), `|` (or), and `~` (not), or the functions {py:func}`jijmodeling.band` (and), {py:func}`jijmodeling.bor` (or), and {py:func}`jijmodeling.bnot` (not).
+
+:::{admonition} Beware of Bitwise Operator Precedence
+:class: caution
+
+Unlike `and` and `or`, `&` and `|` have higher precedence than `==` and `!=`. For example, `a == b & c == d` is interpreted as `a == (b & c) == d`.
+When using `&` or `|`, always enclose each comparison in parentheses, as in `(a >= b) & (c == d)`.
+:::
+
+The following example takes the sum only when `i` is even or `j` is odd:
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    a = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(
+        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
+    )
+
+
+problem
+```
+
+`|` has higher precedence than `==`, so removing the parentheses causes this example to fail.
+
+:::{admonition} Example of a More Complex Conditional Expression
+:class: hint
+
+For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
+Practical use cases of folding are also presented in {doc}`../references/cheat_sheet`.
+:::
 
 ## Constructing Streams
 
@@ -346,53 +381,11 @@ tuple_domain_example += tuple_domain_example.Constraint(
 tuple_domain_example
 ```
 
-## Logical Operations on Conditional Expressions and Streams
+### Unions, Intersections, and Differences of Streams
 
-In JijModeling, logical operations such as conjunction ("and"), disjunction ("or"), and negation ("not") can be used to express complex conditional expressions and combine streams.
-Because Python's logical operators `and`, `or`, and `not` cannot be overloaded, use the bitwise operators `&` (and), `|` (or), and `~` (not), or the functions {py:func}`jijmodeling.band` (and), {py:func}`jijmodeling.bor` (or), and {py:func}`jijmodeling.bnot` (not).
-
-The following sections explain logical operations on conditional expressions and streams.
-
-:::{admonition} Beware of Bitwise Operator Precedence
-:class: caution
-
-Unlike `and` and `or`, `&` and `|` have higher precedence than `==` and `!=`. For example, `a == b & c == d` is interpreted as `a == (b & c) == d`.
-When using `&` or `|`, always enclose each comparison in parentheses, as in `(a >= b) & (c == d)`.
-:::
-
-### Logical Operations on Conditional Expressions
-
-The conditions used in the `if` clauses of comprehensions and in the {py:func}`~jijmodeling.filter` functions above were simple, but conditions often need to combine logical expressions with “and” or “or.”
-
-The following example takes the sum only when `i` is even or `j` is odd:
-
-```{code-cell} ipython3
-@jm.Problem.define("Sum Example")
-def problem(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    M = problem.Length()
-    a = problem.Float(shape=(N, M))
-    x = problem.BinaryVar(shape=(N, M))
-    problem += jm.sum(
-        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
-    )
-
-
-problem
-```
-
-As noted above, `|` has higher precedence than `==`, so removing the parentheses causes this expression to fail.
-
-:::{admonition} Example of a More Complex Conditional Expression
-:class: hint
-
-For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
-:::
-
-### Logical Operations on Streams
-
-Logical operations can also be applied to stream expressions. In particular, `|` represents a union and `&` represents an intersection.
-Complementing a stream is not supported because the result could be infinite. Instead, {py:func}`jijmodeling.diff` computes the difference between two specific streams.
+Unions, intersections, and differences of streams can be expressed using Python's bitwise operators and JijModeling's built-in functions.
+Specifically, use `|` or {py:func}`jijmodeling.bor` for a union, `&` or {py:func}`jijmodeling.band` for an intersection, and {py:func}`jijmodeling.diff` for a difference.
+The following examples examine each operation in turn.
 
 The union of two streams traverses the elements of the first stream in order, followed by the elements of the second stream in order.
 The following example sums `x[i]` over the indices in the union of two index sets:
