@@ -458,4 +458,4 @@ expected = ommx.v1.Function(B_data["e"] * xs["e"] + B_data["d"] * xs["d"])
 assert instance.objective.almost_equal(expected)
 ```
 
-いずれの論理演算も演算結果のストリームで要素の一意性は保証されないため、必要に応じて前述の {py:func}`~jijmodeling.unique` 関数を使って重複を取り除いてください。
+いずれの演算結果も要素の一意性は保証されないため、必要に応じて前述の {py:func}`~jijmodeling.unique` 関数を使って重複を取り除いてください。
