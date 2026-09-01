@@ -29,9 +29,9 @@ kernelspec:
 | {py:meth}`~jijmodeling.Problem.SemiContinuousVar` | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
 
 概ねプレースホルダーの構築子と似ていますが、`*Var` で終わるものが決定変数、そうでないものがプレースホルダーの構築子です。
-また、連続値の決定変数は `FloatVar` ではなく `ContinuousVar` となっている点に注意してください。
+また、連続値の決定変数は `FloatVar` ではなく {py:meth}`ContinuousVar <jijmodeling.Problem.ContinuousVar>` となっている点に注意してください。
 
-特定の種類の決定変数を宣言するには、その変数を登録する `Problem` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
+特定の種類の決定変数を宣言するには、その変数を登録する {py:class}`Problem <jijmodeling.Problem>` オブジェクトに対して対応する「種類」と同じ名前のメソッドを呼び出してやれば大丈夫です。
 それでは、バイナリ変数 $x$ と、$-5$ 以上 $10.5$ 以下の範囲に値を取る連続変数 $C' \in[-5, 10.5]$ を持つ数理モデルを定義してみましょう。
 Plain API では次のように定義できます：
 
@@ -52,7 +52,7 @@ problem
 ```
 
 第 1 引数は変数の名前を表す必須引数です。また、`upper_bound`および`lower_bound`は変数の上下界を表すキーワード引数であり、バイナリ変数以外は必ず指定しなければいけません。
-`description`は `Problem` のものと同様、人間がわかりやすい説明を書くための省略可能なキーワード引数です。
+`description`は {py:class}`Problem <jijmodeling.Problem>` のものと同様、人間がわかりやすい説明を書くための省略可能なキーワード引数です。
 
 :::{admonition} 単独の決定変数の上下界
 :class: tip
@@ -97,7 +97,7 @@ Decorator API で変数名を省略できるのは、`x = problem.*Var(...)` の
 (var_info)=
 ## 決定変数の情報の取得
 
-プレースホルダーの場合と同様、決定変数の一覧も`Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティにより取得でき、以下で扱う添え字つき変数の情報も含まれています。
+プレースホルダーの場合と同様、決定変数の一覧も {py:class}`Problem <jijmodeling.Problem>` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` プロパティにより取得でき、以下で扱う添え字つき変数の情報も含まれています。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -128,7 +128,7 @@ deco_problem.decision_vars
 (array_of_dec_vars)=
 ### 決定変数の配列
 
-決定変数の配列は、プレースホルダーの場合と同様、`BinaryVar` などの構築子に `shape=` キーワード引数として自然数から成る固定長のタプルを表す式を指定することで宣言でき、$1$次元の場合は単に自然数を表す式で与えることもできます。
+決定変数の配列は、プレースホルダーの場合と同様、{py:meth}`BinaryVar <jijmodeling.Problem.BinaryVar>` などの構築子に `shape=` キーワード引数として自然数から成る固定長のタプルを表す式を指定することで宣言でき、$1$次元の場合は単に自然数を表す式で与えることもできます。
 
 :::{admonition} 決定変数の配列のシェイプの指定
 :class: important
@@ -239,14 +239,14 @@ problem
 ### 決定変数の辞書
 
 決定変数の辞書に関しては、『[決定変数の「個数」](#dec-var-count)』で触れたようにコンパイル後に個数が確定している必要があるため、`TotalDict` のみしか宣言できないようになっています。
-決定変数の辞書を宣言するには、`BinaryVar`, `IntegerVar`, ... などの構築子に対して、`dict_keys` キーワード引数を渡すことで宣言できます。
+決定変数の辞書を宣言するには、{py:meth}`BinaryVar <jijmodeling.Problem.BinaryVar>`, {py:meth}`IntegerVar <jijmodeling.Problem.IntegerVar>`, ... などの構築子に対して、`dict_keys` キーワード引数を渡すことで宣言できます。
 これは、決定変数の配列の宣言に `shape` を渡す必要があったのと同じです。
 
 決定変数の辞書を宣言する際に、`dict_keys` に渡すことができるのは次の式です：
 
 1. 決定変数を含まない自然数式 $n$（$n$ 未満の自然数の集合 $\mathbb{N}_{<n} = \{0, \ldots, n - 1\}$ と同一視）
 2. Python 上の文字列のリスト
-3. `problem.CategoryLabel` によって定義されたカテゴリーラベル
+3. {py:meth}`problem.CategoryLabel <jijmodeling.Problem.CategoryLabel>` によって定義されたカテゴリーラベル
 4. (1)-(3) を要素に持つタプル
 
 :::{caution}

@@ -182,7 +182,7 @@ except Exception as e:
 ```
 
 :::{tip}
-これらの OMMX インスタンスに保存できない式についても、 `save_in_ommx=False`（あるいは、未指定）にすれば `NamedExpr` として宣言することができます。 
+これらの OMMX インスタンスに保存できない式についても、 `save_in_ommx=False`（あるいは、未指定）にすれば {py:class}`NamedExpr <jijmodeling.NamedExpr>` として宣言することができます。
 :::
 
 +++

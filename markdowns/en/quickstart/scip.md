@@ -133,7 +133,7 @@ instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-The return value of `Problem.eval` is an `ommx.v1.Instance` object. For more details about it, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/instance.html).
+The return value of {py:meth}`Problem.eval <jijmodeling.Problem.eval>` is an {py:class}`ommx.v1.Instance` object. For details, see {doc}`../basics/instance_generation` and {external+ommx_doc:doc}`user_guide/instance`.
 :::
 
 +++
@@ -151,7 +151,7 @@ solution = OMMXPySCIPOptAdapter.solve(instance)
 print(f"Optimal value of the objective function: {solution.objective}")
 ```
 
-In addition, you can display the state of the decision variables as a `pandas.DataFrame` object using the `decision_variables_df` property of `solution`:
+In addition, you can display the state of the decision variables as a `pandas.DataFrame` object using the {py:meth}`decision_variables_df <ommx.v1.Solution.decision_variables_df>` property of `solution`:
 
 ```{code-cell} ipython3
 solution.decision_variables_df[["name", "subscripts", "value"]]

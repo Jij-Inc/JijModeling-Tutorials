@@ -13,17 +13,17 @@ kernelspec:
 
 # インスタンスのランダム生成の使い方
 
-{py:class}`~jijmodeling.Problem`には、 問題のスキーマ（つまり、プレースホルダー）に基づいたインスタンスデータのランダム生成が行えるメソッドがあります。本節では、そのランダム生成における設定などを説明します。
+{py:class}`~jijmodeling.Problem`には、 問題のスキーマ（つまり、プレースホルダー）に基づいたインスタンスデータのランダム生成が行えるメソッドがあります。本章では、そのランダム生成における設定などを説明します。
 
 メソッドは２つあり、以下の通りになります。
 - {py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` は、{py:meth}`Problem.eval` に渡すインスタンスデータを返します。
-- {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` は、 同じくデータを生成するが、 OMMX インスタンスとして返します。 `generate_random_dataset`で取得したインスタンスデータをそのまま{py:meth}`Problem.eval`に渡すのと同じです。
+- {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` は、 同じくデータを生成するが、 OMMX インスタンスとして返します。 {py:meth}`generate_random_dataset <jijmodeling.Problem.generate_random_dataset>`で取得したインスタンスデータをそのまま{py:meth}`Problem.eval`に渡すのと同じです。
 
-上記メソッドの生成に関する引数は共通で、`default` と `options` と `seed` の３つです。さらには`generate_random_instance`は`Problem.eval`の引数も対応しています（`prune_unused_dec_vars`、`constraint_detection`など）。
+上記メソッドの生成に関する引数は共通で、`default` と `options` と `seed` の３つです。さらには{py:meth}`generate_random_instance <jijmodeling.Problem.generate_random_instance>`は{py:meth}`Problem.eval <jijmodeling.Problem.eval>`の引数も対応しています（`prune_unused_dec_vars`、`constraint_detection`など）。
 
 `seed`パラメータは、乱数生成の初期化に使われる乱数シードです。インスタンス生成に再現性を求める場合に使えます。
 
-`default`と`options`は、インスタンスデータの値の範囲を決めるものです。`options` では、辞書で問題の各{py:class}`~jijmodeing.Placeholder` に対してそれぞれの値の範囲を指定することができます。`default`は、特定の範囲指定がない値のためのデフォルト範囲となります。いずれも必須ではありません。`options`で全プレースホルダーの範囲を指定している場合は`default`を渡す必要がありませんし、`default`だけでシンプルなデータを生成できる場合もあります。しかし、生成されたインスタンスが実行可能解を持つ保証はないので注意してください。
+`default`と`options`は、インスタンスデータの値の範囲を決めるものです。`options` では、辞書で問題の各{py:class}`~jijmodeling.Placeholder` に対してそれぞれの値の範囲を指定することができます。`default`は、特定の範囲指定がない値のためのデフォルト範囲となります。いずれも必須ではありません。`options`で全プレースホルダーの範囲を指定している場合は`default`を渡す必要がありませんし、`default`だけでシンプルなデータを生成できる場合もあります。しかし、生成されたインスタンスが実行可能解を持つ保証はないので注意してください。
 
 実際に引数の指定方法を見ていきましょう。
 
@@ -31,11 +31,11 @@ kernelspec:
 
 `default`と`options` は両方とも以下の指定方法を対応としています。
 - 固定値
-- Python 組み込みの`range`
+- Python 組み込みの {py:class}`range <range>`
 - {py:mod}`jijmodeling.generation` 配下の関数から取得されたオブジェクト
 - タプルや辞書などを使った範囲指定。詳細は{py:meth}`~jijmodeling.Problem.generate_random_dataset`の API リファレンスを参照してください
 
-固定値が指定された場合、その数値がそのままプレースホルダーの値に使われます（ランダムな値は使いません）。 Python の `range` や {py:mod}`jijmodeling.generation` などの範囲が指定された場合、その範囲がランダム生成の境界になります。
+固定値が指定された場合、その数値がそのままプレースホルダーの値に使われます（ランダムな値は使いません）。 Python の {py:class}`range <range>` や {py:mod}`jijmodeling.generation` などの範囲が指定された場合、その範囲がランダム生成の境界になります。
 
 指定方法の例を見てみましょう。
 
@@ -51,9 +51,9 @@ problem += A * x + B
 problem.generate_random_dataset(default={"value": range(1, 10)})
 ```
 
-上記の例では、`options`がないため、 `A`と`B`の値の生成時は、`default`が参照されます。`range`の区間内でそれぞれ別の値が生成されます。
+上記の例では、`options`がないため、 `A`と`B`の値の生成時は、`default`が参照されます。{py:class}`range <range>`の区間内でそれぞれ別の値が生成されます。
 
-今回使った Python 組み込みの`range`は左閉右開になっています（つまり、`range(1,4)`の場合、１、２、３が入って、４は入らない）。{py:mod}`jijmodeling.generation` では、 開区間の{py:func}`jijmodeling.generation.open`や左有界（上界が無限大）の{py:func}`jijmodeling.generation.at_least`など、違うスタイルの範囲を定義するための関数を提供しています。 Python 組み込みの`range`は {py:func}`jijmodeling.generation.closed_open`と同じになります。
+今回使った Python 組み込みの {py:class}`range <range>` は左閉右開になっています（つまり、 `range(1,4)` の場合、１、２、３が入って、４は入らない）。{py:mod}`jijmodeling.generation` では、 開区間の{py:func}`jijmodeling.generation.open`や左有界（上界が無限大）の{py:func}`jijmodeling.generation.at_least`など、違うスタイルの範囲を定義するための関数を提供しています。 Python 組み込みの {py:class}`range <range>` は {py:func}`jijmodeling.generation.closed_open`と同じになります。
 
 生成された値はプレースホルダーの型に則します。つまり、自然数のプレースホルダーがあった場合、`(-10, 10)` など負数を含む範囲を渡しても、生成されるのは自然数のみです。
 
@@ -69,9 +69,9 @@ problem.generate_random_dataset(default={"value": range(1, 10)}, options={"A": {
 problem.generate_random_dataset(options = {"A": {"value": range(50, 100)}, "B": {"value": range(1, 10)}})
 ```
 
-## 配列プレスホルダー
+## プレースホルダーの配列
 
-配列プレスホルダーの値の範囲指定は基本的にスカラーと同じです。プレースホルダーの`shape`が完全に定義された場合、その`shape`に則した配列が生成されます。要素はすべて`value`範囲内となります（`value`指定がない場合、`default`が参照されます）。
+プレースホルダーの配列の値の範囲指定は基本的にスカラーと同じです。プレースホルダーの`shape`が完全に定義された場合、その`shape`に即した配列が生成されます。要素はすべて`value`範囲内となります（`value`指定がない場合、`default`が参照されます）。
 
 ```{code-cell} ipython3
 problem = jm.Problem("my problem")
@@ -104,9 +104,9 @@ problem.generate_random_dataset(
 
 +++
 
-## 辞書型プレースホルダー
+## プレースホルダーの辞書
 
-カテゴリーラベル型をキーとしている辞書型のプレースホルダーの場合、`options`でそのカテゴリーラベルに該当するキーを定義する必要があります。カテゴリーラベルのオプションに`keys`に文字列の配列を設定すると、キー集合を明示的に定義できます。たとえば、カテゴリーラベル`C`のキー集合をＸ、Ｙ、Ｚにするには以下のように書きます。
+カテゴリーラベル型をキーとするプレースホルダーの辞書の場合、`options`でそのカテゴリーラベルに該当するキーを定義する必要があります。カテゴリーラベルのオプションに`keys`に文字列の配列を設定すると、キー集合を明示的に定義できます。たとえば、カテゴリーラベル`C`のキー集合をＸ、Ｙ、Ｚにするには以下のように書きます。
 
 ```python
 { "C": {"keys": ["X", "Y", "Z"]} }

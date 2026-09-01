@@ -15,13 +15,13 @@ kernelspec:
 
 本ドキュメントでは、JijModeling で書かれた数理モデルのデバッグ手法として、 {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` を使った方法を紹介します。このデバッグ手法はあくまで「数理モデルの各要素（プレースホルダーや決定変数、それらの成す式）のバグを探す方法」であることに注意してください。
 
-## `generate_random_instance` とは
+## {py:meth}`generate_random_instance <jijmodeling.Problem.generate_random_instance>` とは
 
 {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` とは、数理モデルのプレースホルダーの定義に従ってインスタンスデータをランダムに生成し、その数理モデルとインスタンスデータをコンパイルして OMMX インスタンスを出力するメソッドです。詳しい利用方法は [こちら](./generation) を参照してください。
 
 +++
 
-## `generate_random_instance` を使ったデバッグ手法
+## {py:meth}`generate_random_instance <jijmodeling.Problem.generate_random_instance>` を使ったデバッグ手法
 
 グラフ彩色問題を題材に、どのように数理モデルのデバッグが行えるかを見ていきましょう。グラフ彩色問題の定式化の方法は [こちら](https://jij-inc-jijzept-tutorials-ja.readthedocs-hosted.com/ja/latest/src/08_graph_coloring.html) を参照してください。まずは"良くない定式化"をしてみましょう。
 
@@ -58,7 +58,7 @@ except jm.ModelingError as e:
     print(e)
 ```
 
-すると、上記のように `ModelingError` が発生し、決定変数 $x$ の添字の範囲 $V \times N$ の外の値を指定してしまうケースがある事がわかります。なぜ、このようなケースが発生するのかというと、 $e[0]$ あるいは $e[1]$ の取り得る範囲が自然数全体 $\mathbb{N}$ となってしまっているからです。
+すると、上記のように {py:class}`ModelingError <jijmodeling.ModelingError>` が発生し、決定変数 $x$ の添字の範囲 $V \times N$ の外の値を指定してしまうケースがある事がわかります。なぜ、このようなケースが発生するのかというと、 $e[0]$ あるいは $e[1]$ の取り得る範囲が自然数全体 $\mathbb{N}$ となってしまっているからです。
 この数理モデルのバグ（良くない部分）を修正するには、$e[0]$ および $e[1]$ の取り得る範囲を自然数全体ではなく $V$ に制限する必要があります。具体的には、以下のようなコードに変更することでバグを取り除くことができます。
 
 ```{code-cell} ipython3
