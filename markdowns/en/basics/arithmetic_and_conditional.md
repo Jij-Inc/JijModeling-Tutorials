@@ -11,10 +11,10 @@ kernelspec:
   name: python3
 ---
 
-# Arithmetic and Comparison Expressions
+# Arithmetic and Conditional Expressions
 
 In the preceding chapters, we learned about expressions and types in JijModeling and how to declare variables.
-We will now look at how to construct more complex expressions, including arithmetic expressions for addition, subtraction, multiplication, and division, as well as comparison expressions.
+We will now look at how to construct more complex expressions, including arithmetic expressions for addition, subtraction, multiplication, and division, as well as conditional expressions involving comparisons.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -166,3 +166,40 @@ problem.infer(N <= N)  # OK: ordering comparison between two scalars
 ```{code-cell} ipython3
 problem.infer(y > W)  # OK: comparison between arrays with the same shape
 ```
+
+## Writing Complex Conditional Expressions with Logical Operations
+
+In JijModeling, logical operations such as conjunction ("and"), disjunction ("or"), and negation ("not") can be used to express complex conditional expressions.
+Because Python's logical operators `and`, `or`, and `not` cannot be overloaded, use the bitwise operators `&` (and), `|` (or), and `~` (not), or the functions {py:func}`jijmodeling.band` (and), {py:func}`jijmodeling.bor` (or), and {py:func}`jijmodeling.bnot` (not).
+
+:::{admonition} Beware of Bitwise Operator Precedence
+:class: caution
+
+Unlike `and` and `or`, `&` and `|` have higher precedence than `==` and `!=`. For example, `a == b & c == d` is interpreted as `a == (b & c) == d`.
+When using `&` or `|`, always enclose each comparison in parentheses, as in `(a >= b) & (c == d)`.
+:::
+
+The following example uses the summation notation introduced in {ref}`folding` to take the sum only when `i` is even or `j` is odd:
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    a = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(
+        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
+    )
+
+
+problem
+```
+
+`|` has higher precedence than `==`, so removing the parentheses causes this example to fail.
+
+:::{admonition} Example of a More Complex Conditional Expression
+:class: hint
+
+For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
+:::

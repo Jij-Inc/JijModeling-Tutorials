@@ -31,6 +31,7 @@ JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び�
 `jm.set` は {py:func}`~jijmodeling.stream` の非推奨の別名として引き続き利用でき、Decorator API での内包表記もそのまま使えますが、呼び出すと `DeprecationWarning` が発生します。
 :::
 
+(folding)=
 ## ストリームに対する総和・総積・最大・最小値などの畳み込み
 
 JijModeling の総和・総積などは、ストリームの要素を順に処理する畳み込み演算の形で実現されています。
@@ -114,43 +115,7 @@ def sum_with_ifs_example(problem: jm.DecoratedProblem):
 sum_with_ifs_example
 ```
 
-### 論理演算による複雑な条件式の記述
-
-JijModeling では、論理積（「かつ）」、「論理和（または）」「否定（でない）」などの論理演算を使って、複雑な条件式を表現することができます。
-残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりにビット演算子 `&`（かつ）、`|`（または）、`~`（否定）や、関数{py:func}`jijmodeling.band`（かつ）、{py:func}`jijmodeling.bor`（または）、{py:func}`jijmodeling.bnot` を使って論理演算を表現します。
-
-:::{admonition} ビット演算の優先順位に注意！
-:class: caution
-
-`and`, `or` などと異なり、`&` や `|` は `==` や `!=` よりも優先順位が高いため、たとえば `a == b & c == d` のように書くと `a == (b & c) == d` と解釈されてしまいます。
-このため、`&` や `|` を使う場合は、各比較式を `(a >= b) & (c == d)` のように常に括弧で囲むようにしてください。
-:::
-
-以下は「`i` が偶数または `j` が奇数の場合」にのみ和をとっている例です：
-
-```{code-cell} ipython3
-@jm.Problem.define("Sum Example")
-def problem(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    M = problem.Length()
-    a = problem.Float(shape=(N, M))
-    x = problem.BinaryVar(shape=(N, M))
-    problem += jm.sum(
-        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
-    )
-
-
-problem
-```
-
- `|` は `==` よりも演算子の優先順位が高いため、括弧を取るとこの例が動かなくなることに注意してください。
-
-:::{admonition} より複雑な条件式の例
-:class: hint
-
-論理演算を使ってより現実的かつ複雑な条件式を表現する例としては、JijZept 典型問題集の「{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`」が参考になるでしょう。
-また、{doc}`../references/cheat_sheet` にもより実践的な畳み込みの利用例が紹介されています。
-:::
+より発展的な具体例については {doc}`../references/cheat_sheet` を参照してください。
 
 ## ストリームの構築
 

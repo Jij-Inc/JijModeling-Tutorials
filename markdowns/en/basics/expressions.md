@@ -168,7 +168,7 @@ Constants like `0` are plain Python numbers, but they are also automatically con
 
 The following chapters explain specific ways to construct expressions.
 
-{doc}`arithmetic_and_comparison`
+{doc}`arithmetic_and_conditional`
 :   Explains how to construct expressions with arithmetic operations such as addition, subtraction, multiplication, and division, and with ordering and equality comparisons.
 
 {doc}`arrays_and_dicts`

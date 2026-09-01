@@ -165,7 +165,7 @@ except Exception as e:
 
 これ以降では、次の数章に分けて具体的な式の構築方法を見ていきます。
 
-{doc}`arithmetic_and_comparison`
+{doc}`arithmetic_and_conditional`
 :   加減乗除などの算術演算や、大小・同値性比較などによる式の構築方法を紹介します。
 
 {doc}`arrays_and_dicts`

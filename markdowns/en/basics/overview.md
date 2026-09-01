@@ -28,7 +28,7 @@ This part covers the following topics:
    + **{doc}`placeholders`**: How to declare **placeholders**, variables whose values are provided by users when compiling a mathematical model, and **category labels**.
    + **{doc}`decision_variables`**: How to declare **decision variables**, variables whose values are determined by a solver after compilation.
 3. **{doc}`expressions`**: A brief introduction to JijModeling expressions and their types, which are used for objectives, constraints, and variable shapes.
-   + **{doc}`arithmetic_and_comparison`**: Arithmetic and comparison operations available in expressions.
+   + **{doc}`arithmetic_and_conditional`**: Arithmetic and comparison operations available in expressions.
    + **{doc}`arrays_and_dicts`**: Data structures such as arrays and dictionaries available in expressions.
    + **{doc}`folding_and_stream`**: How to sum arrays and dictionaries as streams and combine conditions with logical operations.
 4. **{doc}`modeling`**: How to set objectives and constraints using the elements above.

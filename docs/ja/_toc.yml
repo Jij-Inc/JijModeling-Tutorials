@@ -21,7 +21,7 @@ parts:
       - file: basics/placeholders
       - file: basics/decision_variables
       - file: basics/expressions
-      - file: basics/arithmetic_and_comparison
+      - file: basics/arithmetic_and_conditional
       - file: basics/arrays_and_dicts
       - file: basics/folding_and_stream
       - file: basics/modeling

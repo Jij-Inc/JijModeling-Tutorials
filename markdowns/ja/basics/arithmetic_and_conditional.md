@@ -11,10 +11,10 @@ kernelspec:
   name: python3
 ---
 
-# 算術式と比較式
+# 算術式と条件式
 
 前章までで、JijModeling における式と型、そして変数の宣言方法について学んできました。
-以下では、より複雑な式として、加減乗除などの算術式や、比較式の構築方法について見ていきましょう。
+以下では、より複雑な式として、加減乗除などの算術式や、比較式を含む条件式の構築方法について見ていきましょう。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -144,7 +144,7 @@ JijModeling の式では、加減乗除だけではなく、三角関数（{py:m
 これらの関数も決定変数の有無に関わらず式に適用できますが、現時点ではインスタンスへのコンパイル時に決定変数を含む式に適用されている場合はエラーになります。
 :::
 
-## 比較演算
+## 比較式
 
 ```{eval-rst}
 等値演算子（:py:meth:`== <jijmodeling.Expression.__eq__>`, :py:meth:`\!= <jijmodeling.Expression.__ne__>`）や順序比較演算子（:py:meth:`< <jijmodeling.Expression.__lt__>`, :py:meth:`<= <jijmodeling.Expression.__le__>`, :py:meth:`> <jijmodeling.Expression.__gt__>`, :py:meth:`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
@@ -166,3 +166,40 @@ problem.infer(N <= N)  # OK! （スカラー同士の順序比較）
 ```{code-cell} ipython3
 problem.infer(y > W)  # OK! （同一シェイプ配列同士の比較）
 ```
+
+## 論理演算による複雑な条件式の記述
+
+JijModeling では、論理積（「かつ）」、「論理和（または）」「否定（でない）」などの論理演算を使って、複雑な条件式を表現することができます。
+残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりにビット演算子 `&`（かつ）、`|`（または）、`~`（否定）や、関数{py:func}`jijmodeling.band`（かつ）、{py:func}`jijmodeling.bor`（または）、{py:func}`jijmodeling.bnot` を使って論理演算を表現します。
+
+:::{admonition} ビット演算の優先順位に注意！
+:class: caution
+
+`and`, `or` などと異なり、`&` や `|` は `==` や `!=` よりも優先順位が高いため、たとえば `a == b & c == d` のように書くと `a == (b & c) == d` と解釈されてしまいます。
+このため、`&` や `|` を使う場合は、各比較式を `(a >= b) & (c == d)` のように常に括弧で囲むようにしてください。
+:::
+
+以下は {ref}`folding` で扱う総和の記法を使って、「`i` が偶数または `j` が奇数の場合」にのみ和をとっている例です：
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    a = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(
+        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
+    )
+
+
+problem
+```
+
+ `|` は `==` よりも演算子の優先順位が高いため、括弧を取るとこの例が動かなくなることに注意してください。
+
+:::{admonition} より複雑な条件式の例
+:class: hint
+
+論理演算を使ってより現実的かつ複雑な条件式を表現する例としては、JijZept 典型問題集の「{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`」が参考になるでしょう。
+:::

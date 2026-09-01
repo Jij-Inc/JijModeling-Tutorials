@@ -31,6 +31,7 @@ Since version 2.8.0, this concept has consistently been called a stream.
 `jm.set` remains available as a deprecated alias for {py:func}`~jijmodeling.stream`, and existing comprehensions in the Decorator API continue to work, but calling it emits a `DeprecationWarning`.
 :::
 
+(folding)=
 ## Folding Streams: Sums, Products, Maximums, Minimums, and More
 
 In JijModeling, operations such as sums and products are implemented as folds that process the elements of a stream in sequence.
@@ -114,43 +115,7 @@ def sum_with_ifs_example(problem: jm.DecoratedProblem):
 sum_with_ifs_example
 ```
 
-### Writing Complex Conditional Expressions with Logical Operations
-
-In JijModeling, logical operations such as conjunction ("and"), disjunction ("or"), and negation ("not") can be used to express complex conditional expressions.
-Because Python's logical operators `and`, `or`, and `not` cannot be overloaded, use the bitwise operators `&` (and), `|` (or), and `~` (not), or the functions {py:func}`jijmodeling.band` (and), {py:func}`jijmodeling.bor` (or), and {py:func}`jijmodeling.bnot` (not).
-
-:::{admonition} Beware of Bitwise Operator Precedence
-:class: caution
-
-Unlike `and` and `or`, `&` and `|` have higher precedence than `==` and `!=`. For example, `a == b & c == d` is interpreted as `a == (b & c) == d`.
-When using `&` or `|`, always enclose each comparison in parentheses, as in `(a >= b) & (c == d)`.
-:::
-
-The following example takes the sum only when `i` is even or `j` is odd:
-
-```{code-cell} ipython3
-@jm.Problem.define("Sum Example")
-def problem(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    M = problem.Length()
-    a = problem.Float(shape=(N, M))
-    x = problem.BinaryVar(shape=(N, M))
-    problem += jm.sum(
-        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
-    )
-
-
-problem
-```
-
-`|` has higher precedence than `==`, so removing the parentheses causes this example to fail.
-
-:::{admonition} Example of a More Complex Conditional Expression
-:class: hint
-
-For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
-Practical use cases of folding are also presented in {doc}`../references/cheat_sheet`.
-:::
+For more advanced examples, see {doc}`../references/cheat_sheet`.
 
 ## Constructing Streams
 
