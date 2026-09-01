@@ -363,7 +363,7 @@ JijModeling では、論理積（「かつ）」、「論理和（または）�
 
 ### 条件式の論理演算
 
-前述の通り、JijModelingでは、内包記法の `if` や {py:func}`~jijmodeling.filter` 関数の中で複数の条件からなる条件式を扱うことができます。
+前述の通り、JijModeling では、内包記法の `if` や {py:func}`~jijmodeling.filter` 関数の中で複数の条件からなる条件式を扱うことができます。
 
 以下は「`i` が偶数または `j` が奇数の場合」にのみ和をとっている例です：
 
