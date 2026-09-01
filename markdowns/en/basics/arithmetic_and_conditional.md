@@ -167,9 +167,9 @@ problem.infer(N <= N)  # OK: ordering comparison between two scalars
 problem.infer(y > W)  # OK: comparison between arrays with the same shape
 ```
 
-## Writing Complex Conditional Expressions with Logical Operations
+## Logical Operations
 
-In JijModeling, logical operations such as conjunction ("and"), disjunction ("or"), and negation ("not") can be used to express complex conditional expressions.
+JijModeling supports logical operations such as conjunction ("and"), disjunction ("or"), and negation ("not").
 Because Python's logical operators `and`, `or`, and `not` cannot be overloaded, use the bitwise operators `&` (and), `|` (or), and `~` (not), or the functions {py:func}`jijmodeling.band` (and), {py:func}`jijmodeling.bor` (or), and {py:func}`jijmodeling.bnot` (not).
 
 :::{admonition} Beware of Bitwise Operator Precedence
@@ -179,7 +179,7 @@ Unlike `and` and `or`, `&` and `|` have higher precedence than `==` and `!=`. Fo
 When using `&` or `|`, always enclose each comparison in parentheses, as in `(a >= b) & (c == d)`.
 :::
 
-The following example uses the summation notation introduced in {ref}`folding` to take the sum only when `i` is even or `j` is odd:
+The following example takes the sum only when `i` is even or `j` is odd:
 
 ```{code-cell} ipython3
 @jm.Problem.define("Sum Example")

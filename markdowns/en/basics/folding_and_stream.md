@@ -17,8 +17,6 @@ This chapter explains how to treat the collections introduced in the preceding c
 A stream is a sequence of values of a particular type that may contain duplicates. It is similar to what Python calls an **iterator**.
 Streams are used when working with indices over a particular range, taking sums or products, and defining indexed constraints.
 
-This chapter also explains logical operations on Boolean values and streams.
-
 ```{code-cell} ipython3
 import jijmodeling as jm
 ```
@@ -457,4 +455,5 @@ expected = ommx.v1.Function(B_data["e"] * xs["e"] + B_data["d"] * xs["d"])
 assert instance.objective.almost_equal(expected)
 ```
 
-These logical operations do not guarantee unique elements in the resulting stream. Use the previously described {py:func}`~jijmodeling.unique` function to remove duplicates when necessary.
+These operations do not guarantee unique elements in result values.
+Use the previously described {py:func}`~jijmodeling.unique` function to remove duplicates when necessary.
