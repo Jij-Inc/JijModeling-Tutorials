@@ -185,7 +185,7 @@ except Exception as e:
 ```
 
 :::{tip}
-Even for expressions that cannot be saved in an OMMX instance, you can still declare them as `NamedExpr` by setting `save_in_ommx=False` or leaving it unspecified.
+Even for expressions that cannot be saved in an OMMX instance, you can still declare them as {py:class}`NamedExpr <jijmodeling.NamedExpr>` by setting `save_in_ommx=False` or leaving it unspecified.
 :::
 
 +++

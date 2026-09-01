@@ -13,8 +13,8 @@ kernelspec:
 
 # Mathematical Model Formulation
 
-Based on the explanations in the previous sections, we now describe how to formulate a mathematical model.
-Decision variables and placeholders are covered in {doc}`decision_variables` and {doc}`placeholders`, so here we focus on how to set objectives and constraints.
+Based on the explanations in the previous chapters, we now describe how to formulate a mathematical model.
+Decision variables and placeholders are covered in {doc}`decision_variables` and {doc}`placeholders`, so this chapter focuses on how to set objectives and constraints.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -62,7 +62,7 @@ Since JijModeling 2.3.1, you can also "subtract" scalar {py:class}`~jijmodeling.
 
 :::{admonition} Replacing the objective
 :class: tip
-Since JijModeling 2.5.0, you can assign an expression directly to `Problem.objective` to discard the previous objective and replace it with a new one.
+Since JijModeling 2.5.0, you can assign an expression directly to {py:attr}`Problem.objective <jijmodeling.Problem.objective>` to discard the previous objective and replace it with a new one.
 :::
 
 ```{code-cell} ipython3
@@ -203,7 +203,7 @@ With the Plain API only, provide a `lambda` that takes the indexing parameters a
 and specify the domain using the `domain=` keyword:
 
 ```{code-cell} ipython3
-tsp_plain = jm.Problem("TSP, Decorated", sense=jm.ProblemSense.MINIMIZE)
+tsp_plain = jm.Problem("TSP, Plain", sense=jm.ProblemSense.MINIMIZE)
 C = tsp_plain.CategoryLabel("C", description="Labels of Cities")
 N = C.count()
 x = tsp_plain.BinaryVar(
@@ -262,7 +262,7 @@ tsp_array_comparison
 Here, giving an `axis=i` argument to {py:meth}`Expression.sum() <jijmodeling.Expression.sum>` or {py:meth}`jm.sum() <jijmodeling.sum>` works the same way as {py:func}`numpy.sum`: rather than a single total sum, it returns an array of sums along that axis.
 You can also pass multiple axes as a list.
 
-In the `one city` constraint above, `x.sum(axis=1)` (0-indexed) sums along the second axis, which corresponds to cities, and produces an array representing the number of cities visited at each time.
+In the `one city` constraint above, {py:meth}`x.sum(axis=1) <jijmodeling.Expression.sum>` (0-indexed) sums along the second axis, which corresponds to cities, and produces an array representing the number of cities visited at each time.
 If you run type inference, you can see that it is a one-dimensional array.
 
 ```{code-cell} ipython3

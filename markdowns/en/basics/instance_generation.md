@@ -13,8 +13,8 @@ kernelspec:
 
 # Instance Generation
 
-Up to the {doc}`previous section <modeling>`, we have learned how to formulate mathematical models.
-In this section, we explain the workflow of compiling a model into an OMMX instance and solving it via an OMMX Adapter.
+Up to the {doc}`previous chapter <modeling>`, we have learned how to formulate mathematical models.
+In this chapter, we explain the workflow of compiling a model into an OMMX instance and solving it via an OMMX Adapter.
 
 :::{figure} ../images/model-and-instance-illustrated.svg
 :alt: Providing instance data to a symbolic model produces solver input data (an instance)
@@ -186,7 +186,7 @@ The  OMMX SDK provides various features for transforming a compiled
 via a penalty method. For details, see the official [OMMX documentation](https://jij-inc.github.io/ommx/en/).
 :::
 
-### Options for `eval` and `eval_problem`
+### Options for {py:meth}`eval <jijmodeling.Problem.eval>` and {py:meth}`eval_problem <jijmodeling.Compiler.eval_problem>`
 
 Both {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` and
 {py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` accept the same keyword-only

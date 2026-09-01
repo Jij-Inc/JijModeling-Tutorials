@@ -11,17 +11,16 @@ kernelspec:
   name: python3
 ---
 
-# Constructing Expressions
+# JijModeling Expressions and Types
 
-In this section, we describe various ways to write expressions in JijModeling.
-JijModeling expressions are classified into several kinds (types).
-JijModeling provides type via Python type hints (stub files) as well as a custom, more sophisticated type checker, which can detect common modeling mistakes during construction.
-Below, we first summarize the overview of types in JijModeling, then learn typical patterns of expression building.
+In JijModeling, models are described by combining **expressions**, and expressions are classified into several kinds, or **types**.
+In addition to Python type hints, JijModeling provides its own more detailed type checker, which can detect common modeling mistakes during construction.
+The following chapters explain how to construct individual expressions in detail. As preparation, this chapter provides a brief overview of expressions and types in JijModeling.
 
 :::{tip}
 We focus on basic common patterns here. For a complete list of expressions, see the API reference for the {py:class}`~jijmodeling.Expression` class and top-level functions in the {py:mod}`~jijmodeling` module.
 
-The {doc}`Cheat Sheet <../references/cheat_sheet>` also provides more complex examples, so it is worth checking after reading this section.
+The {doc}`Cheat Sheet <../references/cheat_sheet>` also provides more complex examples, so it is worth checking after reading this chapter.
 :::
 
 ```{code-cell} ipython3
@@ -30,12 +29,11 @@ import jijmodeling as jm
 
 ## What is an expression?
 
-JijModeling separates model definitions from input data to achieve various features and efficiency.
-As a result, modeling in JijModeling does not directly construct a concrete formula.
-Instead, you first build a "program that becomes a concrete mathematical model only after input data is given", then compile it into a specific instance by providing data.
+JijModeling separates mathematical model definitions from input data to achieve various features and efficiency.
+As a result, modeling in JijModeling does not embed input data directly into a mathematical model. Instead, you first build a "program that becomes a concrete mathematical model only after input data is given", then provide input data later and compile it into a specific mathematical model—an instance.
 JijModeling calls this "program" an **expression**.
 
-More precisely, JijModeling expressions do not store concrete values, but keep an abstract syntax tree (AST) built from decision variables, placeholders, constants, and operations.
+More precisely, JijModeling expressions do not store concrete computation results, but keep an abstract syntax tree (AST) built by connecting decision variables, placeholders, constants, and other elements through operations.
 Consider the following example:
 
 ```{code-cell} ipython3
@@ -65,6 +63,7 @@ Decision variables, placeholders, and syntax trees bound to Python variables
 Decision variables and placeholders in the model such as $x, y, N$ correspond to Python variables `x`, `y`, `N`.
 This illustrates an ambiguity: when we say "variable", it can mean either a parameter in the model or a Python variable that temporarily binds it.
 Expressions like `z = x + y[0]` and `w = jm.sum(y[i] for i in N)` are represented as symbolic ASTs that reference these variables.
+In this way, a JijModeling expression combines individual components such as constants, placeholders, and decision variables through various operations.
 
 :::{admonition} Function calls and method calls are equivalent for expressions
 :class: tip
@@ -76,10 +75,10 @@ However, Python builtin numbers do not support method calls, so for such cases y
 
 ## Types of expressions in JijModeling
 
-In JijModeling, expressions are classified by type and validated as needed.
+In JijModeling, expressions are classified by **type** and validated as needed.
 You can use JijModeling without understanding the type system in detail.
 Still, it is useful to know how the type checks are performed when you formulate models.
-This section gives a brief overview.
+This chapter gives a brief overview.
 
 JijModeling actually performs type checks in two stages:
 
@@ -90,9 +89,10 @@ JijModeling actually performs type checks in two stages:
 However, Python type hints cannot express all constraints (for example, validating array index sizes).
 To compensate, JijModeling includes (2), its own more expressive type checker.
 
-The checker in (2) is not invoked directly by users. It is called when you add constraints or objective terms, declare `shape` for decision variables/placeholders, and so on, and it validates modeling mistakes **before** any data is provided.
-In other words, editor checks are "coarser" than the true JijModeling type system, while finer checks happen during construction.
-At the Python type level, the only distinction is whether something is an {py:class}`Expression <jijmodeling.Expression>`, but JijModeling checks much more detail internally.
+The checker in (2) is not invoked directly by users. It is called when you add constraints or objective terms, declare `shape` for decision variables/placeholders, and so on, and it automatically validates modeling mistakes before any data is provided.
+Python type hints distinguish API objects such as {py:class}`Expression <jijmodeling.Expression>`, {py:class}`~jijmodeling.Placeholder`, and {py:class}`~jijmodeling.DecisionVar`.
+They cannot, however, fully represent detailed information such as an expression's shape or dictionary key set, or whether it contains decision variables. JijModeling's built-in type checker checks this information as well.
+In other words, editor and Jupyter Notebook checks based on Python type hints are relatively coarse, while finer checks happen during model construction.
 
 There are several expression types in JijModeling; representative ones are listed below:
 
@@ -100,8 +100,8 @@ There are several expression types in JijModeling; representative ones are liste
 | :--- | :----------------- | :------------- | :--- |
 | Numeric types | $\mathbb{N}, \mathbb{Z}, \mathbb{R}$ | `natural`, `int`, `float` | Natural numbers, integers, real-valued scalars, and related numeric types. |
 | Category label types | $L$ | `CategoryLabel("L")` | Sets of labels provided later by users. |
-| Higher-dimensional array types | $\mathrm{Array}[N_1 \times \cdots \times N_k; \mathbb{R}]$ | `Array[N1, .., Nk; float]` | Arrays with an element type and a shape. |
-| Dictionary types | $\mathrm{TotalDict}[K; V]$ / $\mathrm{PartialDict}[K; V]$ | `TotalDict[K; V]`, `PartialDict[K; V]` | Dictionaries with key type $K$ and value type $V$. |
+| Higher-dimensional array types | $\mathrm{Array}[N_1, \ldots, N_k; A]$ | `Array[N1, ..., Nk; A]` | Multidimensional arrays of shape $N_1 \times \cdots \times N_k$ with elements of type `A`. |
+| Dictionary types | $\mathrm{TotalDict}[K; V]$ / $\mathrm{PartialDict}[K; V]$ | `TotalDict[K; V]`, `PartialDict[K; V]` | Dictionaries with key set $K$ and value type $V$. |
 | Tuple types | $T \times U$ | `Tuple[int, float]` | Fixed-length tuples with per-component types. |
 
 With these in mind, let's look at operations that commonly appear in modeling.
@@ -122,7 +122,7 @@ So even if an expression is "invalid", it does not necessarily throw an error at
 :::
 
 Below, we use {py:meth}`Problem.infer() <jijmodeling.Problem.infer>` to show valid and invalid examples.
-This method infers the type of a given expression based on the decision variables and placeholders defined in the `Problem`, and it raises a type error for invalid expressions.
+This method infers the type of a given expression based on the decision variables and placeholders defined in the {py:class}`Problem <jijmodeling.Problem>`, and it raises a type error for invalid expressions.
 Let's look at an example. Here, we add a binary variable $x$ and an integer $N$, so $x + N$ is inferred as an integer-type expression $\mathbb{Z}$.
 
 ```{code-cell} ipython3
@@ -143,500 +143,38 @@ except Exception as e:
     print(e)
 ```
 
-:::{admonition} What is the relationship between `Expression` and `ExpressionLike` / `ExpressionFunction`?
+:::{admonition} What is the relationship between {py:class}`Expression <jijmodeling.Expression>` and {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` / {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>`?
 :class: note
 
-In the {external+api_reference:doc}`API reference <index>` and editor completions/docs, you may see type
-names such as `ExpressionLike` and `ExpressionFunction`. These are dummy shorthand types that do not exist
-in the library implementation, and are used to represent types that can be converted to `Expression`, or
-functions from `Expression` to `Expression`.
+In the {external+api_reference:doc}`API reference <index>` and editor completions/docs, you may see type names such as {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` and {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>`.
+These are dummy shorthand types that do not exist in the library implementation, and are used to represent types that can be converted to {py:class}`Expression <jijmodeling.Expression>`, or functions from `Expression` to `Expression`.
 Specifically, you can think of them as follows:
 
 | Type name | Description |
 | --- | --- |
-| `ExpressionLike` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
-| `ExpressionFunction` | A function that takes one or more {py:class}`~jijmodeling.Expression` objects and returns a {py:class}`~jijmodeling.Expression`. In Python type hints, only up to 5 arguments are enumerated, but in practice there is no limit on the number of arguments. |
+| {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
+| {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>` | A function that takes one or more {py:class}`~jijmodeling.Expression` objects and returns a {py:class}`~jijmodeling.Expression`. In Python type hints, only up to 5 arguments are enumerated, but in practice there is no limit on the number of arguments. |
 
 :::
 
 ## Placeholders and decision variables as expressions
 
-As described in the previous section, decision variables and placeholders are defined with methods like {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` and {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>`.
+As described in {doc}`variables`, decision variables and placeholders are defined with methods like {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` and {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>`.
 These methods return {py:class}`DecisionVar <jijmodeling.DecisionVar>` and {py:class}`Placeholder <jijmodeling.Placeholder>` objects that hold metadata, but when used in expression building they are automatically converted into {py:class}`Expression <jijmodeling.Expression>` objects.
-In the `Test Problem` example, Python variables `x` and `y` are {py:class}`DecisionVar <jijmodeling.DecisionVar>` objects, but in `z = x + y[0]`, they are converted to expressions that represent a decision variable and an array of decision variables.
+In the `Test Problem` example above, Python variables `x` and `y` are {py:class}`DecisionVar <jijmodeling.DecisionVar>` objects, but in `z = x + y[0]`, they are converted to expressions that represent a decision variable and an array of decision variables.
 Constants like `0` are plain Python numbers, but they are also automatically converted when they appear in expressions.
 
-## Arithmetic operations
+## How to construct expressions
 
-Python's builtin arithmetic operators (add/subtract/multiply/divide/mod: {py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, {py:meth}`% <jijmodeling.Expression.__mod__>`, etc.) can be used with JijModeling expressions.
-Besides numeric scalars, you can also apply these operations to (multidimensional) arrays or to {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` objects with matching key sets, subject to some conditions.
-Specifically, the following combinations (left or right) are supported:
+The following chapters explain specific ways to construct expressions.
 
-1. Scalar with scalar
-2. Scalar with multidimensional array
-3. Scalar with dictionary
-4. Arrays with the same shape
-5. Total dictionaries with the same key set
+{doc}`arithmetic_and_conditional`
+:   Explains how to construct expressions with arithmetic operations such as addition, subtraction, multiplication, and division, and with ordering and equality comparisons.
 
-:::{admonition} Broadcasting in JijModeling
-:class: note
+{doc}`arrays_and_dicts`
+:   Explains how to declare multidimensional arrays and dictionaries and access their elements.
 
-(2)-(4) correspond to **broadcasting** in libraries like NumPy.
-NumPy supports more general shape combinations (for example, $(N, M, L)$ with $(M, L)$).
-While such generalized broadcasting can be concise, it often makes the intent ambiguous.
-For this reason, JijModeling intentionally restricts broadcasting and only supports cases that should be unambiguous.
-:::
+{doc}`folding_and_stream`
+:   Introduces reductions over arrays and dictionaries using streams and the construction of expressions using logical operations.
 
-Let's look at examples.
-
-```{code-cell} ipython3
-problem = jm.Problem("Arithmetic Operations")
-x = problem.BinaryVar("x", description="Scalar decision variable")
-N = problem.Length("N")
-M = problem.Length("M")
-y = problem.IntegerVar(
-    "y",
-    lower_bound=0,
-    upper_bound=10,
-    shape=(N, M),
-    description="2D array decision variable",
-)
-z = problem.ContinuousVar(
-    "z",
-    lower_bound=-1,
-    upper_bound=42,
-    shape=(N, M, N),
-    description="3D array decision variable",
-)
-S = problem.TotalDict(
-    "S", dtype=float, dict_keys=N, description="Scalar total dictionary"
-)
-s = problem.ContinuousVar("s", lower_bound=0, upper_bound=10, dict_keys=N)
-W = problem.Float("w", shape=(N, M))
-
-problem
-```
-
-### Allowed examples
-
-```{code-cell} ipython3
-problem.infer(x + 1)  # OK! (scalar addition)
-```
-
-```{code-cell} ipython3
-problem.infer(y - x)  # OK! (array minus scalar)
-```
-
-```{code-cell} ipython3
-problem.infer(S * x)  # OK! (scalar times dictionary)
-```
-
-```{code-cell} ipython3
-problem.infer(y / W)  # OK! (division of arrays with the same shape (N, M))
-```
-
-```{code-cell} ipython3
-problem.infer(S + s)  # OK! (addition of total dictionaries with the same key set)
-```
-
-### Disallowed examples
-
-```{code-cell} ipython3
-try:
-    # ERROR! (dictionary times array)
-    problem.infer(S * y)
-except Exception as e:
-    print(e)
-```
-
-```{code-cell} ipython3
-try:
-    # ERROR! (arrays with different shapes)
-    problem.infer(y + z)
-except Exception as e:
-    print(e)
-```
-
-### Alternative syntax: constructing arrays with `genarray`
-
-In the example above, operations involving nontrivial broadcasting, such as `y + z`, result in an (intentional) error.
-In such cases, you can use the {py:func}`~jijmodeling.genarray` function to construct the resulting array explicitly by specifying the shape and the expression for each entry:
-
-```{code-cell} ipython3
-A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
-display(A)
-problem.infer(A)
-```
-
-When using the Decorator API, you can also use a comprehension with `jm.genarray` as follows:
-
-```{code-cell} ipython3
-@problem.update
-def _(problem: jm.DecoratedProblem):
-    A = jm.genarray(y[i, j] + z[i, j, k] for i, j, k in (N, M, N))
-    display(A)
-    display(problem.infer(A))
-```
-
-Only one `for .. in ...` clause is allowed in a `genarray` comprehension.
-Be careful, because using multiple `for` clauses as shown below raises an error:
-
-```{code-cell} ipython3
-try:
-
-    @jm.Problem.define("genarray example")
-    def _(problem):
-        N = problem.Natural()
-        M = problem.Natural()
-        a = problem.Float(shape=(N, M))
-        x = problem.BinaryVar(shape=N)
-        Sums = problem.NamedExpr(jm.genarray(a[i, j] * x[i] for i in N for j in M))
-except SyntaxError as e:
-    print(str(e))
-```
-
-:::{admonition} Division by decision variables
-:class: caution
-
-At the modeling stage, decision variables can appear on either side of arithmetic operators.
-However, when compiling to an instance, expressions with a decision variable in the denominator (like `N / x` above) currently raise an error.
-Some solvers can support division by decision variables with special encodings, so the syntax is allowed, but JijModeling and OMMX do not yet support such encodings.
-In the future, they may allow these encodings and compile some cases successfully.
-:::
-
-:::{admonition} Elementary transcendental functions
-:class: tip
-
-JijModeling expressions support not only arithmetic but also elementary transcendental functions such as trigonometric functions ({py:meth}`~jijmodeling.Expression.sin`, {py:meth}`~jijmodeling.Expression.cos`, {py:meth}`~jijmodeling.Expression.tan`) and logarithms ({py:meth}`~jijmodeling.Expression.log2`, {py:meth}`~jijmodeling.Expression.log10`, {py:meth}`~jijmodeling.Expression.ln`).
-These functions can be applied regardless of whether the expression contains decision variables, but if they do, compilation to an instance currently raises an error.
-:::
-
-## Comparison operators
-
-<!-- markdownlint-disable -->
-Equality operators ({py:meth}`== <jijmodeling.Expression.__eq__>`, {py:meth}` != <jijmodeling.Expression.__ne__>`) and order comparison operators ({py:meth}`< <jijmodeling.Expression.__lt__>`, {py:meth}`<= <jijmodeling.Expression.__le__>`, {py:meth}`> <jijmodeling.Expression.__gt__>`, {py:meth}`>= <jijmodeling.Expression.__ge__>`) can also be used with JijModeling expressions.
-<!-- markdownlint-enable -->
-
-If **neither side contains decision variables**, the result is a Boolean expression (`Bool`).
-If at least one side can contain decision variables, the result is a special **comparison type**.
-This is because constraints must compare expressions that include decision variables, while comprehension filters require fully determined Boolean expressions.
-
-Currently, comparison operators can be applied to scalars and category labels, or arrays/dictionaries of those.
-The conditions for arrays and dictionaries are the same as the arithmetic overload rules.
-
-```{code-cell} ipython3
-problem.infer(x == y)  # OK! (scalar vs array equality)
-```
-
-```{code-cell} ipython3
-problem.infer(N <= N)  # OK! (scalar order comparison)
-```
-
-```{code-cell} ipython3
-problem.infer(y > W)  # OK! (comparison of arrays with the same shape)
-```
-
-## Indexing arrays and dictionaries
-
-### Element access and images by indexing
-
-Like Python lists, dictionaries, or {py:class}`numpy.ndarray`, JijModeling expressions support multi-dimensional indexing such as `x[i, j]`.
-Specifically, you can index expressions of the following types:
-
-1. (Multidimensional) arrays
-   + **Allowed indices**: natural-number expressions that do not include decision variables
-2. Dictionaries
-   + **Allowed indices**: category labels in the dictionary key set, or arbitrary integer expressions (including decision variables)
-3. Tuples
-   + **Allowed indices**: natural-number expressions (within the tuple length) that do not include decision variables
-
-Indices can only include natural numbers, integers, or category labels that do **not** include decision variables.
-You can write multiple indices at once, like `x[i, j, k]`. Using too many indices (more than the tuple length, array dimension, or dictionary tuple length) results in a type error.
-
-Array indexing also supports slicing syntax such as `x[:, 1]`.
-In this case, `x[:, 1]` keeps all elements along the 0th dimension and selects index `1` on the 1st dimension.
-If `x` is 2D, the result is a 1D array; if `x` has dimension $N \ge 3$, the result is $(N-1)$-dimensional.
-If `x` is 1D or scalar, it is a type error.
-Slices with step and end indices, like `x[1, 1:N:2]`, are also supported.
-For details on slice syntax, see the Python docs on "{external+python:ref}`slicings`".
-
-### Getting the index set of array/dictionary expressions
-
-For array and dictionary expressions, you can obtain their index sets.
-For arrays, use {py:meth}`~jijmodeling.Expression.indices`; for dictionaries, use {py:meth}`~jijmodeling.Expression.keys`.
-For example, you can define a dictionary decision variable with the same domain as a `PartialDict` placeholder as follows:
-
-```{code-cell} ipython3
-problem = jm.Problem("Index and Keys Example")
-N = problem.Length("N")
-L = problem.CategoryLabel("L")
-S = problem.PartialDict("S", dtype=float, dict_keys=(N, L))
-x = problem.BinaryVar("x", dict_keys=S.keys())
-problem
-```
-
-## Streams and comprehensions for sums and products
-
-### Streams in JijModeling
-
-JijModeling provides **streams**, which are sequences of values of a particular type.
-This concept is similar to what Python calls an **iterator**.
-The {py:meth}`~jijmodeling.Expression.indices` and {py:meth}`~jijmodeling.Expression.keys` mentioned above actually return streams corresponding to **index sets**.
-Streams are used when iterating over index ranges, computing sums and products, and defining indexed constraints.
-Because values may appear more than once in a stream, use {py:func}`jijmodeling.unique` when values must be unique.
-
-Some values are converted to streams automatically.
-For example, a multi-dimensional array yields its elements in row-major order, a natural number $N$ yields $0, 1, \ldots, N-1$, and a category label `L` yields all values assigned to `L` at compile time.
-JijModeling 2.3.1 also introduced the {py:func}`jijmodeling.range` function, which corresponds to Python's built-in {py:class}`range() <range>` and defines streams of natural numbers in arithmetic progression.
-
-:::{admonition} Change from JijModeling 1: iterating over arrays
-:class: caution
-
-In JijModeling 1, iteration over a multi-dimensional array used with `belong_to=` or `forall=` proceeded row by row.
-Thus, iterating over an array `A` with shape `(N, M)` yielded `N` elements, each a 1D array of length `M`.
-
-In JijModeling 2, this behavior was removed, and arrays are now iterated element by element.
-To obtain the old behavior, convert the array explicitly with {py:func}`~jijmodeling.rows` by writing `jm.rows(A)` or `A.rows()`.
-:::
-
-:::{admonition} Iterating over a dictionary in JijModeling
-:class: important
-
-In JijModeling, iterating over a dictionary expression yields its **values, not its keys**.
-This differs from the behavior of Python's {py:class}`dict`, but keeps dictionary expressions consistent with multi-dimensional arrays.
-As a result, if you change placeholders or decision variables that were originally defined as multi-dimensional arrays to dictionaries, you can keep code like `x.sum()` unchanged.
-To iterate over key-value pairs or keys, use {py:meth}`~jijmodeling.Expression.items` or {py:meth}`~jijmodeling.Expression.keys`, respectively.
-To make it explicit that you are iterating over values, use {py:meth}`~jijmodeling.Expression.values`.
-:::
-
-Conversion to a stream is usually automatic, but you can request it explicitly with {py:func}`~jijmodeling.stream`.
-
-:::{admonition} Renamed from "set" in JijModeling 2.8.0
-:class: note
-
-Up to JijModeling 2.7.1, streams were called "sets", and the explicit conversion function was named `jm.set`.
-Because mathematical sets are unordered and contain no duplicates, that terminology was misleading.
-Since JijModeling 2.8.0, the concept has consistently been called a stream.
-`jm.set` remains available as a deprecated alias of {py:func}`~jijmodeling.stream`, including when used with comprehensions in the Decorator API, but calling it emits a `DeprecationWarning`.
-:::
-
-### Sums and products over streams
-
-Indices become especially powerful when combined with sums/products. Below we introduce several ways to write sums and products.
-
-:::{note}
-For simplicity we show sums using {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`), but products using {py:func}`jm.prod() <jijmodeling.prod>` or {py:meth}`Expression.prod() <jijmodeling.Expression.prod>` are analogous.
-:::
-
-With the Decorator API, sums/products can be written using intuitive {external+python:ref}`comprehensions <comprehensions>`.
-
-For example, the sum of products of decision variables and placeholders can be written as:
-
-```{code-cell} ipython3
-@jm.Problem.define("Sum Example")
-def sum_example(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    a = problem.Float(shape=(N,))
-    x = problem.BinaryVar(shape=(N,))
-    problem += jm.sum(a[i] * x[i] for i in N)
-
-
-sum_example
-```
-
-:::{admonition} Caution: Do not use Python's built-in `sum`
-:class: caution
-
-To write sums with comprehensions, you can only use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>` function or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>` method.
-If you accidentally use Python's built-in {py:func}`sum`, or call {py:func}`jm.sum() <jijmodeling.sum>` outside the Decorator API, you will get an error like the following:
-:::
-
-```{code-cell} ipython3
-try:
-
-    @jm.Problem.define("Wrong Sum Example")
-    def wrong_sum_example(problem: jm.DecoratedProblem):
-        N = problem.Length()
-        a = problem.Float(shape=(N,))
-        x = problem.BinaryVar(shape=(N,))
-        # ERROR! Using Python's builtin sum instead of jm.sum()
-        problem += sum(a[i] * x[i] for i in N)
-except Exception as e:
-    print(e)
-```
-
-JijModeling provides {py:func}`jijmodeling.map`, corresponding to Python's builtin {py:func}`~map`, so you can write the same thing using only the Plain API as follows:
-
-```{code-cell} ipython3
-sum_example_plain = jm.Problem("Sum Example (Plain)")
-N = sum_example_plain.Length("N")
-a = sum_example_plain.Float("a", shape=(N,))
-x = sum_example_plain.BinaryVar("x", shape=(N,))
-sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
-
-sum_example_plain
-```
-
-For simple sums, you can also pass the domain and the function to {py:func}`jm.sum() <jijmodeling.sum>` directly:
-
-```{code-cell} ipython3
-sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
-N = sum_example_plain_alt.Length("N")
-a = sum_example_plain_alt.Float("a", shape=(N,))
-x = sum_example_plain_alt.BinaryVar("x", shape=(N,))
-sum_example_plain_alt += jm.sum(N, lambda i: a[i] * x[i])
-
-sum_example_plain_alt
-```
-
-When using the Plain API without the Decorator API, you need Python {external+python:ref}`lambda expressions <lambda>` to build indexed expressions.
-
-:::{tip}
-When {py:func}`jm.sum() <jijmodeling.sum>` or {py:func}`jm.prod() <jijmodeling.prod>` is called with a single argument, it computes the sum or product over a stream; the corresponding methods behave the same way.
-So if you simply want the sum of elements in `x`, you can write `jm.sum(x)` or `x.sum()`.
-With the limited broadcasting described earlier, you can also write `jm.sum(a * x)` as above.
-This also works when `x` is a multi-dimensional array.
-:::
-
-### Conditional sums/products
-
-Comprehensions in the Decorator API allow `if`, so you can take a sum only over even indices like this:
-
-```{code-cell} ipython3
-@jm.Problem.define("Even Sum Example")
-def even_sum_example(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    a = problem.Float(shape=(N,))
-    x = problem.BinaryVar(shape=(N,))
-    problem += jm.sum(a[i] * x[i] for i in N if (i % 2) == 0)
-
-
-even_sum_example
-```
-
-JijModeling also provides {py:func}`jm.filter() <jijmodeling.filter>` corresponding to Python's builtin `filter`, so the same model in the Plain API is:
-
-```{code-cell} ipython3
-even_sum_example_plain = jm.Problem("Even Sum Example (Plain)")
-N = even_sum_example_plain.Length("N")
-a = even_sum_example_plain.Float("a", shape=(N,))
-x = even_sum_example_plain.BinaryVar("x", shape=(N,))
-even_sum_example_plain += jm.sum(
-    N.filter(lambda i: (i % 2) == 0),
-    lambda i: a[i] * x[i],
-)
-
-even_sum_example_plain
-```
-
-### Sums/products over multiple indices
-
-Comprehensions support nested `for` and `if`, so sums over multiple indices are easy to write by stacking `for` clauses:
-
-```{code-cell} ipython3
-@jm.Problem.define("Double Sum Example")
-def double_sum_example(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    M = problem.Length()
-    Q = problem.Float(shape=(N, M))
-    x = problem.BinaryVar(shape=(N, M))
-    problem += jm.sum(Q[i, j] for i in N for j in M)
-
-
-double_sum_example
-```
-
-Alternatively, you can use {py:func}`jijmodeling.product` to form the Cartesian product $A_1 \times \ldots \times A_n$:
-
-```{code-cell} ipython3
-@jm.Problem.define("Double Sum Example (Alt)")
-def double_sum_example_alt(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    M = problem.Length()
-    Q = problem.Float(shape=(N, M))
-    x = problem.BinaryVar(shape=(N, M))
-    problem += jm.sum(Q[i, j] for (i, j) in jm.product(N, M))
-
-
-double_sum_example_alt
-```
-
-Also, in places such as the right-hand side of `in` in Decorator API comprehensions and the `domain=` keyword argument of `Constraint`, you can omit `jm.product` and represent the Cartesian product with a tuple as follows:
-
-```{code-cell} ipython3
-@jm.Problem.define("Double Sum Example (Alt)")
-def double_sum_example_alt(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    M = problem.Length()
-    Q = problem.Float(shape=(N, M))
-    x = problem.BinaryVar(shape=(N, M))
-
-    # Note: the Cartesian product is represented by a tuple, not product
-    problem += jm.sum(Q[i, j] for (i, j) in (N, M))
-
-
-double_sum_example_alt
-```
-
-With `if`, you can build more complex examples:
-
-```{code-cell} ipython3
-@jm.Problem.define("Filtered Double Sum Example")
-def filtered_double_sum_example(problem: jm.DecoratedProblem):
-    N = problem.Length()
-    M = problem.Length()
-    Q = problem.Float(shape=(N, M))
-    x = problem.BinaryVar(shape=(N, M))
-    problem += jm.sum(
-        Q[i, j]
-        for i in N
-        for j in M
-        if (i + j) % 2 == 0  # sum is even
-    )
-
-
-filtered_double_sum_example
-```
-
-In the Plain API, this becomes:
-
-```{code-cell} ipython3
-filtered_double_sum_example_plain = jm.Problem("Filtered Double Sum Example (Plain)")
-N = filtered_double_sum_example_plain.Length("N")
-M = filtered_double_sum_example_plain.Length("M")
-Q = filtered_double_sum_example_plain.Float("Q", shape=(N, M))
-x = filtered_double_sum_example_plain.BinaryVar("x", shape=(N, M))
-filtered_double_sum_example_plain += jm.sum(
-    jm.product(N, M).filter(lambda i, j: (i + j) % 2 == 0), lambda i, j: Q[i, j]
-)
-
-filtered_double_sum_example_plain
-```
-
-Alternatively, {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or the method form {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`) lets you map a function that returns a stream:
-
-```{code-cell} ipython3
-jm.sum(
-    N.flat_map(
-        lambda i: jm.map(lambda j: (i, j), M),
-    ).filter(lambda i, j: (i + j) % 2 == 0),
-    lambda i, j: Q[i, j],
-)
-```
-
-In principle, you can write any model without the Decorator API, but it becomes complex and hard to read, so we recommend using the Decorator API.
-
-## Logical operations on conditional expressions and streams
-
-So far, conditions in comprehensions and {py:func}`~jijmodeling.filter` were simple, but in practice you often want logical expressions like "and" or "or".
-Python's `and`, `or`, and `not` cannot be overloaded, so JijModeling uses bitwise operators: `&` (and), `|` (or), `~` (not), or the functions {py:func}`jijmodeling.band`, {py:func}`jijmodeling.bor`, {py:func}`jijmodeling.bnot`.
-
-:::{admonition} Be careful with operator precedence in bitwise logic
-:class: caution
-
-Unlike `and`/`or`, `&` and `|` have lower precedence than `==` and `!=`. For example, `a == b & c == d` is parsed as `a == (b & c) == d`.
-Therefore, when using `&` or `|`, always parenthesize each comparison, e.g., `(a >= b) & (c == d)`.
-:::
-
-Logical operations can also be applied to stream expressions: `|` represents union, and `&` represents intersection.
-Complements are not supported because they may be infinite; instead, use {py:func}`jijmodeling.diff` to take the difference between two streams.
+For concrete examples of these constructs, see {doc}`../references/cheat_sheet`.

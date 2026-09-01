@@ -13,8 +13,8 @@ kernelspec:
 
 # インスタンスの生成
 
-{doc}`前節 <modeling>`までで数理モデルの一通りの定式化方法を学んできました。
-本節では、いよいよ数理モデルを OMMX インスタンスへとコンパイルし、OMMX Adapter を経由して問題を解くまでの流れを説明します。
+{doc}`前章 <modeling>`までで数理モデルの一通りの定式化方法を学んできました。
+本章では、いよいよ数理モデルを OMMX インスタンスへとコンパイルし、OMMX Adapter を経由して問題を解くまでの流れを説明します。
 
 :::{figure} ../images/model-and-instance-illustrated.svg
 :alt: 記号的に記述された数理モデルに「インスタンスデータ」を入力すると、ソルバーへの入力データ（＝インスタンス）が生成される
@@ -79,7 +79,7 @@ random.seed(42)
 N_data = 10
 W_data = random.randint(10, 75)
 v_data = [random.uniform(1, 20) for _ in range(N_data)]
-w_data = np.array([random.uniform(1, 15) for _ in range(N_data)])  # Numpy 配列も可
+w_data = np.array([random.uniform(1, 15) for _ in range(N_data)])  # NumPy 配列も可
 s_data = {(1, 2): 5.0, (1, 4): 3.0, (2, 9): 5.0, (3, 5): 10}
 
 instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data}
@@ -152,7 +152,7 @@ x_ = problem.decision_vars["x"]
 compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
 ```
 
-`eval_function` や `eval_constraint` メソッドはデバッグに使える他、コンパイル後の {py:class}`ommx.v1.Instance` を変形する用途などに利用できます。
+{py:meth}`eval_function <jijmodeling.Compiler.eval_function>` や {py:meth}`eval_constraint <jijmodeling.Compiler.eval_constraint>` メソッドはデバッグに使える他、コンパイル後の {py:class}`ommx.v1.Instance` を変形する用途などに利用できます。
 
 また、一度作成した Compiler は、プレースホルダーと決定変数を共有する複数のモデルに対して使い回すことができ、**決定変数や制約条件の ID の対応関係も保存**されます。
 この機能は、同じパラメーターを持ちつつ制約条件や目的関数を変化させた複数のモデルを同時にコンパイルし、結果を比較する用途などに便利です。
@@ -167,7 +167,7 @@ OMMX SDK にはコンパイル後の {py:class}`~ommx.v1.Instance` オブジェ�
 こういった機能の詳細については [OMMX の公式ドキュメント](https://jij-inc.github.io/ommx/ja/)を御覧ください。
 :::
 
-### `eval` や `eval_problem` のオプション
+### {py:meth}`eval <jijmodeling.Problem.eval>` や {py:meth}`eval_problem <jijmodeling.Compiler.eval_problem>` のオプション
 
 {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` や {py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` メソッドは、どちらも以下の共通のキーワード限定引数を渡すことで挙動を制御できるようになっています：
 

@@ -1,0 +1,203 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.19.5
+kernelspec:
+  display_name: .venv
+  language: python
+  name: python3
+---
+
+# 算術式と条件式
+
+前章までで、JijModeling における式と型、そして変数の宣言方法について学んできました。
+以下では、より複雑な式として、加減乗除などの算術式や、比較式を含む条件式の構築方法について見ていきましょう。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+```
+
+## 算術演算
+
+Python 組込みの算術演算（{py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, {py:meth}`% <jijmodeling.Expression.__mod__>` などの加減乗除）は、JijModeling の式に対しても用いることができます。
+数値型の式同士の演算は期待通り動作するのに加え、（多次元）配列同士や、キー集合が一致する {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` に対しても、一定の条件を満たせば演算を行うことができます。
+具体的には、以下の組み合わせ（左右問わず）に対して算術演算がサポートされています：
+
+1. スカラー同士の算術演算
+2. スカラーと多次元配列の算術演算
+3. スカラーと辞書の算術演算
+4. 同じシェイプを持つ多次元配列同士の算術演算
+5. 同じキー集合を持つ全域辞書（{py:meth}`TotalDict <jijmodeling.Problem.TotalDict>`）同士の算術演算
+
+:::{admonition} JijModeling におけるブロードキャスト
+:class: note
+
+(2) と (3) は、NumPy などで見られる、スカラーをコレクションの各要素に適用する**ブロードキャスト演算**に相当します。一方、(4) と (5) は、対応する要素同士の演算です。
+**NumPy では**より一般のシェイプ間の演算（たとえば $(N, M, L)$ と $(M, L)$ の間の演算など）もサポートされています。
+このような NumPy の一般化されたブロードキャスト演算は簡潔な略記が可能になる一方で、後ほど読み返す際に意図が不明確になることが多々あります。
+このため、**JijModeling では意図的にブロードキャストの範囲を制限**し、誰にとっても**曖昧性がないと思われる場合にのみサポート**しています。
+:::
+
+言葉だとわかりづらいと思いますので、例を見てみましょう。
+
+```{code-cell} ipython3
+problem = jm.Problem("Arithmetic Operations")
+x = problem.BinaryVar("x", description="スカラーの決定変数")
+N = problem.Length("N")
+M = problem.Length("M")
+y = problem.IntegerVar(
+    "y", lower_bound=0, upper_bound=10, shape=(N, M), description="2次元配列の決定変数"
+)
+z = problem.ContinuousVar(
+    "z",
+    lower_bound=-1,
+    upper_bound=42,
+    shape=(N, M, N),
+    description="3次元配列の決定変数",
+)
+S = problem.TotalDict("S", dtype=float, dict_keys=N, description="スカラーの全域辞書")
+s = problem.ContinuousVar("s", lower_bound=0, upper_bound=10, dict_keys=N)
+W = problem.Float("w", shape=(N, M))
+
+problem
+```
+
+### 許容される例
+
+```{code-cell} ipython3
+problem.infer(x + 1)  # OK! （スカラー同士の加算）
+```
+
+```{code-cell} ipython3
+problem.infer(y - x)  # OK! （多次元配列とスカラーの減算）
+```
+
+```{code-cell} ipython3
+problem.infer(S * x)  # OK! （スカラーと辞書の乗算）
+```
+
+```{code-cell} ipython3
+problem.infer(y / W)  # OK! （同一シェイプ (N, M) の配列同士の除算）
+```
+
+```{code-cell} ipython3
+problem.infer(S + s)  # OK! （同一キー集合を持つ全域辞書同士の加算）
+```
+
+### 許容されない例
+
+```{code-cell} ipython3
+try:
+    # ERROR!（辞書と配列の乗算）
+    problem.infer(S * y)
+except Exception as e:
+    print(e)
+```
+
+```{code-cell} ipython3
+try:
+    # ERROR!（シェイプが異なる配列どうしの演算）
+    problem.infer(y + z)
+except Exception as e:
+    print(e)
+```
+
+### 代替記法：{py:func}`genarray <jijmodeling.genarray>` や {py:func}`gendict <jijmodeling.gendict>` による配列の構築
+
+上の例では、`y + z` のように、非自明なブロードキャストを伴う演算は（意図的に）エラーになっていました。
+このような場合、{py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` 関数を使い、陽にシェイプやキー集合と成分の式を指定することで、目的の配列・辞書を構築できるようになります：
+
+```{code-cell} ipython3
+A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
+display(A)
+problem.infer(A)
+```
+
+また、Decorator API を利用している場合、以下のように内包表記を用いることもできます：
+
+```{code-cell} ipython3
+@problem.update
+def _(problem: jm.DecoratedProblem):
+    A = jm.genarray(y[i, j] + z[i, j, k] for i, j, k in (N, M, N))
+    display(A)
+    display(problem.infer(A))
+```
+
+詳細は {doc}`arrays_and_dicts` の[該当する説明部分](#generators)を参照してください。
+
+:::{admonition} 決定変数による除算について
+:class: caution
+
+モデルの構築の時点では、決定変数が現れうる式は加減乗除の左右どちらの辺にも現れることができます。
+一方、これをインスタンスへとコンパイルする際には、決定変数が除法の右辺に現れる（上の例では `N / x` など）場合、現時点ではエラーになります。
+これは、ソルバーによっては決定変数による除法を（特定のエンコードにより）サポートしている場合もあるので記法としては許容したい一方、現時点において JijModeling や OMMX がそうしたエンコード方法に対応していないためです。
+将来的には、JijModeling や OMMX がこのようなエンコード方法の指定に対応し、一部のケースでは実際にインスタンスへとコンパイルできるようになる予定です。
+:::
+
+:::{admonition} 初等超越関数
+:class: tip
+
+JijModeling の式では、加減乗除だけではなく、三角関数（{py:meth}`~jijmodeling.Expression.sin`, {py:meth}`~jijmodeling.Expression.cos`, {py:meth}`~jijmodeling.Expression.tan`など）や対数関数（{py:meth}`~jijmodeling.Expression.log2`, {py:meth}`~jijmodeling.Expression.log10`, {py:meth}`~jijmodeling.Expression.ln`）などの初等超越関数もサポートしています。
+これらの関数も決定変数の有無に関わらず式に適用できますが、現時点ではインスタンスへのコンパイル時に決定変数を含む式に適用されている場合はエラーになります。
+:::
+
+## 比較式
+
+```{eval-rst}
+等値演算子（:py:meth:`== <jijmodeling.Expression.__eq__>`, :py:meth:`\!= <jijmodeling.Expression.__ne__>`）や順序比較演算子（:py:meth:`< <jijmodeling.Expression.__lt__>`, :py:meth:`<= <jijmodeling.Expression.__le__>`, :py:meth:`> <jijmodeling.Expression.__gt__>`, :py:meth:`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
+```
+
+これらの比較演算子の**両辺が共に決定変数を含まない**場合、結果は真偽値型 `Bool` の式として推論されます。一方、両辺の少なくとも一方が決定変数を含みうる場合、結果は特別な**比較型**として扱われます。これは、制約条件の定義では決定変数が現れる式同士を比較できる必要がある一方、内包表記などで使われる場合は真偽値が確定する比較式が使える必要があるためです。
+
+数値型のスカラーには等値比較と順序比較の両方を利用できますが、カテゴリーラベルの値に利用できるのは `==` と `!=` のみです。
+配列や辞書に比較演算子を適用する場合は、要素の型がその比較をサポートしていることに加え、算術演算と同様のシェイプやキー集合に関する条件を満たす必要があります。
+
+```{code-cell} ipython3
+problem.infer(x == y)  # OK! （スカラーと配列の等値比較）
+```
+
+```{code-cell} ipython3
+problem.infer(N <= N)  # OK! （スカラー同士の順序比較）
+```
+
+```{code-cell} ipython3
+problem.infer(y > W)  # OK! （同一シェイプ配列同士の比較）
+```
+
+## 論理演算
+
+JijModeling では、「論理積（かつ）」、「論理和（または）」「否定（でない）」などの論理演算を使って、複雑な条件式を表現することができます。
+残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりにビット演算子 `&`（かつ）、`|`（または）、`~`（否定）や、関数{py:func}`jijmodeling.band`（かつ）、{py:func}`jijmodeling.bor`（または）、{py:func}`jijmodeling.bnot` を使って論理演算を表現します。
+
+:::{admonition} ビット演算の優先順位に注意！
+:class: caution
+
+`and`, `or` などと異なり、`&` や `|` は `==` や `!=` よりも優先順位が高いため、たとえば `a == b & c == d` のように書くと `a == (b & c) == d` と解釈されてしまいます。
+このため、`&` や `|` を使う場合は、各比較式を `(a >= b) & (c == d)` のように常に括弧で囲むようにしてください。
+:::
+
+以下は `i` が偶数または `j` が奇数の場合のみ和をとる例です：
+
+```{code-cell} ipython3
+@jm.Problem.define("Sum Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    M = problem.Length()
+    a = problem.Float(shape=(N, M))
+    x = problem.BinaryVar(shape=(N, M))
+    problem += jm.sum(
+        a[i, j] * x[i, j] for i in N for j in M if (i % 2 == 0) | (j % 2 == 1)
+    )
+
+
+problem
+```
+
+:::{admonition} より複雑な条件式の例
+:class: hint
+
+論理演算を使ってより現実的かつ複雑な条件式を表現する例としては、JijZept 典型問題集の「{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`」が参考になるでしょう。
+:::

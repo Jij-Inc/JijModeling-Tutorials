@@ -46,7 +46,7 @@ def _(problem: jm.DecoratedProblem, N: jm.Placeholder):
 
 +++
 
-### Improvement to gendict's LaTeX output 
+### Improvement to gendict's LaTeX output
 
 The $\LaTeX$ output for `gendict` expressions is now styled closer to `genarray`s.
 

@@ -55,9 +55,10 @@ sphinx:
     intersphinx_mapping:
       api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/, null]
       numpy: [https://numpy.org/doc/stable, null]
-      python: ["https://docs.python.org/ja/3", "https://docs.python.org/ja/3/objects.inv"]
+      python: ["https://docs.python.org/3", "https://docs.python.org/3/objects.inv"]
       ommx_api: ["https://jij-inc.github.io/ommx/python/ommx", null]
-      ommx_doc: ["https://jij-inc.github.io/ommx/ja", null]
+      ommx_doc: ["https://jij-inc.github.io/ommx/en", null]
+      zept_tutor: ["https://jij-inc-jijzept-tutorials-en.readthedocs-hosted.com/en/latest", null]
 
 parse:
   myst_enable_extensions:
