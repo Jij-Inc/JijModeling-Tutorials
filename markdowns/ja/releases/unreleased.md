@@ -38,12 +38,13 @@ problem
 
 ### 定数に対する演算の LaTeX 簡略化
 
-$\LaTeX$ 出力で定数式の簡約を行うようになりました。総和でよく見られる `- 1`などが簡約されるようになり、数式全体の可読性が向上しました。
+$\LaTeX$ 出力で定数式の簡約を行うようになりました。`-2*x`の単純な係数や、総和でよく見られる `- 1`などが簡約されるようになり、数式全体の可読性が向上しました。
 
 ```{code-cell} ipython3
 problem = jm.Problem("TestProblem")
 V = problem.Natural("V")
-problem += jm.map(lambda x: x, V - 1).sum()
+problem += jm.map(lambda x: x + 3 - 2, V - 1).sum() 
+problem += - 2 * V + - 2 - 1
 problem
 ```
 
