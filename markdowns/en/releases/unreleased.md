@@ -38,12 +38,13 @@ problem
 
 ### Simplify operations on constants in LaTeX output
 
-Basic operations involving constants will now be simplified when displaying LaTeX. This generally makes equations easier to read, particularly summations which often involved `- 1`s for the termination.
+Basic operations involving constants will now be simplified when displaying LaTeX. This generally makes equations easier to read, particularly summations which often involved `- 1`s for the termination, and basic coefficients like `-2 * x`.
 
 ```{code-cell} ipython3
 problem = jm.Problem("TestProblem")
 V = problem.Natural("V")
-problem += jm.map(lambda x: x, V - 1).sum()
+problem += jm.map(lambda x: x + 3 - 2, V - 1).sum() 
+problem += - 2 * V + - 2 - 1
 problem
 ```
 
