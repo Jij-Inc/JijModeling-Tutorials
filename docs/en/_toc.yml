@@ -23,7 +23,7 @@ parts:
       - file: basics/arithmetic_and_conditional
       - file: basics/arrays_and_dicts
       - file: basics/folding_and_stream
-      - file: basics/modeling
+      - file: basics/objective_and_constraints
       - file: basics/instance_generation
   - caption: Advanced
     chapters:

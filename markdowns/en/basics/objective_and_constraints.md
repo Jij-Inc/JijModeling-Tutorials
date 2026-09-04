@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Mathematical Model Formulation
+# Setting the Objective and Constraints
 
 Based on the explanations in the previous chapters, we now describe how to formulate a mathematical model.
 Decision variables and placeholders are covered in {doc}`decision_variables` and {doc}`placeholders`, so this chapter focuses on how to set objectives and constraints.
