@@ -56,9 +56,8 @@ def knapsack_problem(problem: jm.DecoratedProblem):
 knapsack_problem
 ```
 
-また、JijModeling では、目的関数に項を追加することはできても、全体を書き換えたり削除したりすることはできません。
-特に、`+=` による目的関数の「追加」は新たな項の「追加」として振る舞い、既存の項を別の項で置き換えるものではありません。
-次の例を考えます。ここではまず、$x$のみを項に持つ目的関数を設定しています。
+注意が必要な点は、`+=` による目的関数の「追加」は新たな**項**の「追加」として振る舞い、既存の項を別の項で置き換えるものではないことに注意しましょう。
+例を考えてみましょう。まず、$x$のみを項に持つ目的関数を設定します。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Sample")
@@ -79,22 +78,31 @@ problem
 
 既存の項が置き換えられるのではなく、$y$ が加算され $x + y$ が新たな目的関数となっていることが分かります。
 
-:::{admonition} 目的関数から項を「引く」操作
-:class: tip
+また、{py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うと、与えた式を目的関数から「引く」ことができます：
 
-JijModeling 2.3.1 以降では、{py:class}`~jijmodeling.Problem` に対して {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うことで、数値型の {py:class}`~jijmodeling.Expression` オブジェクトを目的関数から「引く」こともできます。
-:::
+```{code-cell} ipython3
+problem -= x
 
-:::{admonition} 目的関数の置き換え
-:class: tip
-JijModeling 2.5.0 以降では、{py:attr}`Problem.objective <jijmodeling.Problem.objective>` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
-:::
+problem
+```
+
+ただし、この例で見ているように、`-=` 演算子はあくまでも与えられた式を「引く項」を新たに**追加**するだけであり、目的関数に一致する項が存在してもそれを**削除するわけではない**ことに注意しましょう。
+
+項の足し引きを越えて目的関数を全く別個のものに置き換えたい場合、{py:attr}`Problem.objective <jijmodeling.Problem.objective>` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
+上の `problem` の目的関数を $y$ のみに置き換える場合は、次のように書きます。
 
 ```{code-cell} ipython3
 problem.objective = y
 
 problem
 ```
+
+:::{admonition} `+=` 以外の目的関数の操作のサポートバージョン
+:class: tip
+
+{py:class}`~jijmodeling.Problem` に対する {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子は JijModeling 2.3.1 以降、{py:attr}`Problem.objective <jijmodeling.Problem.objective>` による目的関数の置き換えは JijModeling 2.5.0 以降の機能です。
+:::
+
 
 ## 制約条件の設定
 
