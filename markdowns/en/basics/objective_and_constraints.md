@@ -11,10 +11,9 @@ kernelspec:
   name: python3
 ---
 
-# Mathematical Model Formulation
+# Setting the Objective and Constraints
 
-Based on the explanations in the previous chapters, we now describe how to formulate a mathematical model.
-Decision variables and placeholders are covered in {doc}`decision_variables` and {doc}`placeholders`, so this chapter focuses on how to set objectives and constraints.
+Based on the explanations in the previous chapters, we now describe how to set the objective function and constraints of a mathematical model and complete formulation.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -26,14 +25,13 @@ For convenience, we discuss objectives first and then constraints, but in actual
 
 ## Setting the objective
 
-When you create a {py:class}`~jijmodeling.Problem`, setting `sense` to {py:attr}`~jijmodeling.ProblemSense.MAXIMIZE` makes it a maximization problem, and setting `sense` to {py:attr}`~jijmodeling.ProblemSense.MINIMIZE` makes it a minimization problem.
+When you create a {py:class}`~jijmodeling.Problem`, setting `sense` to {py:attr}`ProblemSense.MAXIMIZE <jijmodeling.ProblemSense.MAXIMIZE>` makes it a maximization problem, and setting `sense` to {py:attr}`ProblemSense.MINIMIZE <jijmodeling.ProblemSense.MINIMIZE>` makes it a minimization problem.
 Right after a `Problem` is created, the objective is initialized to $0$, and you add terms to it using the {py:meth}`+= <jijmodeling.Problem.__iadd__>` operator on the {py:class}`~jijmodeling.Problem` object.
 The {py:class}`~jijmodeling.Problem` object only accepts scalar {py:class}`~jijmodeling.Expression` objects as objective terms.
 If you attempt to add array-typed or dictionary-typed expressions, a type error will be raised.
 
-In JijModeling, you can add terms to the objective, but you cannot overwrite or delete the objective once set.
-In particular, `+=` adds a new term and does not replace existing terms.
-Consider the following example. First, we set the objective with only the term $x$.
+Note that "adding" to the objective with `+=` adds a new **term**; it does not replace an existing term with another one.
+Let's look at an example. First, we set an objective containing only the term $x$.
 
 ```{code-cell} ipython3
 problem = jm.Problem("Sample")
@@ -54,22 +52,30 @@ problem
 
 You can see that the existing term is not replaced; instead, $y$ is added and the new objective is $x + y$.
 
-:::{admonition} Subtracting terms from the objective
-:class: tip
+You can also use the {py:meth}`-= <jijmodeling.Problem.__isub__>` operator to "subtract" a given expression from the objective:
 
-Since JijModeling 2.3.1, you can also "subtract" scalar {py:class}`~jijmodeling.Expression` objects from the objective by using the {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on a {py:class}`~jijmodeling.Problem`.
-:::
+```{code-cell} ipython3
+problem -= x
 
-:::{admonition} Replacing the objective
-:class: tip
-Since JijModeling 2.5.0, you can assign an expression directly to {py:attr}`Problem.objective <jijmodeling.Problem.objective>` to discard the previous objective and replace it with a new one.
-:::
+problem
+```
+
+However, as this example shows, the `-=` operator merely **adds** the given expression as a new term to be subtracted. It does **not remove** a matching term from the objective, even if one exists.
+
+To go beyond adding or subtracting terms and replace the objective with an entirely different one, assign an expression directly to {py:attr}`Problem.objective <jijmodeling.Problem.objective>`. This discards the previous objective and replaces it with the new one.
+To replace the objective of `problem` above with $y$ alone, write:
 
 ```{code-cell} ipython3
 problem.objective = y
 
 problem
 ```
+
+:::{admonition} Version support for objective operations other than `+=`
+:class: tip
+
+The {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on {py:class}`~jijmodeling.Problem` is supported in JijModeling 2.3.1 and later, while replacing the objective through {py:attr}`Problem.objective <jijmodeling.Problem.objective>` is supported in JijModeling 2.5.0 and later.
+:::
 
 As a more practical example, let's set the objective for the knapsack problem.
 

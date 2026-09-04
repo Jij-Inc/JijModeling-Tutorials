@@ -13,7 +13,7 @@ kernelspec:
 
 # インスタンスの生成
 
-{doc}`前章 <modeling>`までで数理モデルの一通りの定式化方法を学んできました。
+{doc}`前章 <objective_and_constraints>`までで数理モデルの一通りの定式化方法を学んできました。
 本章では、いよいよ数理モデルを OMMX インスタンスへとコンパイルし、OMMX Adapter を経由して問題を解くまでの流れを説明します。
 
 :::{figure} ../images/model-and-instance-illustrated.svg

@@ -31,7 +31,7 @@ This part covers the following topics:
    + **{doc}`arithmetic_and_conditional`**: Arithmetic and comparison operations available in expressions.
    + **{doc}`arrays_and_dicts`**: Data structures such as arrays and dictionaries available in expressions.
    + **{doc}`folding_and_stream`**: How to sum arrays and dictionaries as streams and combine conditions with logical operations.
-4. **{doc}`modeling`**: How to set objectives and constraints using the elements above.
+4. **{doc}`objective_and_constraints`**: How to set objectives and constraints using the elements above.
 5. **{doc}`instance_generation`**: How to provide instance data and generate instances, with a brief note on the configuration of constraint detection.
 
 ## Terminology
