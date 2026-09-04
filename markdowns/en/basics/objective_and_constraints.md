@@ -25,7 +25,7 @@ For convenience, we discuss objectives first and then constraints, but in actual
 
 ## Setting the objective
 
-When you create a {py:class}`~jijmodeling.Problem`, setting `sense` to {py:attr}`~jijmodeling.ProblemSense.MAXIMIZE` makes it a maximization problem, and setting `sense` to {py:attr}`~jijmodeling.ProblemSense.MINIMIZE` makes it a minimization problem.
+When you create a {py:class}`~jijmodeling.Problem`, setting `sense` to {py:attr}`ProblemSense.MAXIMIZE <jijmodeling.ProblemSense.MAXIMIZE>` makes it a maximization problem, and setting `sense` to {py:attr}`ProblemSense.MINIMIZE <jijmodeling.ProblemSense.MINIMIZE>` makes it a minimization problem.
 Right after a `Problem` is created, the objective is initialized to $0$, and you add terms to it using the {py:meth}`+= <jijmodeling.Problem.__iadd__>` operator on the {py:class}`~jijmodeling.Problem` object.
 The {py:class}`~jijmodeling.Problem` object only accepts scalar {py:class}`~jijmodeling.Expression` objects as objective terms.
 If you attempt to add array-typed or dictionary-typed expressions, a type error will be raised.
