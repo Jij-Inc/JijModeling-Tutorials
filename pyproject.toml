@@ -3,7 +3,7 @@ name = "jijmodeling-tutorial"
 version = "2.0.0"
 description = "Tutorial for JijModeling"
 readme = "README.md"
-requires-python = ">=3.11, <3.14"
+requires-python = ">=3.12, <3.15"
 dependencies = [
   "jijmodeling>=2.0.0,<3",
   "ommx-openjij-adapter >= 2.3.4, < 3.0.0",
