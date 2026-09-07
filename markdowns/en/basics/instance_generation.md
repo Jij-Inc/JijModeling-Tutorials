@@ -13,7 +13,7 @@ kernelspec:
 
 # Instance Generation
 
-Up to the {doc}`previous chapter <modeling>`, we have learned how to formulate mathematical models.
+Up to the {doc}`previous chapter <objective_and_constraints>`, we have learned how to formulate mathematical models.
 In this chapter, we explain the workflow of compiling a model into an OMMX instance and solving it via an OMMX Adapter.
 
 :::{figure} ../images/model-and-instance-illustrated.svg
