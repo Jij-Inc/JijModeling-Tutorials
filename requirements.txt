@@ -8,7 +8,7 @@ jij-cimod==1.7.5
     # via openjij
 jijmodeling==2.8.0
     # via jijmodeling-tutorial (pyproject.toml)
-numpy==2.5.2
+numpy==2.4.6
     # via
     #   dimod
     #   jij-cimod
@@ -48,7 +48,7 @@ python-dateutil==2.9.0.post0
     #   pandas
 pytz==2026.3.post1
     # via pandas
-scipy==1.18.1
+scipy==1.17.1
     # via jij-cimod
 six==1.17.0
     # via python-dateutil
