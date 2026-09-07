@@ -30,7 +30,7 @@ Right after a `Problem` is created, the objective is initialized to $0$, and you
 The {py:class}`~jijmodeling.Problem` object only accepts scalar {py:class}`~jijmodeling.Expression` objects as objective terms.
 If you attempt to add array-typed or dictionary-typed expressions, a type error will be raised.
 
-Note that "adding" to the objective with `+=` adds a new **term**; it does not replace an existing term with another one.
+"Adding" to the objective with `+=` adds a new **term**; it does not replace an existing term with another one.
 Let's look at an example. First, we set an objective containing only the term $x$.
 
 ```{code-cell} ipython3
@@ -62,7 +62,7 @@ problem
 
 However, as this example shows, the `-=` operator merely **adds** the given expression as a new term to be subtracted. It does **not remove** a matching term from the objective, even if one exists.
 
-To go beyond adding or subtracting terms and replace the objective with an entirely different one, assign an expression directly to {py:attr}`Problem.objective <jijmodeling.Problem.objective>`. This discards the previous objective and replaces it with the new one.
+To replace the objective with an entirely different one, assign an expression directly to {py:attr}`Problem.objective <jijmodeling.Problem.objective>`. This discards the previous objective and replaces it with the new one.
 To replace the objective of `problem` above with $y$ alone, write:
 
 ```{code-cell} ipython3
