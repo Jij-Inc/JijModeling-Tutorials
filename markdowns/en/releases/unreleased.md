@@ -38,7 +38,7 @@ problem
 
 ### Simplify operations on constants in LaTeX output
 
-Basic operations involving constants will now be simplified when displaying LaTeX. This generally makes equations easier to read, particularly summations which often involved `- 1`s for the termination, and basic coefficients like `-2 * x`.
+Basic operations involving constants will now be simplified when displaying $\LaTeX$. This generally makes equations easier to read, particularly summations which often involved `- 1`s for the termination, and basic coefficients like `-2 * x`.
 
 ```{code-cell} ipython3
 problem = jm.Problem("TestProblem")
@@ -50,7 +50,7 @@ problem
 
 ### Change display of logical operators on streams 
 
-When displaying LaTeX, the operators for stream unions and intersections now display as $\cup$ and $\cap$.
+When displaying $\LaTeX$, the operators for stream unions and intersections now display as $\cup$ and $\cap$.
 
 ```{code-cell} ipython3
 @jm.Problem.define("Stream Union Example")
