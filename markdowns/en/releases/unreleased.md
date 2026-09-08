@@ -48,6 +48,23 @@ problem += - 2 * V + - 2 - 1
 problem
 ```
 
+### Change display of logical operators on streams 
+
+When displaying LaTeX, the operators for stream unions and intersections now display as $\cup$ and $\cap$.
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Union Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar(shape=N)
+    target_a = problem.Natural(less_than=N, ndim=1)
+    target_b = problem.Natural(less_than=N, ndim=1)
+
+    problem += jm.sum(x[i] for i in jm.stream(target_a) | jm.stream(target_b))
+    
+problem
+```
+
 ## Bugfixes
 
 +++
