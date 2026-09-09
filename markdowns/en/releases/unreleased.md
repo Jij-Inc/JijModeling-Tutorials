@@ -38,13 +38,30 @@ problem
 
 ### Simplify operations on constants in LaTeX output
 
-Basic operations involving constants will now be simplified when displaying LaTeX. This generally makes equations easier to read, particularly summations which often involved `- 1`s for the termination, and basic coefficients like `-2 * x`.
+Basic operations involving constants will now be simplified when displaying $\LaTeX$. This generally makes equations easier to read, particularly summations which often involved `- 1`s for the termination, and basic coefficients like `-2 * x`.
 
 ```{code-cell} ipython3
 problem = jm.Problem("TestProblem")
 V = problem.Natural("V")
 problem += jm.map(lambda x: x + 3 - 2, V - 1).sum() 
 problem += - 2 * V + - 2 - 1
+problem
+```
+
+### Change display of logical operators on streams 
+
+When displaying $\LaTeX$, the operators for stream unions and intersections now display as $\cup$ and $\cap$.
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Union Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar(shape=N)
+    target_a = problem.Natural(less_than=N, ndim=1)
+    target_b = problem.Natural(less_than=N, ndim=1)
+
+    problem += jm.sum(x[i] for i in jm.stream(target_a) | jm.stream(target_b))
+    
 problem
 ```
 

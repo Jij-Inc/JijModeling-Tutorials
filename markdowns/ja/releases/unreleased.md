@@ -45,6 +45,25 @@ problem = jm.Problem("TestProblem")
 V = problem.Natural("V")
 problem += jm.map(lambda x: x + 3 - 2, V - 1).sum() 
 problem += - 2 * V + - 2 - 1
+problem += 2 * (3 * V)
+problem += 2 * (V * 3)
+problem
+```
+
+### ストリームの論理演算の表記変更
+
+$\LaTeX$ 出力で、ストリームの直和・共通部分をとる時の演算子は$\cup$・$\cap$で表示されるように修正しました。
+
+```{code-cell} ipython3
+@jm.Problem.define("Stream Union Example")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar(shape=N)
+    target_a = problem.Natural(less_than=N, ndim=1)
+    target_b = problem.Natural(less_than=N, ndim=1)
+
+    problem += jm.sum(x[i] for i in jm.stream(target_a) | jm.stream(target_b))
+    
 problem
 ```
 
