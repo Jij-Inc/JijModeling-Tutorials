@@ -76,4 +76,4 @@ problem
 
 ## その他の変更
 
-- 変更 1：
+- コーディングエージェント向けの `jijmodeling` スキルを追加しました。インストール方法は {doc}`../advanced/agent_skill_installation` を参照してください。
