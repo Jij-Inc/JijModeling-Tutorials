@@ -61,7 +61,7 @@ python -m jijmodeling skill path
 
 +++
 
-### Install the skill
+### Installation
 
 Copy the files under the directory printed by the `jijmodeling skill path` command according to your agent's documentation. The skills will then be available for the agent to use automatically the next time it starts.
 
