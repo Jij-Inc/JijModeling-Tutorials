@@ -85,5 +85,3 @@ gh skill install "$(uv run jijmodeling skill path)" jijmodeling --from-local --s
 インストール後は、エージェントに `jijmodeling` スキルを使って定式化やモデルの修正を行うよう依頼できます。
 
 +++
-
-## JijModeling を更新したとき
