@@ -74,4 +74,4 @@ problem
 
 ## Other Changes
 
-- Change 1
+- Added the `jijmodeling` skill for coding agents. See {doc}`../advanced/agent_skill_installation` for installation instructions.
