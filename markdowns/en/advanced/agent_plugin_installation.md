@@ -110,11 +110,18 @@ Claude Code supports plugins via local marketplaces or project configuration:
 
 - [OpenAI Documentation](https://platform.openai.com/docs)
 
-In Codex, install the plugin via the marketplace commands:
+Codex loads project-specific configuration from `.codex/config.toml` in the project root. To register and enable the plugin per project, add the marketplace and plugin configuration to your project's `.codex/config.toml`:
 
 ```bash
-codex plugin marketplace add "$(uv run jijmodeling plugin marketplace path)"
-codex plugin add jijmodeling@jijmodeling
+mkdir -p .codex
+cat << EOF >> .codex/config.toml
+[marketplaces.jijmodeling]
+source_type = "local"
+source = "$(uv run jijmodeling plugin marketplace path)"
+
+[plugins."jijmodeling@jijmodeling"]
+enabled = true
+EOF
 ```
 
 Alternatively, to use the bundled skill directly, link it into the project's `.agents/skills` directory:
@@ -123,6 +130,11 @@ Alternatively, to use the bundled skill directly, link it into the project's `.a
 mkdir -p .agents/skills
 ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
 ```
+
+:::{admonition} Scope of Codex CLI installation commands
+:class: note
+The Codex CLI commands `codex plugin marketplace add` and `codex plugin add` currently do not support project-scoped installation and register plugins across your entire user environment (`~/.codex/config.toml`). To keep plugins tied to each project's version, configure `.codex/config.toml` or `.agents/skills` in your project root as shown above.
+:::
 
 #### Cursor
 

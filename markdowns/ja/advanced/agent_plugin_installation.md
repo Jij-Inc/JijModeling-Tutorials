@@ -110,11 +110,18 @@ Claude Code では、マーケットプレイス経由または起動オプシ�
 
 - [OpenAI プラットフォーム公式ドキュメント](https://platform.openai.com/docs)
 
-Codex では、プラグインマーケットプレイス経由でプラグインを導入できます：
+Codex はプロジェクトルートの `.codex/config.toml` からプロジェクト固有の設定を読み込みます。プロジェクト単位でプラグインを登録・有効化するには、プロジェクトの `.codex/config.toml` にマーケットプレイスとプラグインの設定を記述します：
 
 ```bash
-codex plugin marketplace add "$(uv run jijmodeling plugin marketplace path)"
-codex plugin add jijmodeling@jijmodeling
+mkdir -p .codex
+cat << EOF >> .codex/config.toml
+[marketplaces.jijmodeling]
+source_type = "local"
+source = "$(uv run jijmodeling plugin marketplace path)"
+
+[plugins."jijmodeling@jijmodeling"]
+enabled = true
+EOF
 ```
 
 また、同梱のスキルのみを直接利用する場合は、プロジェクトの `.agents/skills` ディレクトリにシンボリックリンクを作成することも可能です：
@@ -123,6 +130,11 @@ codex plugin add jijmodeling@jijmodeling
 mkdir -p .agents/skills
 ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
 ```
+
+:::{admonition} CLI コマンドによるインストールのスコープについて
+:class: note
+Codex の CLI コマンド `codex plugin marketplace add` や `codex plugin add` は、現時点ではプロジェクト単位のオプションを持たず、ユーザー環境全体（`~/.codex/config.toml`）に登録されます。プロジェクトごとにバージョンを紐付ける場合は、上記のようにプロジェクトの `.codex/config.toml` または `.agents/skills` に設定してください。
+:::
 
 #### Cursor
 
