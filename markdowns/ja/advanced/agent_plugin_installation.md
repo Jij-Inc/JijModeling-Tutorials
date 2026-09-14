@@ -65,7 +65,9 @@ python -m jijmodeling plugin path
 python -m jijmodeling plugin marketplace path
 ```
 
-:::{note} スキルマネージャーとの後方互換性
+:::{admonition} スキルマネージャーとの後方互換性
+:class: note
+
 `gh skill` などスキルディレクトリを直接期待する既存ツール向けに、従来の `jijmodeling skill path` サブコマンドも引き続き利用可能です：
 
 ```bash
