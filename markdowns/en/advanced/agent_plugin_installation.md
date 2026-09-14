@@ -79,10 +79,8 @@ uv run jijmodeling skill path
 
 ### Configuring for your coding agent
 
-The bundled plugin works with major coding agents. In addition to running commands manually, you can also set up the plugin using the following methods:
-
-- **Direct prompting**: In your agent's chat interface, provide the path output by `uv run jijmodeling plugin path` and prompt: "Please install the plugin at this path into the current project." The agent can create directories and symlinks automatically.
-- **GUI settings screens**: Editors such as Cursor and VSCode provide graphical settings (Settings UI, Rules, or Extension configuration) where you can specify plugin or skill directories.
+The bundled plugin works with major coding agents. Choose the setup appropriate for your environment.
+In addition to running CLI commands, editors such as Cursor and VSCode also provide graphical settings (Settings UI, Rules, or Extension configuration) where you can specify plugin or skill directories.
 
 Below are setup instructions and links to the official documentation for supported agents:
 
@@ -90,7 +88,7 @@ Below are setup instructions and links to the official documentation for support
 
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code)
 
-Claude Code supports plugins via local marketplaces, project configurations, or direct prompts:
+Claude Code supports plugins via local marketplaces or project configuration:
 
 1. **Via local marketplace**:
    ```bash
@@ -102,14 +100,12 @@ Claude Code supports plugins via local marketplaces, project configurations, or 
    ```bash
    claude --plugin-dir "$(uv run jijmodeling plugin path)"
    ```
-3. **Via prompt**:
-   In Claude Code, you can ask the agent: "Please add the plugin at `$(uv run jijmodeling plugin path)` to this project."
 
 #### Cursor
 
 - [Cursor Documentation](https://docs.cursor.com/) ([Rules for AI](https://docs.cursor.com/context/rules-for-ai))
 
-In Cursor, you can set up plugins using the CLI, the GUI settings UI, or by prompting the Cursor Agent:
+Cursor supports agent plugins, rules, and skills at the project or user level:
 
 1. **Via symlinks**:
    To install the `jijmodeling` plugin in your project:
@@ -124,8 +120,6 @@ In Cursor, you can set up plugins using the CLI, the GUI settings UI, or by prom
    ```
 2. **Via GUI settings**:
    In Cursor Settings (Cursor Settings > Rules / Features), you can specify custom rules or directories for plugins and skills.
-3. **Via prompt**:
-   In the Cursor Agent chat, ask the agent: "Please link the plugin at `$(uv run jijmodeling plugin path)` into `.cursor/plugins/`."
 
 #### OpenAI Codex
 
@@ -133,13 +127,10 @@ In Cursor, you can set up plugins using the CLI, the GUI settings UI, or by prom
 
 Codex discovers agent plugins and skills from `.codex/plugins` or `.agents/plugins`:
 
-1. **Via symlinks**:
-   ```bash
-   mkdir -p .codex/plugins
-   ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
-   ```
-2. **Via prompt**:
-   You can also prompt Codex in the chat to configure the plugin using the discovered path.
+```bash
+mkdir -p .codex/plugins
+ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
+```
 
 #### GitHub Copilot and VSCode
 
@@ -156,8 +147,6 @@ In VSCode with GitHub Copilot:
    See the [gh skill install manual](https://cli.github.com/manual/gh_skill_install) for details about the options.
 2. **Via workspace instructions and GUI settings**:
    In VSCode Settings or via `.github/copilot-instructions.md`, configure Copilot to reference the plugin's rules and guidelines when authoring optimization models.
-3. **Via Copilot Chat prompt**:
-   In Copilot Chat, you can prompt the agent to inspect the plugin path and update your workspace instructions or symlinks accordingly.
 
 ### Updating the plugin
 
