@@ -35,44 +35,50 @@ JijModeling に新しい機能や API が追加されると同梱プラグイン
 
 ## プラグインのインストール
 
-以下では、JijModeling に同梱されているプラグインの確認と各エージェントへの設定方法について説明します。
+JijModeling の機能をエージェントに導入する方法には、大きく分けて**プラグイン全体をインストールする方法**と、**スキル（SKILL）を単体でインストールする方法**の 2 つがあります：
 
-### プラグインのパスを確認する
+1. **プラグイン全体としてのインストール**:
+   Agent Plugins 1.0 仕様に準拠したパッケージ（`plugin.json` や各種メタデータ）として導入します。Claude Code のようにローカルマーケットプレイスの登録に対応したエージェントでは、CLI コマンドを用いてプロジェクト単位で簡単にインストールできます。
+2. **スキル（SKILL）単体でのインストール**:
+   プラグインに同梱されているスキル（`SKILL.md`）を取り出して配置します。Codex や Cursor では、プロジェクト単位でプラグイン全体を登録しようとすると手動でリポジトリローカルな設定ファイル（TOML など）を記述する必要があるため、エージェントが自動検出する `.agents/skills` ディレクトリにスキル単体をインストール（シンボリックリンク配置）する運用が最も手軽で確実です。
 
-プラグインを設定するには、まずその保存場所を取得します。
+以下では、各パスの確認方法とエージェントごとの具体的な導入手順を説明します。
+
+### パスの確認
+
+インストール方式に応じて、プラグインまたはスキルの保存場所を取得します。
 `uv` で管理されているプロジェクトでは、以下のコマンドを実行します：
 
-```bash
-uv run jijmodeling plugin path
-```
-
-以下のように、`plugin.json` や `skills/` を含むプラグインディレクトリの絶対パスが 1 行で出力されます：
-
-```
-/home/user/my-jm-project/.venv/lib/python3.13/site-packages/jijmodeling/plugins/jijmodeling
-```
-
-また、マーケットプレイス経由でのインストールに対応したエージェント向けに、マーケットプレイスのパスを取得するサブコマンドも用意されています：
-
-```bash
-uv run jijmodeling plugin marketplace path
-```
+- **プラグイン全体のパス**:
+  ```bash
+  uv run jijmodeling plugin path
+  ```
+  以下のように、`plugin.json` や `skills/` を含むプラグインディレクトリの絶対パスが 1 行で出力されます：
+  ```
+  /home/user/my-jm-project/.venv/lib/python3.13/site-packages/jijmodeling/plugins/jijmodeling
+  ```
+- **マーケットプレイスのパス**:
+  ```bash
+  uv run jijmodeling plugin marketplace path
+  ```
+- **スキル単体のパス**:
+  ```bash
+  uv run jijmodeling skill path
+  ```
+  同梱スキルのルートディレクトリ（`jijmodeling` サブディレクトリを含むパス）が出力されます。
 
 uv を使っていない場合は、以下のように `python -m` で同様のパスを確認できます：
 
 ```bash
 python -m jijmodeling plugin path
 python -m jijmodeling plugin marketplace path
+python -m jijmodeling skill path
 ```
 
 :::{admonition} スキルマネージャーとの連携
 :class: note
 
-`gh skill` など、プラグイン全体ではなく個別のスキルディレクトリを直接指定する必要がある外部ツール向けに、スキルディレクトリのパスを取得する `jijmodeling skill path` サブコマンドも用意されています：
-
-```bash
-uv run jijmodeling skill path
-```
+`gh skill` など、プラグイン全体ではなく個別のスキルディレクトリを直接指定する必要がある外部ツール向けにも、上記 `jijmodeling skill path` サブコマンドを利用できます。
 :::
 
 +++
@@ -80,7 +86,6 @@ uv run jijmodeling skill path
 ### 各種コーディングエージェントでの設定
 
 同梱プラグインは、プロジェクトで使用されている JijModeling のバージョンと紐付いています。そのため、ユーザー環境全体ではなく、プロジェクトごとに登録・インストールを行ってください。
-CLI コマンドによる配置のほか、Cursor や VSCode などのエディタでは GUI の設定画面（Settings やプラグイン／機能拡張の管理インターフェース）からプラグインやスキルのパスを指定してプロジェクトに登録することも可能です。
 
 以下では、代表的なエージェントごとの設定方法と公式ドキュメントを紹介します：
 
@@ -88,7 +93,7 @@ CLI コマンドによる配置のほか、Cursor や VSCode などのエディ�
 
 - [Claude Code 公式ドキュメント](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code)
 
-Claude Code では、マーケットプレイス経由または起動オプション・プロジェクト設定を通じてプロジェクト単位で導入できます：
+Claude Code では、ローカルなマーケットプレイスを追加してプロジェクト単位で直接プラグインをインストールできます：
 
 1. **マーケットプレイス経由（プロジェクトスコープ）**:
    ```bash
@@ -110,35 +115,43 @@ Claude Code では、マーケットプレイス経由または起動オプシ�
 
 - [OpenAI プラットフォーム公式ドキュメント](https://platform.openai.com/docs)
 
-Codex はプロジェクトルートから作業ディレクトリまでの `.agents/skills` を自動検出します。プロジェクト単位で JijModeling を導入するには、プロジェクトの `.agents/skills` にシンボリックリンクを作成するのが最も確実です：
+Codex でプロジェクト単位で利用する場合、以下のいずれかの方法を選択します：
 
-```bash
-mkdir -p .agents/skills
-ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
-```
+1. **スキル単体をインストールする場合（推奨・最も手軽）**:
+   Codex はプロジェクトルートから作業ディレクトリまでの `.agents/skills` を自動検出します。スキル単体のシンボリックリンクを作成するのが最も簡単です：
+   ```bash
+   mkdir -p .agents/skills
+   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
+   ```
+2. **プラグイン全体をインストールする場合**:
+   現行の Codex CLI コマンド（`codex plugin marketplace add` や `codex plugin add`）はユーザー環境全体（`~/.codex/config.toml`）に登録されてしまうため、プロジェクト単位でプラグインを登録するには、リポジトリローカルな `.codex/config.toml` を手動で作成して設定を記述します：
+   ```bash
+   mkdir -p .codex
+   cat << EOF >> .codex/config.toml
+   [marketplaces.jijmodeling]
+   source_type = "local"
+   source = "$(uv run jijmodeling plugin marketplace path)"
 
-:::{admonition} Codex CLI コマンドのスコープと設定ファイルについて
-:class: note
-Codex の CLI コマンド（`codex plugin marketplace add` や `codex plugin add`）は、現時点ではプロジェクト単位のオプション（`--scope project` など）を持たず、ユーザー環境全体（`~/.codex/config.toml`）に登録されます。プラグインとしてプロジェクト単位で管理したい場合は、プロジェクトの `.codex/config.toml` に `[marketplaces.jijmodeling]` と `[plugins."jijmodeling@jijmodeling"]` を直接記述します。
-:::
+   [plugins."jijmodeling@jijmodeling"]
+   enabled = true
+   EOF
+   ```
 
 #### Cursor
 
 - [Cursor 公式ドキュメント](https://docs.cursor.com/)（[Rules for AI](https://docs.cursor.com/context/rules-for-ai)）
 
-Cursor は、プロジェクト（ワークスペース）の `.agents/skills` および `.cursor/skills` を自動検出します。プロジェクト単位で導入するには、これらのディレクトリにシンボリックリンクを作成します：
+Cursor でプロジェクト単位で利用する場合：
 
-```bash
-mkdir -p .agents/skills
-ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
-```
-
-（`.cursor/skills` を利用する場合も同様に `ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling` と配置できます。）
-
-:::{admonition} Cursor のプラグイン検出について
-:class: note
-Cursor はワークスペース直下の `.cursor/plugins` ディレクトリからの自動検出には対応していません。プロジェクトローカルに JijModeling のルールやスキルを認識させるには、上記のように `.agents/skills` または `.cursor/skills` を使用してください。
-:::
+1. **スキル単体をインストールする場合（推奨・最も手軽）**:
+   Cursor はプロジェクト（ワークスペース）の `.agents/skills` および `.cursor/skills` を自動検出します。スキル単体のシンボリックリンクを作成します：
+   ```bash
+   mkdir -p .agents/skills
+   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
+   ```
+   （`.cursor/skills` を利用する場合も同様に `ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling` と配置できます。）
+2. **プラグイン全体をインストールする場合**:
+   Cursor にはワークスペース直下のプラグイン自動検出機能がないため、プラグイン全体をプロジェクトローカルに読み込ませるには、手動でリポジトリローカルな設定を行うか、起動オプション（`--plugin-dir`）を指定します。手動設定の手間を省くためにも、上記のように `.agents/skills` または `.cursor/skills` にスキル単体を配置する運用が推奨されます。
 
 #### GitHub Copilot および VSCode
 

@@ -35,44 +35,50 @@ Their role is to help coding agents write valid, idiomatic JijModeling code more
 
 ## Installing the plugin
 
-The following sections explain how to discover and install the plugin bundled with JijModeling.
+There are two primary ways to introduce JijModeling to your coding agent: **installing as a full plugin** or **installing the skill standalone**:
 
-### Find the plugin path
+1. **Installing as a full plugin**:
+   Installs the package conforming to the Agent Plugins 1.0 specification (including `plugin.json` and metadata). In agents that support configuring local marketplaces (such as Claude Code), you can easily install the plugin per project using CLI commands.
+2. **Installing the skill standalone**:
+   Installs only the bundled skill (`SKILL.md`). In Codex and Cursor, installing as a full plugin per project requires manually writing repository-local configuration files (such as TOML), so installing just the standalone skill into the auto-discovered `.agents/skills/` directory (via a symbolic link) is the simplest and most reliable approach.
 
-Before setting up the plugin, locate it using the JijModeling CLI.
-In a project managed with `uv`, run the following command to find the path to the bundled plugin:
+The following sections explain how to locate the paths and configure each agent.
 
-```bash
-uv run jijmodeling plugin path
-```
+### Locating paths
 
-The command prints the absolute path to the directory containing the bundled plugin (`plugin.json` and the packaged `skills/`) on a single line, for example:
+Depending on your installation method, locate the plugin or skill directory.
+In a project managed with `uv`, run the following commands:
 
-```
-/home/user/my-jm-project/.venv/lib/python3.13/site-packages/jijmodeling/plugins/jijmodeling
-```
-
-To locate the plugin marketplace directory (which contains marketplace manifests for agents that support local marketplaces):
-
-```bash
-uv run jijmodeling plugin marketplace path
-```
+- **Path to the full plugin**:
+  ```bash
+  uv run jijmodeling plugin path
+  ```
+  This prints the absolute path to the directory containing the bundled plugin (`plugin.json` and packaged `skills/`):
+  ```
+  /home/user/my-jm-project/.venv/lib/python3.13/site-packages/jijmodeling/plugins/jijmodeling
+  ```
+- **Path to the marketplace**:
+  ```bash
+  uv run jijmodeling plugin marketplace path
+  ```
+- **Path to the standalone skill**:
+  ```bash
+  uv run jijmodeling skill path
+  ```
+  This prints the path to the directory containing the bundled skills (including the `jijmodeling` subfolder).
 
 If you do not use `uv`, you can find the same paths with:
 
 ```bash
 python -m jijmodeling plugin path
 python -m jijmodeling plugin marketplace path
+python -m jijmodeling skill path
 ```
 
 :::{admonition} Integration with skill managers
 :class: note
 
-For tools that require specifying an individual skill directory directly rather than an entire plugin (such as `gh skill`), the `jijmodeling skill path` subcommand is also provided:
-
-```bash
-uv run jijmodeling skill path
-```
+For external tools like `gh skill` that require pointing directly to a specific skill directory rather than a full plugin, use the `jijmodeling skill path` subcommand shown above.
 :::
 
 +++
@@ -80,7 +86,6 @@ uv run jijmodeling skill path
 ### Configuring for your coding agent
 
 Because the bundled plugin is tied to the version of JijModeling used in your project, register and install it per project rather than across your entire user environment.
-In addition to running CLI commands, editors such as Cursor and VSCode also provide graphical settings (Settings UI, Rules, or Extension configuration) where you can specify plugin or skill directories for the project.
 
 Below are setup instructions and links to the official documentation for supported agents:
 
@@ -88,7 +93,7 @@ Below are setup instructions and links to the official documentation for support
 
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code)
 
-Claude Code supports plugins via local marketplaces or project configuration:
+Claude Code supports adding a local marketplace directly via CLI commands to install the plugin per project:
 
 1. **Via local marketplace (project scope)**:
    ```bash
@@ -96,7 +101,7 @@ Claude Code supports plugins via local marketplaces or project configuration:
    claude plugin install --scope project jijmodeling
    ```
 2. **Via project configuration or launch option**:
-   You can place a symlink in `.claude/plugins/jijmodeling` in your project root:
+   You can link or copy the plugin into `.claude/plugins/jijmodeling` in your project root, or launch Claude Code with `--plugin-dir`:
    ```bash
    mkdir -p .claude/plugins
    ln -s "$(uv run jijmodeling plugin path)" .claude/plugins/jijmodeling
@@ -110,35 +115,43 @@ Claude Code supports plugins via local marketplaces or project configuration:
 
 - [OpenAI Documentation](https://platform.openai.com/docs)
 
-Codex automatically discovers `.agents/skills` from the project root down to your current working directory. The most reliable way to configure JijModeling per project is to create a symlink in the project's `.agents/skills` directory:
+When using Codex per project, choose one of the following methods:
 
-```bash
-mkdir -p .agents/skills
-ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
-```
+1. **Installing the standalone skill (recommended, simplest)**:
+   Codex automatically discovers `.agents/skills` from the project root down to your current working directory. Creating a symlink for the skill is the easiest approach:
+   ```bash
+   mkdir -p .agents/skills
+   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
+   ```
+2. **Installing as a full plugin**:
+   Because Codex CLI commands (`codex plugin marketplace add` and `codex plugin add`) register plugins across the entire user environment (`~/.codex/config.toml`), installing the plugin per project requires manually creating and editing a repository-local `.codex/config.toml`:
+   ```bash
+   mkdir -p .codex
+   cat << EOF >> .codex/config.toml
+   [marketplaces.jijmodeling]
+   source_type = "local"
+   source = "$(uv run jijmodeling plugin marketplace path)"
 
-:::{admonition} Scope of Codex CLI commands and configuration files
-:class: note
-The Codex CLI commands (`codex plugin marketplace add` and `codex plugin add`) currently do not support a project-scoped option (such as `--scope project`) and register plugins across your entire user environment (`~/.codex/config.toml`). If you wish to manage it as a plugin per project, add `[marketplaces.jijmodeling]` and `[plugins."jijmodeling@jijmodeling"]` directly to your project's `.codex/config.toml`.
-:::
+   [plugins."jijmodeling@jijmodeling"]
+   enabled = true
+   EOF
+   ```
 
 #### Cursor
 
 - [Cursor Documentation](https://docs.cursor.com/) ([Rules for AI](https://docs.cursor.com/context/rules-for-ai))
 
-Cursor automatically discovers `.agents/skills` and `.cursor/skills` within the project (workspace). To configure JijModeling per project, create a symlink in one of these directories:
+When using Cursor per project:
 
-```bash
-mkdir -p .agents/skills
-ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
-```
-
-(Similarly, you can link it into `.cursor/skills` using `ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling`.)
-
-:::{admonition} Cursor plugin discovery
-:class: note
-Cursor does not automatically discover plugins from a `.cursor/plugins` directory at the workspace root. To make JijModeling rules and skills discoverable project-locally, use `.agents/skills` or `.cursor/skills` as described above.
-:::
+1. **Installing the standalone skill (recommended, simplest)**:
+   Cursor automatically discovers `.agents/skills` and `.cursor/skills` within the project (workspace). Create a symlink in one of these directories:
+   ```bash
+   mkdir -p .agents/skills
+   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
+   ```
+   (Similarly, you can link it into `.cursor/skills` using `ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling`.)
+2. **Installing as a full plugin**:
+   Cursor does not automatically discover plugins from a workspace root directory. To load a plugin per project, you must configure repository-local settings manually or launch with `--plugin-dir`. To avoid manual configuration, installing the standalone skill into `.agents/skills` or `.cursor/skills` as shown above is recommended.
 
 #### GitHub Copilot and VSCode
 
