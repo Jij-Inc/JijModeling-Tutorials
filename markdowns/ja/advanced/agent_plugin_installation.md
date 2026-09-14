@@ -23,16 +23,14 @@ JijModeling **2.9.0 以降**には、コーディングエージェントに Jij
 **エージェントプラグイン**とは、大規模言語モデル（LLM）に対してドメイン固有の知識やスキル（`SKILL.md`）、ルール、プロンプト、ツールの使い方などをパッケージ化して提供するための仕組みです。
 JijModeling 同梱のプラグインは、標準的な Agent Plugins 1.0 仕様や Claude Code、Cursor、Codex などのプラグインマニフェストに準拠しています。
 
-### 明示的なバージョン同期
-
-従来のアドホックなプロンプトや単純コピーとは異なり、JijModeling のエージェントプラグインには**明示的なバージョン番号**が付与されており、インストールされている JijModeling パッケージのバージョンと完全に同期しています。
-JijModeling に新しいモデリング機能や API、ソルバー連携が追加されると、同梱プラグインも同じバージョンで更新されます。これにより、仮想環境内の Python ライブラリとエージェント向け指示の乖離を防ぐことができます。
+同梱のプラグインには明示的なバージョン番号が付与されており、インストールされている JijModeling パッケージのバージョンと同期しています。
+JijModeling に新しい機能や API が追加されると同梱プラグインも更新されるため、利用する JijModeling のバージョンを変更した場合は、プラグインも合わせて更新することをお勧めします。
 
 :::{admonition} プラグインは万能ではない
 :class: caution
 
-プラグインは、コーディングエージェントによる JijModeling の利用を強力に補助しますが、**結果的に生成されるコードや定式化が適切であることを保証するものではありません**。
-プラグインの役割は、コーディングエージェントが JijModeling を正しくスムーズに書けるよう支援することである点に注意してください。
+プラグインは、コーディングエージェントによる JijModeling の利用を補助しますが、**結果的に生成されるコードや定式化が適切であることを保証するものではありません**。
+プラグインの役割は、コーディングエージェントが JijModeling を正しくスムーズに書けるよう支援することである点に注意しましょう。
 :::
 
 ## プラグインの確認と設定
@@ -79,11 +77,19 @@ uv run jijmodeling skill path
 
 ### 各種コーディングエージェントでの設定
 
-同梱プラグインは主要なコーディングエージェントに対応しています。お使いのエージェントに合わせて設定してください：
+同梱プラグインは主要なコーディングエージェントに対応しています。
+手動でコマンドを実行する以外にも、以下の方法でプラグインを導入・設定できます：
+
+- **プロンプトによる直接指示**: お使いのコーディングエージェントとのチャット欄で、`uv run jijmodeling plugin path` で得られるパスを渡し、「このパスにあるプラグインを現在のプロジェクトにインストールして」と直接プロンプトで指示すれば、エージェント自身が必要なディレクトリ作成やシンボリックリンクの配置を行ってくれます。
+- **GUI の設定画面**: Cursor や VSCode などのエディタでは、GUI の設定画面（Settings やプラグイン／機能拡張の管理インターフェース）からプラグインやスキルのパスを指定して登録することも可能です。
+
+以下では、代表的なエージェントごとの設定方法と公式ドキュメントを紹介します：
 
 #### Claude Code
 
-Claude Code では、マーケットプレイス経由または直接パスを指定してプラグインを導入できます：
+- [Claude Code 公式ドキュメント](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code)
+
+Claude Code では、マーケットプレイス経由や起動オプション、またはチャット対話を通じてプラグインを導入できます：
 
 1. **マーケットプレイス経由**:
    ```bash
@@ -95,35 +101,49 @@ Claude Code では、マーケットプレイス経由または直接パスを�
    ```bash
    claude --plugin-dir "$(uv run jijmodeling plugin path)"
    ```
+3. **プロンプトでの指示**:
+   Claude Code の対話画面で、「`$(uv run jijmodeling plugin path)` にあるプラグインをこのプロジェクトに追加して」と指示して設定させることもできます。
 
 #### Cursor
 
-Cursor では、プロジェクト単位またはユーザー単位でプラグインやスキルを設定できます。
-プロジェクトの `.cursor/plugins` 配下にシンボリックリンクを作成するのが簡単です：
+- [Cursor 公式ドキュメント](https://docs.cursor.com/)（[Rules for AI](https://docs.cursor.com/context/rules-for-ai)）
 
-```bash
-mkdir -p .cursor/plugins
-ln -s "$(uv run jijmodeling plugin path)" .cursor/plugins/jijmodeling
-```
+Cursor では、CLI からの配置、GUI 設定画面、または Cursor Agent へのプロンプト指示によって設定できます：
 
-また、同梱のスキルを直接 `.cursor/skills` にシンボリックリンクすることも可能です：
-
-```bash
-mkdir -p .cursor/skills
-ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling
-```
+1. **シンボリックリンクの配置**:
+   プロジェクトの `.cursor/plugins` 配下にシンボリックリンクを作成するのが簡単です：
+   ```bash
+   mkdir -p .cursor/plugins
+   ln -s "$(uv run jijmodeling plugin path)" .cursor/plugins/jijmodeling
+   ```
+   また、同梱のスキルのみを `.cursor/skills` に配置することも可能です：
+   ```bash
+   mkdir -p .cursor/skills
+   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling
+   ```
+2. **GUI 設定画面からの追加**:
+   Cursor の設定画面（Cursor Settings > Rules / Features）から、カスタムルールやスキル・プラグインのパスを指定することも可能です。
+3. **プロンプトでの指示**:
+   Cursor の Agent チャットで「`$(uv run jijmodeling plugin path)` にあるプラグインを `.cursor/plugins/` にリンクして」と指示して自動で設定させることもできます。
 
 #### OpenAI Codex
 
-Codex は `.codex/plugins` や `.agents/plugins` からプラグインやスキルを自動検出します。
-プロジェクトディレクトリ内でシンボリックリンクを作成します：
+- [OpenAI プラットフォーム公式ドキュメント](https://platform.openai.com/docs)
 
-```bash
-mkdir -p .codex/plugins
-ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
-```
+Codex は `.codex/plugins` や `.agents/plugins` からプラグインやスキルを自動検出します：
+
+1. **シンボリックリンクの配置**:
+   ```bash
+   mkdir -p .codex/plugins
+   ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
+   ```
+2. **プロンプトでの指示**:
+   Codex の対話インターフェースでプラグインのパスを渡し、ワークスペースへの設定を指示することも可能です。
 
 #### GitHub Copilot および VSCode
+
+- [GitHub Copilot 公式ドキュメント](https://docs.github.com/en/copilot)
+- [Visual Studio Code Copilot 公式ドキュメント](https://code.visualstudio.com/docs/copilot/overview)
 
 VSCode や GitHub Copilot で利用する場合：
 
@@ -133,8 +153,10 @@ VSCode や GitHub Copilot で利用する場合：
    gh skill install "$(uv run jijmodeling skill path)" jijmodeling --from-local --scope project
    ```
    オプションの詳細は、[gh skill install のマニュアル](https://cli.github.com/manual/gh_skill_install)を参照してください。
-2. **ワークスペース指示ファイルを利用する場合**:
-   ワークスペースの `.github/copilot-instructions.md` や VSCode 設定からプラグインのルールやガイドラインを参照するように設定します。
+2. **ワークスペース指示ファイルまたは設定画面**:
+   VSCode の設定画面（Settings）や、ワークスペースの `.github/copilot-instructions.md` からプラグインのルールやスキルを参照するように設定します。
+3. **Copilot Chat でのプロンプト指示**:
+   Copilot Chat にプラグインパスを伝えてワークスペース指示ファイルの更新やリンクの配置を依頼することも可能です。
 
 ### プラグインの更新
 
