@@ -110,11 +110,18 @@ Claude Code では、マーケットプレイス経由または起動オプシ�
 
 - [OpenAI プラットフォーム公式ドキュメント](https://platform.openai.com/docs)
 
-Codex はプロジェクトディレクトリの `.codex/plugins` や `.agents/plugins` からプラグインやスキルを自動検出します：
+Codex では、プラグインマーケットプレイス経由でプラグインを導入できます：
 
 ```bash
-mkdir -p .codex/plugins
-ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
+codex plugin marketplace add "$(uv run jijmodeling plugin marketplace path)"
+codex plugin add jijmodeling@jijmodeling
+```
+
+また、同梱のスキルのみを直接利用する場合は、プロジェクトの `.agents/skills` ディレクトリにシンボリックリンクを作成することも可能です：
+
+```bash
+mkdir -p .agents/skills
+ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
 ```
 
 #### Cursor

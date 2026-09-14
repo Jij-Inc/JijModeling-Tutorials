@@ -110,11 +110,18 @@ Claude Code supports plugins via local marketplaces or project configuration:
 
 - [OpenAI Documentation](https://platform.openai.com/docs)
 
-Codex discovers agent plugins and skills from `.codex/plugins` or `.agents/plugins` in the project directory:
+In Codex, install the plugin via the marketplace commands:
 
 ```bash
-mkdir -p .codex/plugins
-ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
+codex plugin marketplace add "$(uv run jijmodeling plugin marketplace path)"
+codex plugin add jijmodeling@jijmodeling
+```
+
+Alternatively, to use the bundled skill directly, link it into the project's `.agents/skills` directory:
+
+```bash
+mkdir -p .agents/skills
+ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
 ```
 
 #### Cursor
