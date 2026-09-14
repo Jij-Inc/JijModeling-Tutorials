@@ -65,10 +65,10 @@ python -m jijmodeling plugin path
 python -m jijmodeling plugin marketplace path
 ```
 
-:::{admonition} Backward compatibility for skill managers
+:::{admonition} Integration with skill managers
 :class: note
 
-If your tooling specifically expects an agent skills directory (such as `gh skill`), `jijmodeling skill path` remains available:
+For tools that require specifying an individual skill directory directly rather than an entire plugin (such as `gh skill`), the `jijmodeling skill path` subcommand is also provided:
 
 ```bash
 uv run jijmodeling skill path
