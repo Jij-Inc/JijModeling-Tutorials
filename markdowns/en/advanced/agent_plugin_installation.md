@@ -79,8 +79,8 @@ uv run jijmodeling skill path
 
 ### Configuring for your coding agent
 
-The bundled plugin works with major coding agents. Choose the setup appropriate for your environment.
-In addition to running CLI commands, editors such as Cursor and VSCode also provide graphical settings (Settings UI, Rules, or Extension configuration) where you can specify plugin or skill directories.
+Because the bundled plugin is tied to the version of JijModeling used in your project, register and install it per project rather than across your entire user environment.
+In addition to running CLI commands, editors such as Cursor and VSCode also provide graphical settings (Settings UI, Rules, or Extension configuration) where you can specify plugin or skill directories for the project.
 
 Below are setup instructions and links to the official documentation for supported agents:
 
@@ -90,13 +90,18 @@ Below are setup instructions and links to the official documentation for support
 
 Claude Code supports plugins via local marketplaces or project configuration:
 
-1. **Via local marketplace**:
+1. **Via local marketplace (project scope)**:
    ```bash
-   claude plugin marketplace add "$(uv run jijmodeling plugin marketplace path)"
-   claude plugin install jijmodeling
+   claude plugin marketplace add --scope project "$(uv run jijmodeling plugin marketplace path)"
+   claude plugin install --scope project jijmodeling
    ```
 2. **Via project configuration or launch option**:
-   You can link or copy the plugin into `.claude/plugins/jijmodeling` in your project root, or launch Claude Code with `--plugin-dir`:
+   You can place a symlink in `.claude/plugins/jijmodeling` in your project root:
+   ```bash
+   mkdir -p .claude/plugins
+   ln -s "$(uv run jijmodeling plugin path)" .claude/plugins/jijmodeling
+   ```
+   For temporary sessions, you can also pass the path at launch:
    ```bash
    claude --plugin-dir "$(uv run jijmodeling plugin path)"
    ```
@@ -105,7 +110,7 @@ Claude Code supports plugins via local marketplaces or project configuration:
 
 - [OpenAI Documentation](https://platform.openai.com/docs)
 
-Codex discovers agent plugins and skills from `.codex/plugins` or `.agents/plugins`:
+Codex discovers agent plugins and skills from `.codex/plugins` or `.agents/plugins` in the project directory:
 
 ```bash
 mkdir -p .codex/plugins
@@ -116,7 +121,7 @@ ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
 
 - [Cursor Documentation](https://docs.cursor.com/) ([Rules for AI](https://docs.cursor.com/context/rules-for-ai))
 
-Cursor supports agent plugins, rules, and skills at the project or user level:
+In Cursor, configure plugins or skills per project (workspace):
 
 1. **Via symlinks**:
    To install the `jijmodeling` plugin in your project:
@@ -130,7 +135,7 @@ Cursor supports agent plugins, rules, and skills at the project or user level:
    ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling
    ```
 2. **Via GUI settings**:
-   In Cursor Settings (Cursor Settings > Rules / Features), you can specify custom rules or directories for plugins and skills.
+   In Cursor Settings (Workspace Settings > Rules / Features), you can specify custom rules or directories for plugins and skills for the project.
 
 #### GitHub Copilot and VSCode
 
@@ -140,7 +145,7 @@ Cursor supports agent plugins, rules, and skills at the project or user level:
 In VSCode with GitHub Copilot:
 
 1. **Using GitHub CLI (`gh skill`)**:
-   [GitHub CLI](https://cli.github.com/) provides skill management through the `gh skill` subcommand starting with [version 2.90.0](https://github.com/cli/cli/releases/tag/v2.90.0). Run:
+   [GitHub CLI](https://cli.github.com/) provides skill management through the `gh skill` subcommand starting with [version 2.90.0](https://github.com/cli/cli/releases/tag/v2.90.0). Install it for the project using `--scope project`:
    ```bash
    gh skill install "$(uv run jijmodeling skill path)" jijmodeling --from-local --scope project
    ```
