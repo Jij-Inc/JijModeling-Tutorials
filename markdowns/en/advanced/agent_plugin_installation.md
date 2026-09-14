@@ -110,51 +110,35 @@ Claude Code supports plugins via local marketplaces or project configuration:
 
 - [OpenAI Documentation](https://platform.openai.com/docs)
 
-Codex loads project-specific configuration from `.codex/config.toml` in the project root. To register and enable the plugin per project, add the marketplace and plugin configuration to your project's `.codex/config.toml`:
-
-```bash
-mkdir -p .codex
-cat << EOF >> .codex/config.toml
-[marketplaces.jijmodeling]
-source_type = "local"
-source = "$(uv run jijmodeling plugin marketplace path)"
-
-[plugins."jijmodeling@jijmodeling"]
-enabled = true
-EOF
-```
-
-Alternatively, to use the bundled skill directly, link it into the project's `.agents/skills` directory:
+Codex automatically discovers `.agents/skills` from the project root down to your current working directory. The most reliable way to configure JijModeling per project is to create a symlink in the project's `.agents/skills` directory:
 
 ```bash
 mkdir -p .agents/skills
 ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
 ```
 
-:::{admonition} Scope of Codex CLI installation commands
+:::{admonition} Scope of Codex CLI commands and configuration files
 :class: note
-The Codex CLI commands `codex plugin marketplace add` and `codex plugin add` currently do not support project-scoped installation and register plugins across your entire user environment (`~/.codex/config.toml`). To keep plugins tied to each project's version, configure `.codex/config.toml` or `.agents/skills` in your project root as shown above.
+The Codex CLI commands (`codex plugin marketplace add` and `codex plugin add`) currently do not support a project-scoped option (such as `--scope project`) and register plugins across your entire user environment (`~/.codex/config.toml`). If you wish to manage it as a plugin per project, add `[marketplaces.jijmodeling]` and `[plugins."jijmodeling@jijmodeling"]` directly to your project's `.codex/config.toml`.
 :::
 
 #### Cursor
 
 - [Cursor Documentation](https://docs.cursor.com/) ([Rules for AI](https://docs.cursor.com/context/rules-for-ai))
 
-In Cursor, configure plugins or skills per project (workspace):
+Cursor automatically discovers `.agents/skills` and `.cursor/skills` within the project (workspace). To configure JijModeling per project, create a symlink in one of these directories:
 
-1. **Via symlinks**:
-   To install the `jijmodeling` plugin in your project:
-   ```bash
-   mkdir -p .cursor/plugins
-   ln -s "$(uv run jijmodeling plugin path)" .cursor/plugins/jijmodeling
-   ```
-   Alternatively, you can link the bundled skill into `.cursor/skills/`:
-   ```bash
-   mkdir -p .cursor/skills
-   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling
-   ```
-2. **Via GUI settings**:
-   In Cursor Settings (Workspace Settings > Rules / Features), you can specify custom rules or directories for plugins and skills for the project.
+```bash
+mkdir -p .agents/skills
+ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
+```
+
+(Similarly, you can link it into `.cursor/skills` using `ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling`.)
+
+:::{admonition} Cursor plugin discovery
+:class: note
+Cursor does not automatically discover plugins from a `.cursor/plugins` directory at the workspace root. To make JijModeling rules and skills discoverable project-locally, use `.agents/skills` or `.cursor/skills` as described above.
+:::
 
 #### GitHub Copilot and VSCode
 
@@ -177,8 +161,8 @@ In VSCode with GitHub Copilot:
 
 When configuring plugins in your project, keep the following points in mind:
 
-1. **Do not commit installed plugins to Git (add to `.gitignore`)**:
-   Committing plugins to Git is not recommended. If you use symbolic links, they point to local virtual environments and will not work in other environments (such as other team members' machines or CI). If you copy the files directly into the repository, the plugin will not follow future version upgrades of the JijModeling package. Add agent plugin directories (such as `.cursor/plugins/` or `.claude/plugins/`) to your project's `.gitignore` and configure them only in each developer's local environment.
+1. **Do not commit installed plugins or skills to Git (add to `.gitignore`)**:
+   Committing plugins or skills to Git is not recommended. If you use symbolic links, they point to local virtual environments and will not work in other environments (such as other team members' machines or CI). If you copy the files directly into the repository, the plugin will not follow future version upgrades of the JijModeling package. Add configuration directories (such as `.agents/skills/`, `.cursor/skills/`, or `.claude/plugins/`) to your project's `.gitignore` and configure them only in each developer's local environment.
 2. **Path changes on Python version upgrades or virtual environment recreation**:
    Upgrading the Python version (e.g. from Python 3.12 to 3.13) or recreating your virtual environment (`.venv`) changes the `site-packages` directory path, breaking existing symlinks. When this happens, remove the old symlink and recreate it with `ln -s "$(uv run jijmodeling plugin path)" ...`.
 :::

@@ -110,51 +110,35 @@ Claude Code では、マーケットプレイス経由または起動オプシ�
 
 - [OpenAI プラットフォーム公式ドキュメント](https://platform.openai.com/docs)
 
-Codex はプロジェクトルートの `.codex/config.toml` からプロジェクト固有の設定を読み込みます。プロジェクト単位でプラグインを登録・有効化するには、プロジェクトの `.codex/config.toml` にマーケットプレイスとプラグインの設定を記述します：
-
-```bash
-mkdir -p .codex
-cat << EOF >> .codex/config.toml
-[marketplaces.jijmodeling]
-source_type = "local"
-source = "$(uv run jijmodeling plugin marketplace path)"
-
-[plugins."jijmodeling@jijmodeling"]
-enabled = true
-EOF
-```
-
-また、同梱のスキルのみを直接利用する場合は、プロジェクトの `.agents/skills` ディレクトリにシンボリックリンクを作成することも可能です：
+Codex はプロジェクトルートから作業ディレクトリまでの `.agents/skills` を自動検出します。プロジェクト単位で JijModeling を導入するには、プロジェクトの `.agents/skills` にシンボリックリンクを作成するのが最も確実です：
 
 ```bash
 mkdir -p .agents/skills
 ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
 ```
 
-:::{admonition} CLI コマンドによるインストールのスコープについて
+:::{admonition} Codex CLI コマンドのスコープと設定ファイルについて
 :class: note
-Codex の CLI コマンド `codex plugin marketplace add` や `codex plugin add` は、現時点ではプロジェクト単位のオプションを持たず、ユーザー環境全体（`~/.codex/config.toml`）に登録されます。プロジェクトごとにバージョンを紐付ける場合は、上記のようにプロジェクトの `.codex/config.toml` または `.agents/skills` に設定してください。
+Codex の CLI コマンド（`codex plugin marketplace add` や `codex plugin add`）は、現時点ではプロジェクト単位のオプション（`--scope project` など）を持たず、ユーザー環境全体（`~/.codex/config.toml`）に登録されます。プラグインとしてプロジェクト単位で管理したい場合は、プロジェクトの `.codex/config.toml` に `[marketplaces.jijmodeling]` と `[plugins."jijmodeling@jijmodeling"]` を直接記述します。
 :::
 
 #### Cursor
 
 - [Cursor 公式ドキュメント](https://docs.cursor.com/)（[Rules for AI](https://docs.cursor.com/context/rules-for-ai)）
 
-Cursor では、プロジェクト単位（ワークスペース単位）でプラグインやスキルを設定します：
+Cursor は、プロジェクト（ワークスペース）の `.agents/skills` および `.cursor/skills` を自動検出します。プロジェクト単位で導入するには、これらのディレクトリにシンボリックリンクを作成します：
 
-1. **シンボリックリンクの配置**:
-   プロジェクトの `.cursor/plugins` 配下にシンボリックリンクを作成するのが簡単です：
-   ```bash
-   mkdir -p .cursor/plugins
-   ln -s "$(uv run jijmodeling plugin path)" .cursor/plugins/jijmodeling
-   ```
-   また、同梱のスキルのみを `.cursor/skills` に配置することも可能です：
-   ```bash
-   mkdir -p .cursor/skills
-   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling
-   ```
-2. **GUI 設定画面からの追加**:
-   Cursor のプロジェクト設定（Cursor Settings > Rules / Features）から、カスタムルールやスキル・プラグインのパスを指定することも可能です。
+```bash
+mkdir -p .agents/skills
+ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
+```
+
+（`.cursor/skills` を利用する場合も同様に `ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling` と配置できます。）
+
+:::{admonition} Cursor のプラグイン検出について
+:class: note
+Cursor はワークスペース直下の `.cursor/plugins` ディレクトリからの自動検出には対応していません。プロジェクトローカルに JijModeling のルールやスキルを認識させるには、上記のように `.agents/skills` または `.cursor/skills` を使用してください。
+:::
 
 #### GitHub Copilot および VSCode
 
@@ -177,8 +161,8 @@ VSCode や GitHub Copilot で利用する場合：
 
 プロジェクト内にプラグインを設定する場合、以下の点に注意してください：
 
-1. **インストールしたプラグインは Git にコミットしない（`.gitignore` への追加）**:
-   プラグインを Git にコミットすることは推奨されません。シンボリックリンク方式の場合は各開発者のローカル仮想環境を指しているため他の環境で動作せず、ファイルを直接コピーする方式の場合は JijModeling 本体のバージョン更新に追随できなくなってしまうためです。`.cursor/plugins/` や `.claude/plugins/` などのプラグイン配置先はプロジェクトの `.gitignore` に追加し、各開発者のローカル環境でのみ設定するようにしてください。
+1. **インストールしたプラグインやスキルは Git にコミットしない（`.gitignore` への追加）**:
+   プラグインやスキルを Git にコミットすることは推奨されません。シンボリックリンク方式の場合は各開発者のローカル仮想環境を指しているため他の環境で動作せず、ファイルを直接コピーする方式の場合は JijModeling 本体のバージョン更新に追随できなくなってしまうためです。`.agents/skills/` や `.cursor/skills/`、`.claude/plugins/` などの配置先はプロジェクトの `.gitignore` に追加し、各開発者のローカル環境でのみ設定するようにしてください。
 2. **Python バージョン変更や仮想環境再作成時のパス変化**:
    Python のバージョンを切り替えた場合（例: Python 3.12 から 3.13 への変更）や、仮想環境（`.venv`）を再作成した場合は、`site-packages` のパスが変化するため既存のシンボリックリンクが無効になります。この場合は、一度古いリンクを削除して再度 `ln -s "$(uv run jijmodeling plugin path)" ...` を実行してください。
 :::
