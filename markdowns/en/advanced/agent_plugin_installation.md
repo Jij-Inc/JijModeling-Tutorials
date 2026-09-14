@@ -21,7 +21,7 @@ This chapter explains how to locate the bundled plugin and configure it for your
 ## What are agent plugins?
 
 **Agent plugins** package domain knowledge, skills (`SKILL.md`), rules, prompts, and tool instructions into a bundle that AI coding agents can discover and use.
-The `jijmodeling` plugin adheres to open Agent Plugins specifications (including Agent Plugins 1.0) and provides manifests for Claude Code, Cursor, and Codex.
+The `jijmodeling` plugin adheres to open Agent Plugins specifications (including [Agent Plugins 1.0](https://agent-plugins.org/)) and provides manifests for Claude Code, Cursor, and Codex.
 
 The bundled plugin carries an explicit version number that matches the installed JijModeling package version.
 As JijModeling gains new features and APIs, the bundled plugin is updated as well. When you change your JijModeling version, we recommend updating the plugin as needed.

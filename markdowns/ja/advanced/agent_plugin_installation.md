@@ -21,7 +21,7 @@ JijModeling **2.9.0 以降**には、コーディングエージェントに Jij
 ## エージェントプラグインとは？
 
 **エージェントプラグイン**とは、大規模言語モデル（LLM）に対してドメイン固有の知識やスキル（`SKILL.md`）、ルール、プロンプト、ツールの使い方などをパッケージ化して提供するための仕組みです。
-JijModeling 同梱のプラグインは、標準的な Agent Plugins 1.0 仕様や Claude Code、Cursor、Codex などのプラグインマニフェストに準拠しています。
+JijModeling 同梱のプラグインは、標準的な [Agent Plugins 1.0 仕様](https://agent-plugins.org/)や Claude Code、Cursor、Codex などのプラグインマニフェストに準拠しています。
 
 同梱のプラグインには明示的なバージョン番号が付与されており、インストールされている JijModeling パッケージのバージョンと同期しています。
 JijModeling に新しい機能や API が追加されると同梱プラグインも更新されるため、利用する JijModeling のバージョンを変更した場合は、プラグインも合わせて更新することをお勧めします。
