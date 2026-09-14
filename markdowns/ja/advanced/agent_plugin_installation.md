@@ -13,7 +13,7 @@ kernelspec:
 
 # コーディングエージェント向けプラグインのインストール
 
-JijModeling **2.9.0 以降**には、コーディングエージェントに JijModeling を使って数理最適化モデルを定式化・実装・求解させるためのエージェントプラグインが同梱されています。
+JijModeling **2.9.0 以降**には、コーディングエージェントに JijModeling を使って数理最適化モデルを定式化・実装・求解させるためのプラグインが同梱されています。
 以下では、同梱プラグインの保存場所の確認と、各種コーディングエージェント（Claude Code、Codex、Cursor、GitHub Copilot、VSCode など）で利用するための設定方法について説明します。
 
 +++
@@ -33,7 +33,7 @@ JijModeling に新しい機能や API が追加されると同梱プラグイン
 プラグインの役割は、コーディングエージェントが JijModeling を正しくスムーズに書けるよう支援することである点に注意しましょう。
 :::
 
-## プラグインの確認と設定
+## プラグインのインストール
 
 以下では、JijModeling に同梱されているプラグインの確認と各エージェントへの設定方法について説明します。
 
@@ -101,6 +101,17 @@ Claude Code では、マーケットプレイス経由または起動オプシ�
    claude --plugin-dir "$(uv run jijmodeling plugin path)"
    ```
 
+#### OpenAI Codex
+
+- [OpenAI プラットフォーム公式ドキュメント](https://platform.openai.com/docs)
+
+Codex は `.codex/plugins` や `.agents/plugins` からプラグインやスキルを自動検出します：
+
+```bash
+mkdir -p .codex/plugins
+ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
+```
+
 #### Cursor
 
 - [Cursor 公式ドキュメント](https://docs.cursor.com/)（[Rules for AI](https://docs.cursor.com/context/rules-for-ai)）
@@ -120,17 +131,6 @@ Cursor では、プロジェクト単位またはユーザー単位でプラグ�
    ```
 2. **GUI 設定画面からの追加**:
    Cursor の設定画面（Cursor Settings > Rules / Features）から、カスタムルールやスキル・プラグインのパスを指定することも可能です。
-
-#### OpenAI Codex
-
-- [OpenAI プラットフォーム公式ドキュメント](https://platform.openai.com/docs)
-
-Codex は `.codex/plugins` や `.agents/plugins` からプラグインやスキルを自動検出します：
-
-```bash
-mkdir -p .codex/plugins
-ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
-```
 
 #### GitHub Copilot および VSCode
 

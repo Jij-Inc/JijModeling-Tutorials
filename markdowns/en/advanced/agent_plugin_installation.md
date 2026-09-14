@@ -13,7 +13,7 @@ kernelspec:
 
 # Coding Agent Plugin Installation
 
-JijModeling **2.9.0 and later** includes an agent plugin to help coding agents formulate, implement, and solve mathematical optimization models using JijModeling.
+JijModeling **2.9.0 and later** includes a plugin to help coding agents formulate, implement, and solve mathematical optimization models using JijModeling.
 This chapter explains how to locate the bundled plugin and configure it for your coding agent, including Claude Code, OpenAI Codex, Cursor, GitHub Copilot, and VSCode.
 
 +++
@@ -33,7 +33,7 @@ Plugins help coding agents use JijModeling, but **they do not guarantee that the
 Their role is to help coding agents write valid, idiomatic JijModeling code more effectively.
 :::
 
-## Plugin discovery and installation
+## Installing the plugin
 
 The following sections explain how to discover and install the plugin bundled with JijModeling.
 
@@ -101,6 +101,17 @@ Claude Code supports plugins via local marketplaces or project configuration:
    claude --plugin-dir "$(uv run jijmodeling plugin path)"
    ```
 
+#### OpenAI Codex
+
+- [OpenAI Documentation](https://platform.openai.com/docs)
+
+Codex discovers agent plugins and skills from `.codex/plugins` or `.agents/plugins`:
+
+```bash
+mkdir -p .codex/plugins
+ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
+```
+
 #### Cursor
 
 - [Cursor Documentation](https://docs.cursor.com/) ([Rules for AI](https://docs.cursor.com/context/rules-for-ai))
@@ -120,17 +131,6 @@ Cursor supports agent plugins, rules, and skills at the project or user level:
    ```
 2. **Via GUI settings**:
    In Cursor Settings (Cursor Settings > Rules / Features), you can specify custom rules or directories for plugins and skills.
-
-#### OpenAI Codex
-
-- [OpenAI Documentation](https://platform.openai.com/docs)
-
-Codex discovers agent plugins and skills from `.codex/plugins` or `.agents/plugins`:
-
-```bash
-mkdir -p .codex/plugins
-ln -s "$(uv run jijmodeling plugin path)" .codex/plugins/jijmodeling
-```
 
 #### GitHub Copilot and VSCode
 
