@@ -148,10 +148,21 @@ In VSCode with GitHub Copilot:
 2. **Via workspace instructions and GUI settings**:
    In VSCode Settings or via `.github/copilot-instructions.md`, configure Copilot to reference the plugin's rules and guidelines when authoring optimization models.
 
+:::{admonition} Important considerations when using symlinks
+:class: caution
+
+When configuring plugins in your project using symbolic links (`ln -s`), keep the following points in mind:
+
+1. **Do not commit symlinks to Git (add to `.gitignore`)**:
+   Symlinks point to paths in your local virtual environment (e.g. `.venv/lib/python3.13/site-packages/...`). If committed to Git, they will break on other collaborators' machines or in CI environments. Add agent plugin directories (such as `.cursor/plugins/` or `.claude/plugins/`) to your project's `.gitignore` and configure them per local environment.
+2. **Path changes on Python version upgrades or virtual environment recreation**:
+   Upgrading the Python version (e.g. from Python 3.12 to 3.13) or recreating your virtual environment (`.venv`) changes the `site-packages` directory path, breaking existing symlinks. When this happens, remove the old symlink and recreate it with `ln -s "$(uv run jijmodeling plugin path)" ...`.
+:::
+
 ### Updating the plugin
 
 When you update JijModeling in your environment, update the plugin:
-- If you used symlinks (`ln -s`), the plugin updates automatically whenever JijModeling is updated in the virtual environment.
+- If you used symlinks (`ln -s`), the plugin updates automatically whenever JijModeling is updated in the same virtual environment. However, if Python was upgraded or the virtual environment was recreated, recreate the symlinks as described above.
 - If you copied the plugin files or installed via `claude plugin install` or `gh skill install`, repeat the installation command after updating JijModeling to refresh the plugin to match the new package version.
 
 After installation, ask your agent to formulate or modify a model using JijModeling.
