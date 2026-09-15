@@ -14,7 +14,7 @@ kernelspec:
 # コーディングエージェント向けプラグインのインストール
 
 JijModeling **2.9.0 以降**には、コーディングエージェントに JijModeling を使って数理最適化モデルを定式化・実装・求解させるためのプラグインが同梱されています。
-以下では、同梱プラグインの保存場所の確認と、各種コーディングエージェント（Claude Code、Codex、Cursor、GitHub Copilot、VSCode など）で利用するための設定方法について説明します。
+以下では、同梱プラグインの保存場所の確認と、各種コーディングエージェント（Claude Code、Codex、Cursor、GitHub Copilot、VS Code）で利用するための設定方法について説明します。
 
 +++
 
@@ -40,9 +40,11 @@ JijModeling の機能をエージェントに導入する方法には、大き�
 1. **プラグイン全体としてのインストール**:
    Agent Plugins 1.0 仕様に準拠したパッケージ（`plugin.json` や各種メタデータ）として導入します。Claude Code のようにローカルマーケットプレイスの登録に対応したエージェントでは、CLI コマンドを用いてプロジェクト単位で簡単にインストールできます。
 2. **スキル（SKILL）単体でのインストール**:
-   プラグインに同梱されているスキル（`SKILL.md`）を取り出して配置します。Codex や Cursor では、プロジェクト単位でプラグイン全体を登録しようとすると手動でリポジトリローカルな設定ファイル（TOML など）を記述する必要があるため、エージェントが自動検出する `.agents/skills` ディレクトリにスキル単体をインストール（シンボリックリンク配置）する運用が最も手軽で確実です。
+   プラグインに同梱されているスキルのディレクトリ全体を配置します。`SKILL.md` に加え、参照資料や使用例も含まれます。Codex や Cursor では、プロジェクトの `.agents/skills` にこのディレクトリへのシンボリックリンクを作成すると、スキルが自動検出されます。
 
 以下では、各パスの確認方法とエージェントごとの具体的な導入手順を説明します。
+
+JijModeling をインストールしたプロジェクトのルートディレクトリで実行してください。コマンド例は Bash などの POSIX 系シェルを想定しています。
 
 ### パスの確認
 
@@ -91,7 +93,7 @@ python -m jijmodeling skill path
 
 #### Claude Code
 
-- [Claude Code 公式ドキュメント](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code)
+- [Claude Code のプラグインとインストールスコープ](https://code.claude.com/docs/en/plugins-reference)
 
 Claude Code では、ローカルなマーケットプレイスを追加してプロジェクト単位で直接プラグインをインストールできます：
 
@@ -100,46 +102,31 @@ Claude Code では、ローカルなマーケットプレイスを追加して�
    claude plugin marketplace add --scope project "$(uv run jijmodeling plugin marketplace path)"
    claude plugin install --scope project jijmodeling
    ```
-2. **プロジェクト設定または起動オプション**:
-   プロジェクトの `.claude/plugins/jijmodeling` にシンボリックリンクを配置するか、起動オプションで直接指定します：
-   ```bash
-   mkdir -p .claude/plugins
-   ln -s "$(uv run jijmodeling plugin path)" .claude/plugins/jijmodeling
-   ```
-   一時的なセッションでのみ利用する場合は、起動オプションで指定することも可能です：
+   プロジェクト設定は `.claude/settings.json` に保存されます。インストール後に `claude plugin list --json` を実行し、`jijmodeling@jijmodeling` のスコープが `project` であることを確認してください。
+2. **起動するセッションでのみ利用する場合**:
+   プロジェクトのルートで、プラグインのパスを指定して起動します。この方法は起動するたびに指定が必要です：
    ```bash
    claude --plugin-dir "$(uv run jijmodeling plugin path)"
    ```
 
+どちらの方法でも、新しいセッションのスラッシュコマンド候補に `/jijmodeling:jijmodeling` が表示されることを確認してください。
+
 #### OpenAI Codex
 
-- [OpenAI プラットフォーム公式ドキュメント](https://platform.openai.com/docs)
+- [Codex のスキルと検出場所](https://developers.openai.com/codex/skills/)
 
-Codex でプロジェクト単位で利用する場合、以下のいずれかの方法を選択します：
+Codex は、作業ディレクトリから Git リポジトリのルートまでの各階層にある `.agents/skills` を自動検出します。プロジェクトのルートで、同梱スキルへのシンボリックリンクを作成します：
 
-1. **スキル単体をインストールする場合（推奨・最も手軽）**:
-   Codex はプロジェクトルートから作業ディレクトリまでの `.agents/skills` を自動検出します。スキル単体のシンボリックリンクを作成するのが最も簡単です：
-   ```bash
-   mkdir -p .agents/skills
-   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
-   ```
-2. **プラグイン全体をインストールする場合**:
-   現行の Codex CLI コマンド（`codex plugin marketplace add` や `codex plugin add`）はユーザー環境全体（`~/.codex/config.toml`）に登録されてしまうため、プロジェクト単位でプラグインを登録するには、リポジトリローカルな `.codex/config.toml` を手動で作成して設定を記述します：
-   ```bash
-   mkdir -p .codex
-   cat << EOF >> .codex/config.toml
-   [marketplaces.jijmodeling]
-   source_type = "local"
-   source = "$(uv run jijmodeling plugin marketplace path)"
+```bash
+mkdir -p .agents/skills
+ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
+```
 
-   [plugins."jijmodeling@jijmodeling"]
-   enabled = true
-   EOF
-   ```
+プロジェクト内で新しい Codex セッションを開始し、CLI の `/skills` または `$` によるスキル候補に JijModeling が表示されることを確認してください。読み込み元のパスが、このプロジェクトのリンク先にある `SKILL.md` と一致することも確認します。
 
 #### Cursor
 
-- [Cursor 公式ドキュメント](https://docs.cursor.com/)（[Rules for AI](https://docs.cursor.com/context/rules-for-ai)）
+- [Cursor のスキルと検出場所](https://cursor.com/docs/skills)
 
 Cursor でプロジェクト単位で利用する場合：
 
@@ -149,35 +136,50 @@ Cursor でプロジェクト単位で利用する場合：
    mkdir -p .agents/skills
    ln -s "$(uv run jijmodeling skill path)/jijmodeling" .agents/skills/jijmodeling
    ```
-   （`.cursor/skills` を利用する場合も同様に `ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling` と配置できます。）
-2. **プラグイン全体をインストールする場合**:
-   Cursor にはワークスペース直下のプラグイン自動検出機能がないため、プラグイン全体をプロジェクトローカルに読み込ませるには、手動でリポジトリローカルな設定を行うか、起動オプション（`--plugin-dir`）を指定します。手動設定の手間を省くためにも、上記のように `.agents/skills` または `.cursor/skills` にスキル単体を配置する運用が推奨されます。
-
-#### GitHub Copilot および VSCode
-
-- [GitHub Copilot 公式ドキュメント](https://docs.github.com/en/copilot)
-- [Visual Studio Code Copilot 公式ドキュメント](https://code.visualstudio.com/docs/copilot/overview)
-
-VSCode や GitHub Copilot で利用する場合：
-
-1. **GitHub CLI (`gh skill`) を利用する場合**:
-   [GitHub CLI](https://cli.github.com/) は[バージョン 2.90.0](https://github.com/cli/cli/releases/tag/v2.90.0) 以降から `gh skill` サブコマンドとしてスキルマネージャの機能を提供しています。`--scope project` オプションを付けてプロジェクト単位でインストールします：
+   Cursor 専用の配置先を使う場合は、かわりに以下を実行します。配置先はどちらか一方を選んでください：
    ```bash
-   gh skill install "$(uv run jijmodeling skill path)" jijmodeling --from-local --scope project
+   mkdir -p .cursor/skills
+   ln -s "$(uv run jijmodeling skill path)/jijmodeling" .cursor/skills/jijmodeling
    ```
-   オプションの詳細は、[gh skill install のマニュアル](https://cli.github.com/manual/gh_skill_install)を参照してください。
-2. **ワークスペース指示ファイルまたは設定画面**:
-   プロジェクトの `.vscode/settings.json` や、ワークスペースの `.github/copilot-instructions.md` からプラグインのルールやスキルを参照するように設定します。
+2. **Cursor CLI のセッションでプラグイン全体を利用する場合**:
+   プロジェクトのルートで以下を実行します。`--plugin-dir` は Cursor CLI の起動オプションで、起動するたびに指定が必要です：
+   ```bash
+   agent --plugin-dir "$(uv run jijmodeling plugin path)"
+   ```
+
+新しいセッションを開始し、スキル一覧で JijModeling を確認してください。Cursor CLI では、ファイル検索を行わず、セッションに渡された利用可能なスキル一覧から名前と読み込み元のパスを報告するよう依頼できます。スキル単体の場合はプロジェクト内の配置先、`--plugin-dir` の場合は指定したプラグイン内のスキルが表示されることを確認します。
+
+#### GitHub Copilot および VS Code
+
+- [GitHub Copilot CLI のスキル](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)
+- [VS Code のスキル](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+
+GitHub Copilot CLI と VS Code は、プロジェクトの `.agents/skills` に配置されたスキルを検出します。[GitHub CLI](https://cli.github.com/) の [2.90.0 以降](https://github.com/cli/cli/releases/tag/v2.90.0)で利用できる `gh skill` を使い、同梱スキルをプロジェクトにコピーします：
+
+```bash
+gh skill install "$(uv run jijmodeling skill path)" jijmodeling --from-local --scope project
+```
+
+対話形式でエージェントを選択するよう求められた場合は、GitHub Copilot を選びます。オプションの詳細は [gh skill install のマニュアル](https://cli.github.com/manual/gh_skill_install)を参照してください。
+
+- **GitHub Copilot CLI**: プロジェクトのルートで以下を実行し、`jijmodeling` の `source` が `project`、`enabled` が `true` で、`path` がこのプロジェクトの `.agents/skills/jijmodeling` を指していることを確認します：
+  ```bash
+  copilot skill list --json
+  ```
+- **VS Code**: プロジェクトを開き、コマンドパレットから `Chat: Configure Skills` を実行します。`jijmodeling` が `Workspace` のスキルとして表示されることを確認します。
+
+いずれのエージェントでも、ファイルが存在することに加え、エージェント自身がスキルを検出していることを確認してください。同名のユーザー用スキルがある場合は、読み込み元のパスやスコープを確認し、今回導入したスキルと区別します。
 
 :::{admonition} プラグイン設定時の注意点
 :class: caution
 
 プロジェクト内にプラグインを設定する場合、以下の点に注意してください：
 
-1. **インストールしたプラグインやスキルは Git にコミットしない（`.gitignore` への追加）**:
-   プラグインやスキルを Git にコミットすることは推奨されません。シンボリックリンク方式の場合は各開発者のローカル仮想環境を指しているため他の環境で動作せず、ファイルを直接コピーする方式の場合は JijModeling 本体のバージョン更新に追随できなくなってしまうためです。`.agents/skills/` や `.cursor/skills/`、`.claude/plugins/` などの配置先はプロジェクトの `.gitignore` に追加し、各開発者のローカル環境でのみ設定するようにしてください。
+1. **環境ごとに配置するファイルを Git の管理対象から除外する**:
+   シンボリックリンクは各開発者の仮想環境を指します。実際に使用する配置先（`.agents/skills/jijmodeling` または `.cursor/skills/jijmodeling`）を `.gitignore` に追加してください。スキルのコピーを各開発者が管理する場合も同様です。チームでコピーを共有する場合は、JijModeling の依存バージョンと合わせて更新してください。
+   Claude Code のマーケットプレイス登録は `.claude/settings.json` に仮想環境の絶対パスを保存するため、この環境依存の設定も各開発者が追加し、そのローカルパスをコミットしないようにしてください。
 2. **Python バージョン変更や仮想環境再作成時のパス変化**:
-   Python のバージョンを切り替えた場合（例: Python 3.12 から 3.13 への変更）や、仮想環境（`.venv`）を再作成した場合は、`site-packages` のパスが変化するため既存のシンボリックリンクが無効になります。この場合は、一度古いリンクを削除して再度 `ln -s "$(uv run jijmodeling plugin path)" ...` を実行してください。
+   Python のバージョン変更や仮想環境の移動・再作成により、パッケージの保存先が変わることがあります。その場合は、古いシンボリックリンクを削除し、利用するエージェントのスキル配置コマンドを再実行してください。Claude Code のマーケットプレイス経由で導入した場合は、マーケットプレイスの追加コマンドで新しいパスを登録してからプラグインを更新します。
 :::
 
 :::{admonition} チーム開発でのヒント
@@ -188,8 +190,18 @@ VSCode や GitHub Copilot で利用する場合：
 
 ### プラグインの更新
 
-JijModeling をバージョンアップ（例: `uv lock --upgrade-package jijmodeling`）した際は、プラグインの更新も確認してください：
-- シンボリックリンク（`ln -s`）を用いている場合、仮想環境内の JijModeling が更新されるとプラグイン内容も自動的に最新になります。ただし、Python のバージョンアップに伴い仮想環境のパスが変わった場合は、前述の通りシンボリックリンクの再作成が必要です。
-- ファイルを直接コピーした場合や `claude plugin install` / `gh skill install` で導入した場合は、JijModeling 更新後に再度コマンドを実行して最新バージョンに同期してください。
+まず、プロジェクトの仮想環境内の JijModeling を更新してください。`uv lock --upgrade-package jijmodeling` でロックファイルを更新した場合は、`uv sync` で仮想環境にも反映します。その後、導入方法に応じて以下を実行してください：
 
-インストール後は、エージェントに JijModeling を使って数理モデルの定式化や修正を行うよう依頼できます。
+- **シンボリックリンク**: リンク先が変わらなければ、更新後のスキルがそのまま参照されます。パスが変わった場合はリンクを作り直してください。
+- **Claude Code のマーケットプレイス経由**: 以下の更新コマンドを実行し、Claude Code を再起動してください：
+  ```bash
+  claude plugin update --scope project jijmodeling@jijmodeling
+  ```
+- **`gh skill install` によるコピー**: `--force` を付けて、配置済みのスキルを更新後の内容で上書きします：
+  ```bash
+  gh skill install "$(uv run jijmodeling skill path)" jijmodeling --from-local --scope project --force
+  ```
+- **手動でコピーした場合**: 更新後のスキルディレクトリ全体をコピーし直してください。
+- **`--plugin-dir` による起動**: 更新後のパッケージから取得したパスを指定して、新しいセッションを開始してください。
+
+更新後は新しいセッションを開始し、各エージェントの手順でスキルの検出を再確認してください。確認できたら、JijModeling を使って数理モデルの定式化や修正を行うよう依頼できます。
