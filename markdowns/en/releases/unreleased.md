@@ -71,9 +71,9 @@ problem
 
 +++
 
-### Bugfix 1: Fix constraint-detection type errors in sums with subscripted loop variables
+### Bugfix 1: Fix type errors when subscripting loop variables
 
-Fixed an issue where subscripting a loop variable inside a filtered sum caused constraint detection to raise the type error `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.`
+Fixed a type-checking issue where subscripting a loop variable, such as `e[1]` for a tuple from a stream, could raise `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.`
 The following code now compiles successfully with constraint detection enabled:
 
 ```{code-cell} ipython3
@@ -96,7 +96,7 @@ display(problem)
 instance = problem.eval({"N": 3, "G": [(0, 0), (0, 1), (1, 2)]})
 ```
 
-The expected SOS1 constraint is now detected as well.
+The expected SOS1 constraint is now detected in this example as well.
 
 ```{code-cell} ipython3
 instance.constraint_hints

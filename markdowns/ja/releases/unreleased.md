@@ -71,10 +71,10 @@ problem
 
 +++
 
-### バグ修正 1：ループ変数の添え字を含む総和に対し制約検出が型エラーになるバグの修正
+### バグ修正 1：ループ変数への添え字アクセスで型エラーになる問題の修正
 
-条件付の総和内にループ変数に対する添え字が現れる場合、制約検出時に型エラー `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.` が発生していた問題を修正しました。
-修正の結果、以下のようなコードは制約検出が有効でも問題なくコンパイルが通るようになりました：
+タプルを要素とするストリームなどで、ループ変数に `e[1]` のような添え字アクセスを行うと、型エラー `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.` が発生する場合があった問題を修正しました。
+以下のようなコードは制約検出が有効でも問題なくコンパイルが通るようになりました：
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -96,7 +96,7 @@ display(problem)
 instance = problem.eval({"N": 3, "G": [(0, 0), (0, 1), (1, 2)]})
 ```
 
-また期待される SOS1 制約が検出されるようになりました。
+また、この例では期待される SOS1 制約が検出されるようになりました。
 
 ```{code-cell} ipython3
 instance.constraint_hints
