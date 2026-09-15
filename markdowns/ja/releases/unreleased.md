@@ -71,8 +71,36 @@ problem
 
 +++
 
-### バグ修正 1：
+### バグ修正 1：ループ変数の添え字を含む総和に対し制約検出が型エラーになるバグの修正
 
+条件付の総和内にループ変数に対する添え字が現れる場合、制約検出時に型エラー `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.` が発生していた問題を修正しました。
+修正の結果、以下のようなコードは制約検出が有効でも問題なくコンパイルが通るようになりました：
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Erroring Problem")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar("x", shape=(N,))
+    G = problem.Graph(dtype=N)
+
+    problem += problem.Constraint(
+        "even-sources",
+        (jm.sum(x[e[1]] for e in G if e[0] % 2 == 0) <= 1),
+    )
+
+
+display(problem)
+instance = problem.eval({"N": 3, "G": [(0, 0), (0, 1), (1, 2)]})
+```
+
+また期待される SOS1 制約が検出されるようになりました。
+
+```{code-cell} ipython3
+instance.constraint_hints
+```
 
 ## その他の変更
 

@@ -45,6 +45,8 @@ problem = jm.Problem("TestProblem")
 V = problem.Natural("V")
 problem += jm.map(lambda x: x + 3 - 2, V - 1).sum() 
 problem += - 2 * V + - 2 - 1
+problem += 2 * (3 * V)
+problem += 2 * (V * 3)
 problem
 ```
 
@@ -69,8 +71,36 @@ problem
 
 +++
 
-### Bugfix 1
+### Bugfix 1: Fix constraint-detection type errors in sums with subscripted loop variables
 
+Fixed an issue where subscripting a loop variable inside a filtered sum caused constraint detection to raise the type error `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.`
+The following code now compiles successfully with constraint detection enabled:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Erroring Problem")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar("x", shape=(N,))
+    G = problem.Graph(dtype=N)
+
+    problem += problem.Constraint(
+        "even-sources",
+        (jm.sum(x[e[1]] for e in G if e[0] % 2 == 0) <= 1),
+    )
+
+
+display(problem)
+instance = problem.eval({"N": 3, "G": [(0, 0), (0, 1), (1, 2)]})
+```
+
+The expected SOS1 constraint is now detected as well.
+
+```{code-cell} ipython3
+instance.constraint_hints
+```
 
 ## Other Changes
 
