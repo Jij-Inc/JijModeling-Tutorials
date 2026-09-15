@@ -31,7 +31,7 @@ parts:
       - file: advanced/generation
       - file: advanced/debug
       - file: advanced/serialize
-      - file: advanced/agent_skill_installation
+      - file: advanced/agent_plugin_installation
   - caption: Reference
     chapters:
       - file: references/cheat_sheet
