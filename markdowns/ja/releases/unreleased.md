@@ -104,4 +104,4 @@ instance.constraint_hints
 
 ## その他の変更
 
-- コーディングエージェント向けの `jijmodeling` スキルを追加しました。インストール方法は {doc}`../advanced/agent_skill_installation` を参照してください。
+- コーディングエージェント向けの `jijmodeling` プラグインを追加しました。インストール方法は {doc}`../advanced/agent_plugin_installation` を参照してください。

@@ -104,4 +104,4 @@ instance.constraint_hints
 
 ## Other Changes
 
-- Added the `jijmodeling` skill for coding agents. See {doc}`../advanced/agent_skill_installation` for installation instructions.
+- Added the `jijmodeling` plugin for coding agents. See {doc}`../advanced/agent_plugin_installation` for installation instructions.
