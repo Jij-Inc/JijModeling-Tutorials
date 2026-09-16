@@ -18,7 +18,7 @@ This guide helps the existing JijModeling 1 users migrate to JijModeling 2. JijM
 :::{admonition} Support for JijModeling 1.x is scheduled to end
 :class: important
 
-Support for JijModeling 1.x is scheduled to **end in mid-October 2026 or later**.
+Support for JijModeling 1.x will **end in mid-October 2026**.
 You can continue using JijModeling 1 after that, but it will no longer receive security updates, bug fixes, or support for new Python versions.
 
 We strongly recommend migrating to JijModeling 2, but if you want to continue using your existing code, pin the version in pip or uv as follows:
