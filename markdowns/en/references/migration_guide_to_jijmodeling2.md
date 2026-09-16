@@ -15,10 +15,13 @@ kernelspec:
 
 This guide helps the existing JijModeling 1 users migrate to JijModeling 2. JijModeling 2 introduces significant improvements while maintaining the core mathematical modeling concepts you're familiar with.
 
-:::{admonition} Want to keep using JijModeling 1.x?
+:::{admonition} Support for JijModeling 1.x is scheduled to end
 :class: important
 
-If you keep using JijModeling 1, you can continue to use your existing code assets without changes. In that case, pin the version in pip or uv as follows:
+Support for JijModeling 1.x will **end in mid-October 2026**.
+You can continue using JijModeling 1 after that, but it will no longer receive security updates, bug fixes, or support for new Python versions.
+
+We strongly recommend migrating to JijModeling 2, but if you want to continue using your existing code, pin the version in pip or uv as follows:
 
 ```bash
 pip install 'jijmodeling <2' # with pip
@@ -29,8 +32,9 @@ The JijModeling 1 documentation remains available at:
 
 https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
 
-However, **JijModeling 1 is already in maintenance mode**: updates beyond critical bug fixes are not planned, and **updates are expected to stop within a few months after the official 2.0.0 release**.
-For these reasons, we **strongly recommend migrating to JijModeling 2** in the mid to long term.
+For long-term use, however, we strongly recommend migrating to JijModeling 2.
+Providing this guide to a coding agent with the [agent skills/plugins](../advanced/agent_plugin_installation) bundled with JijModeling 2.9.0 and later may allow it to handle parts of the migration.
+
 :::
 
 ## Overview of Major Changes
