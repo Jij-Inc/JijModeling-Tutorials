@@ -71,9 +71,9 @@ problem
 
 +++
 
-### バグ修正 1：ループ変数への添え字アクセスで型エラーになる問題の修正
+### バグ修正 1：`for` 節のループ変数への添え字アクセスで型エラーになる問題の修正
 
-タプルを要素とするストリームなどで、ループ変数に `e[1]` のような添え字アクセスを行うと、型エラー `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.` が発生する場合があった問題を修正しました。
+グラフ `G` に対する `jm.sum(e[1] for e in G)` のように、`for` 節のループ変数への添え字アクセスを行うと、型エラー `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.` が発生する場合があった問題を修正しました。
 以下のようなコードは制約検出が有効でも問題なくコンパイルが通るようになりました：
 
 ```{code-cell} ipython3
