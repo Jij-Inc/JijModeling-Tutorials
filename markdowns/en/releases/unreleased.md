@@ -15,6 +15,14 @@ kernelspec:
 
 +++
 
+## JijModeling 1 End of Maintenance Notice
+
+**Maintenance for JijModeling 1.x is scheduled to end with the next minor release, JijModeling 2.10.0.**
+JijModeling 2.10.0 is currently planned for release in mid-October 2026 or later.
+After that, JijModeling 1.x will no longer receive security updates, bug fixes, or support for new Python versions.
+JijModeling 2 already surpasses JijModeling 1 in both features and performance, so we encourage you to migrate to JijModeling 2 following the guidance in {doc}`../references/migration_guide_to_jijmodeling2`.
+The [skills/plugins for coding agents](../advanced/agent_plugin_installation) bundled starting with this release may also help reduce migration effort when used alongside the guide. Please consider using them as well.
+
 ## Feature Enhancements
 
 +++
