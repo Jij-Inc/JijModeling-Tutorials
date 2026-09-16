@@ -71,8 +71,36 @@ problem
 
 +++
 
-### バグ修正 1：
+### バグ修正 1：`for` 節のループ変数への添え字アクセスで型エラーになる問題の修正
 
+グラフ `G` に対する `jm.sum(e[1] for e in G)` のように、`for` 節のループ変数への添え字アクセスを行うと、型エラー `[E-TE0017] An expression of type ElementOf[stream(..)] cannot be subscripted.` が発生する場合があった問題を修正しました。
+以下のようなコードは制約検出が有効でも問題なくコンパイルが通るようになりました：
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Erroring Problem")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    x = problem.BinaryVar("x", shape=(N,))
+    G = problem.Graph(dtype=N)
+
+    problem += problem.Constraint(
+        "even-sources",
+        (jm.sum(x[e[1]] for e in G if e[0] % 2 == 0) <= 1),
+    )
+
+
+display(problem)
+instance = problem.eval({"N": 3, "G": [(0, 0), (0, 1), (1, 2)]})
+```
+
+また、この例では期待される SOS1 制約が検出されるようになりました。
+
+```{code-cell} ipython3
+instance.constraint_hints
+```
 
 ## その他の変更
 
