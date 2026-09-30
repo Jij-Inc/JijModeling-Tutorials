@@ -6,7 +6,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.5
 kernelspec:
-  display_name: .venv
+  display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
@@ -72,4 +72,8 @@ def prob(problem):
   B = problem.NamedExpr(jm.sum(jm.genarray(x[m,n] * a[m] for (n, m) in (N, M))[i, j] for i in N for j in M))
  
 prob
+```
+
+```{code-cell} ipython3
+
 ```
