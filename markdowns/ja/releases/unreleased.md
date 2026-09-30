@@ -58,7 +58,7 @@ def tsp(problem):
 tsp
 ```
 
-以下は他に表示が変わった表現の例。
+また、以下のような `genarray` 等に対する添え字も簡約して表示されるようになりました：
 
 ```{code-cell} ipython3
 @jm.Problem.define("problem")

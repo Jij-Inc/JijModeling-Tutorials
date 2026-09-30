@@ -57,7 +57,7 @@ def tsp(problem):
 tsp
 ```
 
-Some other expressions which have been improved:
+Some other expressions involving subscript on `genarray` are now also reduced in LaTeX output:
 
 ```{code-cell} ipython3
 @jm.Problem.define("problem")
