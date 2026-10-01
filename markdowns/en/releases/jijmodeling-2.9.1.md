@@ -77,13 +77,3 @@ prob
 
 Instructions for obtaining the skill are now included in the README, API Reference, package metadata, module documentation, and other places.
 Although manual installation remains more reliable, this change makes it easier for coding agents to discover the skill automatically and write idiomatic JijModeling code.
-
-+++
-
-## Bugfixes
-
-+++
-
-## Other changes
-
--
