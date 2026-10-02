@@ -119,6 +119,14 @@ tasks:
       - |
         mv ./docs/ja/releases/unreleased.ipynb "./docs/ja/releases/jijmodeling-${RELEASE_VERSION}.ipynb"
         mv ./markdowns/ja/releases/unreleased.md "./markdowns/ja/releases/jijmodeling-${RELEASE_VERSION}.md"
+      - uv run --locked --extra dev python scripts/release_heading.py "${RELEASE_VERSION}" "./markdowns/en/releases/jijmodeling-${RELEASE_VERSION}.md" "./markdowns/ja/releases/jijmodeling-${RELEASE_VERSION}.md"
+      - |
+        set -e
+        for LANG in en ja; do
+          uv run --locked --extra dev jupytext --to ipynb --execute --use-source-timestamp \
+            --output "./docs/${LANG}/releases/jijmodeling-${RELEASE_VERSION}.ipynb" \
+            "./markdowns/${LANG}/releases/jijmodeling-${RELEASE_VERSION}.md"
+        done
       - uv run --locked --extra dev python scripts/release_toc.py finalize "${RELEASE_VERSION}"
 
   check_release_toc:
