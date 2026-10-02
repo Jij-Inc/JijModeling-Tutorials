@@ -107,7 +107,7 @@ name = "cffi"
 version = "2.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pycparser", marker = "implementation_name != 'PyPy'" },
+    { name = "pycparser" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/9e/ef/008a1939e372c06329a3fce4279c02f328488f3526744906eeec3da7ad5f/cffi-2.1.1.tar.gz", hash = "sha256:dd31f52ea1086513bb9df30f8fcee9b8918323ae067a3d5b78bc826a000712be", size = 530807, upload-time = "2026-08-03T21:21:18.939Z" }
 wheels = [
@@ -473,7 +473,7 @@ wheels = [
 [[package]]
 name = "jijmodeling"
 version = "2.9.1"
-source = { registry = "https://pypi.org/simple" }
+source = { path = "../wheels/jijmodeling-2.9.1-cp310-abi3-manylinux_2_34_x86_64.whl" }
 dependencies = [
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
@@ -483,13 +483,16 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c1/d4/6347827bccd8fbb58bc2d187f6192844076d2bbf4d6f1d6f55e56287f571/jijmodeling-2.9.1-cp310-abi3-macosx_10_16_x86_64.whl", hash = "sha256:c1425189d5d2644d7e1c811531b7b4ee782c4b575d7b6086b767df691466a1f3", size = 12539088, upload-time = "2026-10-01T05:47:55.252Z" },
-    { url = "https://files.pythonhosted.org/packages/0e/6d/e13f9cebac3fe8a9d6cd6c526b918abc4e7fef8ab4c216dff12d5f4632a6/jijmodeling-2.9.1-cp310-abi3-macosx_11_0_x86_64.macosx_11_0_arm64.macosx_11_0_universal2.whl", hash = "sha256:6ccfd07050092d1c72bc2784e59a53cc4b0f9be417d0f5ad8db36f90a43b13e5", size = 24493569, upload-time = "2026-10-01T05:47:57.885Z" },
-    { url = "https://files.pythonhosted.org/packages/71/27/83dcd29ddc8b62755babf3fb1817ac1c589eb37c1d6b1df17dc4ee857b33/jijmodeling-2.9.1-cp310-abi3-macosx_12_0_x86_64.macosx_12_0_arm64.macosx_12_0_universal2.whl", hash = "sha256:12185abc4f8f119df77d0524931df7304f81b3713490c8fe3e7adad3805b3514", size = 24494275, upload-time = "2026-10-01T05:48:00.949Z" },
-    { url = "https://files.pythonhosted.org/packages/6a/c3/4ac738aae1343e014f544695fa47e4433373f21813c7d8497c99cf8fa0d8/jijmodeling-2.9.1-cp310-abi3-macosx_13_0_x86_64.macosx_13_0_arm64.macosx_13_0_universal2.whl", hash = "sha256:f6ba63249aa9aaf0f8856538c12253937ea4675465594ed76a2ff919ac626388", size = 24494280, upload-time = "2026-10-01T05:48:03.464Z" },
-    { url = "https://files.pythonhosted.org/packages/56/d2/70722218a026dbb311153811af58c826070d0664fd77e1b8e3efb9549641/jijmodeling-2.9.1-cp310-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:58acb8bd452f5e4225d9acb12122cbaf8fdad38f801caac9617cad1d0f811ec7", size = 12235832, upload-time = "2026-10-01T05:48:06.015Z" },
-    { url = "https://files.pythonhosted.org/packages/88/70/b8b8797552b00b5fba609d56eb0a2cfb29c86a3cfbf1ea9905bd5c24c3c6/jijmodeling-2.9.1-cp310-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:bd35f51eeffa0dd748e4e8a1acb89bdada583e32a485813542ff9d6ec7486633", size = 12972078, upload-time = "2026-10-01T05:48:08.313Z" },
-    { url = "https://files.pythonhosted.org/packages/c7/a3/98a81f7a2c6cbdfaee07b2b3aec8ff238c255ceefc30888f97b1f59f4acd/jijmodeling-2.9.1-cp310-abi3-win_amd64.whl", hash = "sha256:46958a060456bbcbb2814632f56768818ca8e37f3098c8f780bca6c5fe60ea7c", size = 14522357, upload-time = "2026-10-01T05:48:10.497Z" },
+    { filename = "jijmodeling-2.9.1-cp310-abi3-manylinux_2_34_x86_64.whl", hash = "sha256:9b96688db0b74be9d328b5ea74e4be0dd9d38709c7d57a25ba7be9964288fd69" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "numpy" },
+    { name = "ommx", specifier = ">=2.8.0,<3.0.0" },
+    { name = "orjson", specifier = ">=3.8.0,<4.0.0" },
+    { name = "pandas" },
+    { name = "typing-extensions" },
 ]
 
 [[package]]
@@ -513,7 +516,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "jijmodeling", specifier = ">=2.0.0,<3" },
+    { name = "jijmodeling", path = "../wheels/jijmodeling-2.9.1-cp310-abi3-manylinux_2_34_x86_64.whl" },
     { name = "jupyter-book", marker = "extra == 'dev'", specifier = ">=1.0.0,<2.0.0" },
     { name = "jupytext", marker = "extra == 'dev'", specifier = ">=1.18.1,<2.0.0" },
     { name = "nbconvert", marker = "extra == 'dev'", specifier = ">=7.16.6,<8.0.0" },
@@ -1570,7 +1573,7 @@ resolution-markers = [
     "python_full_version < '3.12'",
 ]
 dependencies = [
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" } },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7a/97/5a3609c4f8d58b039179648e62dd220f89864f56f7357f5d4f45c29eb2cc/scipy-1.17.1.tar.gz", hash = "sha256:95d8e012d8cb8816c226aef832200b1d45109ed4464303e997c5b13122b297c0", size = 30573822, upload-time = "2026-02-23T00:26:24.851Z" }
 wheels = [
@@ -1624,7 +1627,7 @@ resolution-markers = [
     "python_full_version >= '3.12'",
 ]
 dependencies = [
-    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" } },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7e/74/66de6258867beb2ef08f35f9f2ac017a52cacd5081714d239ff1a442d458/scipy-1.18.1.tar.gz", hash = "sha256:52c4b7422442aba924d03ad4019852b08a92e64ea187b933135687bfe2747307", size = 30781235, upload-time = "2026-08-21T23:28:50.599Z" }
 wheels = [
