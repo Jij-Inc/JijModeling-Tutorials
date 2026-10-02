@@ -42,15 +42,29 @@ jobs:
       - name: Install the project
         run: uv sync --extra dev --refresh
 
+      - name: Test release TOC scripts
+        if: matrix.language == 'en'
+        env:
+          UV_PYTHON: ${{ matrix.python-version }}
+        run: uv run --locked --extra dev python -m unittest discover -s tests -v
+
       - name: Check books
         run: task check_book_${{ matrix.language }}
 
   disallow_unreleased:
     name: Disallow unreleased release notes
     runs-on: ubuntu-latest
+    env:
+      UV_PYTHON: "3.11"
     if: github.event_name == 'push' && contains(github.ref, 'refs/heads/main') || github.event_name == 'pull_request' && github.base_ref == 'main'
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Set up Python
+        run: uv python install 3.11
 
       - name: Check unreleased release notes
         run: |
@@ -67,14 +81,7 @@ jobs:
           fi
 
       - name: Check if `unreleased` is not in TOC
-        run: |
-          for LANG in ja en ; do
-            TOC=docs/${LANG}/_toc.yml
-            if yq e '.parts[-1].chapters[]?.file' "${TOC}" | grep -q '^releases/unreleased$' ; then
-              echo "[ERROR] 'unreleased' found in ${TOC}!" >&2;
-              exit 1;
-            fi
-          done
+        run: uv run --locked --extra dev python scripts/release_toc.py check-no-unreleased
 
   check_paired_notebooks:
     name: check paired notebooks

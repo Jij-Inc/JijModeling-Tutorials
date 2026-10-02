@@ -85,21 +85,24 @@ tasks:
           echo "[ERROR] Unreleased release notes already exist!" >&2;
           exit 1;
         fi
+      - uv run --locked --extra dev python scripts/release_toc.py --dry-run ensure-unreleased
       - cp ./templates/release_note_en.ipynb ./docs/en/releases/unreleased.ipynb
       - cp ./templates/release_note_ja.ipynb ./docs/ja/releases/unreleased.ipynb
       - uv run jupytext --sync --use-source-timestamp --execute ./docs/en/releases/unreleased.ipynb
       - uv run jupytext --sync --use-source-timestamp --execute ./docs/ja/releases/unreleased.ipynb
-      - 'yq -i ''.parts[-2].chapters |= [{"file": "releases/unreleased"}] + .'' docs/ja/_toc.yml'
-      - 'yq -i ''.parts[-2].chapters |= [{"file": "releases/unreleased"}] + .'' docs/en/_toc.yml'
+      - uv run --locked --extra dev python scripts/release_toc.py ensure-unreleased
 
   finalize_release_notes:
     desc: Create release notes for the specified version
+    env:
+      RELEASE_VERSION: '{{.CLI_ARGS}}'
     cmds:
       - |
-        if [[ -z "{{.CLI_ARGS}}" ]]; then
+        if [[ -z "${RELEASE_VERSION}" ]]; then
           echo "[ERROR] Version argument is required!" >&2;
           exit 1;
         fi
+      - uv run --locked --extra dev python scripts/release_toc.py --dry-run finalize "${RELEASE_VERSION}"
       - |
         if [[ ! -f ./docs/en/releases/unreleased.ipynb ]]; then
           cp ./templates/release_note_en.ipynb ./docs/en/releases/unreleased.ipynb;
@@ -111,17 +114,22 @@ tasks:
           uv run jupytext --sync --use-source-timestamp --execute ./docs/ja/releases/unreleased.ipynb
         fi
       - |
-        mv ./docs/en/releases/unreleased.ipynb ./docs/en/releases/jijmodeling-{{.CLI_ARGS}}.ipynb
-        mv ./markdowns/en/releases/unreleased.md ./markdowns/en/releases/jijmodeling-{{.CLI_ARGS}}.md
+        mv ./docs/en/releases/unreleased.ipynb "./docs/en/releases/jijmodeling-${RELEASE_VERSION}.ipynb"
+        mv ./markdowns/en/releases/unreleased.md "./markdowns/en/releases/jijmodeling-${RELEASE_VERSION}.md"
       - |
-        mv ./docs/ja/releases/unreleased.ipynb ./docs/ja/releases/jijmodeling-{{.CLI_ARGS}}.ipynb
-        mv ./markdowns/ja/releases/unreleased.md ./markdowns/ja/releases/jijmodeling-{{.CLI_ARGS}}.md
-      - |
-        for LANG in ja en ; do
-          TOC=docs/${LANG}/_toc.yml
-          yq -i '.parts[-2].chapters |= filter(.file != "releases/unreleased")' "${TOC}"
-          yq -i '.parts[-2].chapters |= [{"file": "releases/jijmodeling-{{.CLI_ARGS}}"}] + .' "${TOC}"
-        done
+        mv ./docs/ja/releases/unreleased.ipynb "./docs/ja/releases/jijmodeling-${RELEASE_VERSION}.ipynb"
+        mv ./markdowns/ja/releases/unreleased.md "./markdowns/ja/releases/jijmodeling-${RELEASE_VERSION}.md"
+      - uv run --locked --extra dev python scripts/release_toc.py finalize "${RELEASE_VERSION}"
+
+  check_release_toc:
+    desc: Check that no table of contents contains unreleased release notes
+    cmds:
+      - uv run --locked --extra dev python scripts/release_toc.py check-no-unreleased
+
+  test_release_toc:
+    desc: Run the release TOC regression tests
+    cmds:
+      - uv run --locked --extra dev python -m unittest discover -s tests -v
 
   sync_unreleased:
     desc: Synchorizes just the `unreleased.ipynb` files with thier respective markdown files.
