@@ -22,8 +22,10 @@ For questions about JijModeling, we provide community support through the follow
 
 When contributing to this repository, please note the following:
 
-- Install [uv](https://docs.astral.sh/uv/getting-started/installation/), [task](https://taskfile.dev/installation/), and [yq](https://mikefarah.gitbook.io/yq) for development.
+- Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and [task](https://taskfile.dev/installation/) for development, then run `uv sync --locked --extra dev`.
 - Use `task` commands to easily build JupyterBook documentation and add release notes, etc. Run `task -l` to see available commands.
+- Use `task create_unreleased_notes` and `task finalize_release_notes -- <VERSION>` to prepare release notes. These commands update both languages' YAML tables of contents through Python while preserving comments and formatting. Finalization replaces the first `X.XX.X` in each Markdown release heading with the version, then uses Jupytext to regenerate and execute the paired notebook from that Markdown.
+- Run `task test_release_toc` to test the YAML editor and `task check_release_toc` to check that neither table of contents contains unreleased entries before merging to `main`.
 - For updates to JijModeling v2.x.y learning materials, create your branch from the `jijmodeling2` branch.
 - The `.ipynb` files under the `book` directory and `.md` files under the `markdowns` directory are synchronized via `jupytext`. When using generative AI to update learning materials, we recommend editing files under the `markdowns` directory.
 - Before submitting a Pull Request, run `task check_book_en`, `task check_book_ja`, and `task check_paired_notebooks` to ensure no errors occur.
