@@ -46,7 +46,7 @@ jobs:
         run: task check_book_${{ matrix.language }}
 
   test_release_scripts:
-    name: Test release note scripts
+    name: Test release note TOC and heading updates
     runs-on: ubuntu-latest
     env:
       UV_PYTHON: "3.11"
@@ -60,7 +60,7 @@ jobs:
       - name: Set up Python
         run: uv python install "$UV_PYTHON"
 
-      - name: Test release note scripts
+      - name: Run TOC round-trip and heading version replacement tests
         run: uv run --locked --extra dev python -m unittest discover -s tests -v
 
   disallow_unreleased:
