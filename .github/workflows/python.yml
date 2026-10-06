@@ -58,7 +58,7 @@ jobs:
         uses: astral-sh/setup-uv@v3
 
       - name: Set up Python
-        run: uv python install 3.11
+        run: uv python install "$UV_PYTHON"
 
       - name: Test release note scripts
         run: uv run --locked --extra dev python -m unittest discover -s tests -v
