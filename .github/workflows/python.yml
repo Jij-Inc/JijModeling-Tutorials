@@ -42,14 +42,36 @@ jobs:
       - name: Install the project
         run: uv sync --extra dev --refresh
 
-      - name: Test release TOC scripts
-        if: matrix.language == 'en'
-        env:
-          UV_PYTHON: ${{ matrix.python-version }}
-        run: uv run --locked --extra dev python -m unittest discover -s tests -v
-
       - name: Check books
         run: task check_book_${{ matrix.language }}
+
+  test_release_scripts:
+    name: Test release note scripts
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version:
+          - "3.11"
+          - "3.12"
+          - "3.13"
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Set up Python
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Test release note scripts
+        run: uv run --locked --extra dev python -m unittest discover -s tests -v
 
   disallow_unreleased:
     name: Disallow unreleased release notes
