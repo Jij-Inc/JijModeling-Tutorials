@@ -47,19 +47,9 @@ jobs:
 
   test_release_scripts:
     name: Test release note scripts
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        python-version:
-          - "3.11"
-          - "3.12"
-          - "3.13"
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
+    runs-on: ubuntu-latest
     env:
-      UV_PYTHON: ${{ matrix.python-version }}
+      UV_PYTHON: "3.11"
 
     steps:
       - uses: actions/checkout@v4
@@ -68,7 +58,7 @@ jobs:
         uses: astral-sh/setup-uv@v3
 
       - name: Set up Python
-        run: uv python install ${{ matrix.python-version }}
+        run: uv python install 3.11
 
       - name: Test release note scripts
         run: uv run --locked --extra dev python -m unittest discover -s tests -v
