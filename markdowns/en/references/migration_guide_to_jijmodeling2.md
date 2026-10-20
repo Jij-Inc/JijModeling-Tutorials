@@ -1093,7 +1093,7 @@ The translation from Decorator API to Plain API does roughly the following:
 - To define families of constraints, list comprehensions and generator expressions passed directly to the following position are also transformed:
   - The second argument of {py:meth}`problem.Constraint <jijmodeling.Problem.Constraint>` without `domain` keyword argument, where `problem` is the first {py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` argument of decorated function.
 
-Symbolic comprehensions must be passed directly to these supported arguments. They cannot be assigned to variables or passed to arbitrary functions. For examples, see {ref}`decorator-comprehension-positions`.
+Symbolic comprehensions must be passed directly to these supported arguments. They cannot be assigned to variables or passed to arbitrary functions. For examples, see [Where Symbolic Comprehensions Can Be Used](#decorator-comprehension-positions).
 
 ### Lambda Expression Patterns
 

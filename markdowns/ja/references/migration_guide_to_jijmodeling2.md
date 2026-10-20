@@ -1105,7 +1105,7 @@ Decorator API から Plain API への変換は、おおよそ次のように行�
 - 制約の族を定義するため、次の位置に直接渡されたリスト内包表記・ジェネレータ式も変換されます：
   - `domain`キーワード引数なしの{py:meth}`problem.Constraint <jijmodeling.Problem.Constraint>`の 2 番目の引数。ここで`problem`はデコレートされた関数の最初の{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>`引数です。
 
-記号的な内包表記は、これらの対応する引数に直接渡す必要があります。変数への代入や任意の関数への引数として使用できるわけではありません。具体例は {ref}`decorator-comprehension-positions` を参照してください。
+記号的な内包表記は、これらの対応する引数に直接渡す必要があります。変数への代入や任意の関数への引数として使用できるわけではありません。具体例は [記号的な内包表記を使える場所](#decorator-comprehension-positions) を参照してください。
 
 ### ラムダ式パターン
 

@@ -91,7 +91,7 @@ deco_problem
 
 今回のように何の変更もしない場合、このような書式はやや冗長に見えるかもしれません。
 しかし、{py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` でデコレートされた関数内では特に変数名の省略や内包表記を用いた総和・総積など、Decorator API の自然で直感的な記法を使うことができ、以降の章で見るように実際の問題定義の際には非常に便利です。
-内包表記を利用できる場所については、{ref}`decorator-comprehension-positions` を参照してください。
+内包表記を利用できる場所については、[記号的な内包表記を使える場所](#decorator-comprehension-positions) を参照してください。
 
 また、Plain / Decorator どちらの API でもできあがる Problem オブジェクトに差はありませんので、どちらで定義したものであるかを意識する必要は全くありません。
 実際、上で定義した二つの `plain_problem` も `deco_problem` も {py:class}`Problem <jijmodeling.Problem>`オブジェクトとして「同じ問題」であることが判定できます：
