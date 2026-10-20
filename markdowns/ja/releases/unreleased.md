@@ -78,6 +78,20 @@ dataset
 problem.eval(dataset)
 ```
 
+### 空リスト・空配列をプレースホルダーとして入力できるように
+
+これまで、1 次元配列に対して空の配列やリストをインスタンスデータとして入力することはできましたが、2 次元以上の配列に対してはコンパイル時にエラーになっていました。
+
+今回のリリースから、配列のシェイプが空データを許容する場合、いずれかの不定な軸の次元が 0 であるような多次元配列として解釈されるようになりました。
+
+```{code-cell} ipython3
+@jm.Problem.define("p")
+def problem(problem: jm.DecoratedProblem):
+    cuts = problem.Float(ndim=2)
+
+problem.eval({"cuts": []}) # これまではエラーだったが、$0 \times 0$ 配列として解釈される
+```
+
 ## その他の変更
 
 - 変更 1：
