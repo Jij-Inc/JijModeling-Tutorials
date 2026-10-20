@@ -92,6 +92,7 @@ Note that the first argument of a decorated function is **not** a {py:class}`Pro
 
 As we haven't made any updates on the problem, this style may look a bit verbose.
 However, inside a function decorated by {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`, you can use natural and intuitive Decorator API syntax, such as omitting variable names or using comprehensions for sums and products, which becomes very convenient in the model definitions shown in the following chapters.
+For the positions where comprehensions can be used, see {ref}`decorator-comprehension-positions`.
 
 Also, you can treat models defined with either API in the same way, so you never need to care which API was used.
 In fact, both `plain_problem` and `deco_problem` above are identified as the same model as {py:class}`Problem <jijmodeling.Problem>` objects:

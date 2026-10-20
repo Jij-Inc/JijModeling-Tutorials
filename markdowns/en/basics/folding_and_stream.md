@@ -57,11 +57,25 @@ sum_example
 
 After `in`, you can use any stream obtained by the methods described in the following sections or any value of a type that is implicitly converted to a stream. In this example, the natural number `N` in `for i in N` is the stream being folded.
 
-:::{admonition} Do Not Use Python's Built-in {py:func}`sum` Function
+(decorator-comprehension-positions)=
+:::{admonition} Where Symbolic Comprehensions Can Be Used
 :class: caution
 
-When writing a fold with a Decorator API comprehension, use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, or {py:func}`jm.min() <jijmodeling.min>`.
+In the Decorator API, list comprehensions and generator expressions that iterate over JijModeling expressions can **only be passed directly** to the following arguments. They cannot be used at arbitrary positions inside a decorated function.
+
+| Supported function or method | Argument that accepts a comprehension |
+| --- | --- |
+| {py:func}`jm.sum <jijmodeling.sum>`, {py:func}`jm.prod <jijmodeling.prod>`, {py:func}`jm.min <jijmodeling.min>`, {py:func}`jm.max <jijmodeling.max>` | The argument in a single-argument call |
+| {py:func}`jm.stream <jijmodeling.stream>` | The argument |
+| {py:func}`jm.genarray <jijmodeling.genarray>`, {py:func}`jm.gendict <jijmodeling.gendict>` | The argument in a single-argument call |
+| {py:meth}`problem.Constraint <jijmodeling.Problem.Constraint>` | The second argument, when `domain=` is not specified |
+
+For example, you can pass a comprehension directly as in `jm.sum(x[i] for i in N)`, but assigning it as in `terms = [x[i] for i in N]` or passing it to an arbitrary function is not supported for symbolic comprehensions.
+To store an intermediate result in a variable, first construct an expression with a supported function, as in `terms = jm.stream(x[i] for i in N)`.
+
 Passing an expression such as `a[i] * x[i] for i in N` to Python's built-in {py:func}`sum` results in an error.
+
+These restrictions apply to symbolic comprehensions that iterate over JijModeling expressions, and do not restrict comprehensions over ordinary Python values.
 :::
 
 The same program can be written entirely with the Plain API using {py:func}`jijmodeling.map`, which will be explained in a later section:

@@ -1087,8 +1087,13 @@ The translation from Decorator API to Plain API does roughly the following:
 
 - If there are any direct binding of decision variable or placeholder to a single variable *without* name, pass the Python variable name as the variable name.
 - If a list or generator comprehension appears in any of the following positions, it is desugared with {py:func}`jm.flat_map <jijmodeling.flat_map>`, {py:func}`jm.map <jijmodeling.map>`, and {py:func}`jm.filter <jijmodeling.filter>`:
-  - The only argument to {py:func}`jm.sum <jijmodeling.sum>` or {py:func}`jm.prod <jijmodeling.prod>` (but not built-in Python {py:func}`sum` function), or
+  - The argument in a single-argument call to {py:func}`jm.sum <jijmodeling.sum>`, {py:func}`jm.prod <jijmodeling.prod>`, {py:func}`jm.min <jijmodeling.min>`, or {py:func}`jm.max <jijmodeling.max>` (not the Python built-in functions), or
+  - The argument to {py:func}`jm.stream <jijmodeling.stream>`.
+  Comprehensions are also transformed in single-argument calls to {py:func}`jm.genarray <jijmodeling.genarray>` and {py:func}`jm.gendict <jijmodeling.gendict>`, which construct arrays and dictionaries, although the supported `for` and `if` clauses are restricted.
+- To define families of constraints, list comprehensions and generator expressions passed directly to the following position are also transformed:
   - The second argument of {py:meth}`problem.Constraint <jijmodeling.Problem.Constraint>` without `domain` keyword argument, where `problem` is the first {py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` argument of decorated function.
+
+Symbolic comprehensions must be passed directly to these supported arguments. They cannot be assigned to variables or passed to arbitrary functions. For examples, see {ref}`decorator-comprehension-positions`.
 
 ### Lambda Expression Patterns
 

@@ -57,11 +57,24 @@ sum_example
 
 `in` の後には、次節以降で説明する方法を使って得られる任意のストリームや暗黙にストリームに変換されるような型の値を渡すことができます。この例では、`for i in N` の自然数 `N` が畳み込みが行われるストリームに対応しています。
 
-:::{admonition} Python 組込みの {py:func}`sum` 関数を使わないように注意！
+(decorator-comprehension-positions)=
+:::{admonition} 記号的な内包表記を使える場所
 :class: caution
 
-Decorator API の内包表記を用いて畳み込みを記述する場合は、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, {py:func}`jm.min() <jijmodeling.min>` を使います。
-誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すとエラーとなるため、注意してください。
+Decorator API では、JijModeling の式を走査するリスト内包表記・ジェネレータ式は、次の引数に**直接渡す場合に限って**利用できます。デコレートされた関数内の任意の場所で使えるわけではありません。
+
+| 対応する関数・メソッド | 内包表記を渡せる位置 |
+| --- | --- |
+| {py:func}`jm.sum <jijmodeling.sum>`、{py:func}`jm.prod <jijmodeling.prod>`、{py:func}`jm.min <jijmodeling.min>`、{py:func}`jm.max <jijmodeling.max>` | 一引数呼び出しの引数 |
+| {py:func}`jm.stream <jijmodeling.stream>` | 引数 |
+| {py:func}`jm.genarray <jijmodeling.genarray>`、{py:func}`jm.gendict <jijmodeling.gendict>` | 一引数呼び出しの引数 |
+| {py:meth}`problem.Constraint <jijmodeling.Problem.Constraint>` | `domain=` を指定しない場合の第二引数 |
+
+たとえば、`jm.sum(x[i] for i in N)` と直接渡すことはできますが、`terms = [x[i] for i in N]` といった代入や、任意の関数への引数としての使用は、この記号的な内包表記の対象外です。中間結果を変数に保持したい場合は、`terms = jm.stream(x[i] for i in N)` のように、対応する関数で式を構築してから代入してください。
+
+また、誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すとエラーとなるため、注意してください。
+
+これらの制限は JijModeling の式を走査する記号的な内包表記についてのものであり、通常の Python の値に対する内包表記を制限するものではありません。
 :::
 
 また、後ほど説明する {py:func}`jijmodeling.map` 関数を使えば、同じプログラムは Plain API のみで同じものを以下のように書けます：
