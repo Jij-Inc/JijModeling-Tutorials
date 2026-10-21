@@ -39,8 +39,6 @@ The following examples explain the different notations available for sums and pr
 For simplicity, the examples below use {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`). Products with {py:func}`jm.prod() <jijmodeling.prod>` or {py:func}`Expression.prod() <jijmodeling.Expression.prod>`, and maximums and minimums with {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`, can be written in the same way.
 :::
 
-In the Decorator API, sums and products can be written intuitively as {external+python:ref}`comprehensions`.
-
 The following example uses the Decorator API to write the sum of products of decision variables and placeholders:
 
 ```{code-cell} ipython3
@@ -57,10 +55,10 @@ sum_example
 
 After `in`, you can use any stream obtained by the methods described in the following sections or any value of a type that is implicitly converted to a stream. In this example, the natural number `N` in `for i in N` is the stream being folded.
 
-:::{admonition} Do Not Use Python's Built-in {py:func}`sum` Function
+:::{admonition} Be Careful Not to Use Python's Built-in {py:func}`sum`!
 :class: caution
 
-When writing a fold with a Decorator API comprehension, use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, or {py:func}`jm.min() <jijmodeling.min>`.
+When writing folds with comprehensions in the Decorator API, use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, or {py:func}`jm.min() <jijmodeling.min>`.
 Passing an expression such as `a[i] * x[i] for i in N` to Python's built-in {py:func}`sum` results in an error.
 :::
 
