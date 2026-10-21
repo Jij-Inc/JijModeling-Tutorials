@@ -1097,11 +1097,11 @@ Plain API を理解することは、より多くの制御が必要な場合や�
 
 Decorator API から Plain API への変換は、おおよそ次のように行われます：
 
-- 名前なしで決定変数またはプレースホルダーを単一の変数に直接バインドする場合、Python 変数名を変数名として渡します。
+- 名前なしで決定変数やプレースホルダー等を単一の変数に直接バインドしている場合、Python での変数名を変数名として渡します。
 - リストまたはジェネレータ内包表記が次のいずれかの位置に現れる場合、{py:func}`jm.flat_map <jijmodeling.flat_map>`、{py:func}`jm.map <jijmodeling.map>`、および{py:func}`jm.filter <jijmodeling.filter>`を使って書き直す：
   - {py:func}`jm.sum <jijmodeling.sum>`、{py:func}`jm.prod <jijmodeling.prod>`、{py:func}`jm.min <jijmodeling.min>`、{py:func}`jm.max <jijmodeling.max>`（Python 組込み関数ではない）の一引数呼び出しの引数、または
   - {py:func}`jm.stream <jijmodeling.stream>` の引数。
-  配列・辞書を構築する {py:func}`jm.genarray <jijmodeling.genarray>` と {py:func}`jm.gendict <jijmodeling.gendict>` の一引数呼び出しでも内包表記が変換されますが、使用できる `for` 節・`if` 節には制限があります。
+  配列・辞書を構築する {py:func}`jm.genarray <jijmodeling.genarray>` と {py:func}`jm.gendict <jijmodeling.gendict>` でも内包表記が利用可能ですが、使用できる `for` 節・`if` 節には制限があります。
 - 制約の族を定義するため、次の位置に直接渡されたリスト内包表記・ジェネレータ式も変換されます：
   - `domain`キーワード引数なしの{py:meth}`problem.Constraint <jijmodeling.Problem.Constraint>`の 2 番目の引数。ここで`problem`はデコレートされた関数の最初の{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>`引数です。
 
