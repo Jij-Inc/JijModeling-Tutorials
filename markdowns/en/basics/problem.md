@@ -100,6 +100,15 @@ In fact, both `plain_problem` and `deco_problem` above are identified as the sam
 jm.is_same(plain_problem, deco_problem)
 ```
 
+#### Note: Where Comprehensions Can Be Used in the Decorator API
+
+The Decorator API supports comprehensions and generator expressions that iterate over JijModeling expressions, but they cannot be used at arbitrary positions.
+They can only be used in positions explicitly documented in the following chapters or the API Reference.
+For example, you can pass a comprehension directly as in `jm.sum(x[i] for i in N)`, but assigning it as in `terms = [x[i] for i in N]` or passing it to an arbitrary function is not supported for symbolic comprehensions.
+To store an intermediate result in a variable, first construct an expression with a supported function, as in `terms = jm.stream(x[i] for i in N)`.
+
+These restrictions apply to symbolic comprehensions that iterate over JijModeling expressions, and do not restrict comprehensions over ordinary Python values.
+
 ## Updating a {py:class}`Problem <jijmodeling.Problem>` object
 
 We created almost empty `Problem` objects above, but in practice you update the {py:class}`Problem <jijmodeling.Problem>` incrementally as you build a model, adding decision variables, constraints, and objectives to the model.
