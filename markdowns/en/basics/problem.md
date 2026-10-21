@@ -93,9 +93,14 @@ Note that the first argument of a decorated function is **not** a {py:class}`Pro
 As we haven't made any updates on the problem, this style may look a bit verbose.
 However, inside a function decorated by {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`, you can use natural and intuitive Decorator API syntax, such as omitting variable names or using comprehensions for sums and products, which becomes very convenient in the model definitions shown in the following chapters.
 
-(decorator-comprehension-positions)=
-:::{admonition} Where Symbolic Comprehensions Can Be Used
-:class: caution
+Also, you can treat models defined with either API in the same way, so you never need to care which API was used.
+In fact, both `plain_problem` and `deco_problem` above are identified as the same model as {py:class}`Problem <jijmodeling.Problem>` objects:
+
+```{code-cell} ipython3
+jm.is_same(plain_problem, deco_problem)
+```
+
+#### Note: Where Comprehensions Can Be Used in the Decorator API
 
 The Decorator API supports comprehensions and generator expressions that iterate over JijModeling expressions, but they cannot be used at arbitrary positions.
 They can only be used in positions explicitly documented in the following chapters or the API Reference.
@@ -103,14 +108,6 @@ For example, you can pass a comprehension directly as in `jm.sum(x[i] for i in N
 To store an intermediate result in a variable, first construct an expression with a supported function, as in `terms = jm.stream(x[i] for i in N)`.
 
 These restrictions apply to symbolic comprehensions that iterate over JijModeling expressions, and do not restrict comprehensions over ordinary Python values.
-:::
-
-Also, you can treat models defined with either API in the same way, so you never need to care which API was used.
-In fact, both `plain_problem` and `deco_problem` above are identified as the same model as {py:class}`Problem <jijmodeling.Problem>` objects:
-
-```{code-cell} ipython3
-jm.is_same(plain_problem, deco_problem)
-```
 
 ## Updating a {py:class}`Problem <jijmodeling.Problem>` object
 
