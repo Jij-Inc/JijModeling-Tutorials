@@ -114,7 +114,6 @@ instance = problem.eval({})
 ```
 
 Starting with this release, constant folding is performed only when the arithmetic is exact, preventing this issue.
-As a result, there may be rare edge cases where constraints that were previously detected are no longer detected, but typical inputs should not be affected.
 
 ## Other Changes
 
