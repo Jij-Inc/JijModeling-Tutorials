@@ -78,19 +78,43 @@ dataset
 problem.eval(dataset)
 ```
 
-### Accept empty lists and arrays as placeholder inputs
+### Bugfix 2: Accept empty lists and arrays as placeholder inputs
 
 Previously, empty arrays or lists could be provided as instance data for one-dimensional arrays, but caused compilation errors for arrays with two or more dimensions.
 
 Starting with this release, if the array shape allows empty data, the input is interpreted as a multidimensional array with at least one unspecified axis of length 0.
 
 ```{code-cell} ipython3
+import jijmodeling as jm
+
+
 @jm.Problem.define("p")
 def problem(problem: jm.DecoratedProblem):
     cuts = problem.Float(ndim=2)
 
 problem.eval({"cuts": []}) # Interpreted as a 0 x 0 array
 ```
+
+### Bugfix 3: Fix infinite loops in constraint detection caused by floating-point rounding errors
+
+Fixed a bug that could cause constraint detection to loop indefinitely when variable bounds or subexpressions in the objective function or constraints contained values that could not be handled exactly in floating-point arithmetic.
+This did not occur when constants were modeled as placeholders and floating-point values were supplied as instance data. However, specifying floating-point values directly in the model, as in the following example, could cause an infinite loop.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("decimal bounds")
+
+# 0.1 cannot be represented exactly in floating point, and arithmetic with 0.5
+# introduces rounding errors that previously caused constraint detection
+# to loop indefinitely.
+problem.ContinuousVar("ratio", lower_bound=0.1, upper_bound=0.5)
+instance = problem.eval({})
+```
+
+Starting with this release, constant folding is performed only when the arithmetic is exact, preventing this issue.
+As a result, there may be rare edge cases where constraints that were previously detected are no longer detected, but typical inputs should not be affected.
 
 ## Other Changes
 
