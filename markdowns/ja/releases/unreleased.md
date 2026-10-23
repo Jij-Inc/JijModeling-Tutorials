@@ -43,6 +43,41 @@ problem.generate_random_dataset(
 
 リストが利用できるのはカテゴリーラベルのみであり、他のプレースホルダーなどについてはこれまで通りの形式で指定する必要があります。
 
+### $\LaTeX$ 表示のカスタマイズ
+
+`latex` パラメータに加えて、 `element_latex` と `subscript_styles` という、$\LaTeX$ の表示をカスタマイズできる引数を `Placeholder`、`DecisionVar`、`NamedExpr`、`CategoryLabel` のコンストラクタに追加しました。
+
+`element_latex` は、そのオブジェクトを範囲とする添字に共通の名前を設定します。
+自動的に割り当てられる名前（`i`、`j` など）のかわりにこの名前が使われます。
+なお、`lambda` 式や `for` 句でユーザーが書いた名前が、この名前で上書きされることになるのでご注意ください。
+
+```{code-cell} ipython3
+problem = jm.Problem("problem")
+N = problem.Natural("N", element_latex="n")
+c = problem.Float("c", shape=N)
+x = problem.BinaryVar("x", shape=N)
+problem += jm.sum(c * x)
+problem += c.map(lambda v: v * 2).sum()
+problem
+```
+
+タプル集合などの場合は、`element_latex`に名前のリストも指定できます。
+名前が割り当てられなかった要素については、通常の命名挙動になります。
+
+`subscript_styles` は、添字の実際の表示方法を変更します。たとえば、上付き添字、括弧、角括弧による表示に切り替えることができます。
+多次元配列型は、スタイルを一つだけ指定した場合、全添字に適応されますが、スタイルのリストを渡すことで、添字の位置ごとに異なるスタイルを設定できます。
+
+```{code-cell} ipython3
+problem = jm.Problem("problem")
+N = problem.Natural("N")
+x = problem.BinaryVar("x", shape=(N, N), subscript_styles=jm.SubscriptStyle.BRACKET)
+y = problem.BinaryVar(
+    "y", shape=(N, N), subscript_styles=[jm.SubscriptStyle.SUP, jm.SubscriptStyle.SUB]
+)
+problem += x[0, 1] + y[0, 1]
+problem
+```
+
 +++
 
 ## バグ修正
@@ -78,39 +113,18 @@ dataset
 problem.eval(dataset)
 ```
 
-### $\LaTeX$ 表示のカスタマイズ
+### 空リスト・空配列をプレースホルダーとして入力できるように
 
-`latex` パラメータに加えて、 `element_latex` と `subscript_styles` という、$\LaTeX$ の表示をカスタマイズできる引数を `Placeholder`、`DecisionVar`、`NamedExpr`、`CategoryLabel` のコンストラクタに追加しました。
+これまで、1 次元配列に対して空の配列やリストをインスタンスデータとして入力することはできましたが、2 次元以上の配列に対してはコンパイル時にエラーになっていました。
 
-`element_latex` は、そのオブジェクトを範囲とする添字に共通の名前を設定します。
-自動的に割り当てられる名前（`i`、`j` など）のかわりにこの名前が使われます。
-なお、`lambda` 式や `for` 句でユーザーが書いた名前が、この名前で上書きされることになるのでご注意ください。
+今回のリリースから、配列のシェイプが空データを許容する場合、いずれかの不定な軸の次元が 0 であるような多次元配列として解釈されるようになりました。
 
 ```{code-cell} ipython3
-problem = jm.Problem("problem")
-N = problem.Natural("N", element_latex="n")
-c = problem.Float("c", shape=N)
-x = problem.BinaryVar("x", shape=N)
-problem += jm.sum(c * x)
-problem += c.map(lambda v: v * 2).sum()
-problem
-```
+@jm.Problem.define("p")
+def problem(problem: jm.DecoratedProblem):
+    cuts = problem.Float(ndim=2)
 
-タプル集合などの場合は、`element_latex`に名前のリストも指定できます。
-名前が割り当てられなかった要素については、通常の命名挙動になります。
-
-`subscript_styles` は、添字の実際の表示方法を変更します。たとえば、上付き添字、括弧、角括弧による表示に切り替えることができます。
-多次元配列型は、スタイルを一つだけ指定した場合、全添字に適応されますが、スタイルのリストを渡すことで、添字の位置ごとに異なるスタイルを設定できます。
-
-```{code-cell} ipython3
-problem = jm.Problem("problem")
-N = problem.Natural("N")
-x = problem.BinaryVar("x", shape=(N, N), subscript_styles=jm.SubscriptStyle.BRACKET)
-y = problem.BinaryVar(
-    "y", shape=(N, N), subscript_styles=[jm.SubscriptStyle.SUP, jm.SubscriptStyle.SUB]
-)
-problem += x[0, 1] + y[0, 1]
-problem
+problem.eval({"cuts": []}) # これまではエラーだったが、$0 \times 0$ 配列として解釈される
 ```
 
 ## その他の変更

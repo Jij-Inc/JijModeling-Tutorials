@@ -39,8 +39,6 @@ JijModeling の総和・総積などは、ストリームの要素を順に処�
 簡単のため以下では {py:func}`jm.sum() <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod() <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>`、 {py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` を使った総積・最大・最小値関数も同様に記述できます。
 :::
 
-Decorator API では、総和・総積は直感的な{external+python:ref}`内包表記 <comprehensions>`の形で記述することができます。
-
 以下は、決定変数とプレースホルダーの積の総和を Decorator API を使って書いた例です：
 
 ```{code-cell} ipython3

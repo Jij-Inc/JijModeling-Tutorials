@@ -113,6 +113,20 @@ dataset
 problem.eval(dataset)
 ```
 
+### Accept empty lists and arrays as placeholder inputs
+
+Previously, empty arrays or lists could be provided as instance data for one-dimensional arrays, but caused compilation errors for arrays with two or more dimensions.
+
+Starting with this release, if the array shape allows empty data, the input is interpreted as a multidimensional array with at least one unspecified axis of length 0.
+
+```{code-cell} ipython3
+@jm.Problem.define("p")
+def problem(problem: jm.DecoratedProblem):
+    cuts = problem.Float(ndim=2)
+
+problem.eval({"cuts": []}) # Interpreted as a 0 x 0 array
+```
+
 ## Other Changes
 
 - Change 1

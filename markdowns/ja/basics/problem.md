@@ -99,6 +99,15 @@ deco_problem
 jm.is_same(plain_problem, deco_problem)
 ```
 
+#### 補足：Decorator APIで内包表記を使える場所
+
+Decorator API では、JijModeling の式を走査する内包表記・ジェネレータ式を使うことができますが、任意の場所で使えるわけではありません。
+具体的に使える場所については、以降のドキュメントや API Reference で明示されている箇所のみですのでご注意ください。
+たとえば、`jm.sum(x[i] for i in N)` のように関数の引数に内包表記を直接使うことはできても、`terms = [x[i] for i in N]` といった代入や、任意の関数への引数としての使用は、この記号的な内包表記の対象外です。
+中間結果を変数に保持したい場合は、`terms = jm.stream(x[i] for i in N)` のように、対応する関数で式を構築してから代入してください。
+
+これらの制限は JijModeling の式を走査する記号的な内包表記についてのものであり、通常の Python の値に対する内包表記を制限するものではありません。
+
 ## {py:class}`Problem <jijmodeling.Problem>` オブジェクトの更新
 
 ここではほとんど空の Problem オブジェクトを作成しましたが、実際には決定変数や制約条件、目的関数などを追加し、{py:class}`Problem <jijmodeling.Problem>` オブジェクトを逐次的に更新してモデルを構築していくのが実際の流れになります。
