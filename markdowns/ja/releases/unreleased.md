@@ -125,6 +125,23 @@ def problem(problem: jm.DecoratedProblem):
 problem.eval({"cuts": []}) # これまではエラーだったが、$0 \times 0$ 配列として解釈される
 ```
 
+### `fixed_variables` を指定すると制約検出でエラーになる問題の修正
+
+One-hot 制約や SOS1 制約に含まれる決定変数の値を `fixed_variables` で固定すると、制約検出が有効な場合に内部エラー {external+api_reference:doc}`E-CE0007 <error_codes/error/E-CE0007>` が発生することがあった問題を修正しました。
+以下のように、一部の決定変数の値を固定した問題も、制約検出を有効にしたままコンパイルできるようになりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("one-hot with fixed variables")
+x = problem.BinaryVar("x", shape=(3,))
+problem += problem.Constraint("onehot", x[0] + x[1] + x[2] == 1)
+
+problem.eval({}, fixed_variables={"x": {0: 0}})
+```
+
+また、One-hot 制約のすべての変数を 0 に固定するなど、固定値によってこれらの制約を満たせなくなる場合には、制約名と理由を示すエラー {external+api_reference:doc}`E-CE0022 <error_codes/error/E-CE0022>` が発生するようになりました。
+
 ## その他の変更
 
 - 変更 1：
