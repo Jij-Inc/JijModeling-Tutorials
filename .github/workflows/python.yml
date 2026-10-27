@@ -44,26 +44,7 @@ jobs:
 
       - name: Allow unresolved links outside main
         if: github.ref != 'refs/heads/main' && github.base_ref != 'main'
-        shell: bash
-        env:
-          BOOK_LANGUAGE: ${{ matrix.language }}
-        run: |
-          uv run python - <<'PY'
-          import os
-          from pathlib import Path
-
-          from jupyter_book.config import get_default_sphinx_config
-          from ruamel.yaml import YAML
-
-          path = Path("docs") / os.environ["BOOK_LANGUAGE"] / "_config.yml"
-          yaml = YAML()
-          config = yaml.load(path)
-          warnings = config["sphinx"]["config"].setdefault(
-              "suppress_warnings", get_default_sphinx_config()["suppress_warnings"]
-          )
-          warnings.extend(["ref", "myst.xref_missing", "myst.iref_missing"])
-          yaml.dump(config, path)
-          PY
+        run: uv run python scripts/allow_unresolved_links.py docs/${{ matrix.language }}/_config.yml
 
       - name: Check books
         run: task check_book_${{ matrix.language }}
