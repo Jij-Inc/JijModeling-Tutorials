@@ -42,12 +42,8 @@ jobs:
       - name: Install the project
         run: uv sync --extra dev --refresh
 
-      - name: Allow unresolved links outside main
-        if: github.ref != 'refs/heads/main' && github.base_ref != 'main'
-        run: uv run python scripts/allow_unresolved_links.py docs/${{ matrix.language }}/_config.yml
-
       - name: Check books
-        run: task check_book_${{ matrix.language }}
+        run: task check_book_${{ matrix.language }} STRICT=${{ github.ref == 'refs/heads/main' || github.base_ref == 'main' }}
 
   test_release_scripts:
     name: Test release note TOC and heading updates
