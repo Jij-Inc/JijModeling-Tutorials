@@ -80,6 +80,25 @@ problem += x[0, 1] + y[0, 1]
 problem
 ```
 
+### Streams and partial dictionaries as placeholder `dtype`
+
+You can now use the collection types `jm.DataType.STREAM` and `jm.DataType.PARTIAL_DICT` as your
+placeholder datatype, allowing more freeform data without using `jagged=True`.
+
+For example, here we define one placeholder that has a collection of routes, including the nodes
+traversed and their weights, where each route can have a different length.
+
+```{code-cell} ipython3
+@jm.Problem.define("problem")
+def _(problem: jm.DecoratedProblem):
+    N = problem.Natural("N")
+    x = problem.BinaryVar("x", shape=N)
+    A = problem.Placeholder("A", dtype=jm.DataType.STREAM[(float, N)], ndim=1)
+    problem += problem.Constraint(
+        "at-most-one", [jm.sum(c * x[i] for c, i in route) <= 1 for route in A]
+    )
+```
+
 ## Bugfixes
 
 +++
