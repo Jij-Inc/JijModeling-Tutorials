@@ -29,6 +29,7 @@ When contributing to this repository, please note the following:
 - For updates to JijModeling v2.x.y learning materials, create your branch from the `jijmodeling2` branch.
 - The `.ipynb` files under the `book` directory and `.md` files under the `markdowns` directory are synchronized via `jupytext`. When using generative AI to update learning materials, we recommend editing files under the `markdowns` directory.
 - Before submitting a Pull Request, run `task check_book_en`, `task check_book_ja`, and `task check_paired_notebooks` to ensure no errors occur.
+- Book checks are strict by default (`STRICT=true`). Use `task check_book_en STRICT=false` or `task check_book_ja STRICT=false` to check executability while allowing documentation warnings, including unresolved links. Notebook execution failures remain fatal in both modes. CI uses strict mode on `main` and PRs targeting `main`, and executability-only mode elsewhere.
 
 > [!TIP]
 > For updates to JijModeling v1.x.y learning materials, create your branch from the `main` branch
