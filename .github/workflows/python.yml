@@ -43,7 +43,7 @@ jobs:
         run: uv sync --extra dev --refresh
 
       - name: Check books
-        run: task check_book_${{ matrix.language }}
+        run: task check_book_${{ matrix.language }} STRICT=${{ github.ref == 'refs/heads/main' || github.base_ref == 'main' }}
 
   test_release_scripts:
     name: Test release note TOC and heading updates
