@@ -149,8 +149,9 @@ instance = problem.eval({})
 ```
 
 Starting with this release, constant folding is performed only when the arithmetic is exact, preventing this issue.
+As a result, some transcendental functions now appear without simplification in $\LaTeX$ output.
 
-### Fix constraint detection errors when specifying `fixed_variables`
+### Bugfix 4: Fix constraint detection errors when specifying `fixed_variables`
 
 Fixed an issue where using `fixed_variables` to fix decision variables in one-hot or SOS1 constraints could raise internal error {external+api_reference:doc}`E-CE0007 <error_codes/error/E-CE0007>` when constraint detection was enabled.
 The following example now compiles successfully with constraint detection enabled:
