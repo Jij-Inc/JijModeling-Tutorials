@@ -150,6 +150,23 @@ instance = problem.eval({})
 
 Starting with this release, constant folding is performed only when the arithmetic is exact, preventing this issue.
 
+### Fix constraint detection errors when specifying `fixed_variables`
+
+Fixed an issue where using `fixed_variables` to fix decision variables in one-hot or SOS1 constraints could raise internal error {external+api_reference:doc}`E-CE0007 <error_codes/error/E-CE0007>` when constraint detection was enabled.
+The following example now compiles successfully with constraint detection enabled:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("one-hot with fixed variables")
+x = problem.BinaryVar("x", shape=(3,))
+problem += problem.Constraint("onehot", x[0] + x[1] + x[2] == 1)
+
+problem.eval({}, fixed_variables={"x": {0: 0}})
+```
+
+If fixed values make these constraints infeasible, such as by fixing all variables in a one-hot constraint to 0, error {external+api_reference:doc}`E-CE0022 <error_codes/error/E-CE0022>` now reports the constraint name and the reason.
+
 ## Other Changes
 
 - Change 1
