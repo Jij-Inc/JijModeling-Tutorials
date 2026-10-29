@@ -25,6 +25,22 @@ JijModeling では、以前から関数の引数に依存した型を持つよ�
 
 また、これに伴い複数のバグが修正されており、以下の「バグ修正」欄では、この変更に伴い修正されたものには `(Π)` というマークが付けられています。
 
+#### `jm.map` の関数引数の型をより正確に扱うよう改善
+
+この変更の一環として、`jm.map` や `jm.filter` などにおける関数の引数の型がより正確に扱われるようになりました。
+以下の例では、`jm.map` の第 1 引数の関数は旧来は自然数の型 `natural` を取るものとしてラフに推論されていましたが、本リリースからは `N`未満の自然数型として正確に扱われるようになっています。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("map argument types")
+N = problem.Natural("N")
+x = problem.BinaryVar("x", shape=(N,))
+problem += jm.map(lambda i: x[i], N).sum()
+
+print(problem.objective)
+```
+
 ## バグ修正
 
 +++
@@ -113,6 +129,26 @@ print(problem)
 ```
 
 以前のリリースでは、上の出力に含まれる `[a[n]]` が `[a[__dangling_0]]` と表示されていました。
+
+### バグ修正 (Π)：上限付き自然数の総和・総積の結果型を修正
+
+`N` 未満の自然数の要素に対する `sum`／`prod` の結果型が、誤って同じ上限 `N` を持つ型になっていた問題を修正しました。
+各要素が `N` 未満であっても、総和や総積は `N` 以上になり得るため、本リリースから結果型は上限のない `natural` になります。
+最小値・最大値は要素の上限を超えないため、`min`／`max` の結果型は引き続き `N` です。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("sum and prod types")
+N = problem.Natural("N")
+a = problem.Natural("a", shape=(3,), less_than=N)
+
+print("a:", problem.infer(a))
+print("sum:", problem.infer(a.sum()))
+print("prod:", problem.infer(a.prod()))
+print("min:", problem.infer(a.min()))
+print("max:", problem.infer(a.max()))
+```
 
 ## その他の変更
 

@@ -25,6 +25,22 @@ JijModeling has supported functions whose return types depend on their arguments
 
 Several related bugs have also been fixed. In the Bugfixes section below, fixes associated with this change are marked with `(Π)`.
 
+#### Improved argument types for functions passed to `jm.map`
+
+As part of this change, argument types for functions passed to operations such as `jm.map` and `jm.filter` are now handled more precisely.
+In the following example, the function passed as the first argument to `jm.map` was previously inferred to take an arbitrary natural number (`natural`). Starting with this release, its argument is correctly typed as a natural number less than `N`.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("map argument types")
+N = problem.Natural("N")
+x = problem.BinaryVar("x", shape=(N,))
+problem += jm.map(lambda i: x[i], N).sum()
+
+print(problem.objective)
+```
+
 ## Bugfixes
 
 +++
@@ -113,6 +129,26 @@ print(problem)
 ```
 
 In previous releases, `[a[n]]` in the output above was displayed as `[a[__dangling_0]]`.
+
+### Bugfix (Π): Correct result types for sums and products of bounded natural numbers
+
+Fixed an issue where `sum` and `prod` over natural numbers less than `N` were incorrectly given a result type with the same bound `N`.
+Even when each element is less than `N`, their sum or product can be `N` or greater. Starting with this release, the result type is `natural`, without an upper bound.
+The result types of `min` and `max` remain `N`, since the minimum and maximum cannot exceed the elements' bound.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("sum and prod types")
+N = problem.Natural("N")
+a = problem.Natural("a", shape=(3,), less_than=N)
+
+print("a:", problem.infer(a))
+print("sum:", problem.infer(a.sum()))
+print("prod:", problem.infer(a.prod()))
+print("min:", problem.infer(a.min()))
+print("max:", problem.infer(a.max()))
+```
 
 ## Other Changes
 
