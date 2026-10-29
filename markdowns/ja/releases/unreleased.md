@@ -19,7 +19,12 @@ kernelspec:
 
 +++
 
-### 機能1
+### 引数に依存した返値を返す関数の扱いを適正化
+
+JijModeling では、以前から関数の引数に依存した型を持つような関数を記述することができましたが、今回のリリースでその扱いがより体系化され、付随するいくつかのバグが修正されました。
+また、今回からそのような関数の型が正確に表示されるようになりました。
+
+また、一部これまでの出力では、`__dangling_*` のような予期せぬ変数名がプレビュー時に出力される問題も解消しています。
 
 +++
 
@@ -45,6 +50,30 @@ def problem(problem: jm.DecoratedProblem):
 problem.eval({"N": 2, "c": {(0, 0): 1.0, (1, 1): 1.0}})
 ```
 
+### バグ修正：辞書の `keys` に対する `gendict` で生成された辞書にアクセスすると panic が発生していた問題の修正
+
+以下の問題のように、`gendict` で生成された辞書の `keys` にアクセスすると回復不能な panic が発生する場合がありました：
+
+```{code-cell} ipython3
+import jijmodeling as jm
+@jm.Problem.define("problem")
+def problem(problem: jm.DecoratedProblem):
+    keys = problem.Natural("keys", ndim=1)
+    a = problem.Natural("a", ndim=1)
+    d = problem.NamedExpr("d", jm.gendict(k for k in keys))
+    problem += jm.sum(a[i] for n in d.keys() for i in n)
+
+problem
+```
+
+上のコードはこれまで以下のような回復不能なエラーを引き起こしていました：
+
+```python
+PanicException: internal error: entered unreachable code: ElementOf[stream(keys)] must wrap a set type, but got: Array[:; natural]
+```
+
+本リリースから、上のようなコードも期待通り動作するようになりました。
+
 ## その他の変更
 
-- 変更1：
+- 変更 1：
