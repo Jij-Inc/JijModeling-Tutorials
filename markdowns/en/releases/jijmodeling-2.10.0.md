@@ -4,14 +4,14 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
+# JijModeling 2.10.0 Release Notes
 
 +++
 
@@ -143,7 +143,3 @@ problem.eval({}, fixed_variables={"x": {0: 0}})
 ```
 
 If fixed values make these constraints infeasible, such as by fixing all variables in a one-hot constraint to 0, error {external+api_reference:doc}`E-CE0022 <error_codes/error/E-CE0022>` now reports the constraint name and the reason.
-
-## Other Changes
-
-- Change 1

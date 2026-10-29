@@ -4,14 +4,14 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv
   language: python
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
+# JijModeling 2.10.0 リリースノート
 
 +++
 
@@ -141,7 +141,3 @@ problem.eval({}, fixed_variables={"x": {0: 0}})
 ```
 
 また、One-hot 制約のすべての変数を 0 に固定するなど、固定値によってこれらの制約を満たせなくなる場合には、制約名と理由を示すエラー {external+api_reference:doc}`E-CE0022 <error_codes/error/E-CE0022>` が発生するようになりました。
-
-## その他の変更
-
-- 変更 1：
