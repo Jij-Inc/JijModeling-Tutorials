@@ -74,6 +74,29 @@ PanicException: internal error: entered unreachable code: ElementOf[stream(keys)
 
 Starting with this release, this code works as expected.
 
+### Fix constraint detection errors when using variables bound by earlier `for` clauses inside `genarray`
+
+Fixed an issue where using a variable bound by an earlier `for` clause as the length of a subsequent `jm.genarray` caused an `E-TE0005` (unbound variable) error during constraint detection.
+For example, the following code previously raised an error such as ``error[E-TE0005] Unbound variable `d_...` ``, but now compiles successfully.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("problem")
+def problem(problem: jm.DecoratedProblem):
+    x = problem.BinaryVar(shape=(3,))
+    problem += problem.Constraint(
+        "onehot",
+        jm.sum(
+            x[t]
+            for s, d in [(1, 2)]
+            for t in jm.genarray(s + i for i in d)
+        ) == 1,
+    )
+
+problem.eval({})
+```
+
 ## Other Changes
 
 - Change 1

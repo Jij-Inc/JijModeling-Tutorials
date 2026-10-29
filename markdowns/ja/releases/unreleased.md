@@ -74,6 +74,29 @@ PanicException: internal error: entered unreachable code: ElementOf[stream(keys)
 
 本リリースから、上のようなコードも期待通り動作するようになりました。
 
+### バグ修正：先行する `for` 節で束縛した変数を `genarray` 内で使うと、制約検出時でエラーが発生する問題の修正
+
+内包表記の先行する `for` 節で束縛した変数を、後続の `jm.genarray` の長さに使うと、制約検出時に `E-TE0005`（未束縛変数）が発生していた問題を修正しました。
+たとえば、以下の例では ``error[E-TE0005] Unbound variable `d_...` `` のようなエラーが発生していましたが、現在では問題なくコンパイルされるようになっています。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("problem")
+def problem(problem: jm.DecoratedProblem):
+    x = problem.BinaryVar(shape=(3,))
+    problem += problem.Constraint(
+        "onehot",
+        jm.sum(
+            x[t]
+            for s, d in [(1, 2)]
+            for t in jm.genarray(s + i for i in d)
+        ) == 1,
+    )
+
+problem.eval({})
+```
+
 ## その他の変更
 
 - 変更 1：
