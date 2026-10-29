@@ -21,18 +21,15 @@ kernelspec:
 
 ### Improved handling of functions with argument-dependent return types
 
-JijModeling has supported functions whose return types depend on their arguments. This release makes their handling more systematic and fixes several related bugs.
-The types of these functions are now displayed accurately.
+JijModeling has supported functions whose return types depend on their arguments. This release makes their handling more systematic and displays their types accurately, for example as `(n : natural) -> Array[n; natural]`.
 
-This release also fixes an issue where unexpected variable names such as `__dangling_*` appeared in previews.
-
-+++
+Several related bugs have also been fixed. In the Bugfixes section below, fixes associated with this change are marked with `(Π)`.
 
 ## Bugfixes
 
 +++
 
-### Fix constraint detection errors when destructuring dictionary keys
+### Bugfix (Π): Fix constraint detection errors when destructuring dictionary keys
 
 Fixed an issue where constraints containing comprehensions that unpack dictionary (`PartialDict` / `TotalDict`) keys into their individual components caused unexpected errors during constraint detection.
 Previously, the following example raised an `E-TE0014` error. Starting with this release, it runs successfully:
@@ -50,7 +47,7 @@ def problem(problem: jm.DecoratedProblem):
 problem.eval({"N": 2, "c": {(0, 0): 1.0, (1, 1): 1.0}})
 ```
 
-### Fix panics when accessing keys of dictionaries created with `gendict`
+### Bugfix (Π): Fix panics when accessing keys of dictionaries created with `gendict`
 
 Accessing the keys of a dictionary created with `gendict` could cause an unrecoverable panic, as in the following example:
 
@@ -74,7 +71,7 @@ PanicException: internal error: entered unreachable code: ElementOf[stream(keys)
 
 Starting with this release, this code works as expected.
 
-### Fix constraint detection errors when using variables bound by earlier `for` clauses inside `genarray`
+### Bugfix (Π): Fix constraint detection errors when using variables bound by earlier `for` clauses inside `genarray`
 
 Fixed an issue where using a variable bound by an earlier `for` clause as the length of a subsequent `jm.genarray` caused an `E-TE0005` (unbound variable) error during constraint detection.
 For example, the following code previously raised an error such as ``error[E-TE0005] Unbound variable `d_...` ``, but now compiles successfully.
@@ -96,6 +93,26 @@ def problem(problem: jm.DecoratedProblem):
 
 problem.eval({})
 ```
+
+### Bugfix (Π): Fix unexpected `__dangling_*` variable names in string representations
+
+When displaying problems with nested `for` clauses as strings, for example with `print`, unexpected variable names such as `__dangling_*` could appear. Starting with this release, the correct variable names are displayed:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+@jm.Problem.define("problem")
+def problem(problem: jm.DecoratedProblem):
+    a = problem.Placeholder(
+        shape=(2,), dtype=(jm.DataType.NATURAL, jm.DataType.NATURAL)
+    )
+    x = problem.BinaryVar(shape=(2,))
+    problem += jm.sum(x[s] for n in 2 for s, d in [a[n]])
+
+print(problem)
+```
+
+In previous releases, `[a[n]]` in the output above was displayed as `[a[__dangling_0]]`.
 
 ## Other Changes
 
