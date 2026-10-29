@@ -59,35 +59,43 @@ class ReleaseTocTests(unittest.TestCase):
         return error
 
     def test_repository_tocs_have_only_the_requested_line_changed(self):
-        paths = []
-        expected_unreleased = []
-        expected_finalized = []
-        for language in ("en", "ja"):
-            content = Path(f"docs/{language}/_toc.yml").read_bytes()
-            paths.append(self.write_toc(content, f"{language}.yml"))
-            newline = b"\r\n" if b"\r\n" in content else b"\n"
-            header = RELEASE_HEADER.encode().replace(b"\n", newline)
-            self.assertEqual(content.count(header), 1)
-            expected_unreleased.append(
-                content.replace(header, header + UNRELEASED.encode().replace(b"\n", newline), 1)
-            )
-            expected_finalized.append(
-                content.replace(header, header + FINALIZED.encode().replace(b"\n", newline), 1)
-            )
+        for has_unreleased in (False, True):
+            with self.subTest(has_unreleased=has_unreleased):
+                paths = []
+                expected_unreleased = []
+                expected_finalized = []
+                for language in ("en", "ja"):
+                    content = Path(f"docs/{language}/_toc.yml").read_bytes()
+                    newline = b"\r\n" if b"\r\n" in content else b"\n"
+                    header = RELEASE_HEADER.encode().replace(b"\n", newline)
+                    unreleased = UNRELEASED.encode().replace(b"\n", newline)
+                    self.assertEqual(content.count(header), 1)
+                    lines = content.splitlines(keepends=True)
+                    self.assertLessEqual(lines.count(unreleased), 1)
+                    content = b"".join(line for line in lines if line != unreleased)
+                    with_unreleased = content.replace(header, header + unreleased, 1)
+                    expected_unreleased.append(with_unreleased)
+                    expected_finalized.append(
+                        content.replace(
+                            header, header + FINALIZED.encode().replace(b"\n", newline), 1
+                        )
+                    )
+                    paths.append(
+                        self.write_toc(
+                            with_unreleased if has_unreleased else content, f"{language}.yml"
+                        )
+                    )
 
-        self.assert_success(paths, "ensure-unreleased")
-        for path, expected in zip(paths, expected_unreleased):
-            self.assertEqual(path.read_bytes(), expected)
+                for _ in range(2):
+                    self.assert_success(paths, "ensure-unreleased")
+                    for path, expected in zip(paths, expected_unreleased):
+                        self.assertEqual(path.read_bytes(), expected, path.name)
 
-        self.assert_success(paths, "ensure-unreleased")
-        self.assert_success(paths, "finalize", VERSION)
-        for path, expected in zip(paths, expected_finalized):
-            self.assertEqual(path.read_bytes(), expected)
-
-        self.assert_success(paths, "finalize", VERSION)
-        self.assert_success(paths, "check-no-unreleased")
-        for path, expected in zip(paths, expected_finalized):
-            self.assertEqual(path.read_bytes(), expected)
+                for _ in range(2):
+                    self.assert_success(paths, "finalize", VERSION)
+                    self.assert_success(paths, "check-no-unreleased")
+                    for path, expected in zip(paths, expected_finalized):
+                        self.assertEqual(path.read_bytes(), expected, path.name)
 
     def test_finalize_without_unreleased_inserts_one_line(self):
         path = self.write_toc()
