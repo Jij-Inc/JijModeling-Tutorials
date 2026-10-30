@@ -81,33 +81,6 @@ def problem(problem: jm.DecoratedProblem):
 problem.eval({"N": 2, "c": {(0, 0): 1.0, (1, 1): 1.0}})
 ```
 
-### Bugfix (Π): Fix panics when accessing keys of dictionaries created with `gendict`
-
-Accessing the keys of a dictionary created with `gendict` could cause an unrecoverable panic, as in the following example:
-
-```{code-cell} ipython3
-import jijmodeling as jm
-
-
-@jm.Problem.define("problem")
-def problem(problem: jm.DecoratedProblem):
-    keys = problem.Natural("keys", ndim=1)
-    a = problem.Natural("a", ndim=1)
-    d = problem.NamedExpr("d", jm.gendict(k for k in keys))
-    problem += jm.sum(a[i] for n in d.keys() for i in n)
-
-
-problem
-```
-
-Previously, the code above caused the following unrecoverable error:
-
-```python
-PanicException: internal error: entered unreachable code: ElementOf[stream(keys)] must wrap a set type, but got: Array[:; natural]
-```
-
-Starting with this release, this code works as expected.
-
 ### Bugfix (Π): Fix constraint detection errors when using variables bound by earlier `for` clauses inside `genarray`
 
 Fixed an issue where using a variable bound by an earlier `for` clause as the length of a subsequent `jm.genarray` caused an `E-TE0005` (unbound variable) error during constraint detection.
@@ -161,7 +134,34 @@ print(problem)
 
 In previous releases, `[a[n]]` in the output above was displayed as `[a[__dangling_0]]`.
 
-### Bugfix (Π): Correct result types for sums and products of bounded natural numbers
+### Bugfix: Fix panics when accessing keys of dictionaries created with `gendict`
+
+Accessing the keys of a dictionary created with `gendict` could cause an unrecoverable panic, as in the following example:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("problem")
+def problem(problem: jm.DecoratedProblem):
+    keys = problem.Natural("keys", ndim=1)
+    a = problem.Natural("a", ndim=1)
+    d = problem.NamedExpr("d", jm.gendict(k for k in keys))
+    problem += jm.sum(a[i] for n in d.keys() for i in n)
+
+
+problem
+```
+
+Previously, the code above caused the following unrecoverable error:
+
+```python
+PanicException: internal error: entered unreachable code: ElementOf[stream(keys)] must wrap a set type, but got: Array[:; natural]
+```
+
+Starting with this release, this code works as expected.
+
+### Bugfix: Correct result types for sums and products of bounded natural numbers
 
 Fixed an issue where `sum` and `prod` over natural numbers less than `N` were incorrectly given a result type with the same bound `N`.
 Even when each element is less than `N`, their sum or product can be `N` or greater. Starting with this release, the result type is `natural`, without an upper bound.

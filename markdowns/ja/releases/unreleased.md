@@ -81,33 +81,6 @@ def problem(problem: jm.DecoratedProblem):
 problem.eval({"N": 2, "c": {(0, 0): 1.0, (1, 1): 1.0}})
 ```
 
-### バグ修正 (Π)：辞書の `keys` に対する `gendict` で生成された辞書にアクセスすると panic が発生していた問題の修正
-
-以下の問題のように、`gendict` で生成された辞書の `keys` にアクセスすると回復不能な panic が発生する場合がありました：
-
-```{code-cell} ipython3
-import jijmodeling as jm
-
-
-@jm.Problem.define("problem")
-def problem(problem: jm.DecoratedProblem):
-    keys = problem.Natural("keys", ndim=1)
-    a = problem.Natural("a", ndim=1)
-    d = problem.NamedExpr("d", jm.gendict(k for k in keys))
-    problem += jm.sum(a[i] for n in d.keys() for i in n)
-
-
-problem
-```
-
-上のコードはこれまで以下のような回復不能なエラーを引き起こしていました：
-
-```python
-PanicException: internal error: entered unreachable code: ElementOf[stream(keys)] must wrap a set type, but got: Array[:; natural]
-```
-
-本リリースから、上のようなコードも期待通り動作するようになりました。
-
 ### バグ修正 (Π)：先行する `for` 節で束縛した変数を `genarray` 内で使うと、制約検出時でエラーが発生する問題の修正
 
 内包表記の先行する `for` 節で束縛した変数を、後続の `jm.genarray` の長さに使うと、制約検出時に `E-TE0005`（未束縛変数）が発生していた問題を修正しました。
@@ -161,7 +134,34 @@ print(problem)
 
 以前のリリースでは、上の出力に含まれる `[a[n]]` が `[a[__dangling_0]]` と表示されていました。
 
-### バグ修正 (Π)：上限付き自然数の総和・総積の結果型を修正
+### バグ修正：辞書の `keys` に対する `gendict` で生成された辞書にアクセスすると panic が発生していた問題の修正
+
+以下の問題のように、`gendict` で生成された辞書の `keys` にアクセスすると回復不能な panic が発生する場合がありました：
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("problem")
+def problem(problem: jm.DecoratedProblem):
+    keys = problem.Natural("keys", ndim=1)
+    a = problem.Natural("a", ndim=1)
+    d = problem.NamedExpr("d", jm.gendict(k for k in keys))
+    problem += jm.sum(a[i] for n in d.keys() for i in n)
+
+
+problem
+```
+
+上のコードはこれまで以下のような回復不能なエラーを引き起こしていました：
+
+```python
+PanicException: internal error: entered unreachable code: ElementOf[stream(keys)] must wrap a set type, but got: Array[:; natural]
+```
+
+本リリースから、上のようなコードも期待通り動作するようになりました。
+
+### バグ修正：上限付き自然数の総和・総積の結果型を修正
 
 `N` 未満の自然数の要素に対する `sum`／`prod` の結果型が、誤って同じ上限 `N` を持つ型になっていた問題を修正しました。
 各要素が `N` 未満であっても、総和や総積は `N` 以上になり得るため、本リリースから結果型は上限のない `natural` になります。
