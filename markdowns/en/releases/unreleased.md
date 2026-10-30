@@ -23,7 +23,7 @@ kernelspec:
 
 JijModeling has supported functions whose return types depend on their arguments. This release makes their handling more systematic and displays their types accurately, for example as `(n : natural) -> Array[n; natural]`.
 
-Several related bugs have also been fixed. In the Bugfixes section below, fixes associated with this change are marked with `(Π)`.
+Several related bugs have also been fixed. In the Bugfixes section of these release notes, fixes associated with this change are marked with `(Π)`.
 
 #### Improved argument types for functions passed to `jm.map`
 
@@ -41,7 +41,7 @@ problem += jm.map(lambda i: x[i], N).sum()
 print(problem.objective)
 ```
 
-As a result, programs that should have produced errors but were incorrectly accepted in previous versions are now correctly rejected.
+As a result, programs that previous versions incorrectly accepted (even though they should have produced errors) are now correctly rejected.
 One example is the following stream of arrays whose types depend on their position $n < N$ within the stream.
 JijModeling currently has no mechanism for safely handling streams or arrays whose element types depend on their positions, so this program should produce an error.
 
@@ -67,8 +67,8 @@ Previously, this program was incorrectly inferred to have a type such as `Stream
 
 ### Bugfix (Π): Fix constraint detection errors when destructuring dictionary keys
 
-Fixed an issue where constraints containing comprehensions that unpack dictionary (`PartialDict` / `TotalDict`) keys into their individual components caused unexpected errors during constraint detection.
-Previously, the following example raised an `E-TE0014` error. Starting with this release, it runs successfully:
+Constraints containing comprehensions that unpack dictionary (`PartialDict` / `TotalDict`) keys into their individual components (such as `for i, j in c.keys()` in the example below) previously caused an `E-TE0014` error during constraint detection.
+Starting with this release, these cases run successfully:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -87,7 +87,7 @@ problem.eval({"N": 2, "c": {(0, 0): 1.0, (1, 1): 1.0}})
 
 ### Bugfix (Π): Fix constraint detection errors when using variables bound by earlier `for` clauses inside `genarray`
 
-Fixed an issue where using a variable bound by an earlier `for` clause as the length of a subsequent `jm.genarray` caused an `E-TE0005` (unbound variable) error during constraint detection.
+Fixed an issue where using a variable bound by an earlier `for` clause as the length of a subsequent `jm.genarray` caused an `E-TE0005` (unbound variable) error when constraint detection was enabled.
 For example, the following code previously raised an error such as ``error[E-TE0005] Unbound variable `d_...` ``, but now compiles successfully.
 
 ```{code-cell} ipython3
