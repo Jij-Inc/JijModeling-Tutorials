@@ -4,9 +4,9 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: .venv
   language: python
   name: python3
 ---
@@ -19,118 +19,173 @@ kernelspec:
 
 +++
 
-### Specify category label elements directly as a list when generating random instances
+### Improved handling of functions with argument-dependent return types
 
-Previously, fixing category label values when generating random instances required specifying them under `keys`, as in `{"C": {"keys": ["A", "B", "C"]}}`. You can now specify them directly as a list.
+JijModeling has supported functions whose return types depend on their arguments. This release makes their handling more systematic and displays their types accurately, for example as `(n : natural) -> Array[n; natural]`.
+
+Several related bugs have also been fixed. In the Bugfixes section of these release notes, fixes associated with this change are marked with `(Π)`.
+
+#### Improved argument types for functions passed to `jm.map`
+
+As part of this change, argument types for functions passed to operations such as `jm.map` and `jm.filter` are now handled more precisely.
+In the following example, the function passed as the first argument to `jm.map` was previously inferred to take an arbitrary natural number (`natural`). Starting with this release, its argument is correctly typed as a natural number less than `N`.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
-@jm.Problem.define("problem")
-def problem(problem: jm.DecoratedProblem):
-  C = problem.CategoryLabel()
-
-  a = problem.Float(dict_keys=C)
-  x = problem.BinaryVar(dict_keys=C)
-
-  problem += (a * x).sum()
-
-problem.generate_random_dataset(
-    seed=42,
-    options={"C": ["A", "B", "C"]} # Equivalent to {"C": {"keys": [...]}}
-)
-```
-
-Lists are supported only for category labels. Other placeholders must still use the existing format.
-
-### Additional LaTeX display customization
-
-Constructors for `Placeholder`, `DecisionVar`, `NamedExpr` and `CategoryLabel` now accept `element_latex` and `subscript_styles` 
-as additional configuration parameters to how these objects are displayed in $\LaTeX$, in addition to `latex` the latex parameter.
-
-`element_latex` sets a standard name for indices ranging over that object (such as when doing sums) to replace our automatically
-assigned names (eg. `i`, `j`, etc.). Note that this may override whatever name the user writes in a `lambda` or `for` clause
-
-```{code-cell} ipython3
-problem = jm.Problem("problem")
-N = problem.Natural("N", element_latex="n")
-c = problem.Float("c", shape=N)
-x = problem.BinaryVar("x", shape=N)
-problem += jm.sum(c * x)
-problem += c.map(lambda v: v * 2).sum()
-problem
-```
-
-For tuple sets, `element_latex` accepts a list of names. Elements not assigned a name will fallback
-to regular naming behavior.
-
-`subscript_styles` allows customizing how the subscripts are actually displayed, eg. changing it to
-a superscript, parentheses, or bracket-style display. For multi-dimensional arrays, passing a single
-style applies it to all indices, but you can also pass a list, so that each index position is
-displayed in a different style.
-
-```{code-cell} ipython3
-problem = jm.Problem("problem")
+problem = jm.Problem("map argument types")
 N = problem.Natural("N")
-x = problem.BinaryVar("x", shape=(N, N), subscript_styles=jm.SubscriptStyle.BRACKET)
-y = problem.BinaryVar(
-    "y", shape=(N, N), subscript_styles=[jm.SubscriptStyle.SUP, jm.SubscriptStyle.SUB]
-)
-problem += x[0, 1] + y[0, 1]
-problem
+x = problem.BinaryVar("x", shape=(N,))
+problem += jm.map(lambda i: x[i], N).sum()
+
+print(problem.objective)
 ```
+
+As a result, programs that previous versions incorrectly accepted (even though they should have produced errors) are now correctly rejected.
+One example is the following stream of arrays whose types depend on their position $n < N$ within the stream.
+JijModeling currently has no mechanism for safely handling streams or arrays whose element types depend on their positions, so this program should produce an error.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+try:
+
+    @jm.Problem.define("problem")
+    def problem(problem: jm.DecoratedProblem):
+        N = problem.Natural()
+        x = problem.NamedExpr(jm.map(lambda n: jm.genarray(lambda j: 42, n), N))
+
+except Exception as e:
+    print(e)
+```
+
+Previously, this program was incorrectly inferred to have a type such as `Stream[Array[n_1234, natural]]`, containing an undefined variable `n_1234`. Starting with this release, it is correctly reported as an error.
 
 ## Bugfixes
 
 +++
 
-### Bugfix 1: Include category label information in randomly generated datasets
+### Bugfix (Π): Fix constraint detection errors when destructuring dictionary keys
 
-Fixed an issue where randomly generated datasets did not include the category label definitions themselves.
-Previously, the following `dataset` did not contain `C`, causing `eval` to fail. Starting with this release, the example runs successfully.
+Constraints containing comprehensions that unpack dictionary (`PartialDict` / `TotalDict`) keys into their individual components (such as `for i, j in c.keys()` in the example below) previously caused an `E-TE0014` error during constraint detection.
+Starting with this release, these cases run successfully:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
 
 @jm.Problem.define("problem")
 def problem(problem: jm.DecoratedProblem):
-  C = problem.CategoryLabel()
+    N = problem.Length()
+    c = problem.PartialDict(dtype=float, dict_keys=(N, N))
+    x = problem.BinaryVar(dict_keys=c.keys())
+    problem += problem.Constraint("onehot", jm.sum(x[i, j] for i, j in c.keys()) == 1)
 
-  a = problem.Float(dict_keys=C)
-  x = problem.BinaryVar(dict_keys=C)
 
-  problem += (a * x).sum()
-
-dataset = problem.generate_random_dataset(
-    seed=42,
-    options={"C": {"keys": ["A", "B", "C"]}}
-)
-
-dataset
+problem.eval({"N": 2, "c": {(0, 0): 1.0, (1, 1): 1.0}})
 ```
 
-```{code-cell} ipython3
-problem.eval(dataset)
-```
+### Bugfix (Π): Fix constraint detection errors when using variables bound by earlier `for` clauses inside `genarray`
 
-### Bugfix 2: Accept empty lists and arrays as placeholder inputs
-
-Previously, empty arrays or lists could be provided as instance data for one-dimensional arrays, but caused compilation errors for arrays with two or more dimensions.
-
-Starting with this release, if the array shape allows empty data, the input is interpreted as a multidimensional array with at least one unspecified axis of length 0.
+Fixed an issue where using a variable bound by an earlier `for` clause as the length of a subsequent `jm.genarray` caused an `E-TE0005` (unbound variable) error when constraint detection was enabled.
+For example, the following code previously raised an error such as ``error[E-TE0005] Unbound variable `d_...` ``, but now compiles successfully.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
 
-@jm.Problem.define("p")
+@jm.Problem.define("problem")
 def problem(problem: jm.DecoratedProblem):
-    cuts = problem.Float(ndim=2)
+    N = problem.Natural()
+    ub = problem.Natural(less_than=N)
+    x = problem.BinaryVar(shape=(N,))
+    problem += problem.Constraint(
+        "onehot",
+        jm.sum(
+            x[t]
+            for n in ub
+            for j in n
+            for s, d in [(n, j)]
+            for t in jm.genarray(s + i for i in d)
+        )
+        == 1,
+    )
 
-problem.eval({"cuts": []}) # Interpreted as a 0 x 0 array
+
+problem.eval({"N": 3, "ub": 1})
 ```
 
-### Bugfix 3: Fix infinite loops in constraint detection caused by floating-point rounding errors
+### Bugfix (Π): Fix unexpected `__dangling_*` variable names in string representations
+
+When displaying problems with nested `for` clauses as strings, for example with `print`, unexpected variable names such as `__dangling_*` could appear. Starting with this release, the correct variable names are displayed:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("problem")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
+    a = problem.Placeholder(
+        shape=(N,), dtype=(jm.DataType.NATURAL, jm.DataType.NATURAL)
+    )
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(x[s] for n in N for s, d in [a[n]])
+
+
+print(problem)
+```
+
+In previous releases, `[a[n]]` in the output above was displayed as `[a[__dangling_0]]`.
+
+### Bugfix: Fix panics when accessing keys of dictionaries created with `gendict`
+
+Accessing the keys of a dictionary created with `gendict` could cause an unrecoverable panic, as in the following example:
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("problem")
+def problem(problem: jm.DecoratedProblem):
+    keys = problem.Natural("keys", ndim=1)
+    a = problem.Natural("a", ndim=1)
+    d = problem.NamedExpr("d", jm.gendict(k for k in keys))
+    problem += jm.sum(a[i] for n in d.keys() for i in n)
+
+
+problem
+```
+
+Previously, the code above caused the following unrecoverable error:
+
+```python
+PanicException: internal error: entered unreachable code: ElementOf[stream(keys)] must wrap a set type, but got: Array[:; natural]
+```
+
+Starting with this release, this code works as expected.
+
+### Bugfix: Correct result types for sums and products of bounded natural numbers
+
+Fixed an issue where `sum` and `prod` over natural numbers less than `N` were incorrectly given a result type with the same bound `N`.
+Even when each element is less than `N`, their sum or product can be `N` or greater. Starting with this release, the result type is `natural`, without an upper bound.
+The result types of `min` and `max` remain `N`, since the minimum and maximum cannot exceed the elements' bound.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+problem = jm.Problem("sum and prod types")
+N = problem.Natural("N")
+a = problem.Natural("a", shape=(3,), less_than=N)
+
+print("a:", problem.infer(a))
+print("sum:", problem.infer(a.sum()))
+print("prod:", problem.infer(a.prod()))
+print("min:", problem.infer(a.min()))
+print("max:", problem.infer(a.max()))
+```
+
+### Bugfix: Fix infinite loops in constraint detection caused by floating-point rounding errors
 
 Fixed a bug that could cause constraint detection to loop indefinitely when variable bounds or subexpressions in the objective function or constraints contained values that could not be handled exactly in floating-point arithmetic.
 This did not occur when constants were modeled as placeholders and floating-point values were supplied as instance data. However, specifying floating-point values directly in the model, as in the following example, could cause an infinite loop.
@@ -150,23 +205,6 @@ instance = problem.eval({})
 
 Starting with this release, constant folding is performed only when the arithmetic is exact, preventing this issue.
 As a result, some transcendental functions now appear without simplification in $\LaTeX$ output.
-
-### Bugfix 4: Fix constraint detection errors when specifying `fixed_variables`
-
-Fixed an issue where using `fixed_variables` to fix decision variables in one-hot or SOS1 constraints could raise internal error {external+api_reference:doc}`E-CE0007 <error_codes/error/E-CE0007>` when constraint detection was enabled.
-The following example now compiles successfully with constraint detection enabled:
-
-```{code-cell} ipython3
-import jijmodeling as jm
-
-problem = jm.Problem("one-hot with fixed variables")
-x = problem.BinaryVar("x", shape=(3,))
-problem += problem.Constraint("onehot", x[0] + x[1] + x[2] == 1)
-
-problem.eval({}, fixed_variables={"x": {0: 0}})
-```
-
-If fixed values make these constraints infeasible, such as by fixing all variables in a one-hot constraint to 0, error {external+api_reference:doc}`E-CE0022 <error_codes/error/E-CE0022>` now reports the constraint name and the reason.
 
 ## Other Changes
 
