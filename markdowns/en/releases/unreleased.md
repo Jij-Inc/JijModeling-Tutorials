@@ -41,6 +41,22 @@ problem += jm.map(lambda i: x[i], N).sum()
 print(problem.objective)
 ```
 
+As a result, invalid programs such as the following, which were previously accepted incorrectly, are now correctly reported as errors.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+try:
+
+    @jm.Problem.define("problem")
+    def problem(problem: jm.DecoratedProblem):
+        N = problem.Natural()
+        x = problem.NamedExpr(jm.map(lambda n: jm.genarray(lambda j: 42, n), N))
+
+except Exception as e:
+    print(e)
+```
+
 ## Bugfixes
 
 +++
@@ -53,12 +69,14 @@ Previously, the following example raised an `E-TE0014` error. Starting with this
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("problem")
 def problem(problem: jm.DecoratedProblem):
     N = problem.Length()
     c = problem.PartialDict(dtype=float, dict_keys=(N, N))
     x = problem.BinaryVar(dict_keys=c.keys())
     problem += problem.Constraint("onehot", jm.sum(x[i, j] for i, j in c.keys()) == 1)
+
 
 problem.eval({"N": 2, "c": {(0, 0): 1.0, (1, 1): 1.0}})
 ```
@@ -69,12 +87,15 @@ Accessing the keys of a dictionary created with `gendict` could cause an unrecov
 
 ```{code-cell} ipython3
 import jijmodeling as jm
+
+
 @jm.Problem.define("problem")
 def problem(problem: jm.DecoratedProblem):
     keys = problem.Natural("keys", ndim=1)
     a = problem.Natural("a", ndim=1)
     d = problem.NamedExpr("d", jm.gendict(k for k in keys))
     problem += jm.sum(a[i] for n in d.keys() for i in n)
+
 
 problem
 ```
@@ -95,19 +116,26 @@ For example, the following code previously raised an error such as ``error[E-TE0
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("problem")
 def problem(problem: jm.DecoratedProblem):
-    x = problem.BinaryVar(shape=(3,))
+    N = problem.Natural()
+    ub = problem.Natural(less_than=N)
+    x = problem.BinaryVar(shape=(N,))
     problem += problem.Constraint(
         "onehot",
         jm.sum(
             x[t]
-            for s, d in [(1, 2)]
+            for n in ub
+            for j in n
+            for s, d in [(n, j)]
             for t in jm.genarray(s + i for i in d)
-        ) == 1,
+        )
+        == 1,
     )
 
-problem.eval({})
+
+problem.eval({"N": 3, "ub": 1})
 ```
 
 ### Bugfix (Π): Fix unexpected `__dangling_*` variable names in string representations
@@ -117,13 +145,16 @@ When displaying problems with nested `for` clauses as strings, for example with 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
+
 @jm.Problem.define("problem")
 def problem(problem: jm.DecoratedProblem):
+    N = problem.Natural()
     a = problem.Placeholder(
-        shape=(2,), dtype=(jm.DataType.NATURAL, jm.DataType.NATURAL)
+        shape=(N,), dtype=(jm.DataType.NATURAL, jm.DataType.NATURAL)
     )
-    x = problem.BinaryVar(shape=(2,))
-    problem += jm.sum(x[s] for n in 2 for s, d in [a[n]])
+    x = problem.BinaryVar(shape=(N,))
+    problem += jm.sum(x[s] for n in N for s, d in [a[n]])
+
 
 print(problem)
 ```

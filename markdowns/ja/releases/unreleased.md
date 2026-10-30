@@ -41,6 +41,22 @@ problem += jm.map(lambda i: x[i], N).sum()
 print(problem.objective)
 ```
 
+これにより、これまでは誤って受理されていた以下のような不正なプログラムも、正しくエラーとして検出されるようになりました。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+try:
+
+    @jm.Problem.define("problem")
+    def problem(problem: jm.DecoratedProblem):
+        N = problem.Natural()
+        x = problem.NamedExpr(jm.map(lambda n: jm.genarray(lambda j: 42, n), N))
+
+except Exception as e:
+    print(e)
+```
+
 ## バグ修正
 
 +++
