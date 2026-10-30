@@ -185,6 +185,27 @@ print("min:", problem.infer(a.min()))
 print("max:", problem.infer(a.max()))
 ```
 
+### Bugfix: Fix infinite loops in constraint detection caused by floating-point rounding errors
+
+Fixed a bug that could cause constraint detection to loop indefinitely when variable bounds or subexpressions in the objective function or constraints contained values that could not be handled exactly in floating-point arithmetic.
+This did not occur when constants were modeled as placeholders and floating-point values were supplied as instance data. However, specifying floating-point values directly in the model, as in the following example, could cause an infinite loop.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+problem = jm.Problem("decimal bounds")
+
+# 0.1 cannot be represented exactly in floating point, and arithmetic with 0.5
+# introduces rounding errors that previously caused constraint detection
+# to loop indefinitely.
+problem.ContinuousVar("ratio", lower_bound=0.1, upper_bound=0.5)
+instance = problem.eval({})
+```
+
+Starting with this release, constant folding is performed only when the arithmetic is exact, preventing this issue.
+As a result, some transcendental functions now appear without simplification in $\LaTeX$ output.
+
 ## Other Changes
 
 - Change 1
