@@ -41,7 +41,9 @@ problem += jm.map(lambda i: x[i], N).sum()
 print(problem.objective)
 ```
 
-As a result, invalid programs such as the following, which were previously accepted incorrectly, are now correctly reported as errors.
+As a result, programs that should have produced errors but were incorrectly accepted in previous versions are now correctly rejected.
+One example is the following stream of arrays whose types depend on their position $n < N$ within the stream.
+JijModeling currently has no mechanism for safely handling streams or arrays whose element types depend on their positions, so this program should produce an error.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -56,6 +58,8 @@ try:
 except Exception as e:
     print(e)
 ```
+
+Previously, this program was incorrectly inferred to have a type such as `Stream[Array[n_1234, natural]]`, containing an undefined variable `n_1234`. Starting with this release, it is correctly reported as an error.
 
 ## Bugfixes
 
