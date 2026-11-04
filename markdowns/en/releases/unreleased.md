@@ -187,4 +187,4 @@ print("max:", problem.infer(a.max()))
 
 ## Other Changes
 
-- Change 1
+- Fixed: Corrected inaccuracies in the API documentation and agent skill descriptions.
