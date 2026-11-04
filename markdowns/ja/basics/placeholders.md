@@ -25,10 +25,10 @@ kernelspec:
 
 | 種類 | 数式 | 説明 | 別名 |
 | :--- | :--: | :-- | :-- |
-| {py:meth}`~jijmodeling.Problem.Binary` | $\{0, 1\}$ | $0$ または $1$ の値をとる二値プレースホルダー。 | - |
-| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ または $\{0, \ldots, N-1\}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。`less_than` キーワード引数に別の自然数式 `N` を指定することで、$\{0, \ldots, N-1\}$ の範囲に制限できる。 | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
-| {py:meth}`~jijmodeling.Problem.Integer` | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
-| {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
+| {py:meth}`Binary <jijmodeling.Problem.Binary>` | $\{0, 1\}$ | $0$ または $1$ の値をとる二値プレースホルダー。 | - |
+| {py:meth}`Natural <jijmodeling.Problem.Natural>` | $\mathbb{N}$ または $\{0, \ldots, N-1\}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。`less_than` キーワード引数に別の自然数式 `N` を指定することで、$\{0, \ldots, N-1\}$ の範囲に制限できる。 | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
+| {py:meth}`Integer <jijmodeling.Problem.Integer>` | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
+| {py:meth}`Float <jijmodeling.Problem.Float>` | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
 | これらのタプル | $\mathbb{Z} \times \mathbb{R}$ | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
 
 プレースホルダーを宣言するには、上記の種類と同じ名前の Problem のメソッドを呼ぶ必要があります。
