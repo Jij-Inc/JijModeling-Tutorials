@@ -197,7 +197,7 @@ import jijmodeling as jm
 problem = jm.Problem("Bounds for variable arrays")
 N = problem.Length("N")
 lb = problem.Integer("lb")
-ubs = problem.Integer("ub", shape=N)
+ubs = problem.Integer("ubs", shape=N)
 a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ubs)
 
 problem
@@ -207,7 +207,7 @@ problem
 これらを基に、長さ $N$ の一次元決定変数配列 $a$ は次のような上下界が設定されています：
 
 - 下界：添え字によらず $a_i \geq \mathit{lb} + 1$（上記の (1) に相当）
-- 上界：添え字 $i = 0, \ldots, N - 1$ ごとに $a_i \leq \mathit{ub}_i$（上記の (2) に相当）
+- 上界：添え字 $i = 0, \ldots, N - 1$ ごとに $a_i \leq \mathit{ubs}_i$（上記の (2) に相当）
 
 (3) の添え字からの関数式として与える例としては、やや人工的ですが次のような例が考えられます：
 

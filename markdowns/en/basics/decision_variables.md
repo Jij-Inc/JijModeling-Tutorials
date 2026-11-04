@@ -203,7 +203,7 @@ import jijmodeling as jm
 problem = jm.Problem("Bounds for variable arrays")
 N = problem.Length("N")
 lb = problem.Integer("lb")
-ubs = problem.Integer("ub", shape=N)
+ubs = problem.Integer("ubs", shape=N)
 a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ubs)
 
 problem
@@ -213,7 +213,7 @@ Here, `lb` is a zero-dimensional scalar, and `ubs` is a one-dimensional placehol
 Based on these, the one-dimensional decision-variable array $a$ of length $N$ has the following bounds:
 
 - Lower bound: $a_i \geq \mathit{lb} + 1$ for all indices, corresponding to (1) above
-- Upper bound: $a_i \leq \mathit{ub}_i$ for each $i = 0, \ldots, N - 1$, corresponding to (2) above
+- Upper bound: $a_i \leq \mathit{ubs}_i$ for each $i = 0, \ldots, N - 1$, corresponding to (2) above
 
 As an example of (3), a slightly artificial but illustrative example is:
 
