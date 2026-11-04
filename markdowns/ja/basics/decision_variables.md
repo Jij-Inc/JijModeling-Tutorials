@@ -22,11 +22,11 @@ kernelspec:
 
 | 種類 | 数式 | 説明 |
 | :---- | :--: | :--- |
-| {py:meth}`~jijmodeling.Problem.BinaryVar` | $\{0, 1\}$ | $0$ または $1$ の値を取るバイナリ変数。上下界の設定は不要。 |
-| {py:meth}`~jijmodeling.Problem.IntegerVar` | $\mathbb{Z}$ | 整数変数。上下界の設定が必要。 |
-| {py:meth}`~jijmodeling.Problem.ContinuousVar` | $\mathbb{R}$ | 実数値を取る連続変数。上下界の設定が必要。 |
-| {py:meth}`~jijmodeling.Problem.SemiIntegerVar` | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
-| {py:meth}`~jijmodeling.Problem.SemiContinuousVar` | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
+| {py:meth}`BinaryVar <jijmodeling.Problem.BinaryVar>` | $\{0, 1\}$ | $0$ または $1$ の値を取るバイナリ変数。上下界の設定は不要。 |
+| {py:meth}`IntegerVar <jijmodeling.Problem.IntegerVar>` | $\mathbb{Z}$ | 整数変数。上下界の設定が必要。 |
+| {py:meth}`ContinuousVar <jijmodeling.Problem.ContinuousVar>` | $\mathbb{R}$ | 実数値を取る連続変数。上下界の設定が必要。 |
+| {py:meth}`SemiIntegerVar <jijmodeling.Problem.SemiIntegerVar>` | - | 上下界内の整数値またはゼロの値をとる変数。上下界の設定が必要。 |
+| {py:meth}`SemiContinuousVar <jijmodeling.Problem.SemiContinuousVar>` | - | 上下界内の連続値またはゼロの値をとる変数。上下界の設定が必要。 |
 
 概ねプレースホルダーの構築子と似ていますが、`*Var` で終わるものが決定変数、そうでないものがプレースホルダーの構築子です。
 また、連続値の決定変数は `FloatVar` ではなく {py:meth}`ContinuousVar <jijmodeling.Problem.ContinuousVar>` となっている点に注意してください。
@@ -197,17 +197,17 @@ import jijmodeling as jm
 problem = jm.Problem("Bounds for variable arrays")
 N = problem.Length("N")
 lb = problem.Integer("lb")
-ubs = problem.Integer("ub", shape=N)
+ubs = problem.Integer("ubs", shape=N)
 a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ubs)
 
 problem
 ```
 
- `lb` はゼロ次元のスカラー、 `ub` は長さ $N$ の一次元配列として宣言されたプレースホルダーです。
+`lb` はゼロ次元のスカラー、`ubs` は長さ $N$ の一次元配列として宣言されたプレースホルダーです。
 これらを基に、長さ $N$ の一次元決定変数配列 $a$ は次のような上下界が設定されています：
 
 - 下界：添え字によらず $a_i \geq \mathit{lb} + 1$（上記の (1) に相当）
-- 上界：添え字 $i = 0, \ldots, N - 1$ ごとに $a_i \leq \mathit{ub}_i$（上記の (2) に相当）
+- 上界：添え字 $i = 0, \ldots, N - 1$ ごとに $a_i \leq \mathit{ubs}_i$（上記の (2) に相当）
 
 (3) の添え字からの関数式として与える例としては、やや人工的ですが次のような例が考えられます：
 
@@ -250,7 +250,7 @@ problem
 4. (1)-(3) を要素に持つタプル
 
 :::{caution}
-決定変数構築子に `ndim` または `shape`の少なくとも一方と、`dict_keys` を同時に指定すると、コンテナの種類が確定できないためエラーとなります。
+決定変数構築子に `shape` と `dict_keys` を同時に指定すると、コンテナの種類が確定できないためエラーとなります。
 :::
 
 以下は、カテゴリーラベルと自然数の集合のタプルをキーに持つ決定変数の辞書を定義している例です：

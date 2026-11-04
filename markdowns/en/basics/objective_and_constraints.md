@@ -166,7 +166,7 @@ Then we can write:
 
 $$
 \begin{aligned}
-\min & \sum_{i = 0}^{N-1} \sum_{j = 0}^{N-1} d_{i,j} x_{t,i} x_{(t + 1) \bmod N, j}\\
+\min & \sum_{t = 0}^{N-1} \sum_{i = 0}^{N-1} \sum_{j = 0}^{N-1} d_{i,j} x_{t,i} x_{(t + 1) \bmod N, j}\\
 \text{s.t. } & \sum_{i = 0}^{N-1} x_{t,i} = 1 \quad (t = 0, \ldots, N-1)\\
 & \sum_{t = 0}^{N-1} x_{t,i} = 1 \quad (i = 0, \ldots, N-1)\\
 \end{aligned}

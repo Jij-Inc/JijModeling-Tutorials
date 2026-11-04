@@ -165,7 +165,7 @@ knapsack_problem
 
 $$
 \begin{aligned}
-\min & \sum_{i = 0}^{N-1} \sum_{j = 0}^{N-1} d_{i,j} x_{t,i} x_{(t + 1) \bmod N, j}\\
+\min & \sum_{t = 0}^{N-1} \sum_{i = 0}^{N-1} \sum_{j = 0}^{N-1} d_{i,j} x_{t,i} x_{(t + 1) \bmod N, j}\\
 \text{s.t. } & \sum_{i = 0}^{N-1} x_{t,i} = 1 \quad (t = 0, \ldots, N-1)\\
 & \sum_{t = 0}^{N-1} x_{t,i} = 1 \quad (i = 0, \ldots, N-1)\\
 \end{aligned}
@@ -271,7 +271,7 @@ tsp_array_comparison
 tsp_array_comparison.infer(tsp_array_comparison.decision_vars["x"].sum(axis=1))
 ```
 
-このようにして得られた「時刻毎の都市数」の一元配列をスカラー値$1$と比較し、制約条件の族を定義しているのです。 `one-time`も同様です。
+このようにして得られた「時刻毎の都市数」の一次元配列をスカラー値$1$と比較し、制約条件の族を定義しているのです。 `one-time`も同様です。
 ここでは配列対スカラーの比較になっていますが、前述の通り同一シェイプの配列同士の比較による制約条件の族の定義も可能です。
 
 ### 同名の制約条件

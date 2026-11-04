@@ -34,7 +34,7 @@ JijModeling では、名前つきの式を表すクラスとして {py:class}`~j
 
 +++
 
-# 式の命名
+## 式の命名
 
 特定の式に対して名前をつけて $\LaTeX$ 表示を見やすくする例を見てみましょう。ナップサック問題において、アイテム数 $N$ をインスタンスデータとして与えるのではなく、各アイテムの重さを表すプレースホルダー配列 $w$ の長さから推論することを考えます。
 まずは、 {py:meth}`~jijmodeling.Problem.NamedExpr` を使わずに定式化すると以下のようになります。
@@ -111,7 +111,7 @@ assert instance_named.constraints[0].function.almost_equal(
 
 +++
 
-## インタンスへの保存
+## インスタンスへの保存
 
 {py:class}`~jijmodeling.Problem.NamedExpr` の `save_in_ommx` 引数に `True` を設定することで、以下の条件を満たす場合に限り、その式を OMMX インスタンスに保存することができます。
 

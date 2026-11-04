@@ -80,7 +80,7 @@ def gcp_good_modeling(problem: jm.DecoratedProblem):
 gcp_good_modeling
 ```
 
-では、この修正によりバグが取り除かれたかをどうかを改めて確認してみましょう。
+では、この修正によりバグが取り除かれたかどうかを改めて確認してみましょう。
 
 ```{code-cell} ipython3
 for _ in range(25):
