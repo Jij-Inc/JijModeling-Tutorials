@@ -420,7 +420,7 @@ assert instance.objective.almost_equal(expected)
 
 The difference `A.diff(B)` is computed by traversing the elements of the first argument, `A`, in order and retaining only those not contained in the second argument, `B`.
 The two operations handle the order and duplicates of each argument identically; only the membership test against `B` is reversed.
-The following example modifies the `A & B` intersection example to sum only over indices not contained in $A$.
+The following example modifies the intersection example to sum only over keys of the dictionary $B$ that are not contained in $A$.
 
 ```{code-cell} ipython3
 @jm.Problem.define("Stream Intersection Example")
