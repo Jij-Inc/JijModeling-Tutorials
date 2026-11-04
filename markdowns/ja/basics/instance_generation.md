@@ -21,7 +21,7 @@ kernelspec:
 :name: modeling-workflow
 :width: 75%
 
-インスタンスデータ作成までの流れ
+インスタンスデータ生成までの流れ
 :::
 
 {numref}`図%s <modeling-workflow>` にモデルからインスタンスを得るまでの流れを再掲しました。
@@ -144,7 +144,7 @@ assert instance2.constraints[0].function == instance1.constraints[0].function
 
 単純に {py:class}`~jijmodeling.Problem` をインスタンスにコンパイルするだけであれば {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` メソッドを使うのが手軽ですが、 {py:class}`~jijmodeling.Compiler` オブジェクトは {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` や {py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name` メソッドなどを使ってモデルの制約条件や決定変数の OMMX 側での ID の情報を取得することもできます。
 
-また、{py:class}`~jijmodeling.Compiler` はインスタンスへのコンパイル以外にも、以下のように {py:meth}`~jijmodeling.Compiler.eval_function` メソッドを個別のスカラー関数式を OMMX の {py:class}`~ommx.v1.Function` オブジェクトに評価したり、{py:meth}`~jijmodeling.Compiler.eval_constraint` により個別の制約条件を（Problem に登録せずに）OMMX の {py:class}`~ommx.v1.Constraint` オブジェクトに評価したりすることもできます。
+また、{py:class}`~jijmodeling.Compiler` はインスタンスへのコンパイル以外にも、以下のように {py:meth}`~jijmodeling.Compiler.eval_function` メソッドで個別のスカラー関数式を OMMX の {py:class}`~ommx.v1.Function` オブジェクトに評価したり、{py:meth}`~jijmodeling.Compiler.eval_constraint` により個別の制約条件を（Problem に登録せずに）OMMX の {py:class}`~ommx.v1.Constraint` オブジェクトに評価したりすることもできます。
 以下は `problem` 問題の決定変数を使った関数式を評価している例です：
 
 ```{code-cell} ipython3
@@ -156,7 +156,7 @@ compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
 
 また、一度作成した Compiler は、プレースホルダーと決定変数を共有する複数のモデルに対して使い回すことができ、**決定変数や制約条件の ID の対応関係も保存**されます。
 この機能は、同じパラメーターを持ちつつ制約条件や目的関数を変化させた複数のモデルを同時にコンパイルし、結果を比較する用途などに便利です。
-逆に、{py:meth}`jijmodeling.Problem.eval` メソッドは毎回新しい {py:class}`~jijmodeling.Compiler` オジェクトを作成するため、呼び出しの度に ID と決定変数や制約条件の対応関係が変わってしまう可能性があります。
+逆に、{py:meth}`jijmodeling.Problem.eval` メソッドは毎回新しい {py:class}`~jijmodeling.Compiler` オブジェクトを作成するため、呼び出しの度に ID と決定変数や制約条件の対応関係が変わってしまう可能性があります。
 ID の対応関係を保持したい場合、単一の {py:class}`~jijmodeling.Compiler` オブジェクトを作成し {py:meth}`jijmodeling.Compiler.eval_problem` メソッドを呼び出すようにしてください。
 
 :::{admonition} OMMX SDK を用いた問題の変形
