@@ -106,7 +106,7 @@ knapsack_problem
 ```
 
 :::{hint}
-`jijmodeling` での定式化の方法については詳しく知りたい場合は[JijModelingの基本](../basics/overview)を参照してください。
+`jijmodeling` での定式化の方法について詳しく知りたい場合は[JijModelingの基本](../basics/overview)を参照してください。
 :::
 
 +++
@@ -140,7 +140,7 @@ instance = knapsack_problem.eval(instance_data)
 
 ## 最適化問題を解く
 
-では、Step3 で得られたインスタンスを OpenJij のシュミレーテッドアニーリングで解いてみましょう。
+では、Step3 で得られたインスタンスを OpenJij のシミュレーテッドアニーリングで解いてみましょう。
 
 ```{code-cell} ipython3
 from ommx_openjij_adapter import OMMXOpenJijSAAdapter
@@ -169,5 +169,5 @@ df[df["name"] == "x"][["name", "subscripts", "value"]]
 +++
 
 :::{hint}
-`OMMXPySCIPOptAdapter.solve` の返却値は {py:class}`ommx.v1.Solution` オブジェクトです。詳しくは {external+ommx_doc:doc}`user_guide/solution` を参照してください。
+`OMMXOpenJijSAAdapter.solve` の返却値は {py:class}`ommx.v1.Solution` オブジェクトです。詳しくは {external+ommx_doc:doc}`user_guide/solution` を参照してください。
 :::

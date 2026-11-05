@@ -106,7 +106,7 @@ knapsack_problem
 ```
 
 :::{hint}
-`jijmodeling` での定式化の方法については詳しく知りたい場合は[JijModelingの基本](../basics/overview)を参照してください。
+`jijmodeling` での定式化の方法について詳しく知りたい場合は[JijModelingの基本](../basics/overview)を参照してください。
 :::
 
 +++

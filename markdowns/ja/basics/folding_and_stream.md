@@ -62,7 +62,7 @@ Decorator API の内包表記を用いて畳み込みを記述する場合は、
 誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すとエラーとなるため、注意してください。
 :::
 
-また、後ほど説明する {py:func}`jijmodeling.map` 関数を使えば、同じプログラムは Plain API のみで同じものを以下のように書けます：
+また、後ほど説明する {py:func}`jijmodeling.map` 関数を使えば、同じプログラムを Plain API のみで以下のように書けます：
 
 ```{code-cell} ipython3
 sum_example_plain = jm.Problem("Sum Example (Plain)")
@@ -132,7 +132,7 @@ JijModeling では、（明示的・自動的問わず）他の型の値から�
 
 上述の通り、多次元配列は**行優先順に各要素を走査**するストリームに自動的に変換されます。
 これ以外にも、内側の行を順に走査するストリームを得たい場合は、{py:func}`~jijmodeling.rows` 関数を使います。
-{py:func}`~jijmodeling.rows` 関数は、実際にはシェイプ $N \times M_1 \times \cdots \times M_n$ 多次元配列を、シェイプ $M_1 \times \ldots \times M_n$ の部分配列から成る長さ $N$ の配列に変換する関数であり、配列の自動変換機能を介してストリームに変換されるようになっています。
+{py:func}`~jijmodeling.rows` 関数は、実際にはシェイプ $N \times M_1 \times \cdots \times M_n$ の多次元配列を、シェイプ $M_1 \times \ldots \times M_n$ の部分配列から成る長さ $N$ の配列に変換する関数であり、配列の自動変換機能を介してストリームに変換されるようになっています。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Row Sum Example")
@@ -243,7 +243,7 @@ N.filter(lambda i: i % 2 == 0)
 ### ストリームの重複を取り除く
 
 先述の通り、ストリームには値が重複して現れる場合があります。
-ストリームから重複する元を取り除くが必要な場合は {py:func}`~jijmodeling.unique` 関数を使うと、複数回現れる要素は最初の出現位置のもののみが残され、一意になったストリームが得られるようになります。
+ストリームから重複する要素を取り除くには {py:func}`~jijmodeling.unique` 関数を使います。複数回現れる要素は最初の出現位置のもののみが残され、一意になったストリームが得られます。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Stream Uniquifization Example")
@@ -345,7 +345,7 @@ tuple_domain_example
 
 ### ストリームの直和・共通部分・差分
 
-ストリームは直和・共通部分・差分を取る操作は、Python のビット演算や JijModeling の組込み関数を使って表現することができます。
+ストリームの直和・共通部分・差分を取る操作は、Python のビット演算や JijModeling の組込み関数を使って表現することができます。
 具体的には、`|` や{py:func}`jijmodeling.bor` により直和を、ビット演算子 `&` や関数{py:func}`jijmodeling.band` により共通部分を、{py:func}`jijmodeling.diff` により差分を取ることができます。
 以下、それぞれ順に見ていきましょう。
 
@@ -421,7 +421,7 @@ assert instance.objective.almost_equal(expected)
 
 差分 `A.diff(B)` は、第 1 引数 `A` の要素を順に走査し、第 2 引数 `B` に含まれていない要素のみ残す形で計算されます。
 `B` の役割が反転しているだけで、各引数の要素の順・重複の扱いは `A & B` と同様です。
-以下の例は、共通部分 `A & B` の例添え字 $A$ に含まれない添え字についてだけ総和を取るようにしたものです。
+以下の例は、共通部分の例を変更し、辞書 $B$ のキーのうち $A$ に含まれない添え字についてだけ総和を取るようにしたものです。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Stream Intersection Example")

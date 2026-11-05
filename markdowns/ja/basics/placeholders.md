@@ -25,10 +25,10 @@ kernelspec:
 
 | 種類 | 数式 | 説明 | 別名 |
 | :--- | :--: | :-- | :-- |
-| {py:meth}`~jijmodeling.Problem.Binary` | $\{0, 1\}$ | $0$ または $1$ の値をとる二値プレースホルダー。 | - |
-| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ または $\{0, \ldots, N-1\}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。`less_than` キーワード引数に別の自然数式 `N` を指定することで、$\{0, \ldots, N-1\}$ の範囲に制限できる。 | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
-| {py:meth}`~jijmodeling.Problem.Integer` | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
-| {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
+| {py:meth}`Binary <jijmodeling.Problem.Binary>` | $\{0, 1\}$ | $0$ または $1$ の値をとる二値プレースホルダー。 | - |
+| {py:meth}`Natural <jijmodeling.Problem.Natural>` | $\mathbb{N}$ または $\{0, \ldots, N-1\}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。`less_than` キーワード引数に別の自然数式 `N` を指定することで、$\{0, \ldots, N-1\}$ の範囲に制限できる。 | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
+| {py:meth}`Integer <jijmodeling.Problem.Integer>` | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
+| {py:meth}`Float <jijmodeling.Problem.Float>` | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
 | これらのタプル | $\mathbb{Z} \times \mathbb{R}$ | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
 
 プレースホルダーを宣言するには、上記の種類と同じ名前の Problem のメソッドを呼ぶ必要があります。
@@ -68,7 +68,7 @@ N
 ```
 
 また、プレースホルダーが式中に現れた場合、自動的にその値を参照する式として扱われます。
-試しに、`A` に $1$ を足してみましょう。
+試しに、`W` に $1$ を足してみましょう。
 
 ```{code-cell} ipython3
 W + 1
@@ -191,7 +191,7 @@ print(f"Category Labels: {ph_catlab_problem.category_labels}")
 プレースホルダー配列の宣言で最も推奨されるものは、 `shape` キーワード引数を使うことです。
 `shape`キーワード引数には、自然数から成る固定長のタプルを表す式を指定することができます。
 また、次元が$1$の場合は単に自然数を表す式で与えることもできます。
-ここでは、$N$や$W$などの単独のプレースホルダーだけではなく、各アイテムの価値を表す一次元配列 `v` と、重さを表す一次元配列 `w` を持つようなナップサック問題を部分的に定義してみましょう。：
+ここでは、$N$や$W$などの単独のプレースホルダーだけではなく、各アイテムの価値を表す一次元配列 `v` と、重さを表す一次元配列 `w` を持つようなナップサック問題を部分的に定義してみましょう：
 
 (knapsack_placeholders_update)=
 
@@ -263,7 +263,7 @@ knapsack_placeholders_ndim
 ```
 
 ここで、{py:meth}`~jijmodeling.Expression.len_at` メソッドは与えられた配列 `array` の $i$ 番目の軸の長さを返すメソッドです。
-$w, v, x$ の長さはいずれも同じ長さですので、$v$を 1 次元配列として宣言しておき、残る $w$, $x$ はその長さを使って `shape` を指定する形にしているのです。
+$v$ と $w$ の長さは同じなので、$v$ を一次元配列として宣言し、その長さを使って $w$ の `shape` を指定しています。
 このように、最初に $N$ を独立して定義する方法と、配列の長さから復元する方法とでは、定義される数理モデルは意味的には同じですが、インスタンスデータの与え方が異なります。
 たとえば、最初の `knapsack_placeholders` の例（[定義](#knapsack_placeholders_def)およびその[更新](#knapsack_placeholders_update)）では、$N$ も {py:meth}`Length <jijmodeling.Problem.Length>` プレースホルダーとして宣言しているため、**{doc}`インスタンスの生成 <./instance_generation>`時**に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
 一方で、$N$ をプレースホルダーではなく {py:meth}`len_at <jijmodeling.Expression.len_at>` を使って別の式として構築している [`knapsack_placeholders_ndim`](#knapsack_placeholders_ndim) では、$N$の値は入力値 `v` から推論されるため、コンパイル時には `W`, `v`, `w` の値のみを指定するだけで済みます。
@@ -300,7 +300,7 @@ w = problem.Float(ndim=1, description="各アイテムの重量")
 :::{admonition} タプルの配列としてのグラフ
 :class: tip
 
-たとえば、`V` が超点数を表す自然数式のとき、 `G = problem.Graph(dtype=V)` とすると、$G$ は $\{0, \ldots, V-1\}$ を頂点集合として持つグラフの辺集合にあたるプレースホルダーとして宣言されます。
+たとえば、`V` が頂点数を表す自然数式のとき、 `G = problem.Graph(dtype=V)` とすると、$G$ は $\{0, \ldots, V-1\}$ を頂点集合として持つグラフの辺集合にあたるプレースホルダーとして宣言されます。
 実は、この構築子は一次元配列と「[単独のプレースホルダー](#single_ph)」で触れたタプルの組み合わせで表現されており、次のように書いたのと同値です：
 
 ```python
@@ -348,7 +348,7 @@ JijModeling 1 系統には、シェイプが均一ではない Jagged Array と�
 :::{admonition} プレースホルダー辞書に `ndim` 相当がない理由
 :class: caution
 
-プレースホルダー配列における `ndim` 相当の引数は存在しません。これは、キーの型を省略して成分数だけ与えた場合、インスタンスデータへのアクセスなしに具体的なキーの型を確定することができないためです。
+プレースホルダー辞書には、配列の `ndim` に相当する引数は存在しません。これは、キーの型を省略して成分数だけ与えた場合、インスタンスデータへのアクセスなしに具体的なキーの型を確定することができないためです。
 :::
 
 以下は、ナップサック問題の各アイテムを、自然数ではなくカテゴリーラベルとして宣言し、各アイテムの価値と重さをその辞書として宣言する例です：

@@ -19,7 +19,7 @@ kernelspec:
 - {py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` は、{py:meth}`Problem.eval` に渡すインスタンスデータを返します。
 - {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` は、 同じくデータを生成するが、 OMMX インスタンスとして返します。 {py:meth}`generate_random_dataset <jijmodeling.Problem.generate_random_dataset>`で取得したインスタンスデータをそのまま{py:meth}`Problem.eval`に渡すのと同じです。
 
-上記メソッドの生成に関する引数は共通で、`default` と `options` と `seed` の３つです。さらには{py:meth}`generate_random_instance <jijmodeling.Problem.generate_random_instance>`は{py:meth}`Problem.eval <jijmodeling.Problem.eval>`の引数も対応しています（`prune_unused_dec_vars`、`constraint_detection`など）。
+上記メソッドの生成に関する引数は共通で、`default` と `options` と `seed` の３つです。さらに{py:meth}`generate_random_instance <jijmodeling.Problem.generate_random_instance>`は{py:meth}`Problem.eval <jijmodeling.Problem.eval>`の引数にも対応しています（`prune_unused_dec_vars`、`constraint_detection`など）。
 
 `seed`パラメータは、乱数生成の初期化に使われる乱数シードです。インスタンス生成に再現性を求める場合に使えます。
 
@@ -29,7 +29,7 @@ kernelspec:
 
 ## `default` と `options`の指定方法
 
-`default`と`options` は両方とも以下の指定方法を対応としています。
+`default`と`options` は両方とも以下の指定方法に対応しています。
 - 固定値
 - Python 組み込みの {py:class}`range <range>`
 - {py:mod}`jijmodeling.generation` 配下の関数から取得されたオブジェクト
@@ -100,13 +100,13 @@ problem.generate_random_dataset(
 )
 ```
 
-`shape`の一部が未指定のプレースホルダーの場合（たとえば`shape=(None, 10)`など）、要素数が未指定になっている次元はそれぞれ`size`を参照して要素数を決めます。`shape`の情報が優先されるので、要素数が完全に定義されているプレースホルダーに`size`オプションをつけても意味ありません。
+`shape`の一部が未指定のプレースホルダーの場合（たとえば`shape=(None, 10)`など）、要素数が未指定になっている次元はそれぞれ`size`を参照して要素数を決めます。`shape`の情報が優先されるので、要素数が完全に定義されているプレースホルダーに`size`オプションをつけても意味がありません。
 
 +++
 
 ## プレースホルダーの辞書
 
-カテゴリーラベル型をキーとするプレースホルダーの辞書の場合、`options`でそのカテゴリーラベルに該当するキーを定義する必要があります。カテゴリーラベルのオプションに`keys`に文字列の配列を設定すると、キー集合を明示的に定義できます。たとえば、カテゴリーラベル`C`のキー集合をＸ、Ｙ、Ｚにするには以下のように書きます。
+カテゴリーラベル型をキーとするプレースホルダーの辞書の場合、`options`でそのカテゴリーラベルに該当するキーを定義する必要があります。カテゴリーラベルの`keys`オプションに文字列の配列を設定すると、キー集合を明示的に定義できます。たとえば、カテゴリーラベル`C`のキー集合をＸ、Ｙ、Ｚにするには以下のように書きます。
 
 ```python
 { "C": {"keys": ["X", "Y", "Z"]} }
@@ -114,7 +114,7 @@ problem.generate_random_dataset(
 
 `C` をキー集合にしている辞書型プレースホルダーは、`keys`に渡された各文字列に対して値を生成します。範囲指定はスカラーと配列型と同じで、`default`を渡すか、各プレースホルダーの`options`で指定することができます。
 
-生成したいインスタンスにとってカテゴリーラベルで実際使われる文字列がなんでもよいという場合、カテゴリーラベルのオプションに`keys`ではなく、`size`をすることも可能です（固定値も範囲指定も可）。その場合、その数だけの文字列が適当に生成されます。
+生成したいインスタンスにとってカテゴリーラベルで実際に使われる文字列がなんでもよいという場合、カテゴリーラベルのオプションに`keys`ではなく、`size`を指定することも可能です（固定値も範囲指定も可）。その場合、その数だけの文字列が適当に生成されます。
 
 `PartialDict`含め、デフォルトで全辞書型プレースホルダーで全域に対して値を生成するということになっています。`PartialDict`のキーを制限したいときは、そのプレースホルダーのオプションに追加で`keys`か`size`を渡す必要があります。
 たとえば、`C`がキー集合になっている `D` プレースホルダー（`PartialDict`）がある場合は次のように書きます。
