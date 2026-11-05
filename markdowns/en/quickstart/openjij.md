@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: jijmodeling-tutorial
   language: python
@@ -169,5 +169,5 @@ Since `OMMXOpenJijSAAdapter` internally performs conversion to QUBO/HUBO format,
 +++
 
 :::{hint}
-The return value of `OMMXPySCIPOptAdapter.solve` is an `ommx.v1.Solution` object. For more details, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/solution.html).
+The return value of `OMMXOpenJijSAAdapter.solve` is an `ommx.v1.Solution` object. For more details, please refer to [here](https://jij-inc.github.io/ommx/en/user_guide/solution.html).
 :::

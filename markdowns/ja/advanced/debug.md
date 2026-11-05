@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv (3.12.12)
   language: python
@@ -80,7 +80,7 @@ def gcp_good_modeling(problem: jm.DecoratedProblem):
 gcp_good_modeling
 ```
 
-では、この修正によりバグが取り除かれたかをどうかを改めて確認してみましょう。
+では、この修正によりバグが取り除かれたかどうかを改めて確認してみましょう。
 
 ```{code-cell} ipython3
 for _ in range(25):

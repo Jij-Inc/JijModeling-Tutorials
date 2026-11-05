@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv
   language: python
@@ -47,7 +47,7 @@ plain_problem = jm.Problem(
 plain_problem
 ```
 
-この時点では目的関数を設定していないため、ここでは $0$ が目的変数として表示されています。
+この時点では目的関数を設定していないため、ここでは $0$ が目的関数として表示されています。
 
 :::{admonition} `description` 内の数式の書き方
 :class: important
@@ -110,7 +110,7 @@ Decorator API では、JijModeling の式を走査する内包表記・ジェネ
 
 ## {py:class}`Problem <jijmodeling.Problem>` オブジェクトの更新
 
-ここではほとんど空の Problem オブジェクトを作成しましたが、実際には決定変数や制約条件、目的関数などを追加し、{py:class}`Problem <jijmodeling.Problem>` オブジェクトを逐次的に更新してモデルを構築していくのが実際の流れになります。
+ここではほとんど空の Problem オブジェクトを作成しましたが、実際には決定変数や制約条件、目的関数などを追加し、{py:class}`Problem <jijmodeling.Problem>` オブジェクトを逐次的に更新してモデルを構築します。
 いずれの API で定義された {py:class}`Problem <jijmodeling.Problem>` オブジェクト `problem` も機能に差はありませんので、Plain API を使って更新することもできますし、{py:meth}`@problem.update <jijmodeling.Problem.update>` デコレータを使って Decorator API を用いて更新することもできます。もちろん、両者を混ぜて使うことも可能です。
 試しに、先ほど定義した問題たちに変数を追加してみましょう。
 
@@ -182,7 +182,7 @@ def _(
 
 この例のように、{py:meth}`@problem.update <jijmodeling.Problem.update>` の追加引数はすべての変数を列挙する必要はなく、必要なもののみを指定して使うことができます。
 
-2.7.0 以前をお使いの場合は、次章以降で説明するように {py:attr}`placeholders <jijmodeling.Problem.placeholders>` などの {py:class}`Problem <jijmodeling.Problem>` が持つメタデータから直接引き出し手動で束縛することで、同等の処理が可能です。
+2.7.0 未満をお使いの場合は、次章以降で説明するように {py:attr}`placeholders <jijmodeling.Problem.placeholders>` などの {py:class}`Problem <jijmodeling.Problem>` が持つメタデータから直接引き出し手動で束縛することで、同等の処理が可能です。
 
 :::{tip}
 以上まではまだ Decorator API の嬉しさが見えてこないかもしれませんが、以下の各章を見ていくとその価値がわかるでしょう。

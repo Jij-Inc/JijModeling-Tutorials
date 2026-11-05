@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv
   language: python
@@ -23,11 +23,11 @@ Since JijModeling is a general-purpose modeler, it supports the following repres
 
 | Type | Mathematical Notation | Description |
 | :---- | :------------------: | :--- |
-| {py:meth}`~jijmodeling.Problem.BinaryVar` | $\{0, 1\}$ | A binary variable taking value $0$ or $1$. Bounds are not required. |
-| {py:meth}`~jijmodeling.Problem.IntegerVar` | $\mathbb{Z}$ | An integer variable. Bounds are required. |
-| {py:meth}`~jijmodeling.Problem.ContinuousVar` | $\mathbb{R}$ | A continuous real-valued variable. Bounds are required. |
-| {py:meth}`~jijmodeling.Problem.SemiIntegerVar` | - | A variable that takes integer values within bounds or zero. Bounds are required. |
-| {py:meth}`~jijmodeling.Problem.SemiContinuousVar` | - | A variable that takes continuous values within bounds or zero. Bounds are required. |
+| {py:meth}`BinaryVar <jijmodeling.Problem.BinaryVar>` | $\{0, 1\}$ | A binary variable taking value $0$ or $1$. Bounds are not required. |
+| {py:meth}`IntegerVar <jijmodeling.Problem.IntegerVar>` | $\mathbb{Z}$ | An integer variable. Bounds are required. |
+| {py:meth}`ContinuousVar <jijmodeling.Problem.ContinuousVar>` | $\mathbb{R}$ | A continuous real-valued variable. Bounds are required. |
+| {py:meth}`SemiIntegerVar <jijmodeling.Problem.SemiIntegerVar>` | - | A variable that takes integer values within bounds or zero. Bounds are required. |
+| {py:meth}`SemiContinuousVar <jijmodeling.Problem.SemiContinuousVar>` | - | A variable that takes continuous values within bounds or zero. Bounds are required. |
 
 These constructors are broadly similar to placeholder constructors, but constructors ending in `*Var` are for decision variables, while those without `*Var` are for placeholders.
 Also note that real-valued decision variables are declared with {py:meth}`ContinuousVar <jijmodeling.Problem.ContinuousVar>`, not `FloatVar`.
@@ -203,17 +203,17 @@ import jijmodeling as jm
 problem = jm.Problem("Bounds for variable arrays")
 N = problem.Length("N")
 lb = problem.Integer("lb")
-ubs = problem.Integer("ub", shape=N)
+ubs = problem.Integer("ubs", shape=N)
 a = problem.IntegerVar("a", shape=N, lower_bound=lb + 1, upper_bound=ubs)
 
 problem
 ```
 
-Here, `lb` is a zero-dimensional scalar, and `ub` is a one-dimensional placeholder array of length $N$.
+Here, `lb` is a zero-dimensional scalar, and `ubs` is a one-dimensional placeholder array of length $N$.
 Based on these, the one-dimensional decision-variable array $a$ of length $N$ has the following bounds:
 
 - Lower bound: $a_i \geq \mathit{lb} + 1$ for all indices, corresponding to (1) above
-- Upper bound: $a_i \leq \mathit{ub}_i$ for each $i = 0, \ldots, N - 1$, corresponding to (2) above
+- Upper bound: $a_i \leq \mathit{ubs}_i$ for each $i = 0, \ldots, N - 1$, corresponding to (2) above
 
 As an example of (3), a slightly artificial but illustrative example is:
 
@@ -256,7 +256,7 @@ The following expressions can be passed to `dict_keys` when declaring a decision
 4. A tuple composed of (1) to (3)
 
 :::{caution}
-If you specify `dict_keys` together with `ndim` or `shape` in a decision-variable constructor, it raises an error because the container type cannot be determined.
+If you specify `shape` and `dict_keys` together in a decision-variable constructor, it raises an error because the container type cannot be determined.
 :::
 
 Here is an example of a decision-variable dictionary keyed by a tuple of a category label and a natural-number set:

@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv
   language: python
@@ -22,7 +22,7 @@ JijModeling 2 では、数理モデリングに対する核心的な考え方は
 JijModeling 1 系統のサポートは、**2026年10月中旬に終了します**。
 これ以後も JijModeling 1 の利用自体は可能ですが、セキュリティ対応やバグ修正、新たな Python バージョンへの対応などは行われなくなります。
 
-JijModeling 2 への以降を強くお勧めしますが、既存のコード資産を使い続けたい場合、pip や uv などでは以下のようにバージョンを指定する必要があります。
+JijModeling 2 への移行を強くお勧めしますが、既存のコード資産を使い続けたい場合、pip や uv などでは以下のようにバージョンを指定する必要があります。
 
 ```bash
 pip install 'jijmodeling <2' # pip の場合
@@ -34,7 +34,7 @@ uv add jijmodeling<2         # uv の場合
 https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
 
 しかし、長期的に使い続ける場合は JijModeling 2 への移行を検討することを強くお勧めします。
-移行の過程では、2.9.0 移行で付属している[エージェントスキル／プラグイン](../advanced/agent_plugin_installation)にこのガイドを渡すことで、コーディングエージェントによりある程度移行作業が可能な場合があります。
+移行の過程では、2.9.0 以降で付属している[エージェントスキル／プラグイン](../advanced/agent_plugin_installation)にこのガイドを渡すことで、コーディングエージェントによりある程度移行作業が可能な場合があります。
 
 :::
 
@@ -66,7 +66,7 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
       * 実数値：{py:meth}`problem.Float() <jijmodeling.Problem.Float>`
     - これらの利用により意図がより明確になり、また正確な型チェックによる精度の高いエラーメッセージが得られるようになります。高度なケース（タプルなどのカスタム`dtype`）にのみ{py:meth}`Placeholder <jijmodeling.Problem.Placeholder>`を使用してください。
 
-7. **従属変数の導入**：新たに導入された{py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>`や{py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>`宣言により、頻出する部分式を名前つき式として束縛・再利用できるようになりました。これにより、従来の JijModeling で {py:meth}`with_latex() <jijmodeling.Expression.with_latex>` や`latex=...`で定義された$\LaTeX$上の変数の定義がわからなくなる問題が解消されます。
+7. **従属変数の導入**：新たに導入された{py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>`宣言により、頻出する部分式を名前つき式として束縛・再利用できるようになりました。これにより、従来の JijModeling で {py:meth}`with_latex() <jijmodeling.Expression.with_latex>` や`latex=...`で定義された$\LaTeX$上の変数の定義がわからなくなる問題が解消されます。
 
 8. **新しいデータ型**: JijModeling 2 では辞書型とカテゴリーラベル型が追加されました！
    - 従来 Jagged Array で書いていた多くのケースが、辞書を使ってより簡潔に記述できるようになりました！
@@ -88,7 +88,7 @@ https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
 <b>注意:</b> この節では、現在のJijModeling 2で利用できない機能を列挙しています。
 </div>
 
-JijModeling 1 に存在し、現時点の JijModeling 2 で欠けている機能のは次のとおりです：
+JijModeling 1 に存在し、現時点の JijModeling 2 で欠けている機能は次のとおりです：
 
 1. 複雑な構文木書き換え API
 
@@ -223,7 +223,7 @@ JijModeling 2 では、いくつかの挙動が変更されています：
 ### ストリームとラムダ式・内包表記による Element の代替
 
 JijModeling 1 では、ユーザーは特定の集合に属する`Element`を陽に宣言する必要があり、特に高次多次元配列を扱う際にコーディングが複雑になりました。
-かわりに、JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として**ストリーム**（順序を持つ値の列）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
+JijModeling 2 は`Element`ノードを削除し、かわりに第一級の値として**ストリーム**（順序を持つ値の列）を導入し、ラムダ式や Python の内包表記構文と組み合わせて範囲を指定する API を提供します。
 
 具体的には、以下をストリームとして扱うことができます：
 
@@ -338,7 +338,7 @@ problem.Constraint("cap", C <= N)
 ### 利用可能なDecorator API
 
 現在、Decorator API には{py:meth}`@problem.update <jijmodeling.Problem.update>`と{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`の 2 種類のデコレータが提供されています。
-どちらも DecoratedProblem を引数に取る関数に対し修飾し、関数内では全く同じ Decorator API の記法が利用できます。
+どちらも DecoratedProblem を引数に取る関数を修飾し、関数内では全く同じ Decorator API の記法が利用できます。
 利用上の注意点は以下の通りです：
 
 - {py:meth}`@jm.Problem.define(name, ...) <jijmodeling.Problem.define>` は Decorator API を使って新たな {py:class}`Problem <jijmodeling.Problem>` オブジェクトを作成するのに使われます。
@@ -363,7 +363,7 @@ def _update(my_problem: jm.DecoratedProblem):
     # ❗️ NとxはスコープOutOfScope！
 ```
 
-上の例では場合、変数 `N` と `x`（Python 変数として）は `_update` のスコープ外です。
+上の例では、変数 `N` と `x`（Python 変数として）は `_update` のスコープ外です。
 もちろん、問題自体には `N` と `x` の情報が登録されているため、{py:attr}`Problem.placeholders <jijmodeling.Problem.placeholders>`または{py:attr}`Problem.decision_vars <jijmodeling.Problem.decision_vars>` 属性を使用して情報を再度取得することができます：
 
 ```python
@@ -391,7 +391,7 @@ def _update(
 
 ### Decorator API での変数名の省略
 
-Decorator API では、Placeholder や決定変数を定義した際に変数名引数を省略場合、自動的に Python 変数名がシンボルの名前として使用されます。
+Decorator API では、Placeholder や決定変数を定義した際に変数名引数を省略した場合、自動的に Python 変数名がシンボルの名前として使用されます。
 たとえば、`N = problem.Natural()` は以前の `N = problem.Natural("N")` という記法と同値になります。
 一方、名前を明確に指定した場合（例：`N = problem.Natural("number_of_items")`）、Decorator API であっても Python 変数名 `N` ではなく、提供された文字列（ここでは`"number_of_items"`）が JijModeling 内部での変数名として使用されます。
 
@@ -595,7 +595,7 @@ def _(problem: jm.DecoratedProblem):
 problem
 ```
 
-もう一つは、`E`を$(N \times 2)$-次元配列として定式化し、{py:meth}`rows() <jijmodeling.Expression.rows>` メソッドを呼ぶ方法です：
+もう一つは、`E`をシェイプ $(N, 2)$ の二次元配列として定式化し、{py:meth}`rows() <jijmodeling.Expression.rows>` メソッドを呼ぶ方法です：
 
 ```{code-cell} ipython3
 # .rows()を使用した代替方法
@@ -896,7 +896,7 @@ JijModeling 1 から 2 へコードを移行するには、以下の段階的な
 
 ### ステップ0：Python 3.11以降への移行
 
-- ✅ `pyproject.toml` や `.python-version` ファイルなどを修正したり、新しいバージョンの Python 処理系をインストールするなどして、Python 3.11 移行が使用されるようにしてください。
+- ✅ `pyproject.toml` や `.python-version` ファイルなどを修正したり、新しいバージョンの Python 処理系をインストールするなどして、Python 3.11 以降が使用されるようにしてください。
 
 ### ステップ1：インポートとProblem作成の更新
 
@@ -1026,7 +1026,7 @@ Decorator API で内包表記を使っていると、次のようなエラーが
 TypeError: 'jijmodeling.Placeholder' object is not iterable
 ```
 
-多くの場合、こうした例外次の場合に発生します：
+こうした例外は、多くの場合、次の原因で発生します：
 
 1. デコレータ（例：{py:meth}`@problem.update <jijmodeling.Problem.update>`や{py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`）が**指定されていない**文脈で、内包表記（例：`jm.sum(x[i] for i in N)`または`problem.Constraint("MyConstraint", [x[i] <= w[i] * v[i - 1] for i in N])`）が使用されている
 2. {py:func}`jm.sum <jijmodeling.sum>`のかわりに Python の組み込み {py:func}`sum` を呼び出している。
@@ -1061,7 +1061,7 @@ Python の組み込み関数 {py:func}`sum` は具体的な反復可能オブジ
 
 1. **常にProblemインスタンスを通じて変数を作成** – JijModeling 2 では必須
 2. **型付きプレースホルダーコンストラクタ（{py:meth}`Natural <jijmodeling.Problem.Natural>`、{py:meth}`Float <jijmodeling.Problem.Float>`、{py:meth}`Integer <jijmodeling.Problem.Integer>`、…）を使用** – 可読性と診断を改善
-3. **複雑な場合のみ汎用{py:meth}`Placeholder <jijmodeling.Problem.Placeholder>`を仕様** – タプルなどの複雑な`dtype`のみ。
+3. **複雑な場合のみ汎用{py:meth}`Placeholder <jijmodeling.Problem.Placeholder>`を使用** – タプルなどの複雑な`dtype`のみ。
    - 長さや次元を表す場合は、同義の{py:meth}`Length <jijmodeling.Problem.Length>`や{py:meth}`Dim <jijmodeling.Problem.Dim>`といった特化コンストラクタを活用できます。
 4. **Decorator APIを優先** – よりクリーンで保守しやすい
 5. **名前の省略を活用** – 可能な場合はシステムに変数名を推論させる
@@ -1069,7 +1069,7 @@ Python の組み込み関数 {py:func}`sum` は具体的な反復可能オブジ
 7. **グラフの辺集合にタプル型を使用** – プログラムおよび数式出力の可読性が向上
    - {py:meth}`Problem.Graph <jijmodeling.Problem.Graph>` というスマートコンストラクタも利用できます。
 8. **単純なケースには{py:meth}`problem.eval() <jijmodeling.Problem.eval>`を使用** – イントロスペクションまたは高度なワークフローには{py:class}`Compiler <jijmodeling.Compiler>`を使用
-9. **Jagged Arrayのかわりに辞書型を利用**：Jagged Array エラーの温床になるため、可能な限り辞書型の利用を推奨します。
+9. **Jagged Arrayのかわりに辞書型を利用**：Jagged Array はエラーの温床になるため、可能な限り辞書型の利用を推奨します。
 
 ## まとめ
 

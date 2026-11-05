@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv
   language: python
@@ -106,7 +106,7 @@ knapsack_problem
 ```
 
 :::{hint}
-`jijmodeling` での定式化の方法については詳しく知りたい場合は[JijModelingの基本](../basics/overview)を参照してください。
+`jijmodeling` での定式化の方法について詳しく知りたい場合は[JijModelingの基本](../basics/overview)を参照してください。
 :::
 
 +++

@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv
   language: python
@@ -34,7 +34,7 @@ This document explains these uses of {py:class}`~jijmodeling.NamedExpr` with con
 
 +++
 
-# Naming Expressions
+## Naming Expressions
 
 Let us look at an example of naming a specific expression to make the $\LaTeX$ output easier to read. In the knapsack problem, suppose we want to infer the number of items $N$ from the length of the placeholder array $w$ representing the weight of each item, rather than providing $N$ explicitly as instance data.
 First, here is a formulation that does not use {py:meth}`~jijmodeling.Problem.NamedExpr`:

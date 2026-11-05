@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv
   language: python
@@ -26,10 +26,10 @@ Representative placeholder types are:
 
 | Type | Mathematical Notation | Description | Alias |
 | :--- | :------------------: | :-- | :-- |
-| {py:meth}`~jijmodeling.Problem.Binary` | $\{0, 1\}$ | A binary placeholder taking value $0$ or $1$. | - |
-| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ or $\{0, \ldots, N-1\}$ | Natural numbers including zero. Used for array sizes and indices. Specify another natural-valued expression `N` with the `less_than` keyword argument to restrict the range to $\{0, \ldots, N-1\}$. | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
-| {py:meth}`~jijmodeling.Problem.Integer` | $\mathbb{Z}$ | An integer value, including negatives. | - |
-| {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | A general real-valued floating-point placeholder. | - |
+| {py:meth}`Binary <jijmodeling.Problem.Binary>` | $\{0, 1\}$ | A binary placeholder taking value $0$ or $1$. | - |
+| {py:meth}`Natural <jijmodeling.Problem.Natural>` | $\mathbb{N}$ or $\{0, \ldots, N-1\}$ | Natural numbers including zero. Used for array sizes and indices. Specify another natural-valued expression `N` with the `less_than` keyword argument to restrict the range to $\{0, \ldots, N-1\}$. | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
+| {py:meth}`Integer <jijmodeling.Problem.Integer>` | $\mathbb{Z}$ | An integer value, including negatives. | - |
+| {py:meth}`Float <jijmodeling.Problem.Float>` | $\mathbb{R}$ | A general real-valued floating-point placeholder. | - |
 | Tuples of the above | $\mathbb{Z} \times \mathbb{R}$ | Fixed-length tuples with per-component types, often used with lists. | - |
 
 To declare a placeholder, call the method with the same name as one of the types above on a `Problem`.
@@ -266,7 +266,7 @@ knapsack_placeholders_ndim
 ```
 
 The {py:meth}`~jijmodeling.Expression.len_at` method returns the length of the $i$-th axis of the given array.
-Since $w$, $v$, and $x$ all have the same length in the full knapsack model, we declare $v$ as a one-dimensional array first and use its length to specify the `shape` of the remaining arrays.
+Since $v$ and $w$ have the same length, we declare $v$ as a one-dimensional array first and use its length to specify the `shape` of $w$.
 
 These two approaches define semantically similar models, but they differ in how instance data is provided.
 In the first `knapsack_placeholders` example ([definition](#knapsack_placeholders_def) and [update](#knapsack_placeholders_update)), $N$ is also declared as a {py:meth}`Length <jijmodeling.Problem.Length>` placeholder, so when {doc}`generating an instance <./instance_generation>`, you must provide `N` as instance data in addition to `W`, `v`, and `w`.
@@ -355,7 +355,7 @@ You can also declare placeholder dictionaries by calling the {py:meth}`~jijmodel
 :::{admonition} Why there is no `ndim`-like option for placeholder dictionaries
 :class: caution
 
-There is no argument corresponding to `ndim` for placeholder arrays.
+Placeholder dictionaries have no argument corresponding to `ndim` for arrays.
 If only the number of components were provided while omitting the key type, the concrete key type could not be determined without accessing instance data.
 :::
 

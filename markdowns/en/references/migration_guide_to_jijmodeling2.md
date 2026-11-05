@@ -4,7 +4,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.19.5
+    jupytext_version: 1.19.6
 kernelspec:
   display_name: .venv
   language: python
@@ -65,7 +65,7 @@ JijModeling 2 introduces several key changes that improve usability and safety:
       * Real: {py:meth}`problem.Float() <jijmodeling.Problem.Float>`.
    - They produce clearer intent, tighter static type checking, and better error messages. Use {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` only for advanced cases (tuple / custom `dtype`s).
 
-7. **Introduction of Named Expressions**: The newly introduced {py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>` and {py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>` declaration allows you to bind and reuse frequently appearing sub-expressions as named expressions. This resolves the issue in traditional JijModeling where definitions of variables in LaTeX (defined with {py:meth}`with_latex() <jijmodeling.Expression.with_latex>` or `latex=...`) were unclear.
+7. **Introduction of Named Expressions**: The newly introduced {py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>` declaration allows you to bind and reuse frequently appearing sub-expressions as named expressions. This resolves the issue in traditional JijModeling where definitions of variables in LaTeX (defined with {py:meth}`with_latex() <jijmodeling.Expression.with_latex>` or `latex=...`) were unclear.
 
 8. **New Datatypes**: JijModeling 2 now shipped with dictionary and category label types!
    - Many cases formerly written using jagged arrays can now be written more simply with dictionaries!
@@ -588,7 +588,7 @@ def _(problem: jm.DecoratedProblem):
 problem
 ```
 
-Alternatively, you can also use $(N \times 2)$-D array in combination with the {py:meth}`rows() <jijmodeling.Expression.rows>` method:
+Alternatively, you can use a two-dimensional array with shape $(N, 2)$ in combination with the {py:meth}`rows() <jijmodeling.Expression.rows>` method:
 
 ```{code-cell} ipython3
 # Alternative method using .rows()
