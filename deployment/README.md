@@ -12,8 +12,10 @@ Paths in the file are relative to the language and version prefix, such as `/en/
 | `introduction.html` | the book root |
 
 1. Verify each destination on the pull request preview. For links to a heading or cell, check the fragment as well.
-2. At production rollout, add the page rules through **Admin → Redirects** in each project or submit each rule to its redirects API. Keep `force: false` so an existing page takes precedence.
+2. At production rollout, use **Admin → Redirects** or the redirects API in each project. Keep force disabled so existing pages take precedence. Put the **HTML to clean URL** rule last in matching order, after the page rules for renamed paths. For API creation, the JSON lists the general rule first. Append it at `position` equal to the project's existing rule count, then create the individual page rules at the default position of zero. Reuse an existing general rule if present.
 3. Check the old URLs on each published site. Use the same dashboard or API to disable or remove a rule if needed.
+
+The general rule converts a missing `page.html` to `page/` within the same language and version. Page rules handle the book root and paths whose names changed. RTD supports a trailing wildcard and copies its match verbatim with `:splat`, so it cannot replace punctuation inside a filename.
 
 Read the Docs applies project redirects on published sites. PR previews serve the new paths directly. The repository builds and CI leave redirect management to the maintainer.
 
