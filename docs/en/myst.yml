@@ -22,6 +22,7 @@ project:
     zept_tutor:
       https://jij-inc-jijzept-tutorials-en.readthedocs-hosted.com/en/latest
   plugins:
+    - ../../plugins/notebook-math.mjs
     - ../../plugins/notebook-launch.mjs
     - ../../plugins/editable-cells.mjs
     - ../../plugins/sidebar.mjs
@@ -33,7 +34,6 @@ site:
       ```
 
       [Made with MyST](https://mystmd.org/made-with-myst)
-  template: https://github.com/myst-templates/book-theme/archive/23f2df5493e23dfb1d9433c8aa64c87beb4232a3.zip
   options:
     logo: logo.png
     logo_dark: logo.png

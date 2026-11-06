@@ -1,5 +1,8 @@
 {
   "version": 1,
+  "site": {
+    "template": "https://github.com/myst-templates/book-theme/archive/23f2df5493e23dfb1d9433c8aa64c87beb4232a3.zip"
+  },
   "project": {
     "github": "https://github.com/Jij-Inc/JijModeling-Tutorials",
     "jupyter": {
