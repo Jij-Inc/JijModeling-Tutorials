@@ -19,10 +19,11 @@ kernelspec:
 
 +++
 
-### Streams and partial dictionaries as placeholder `dtype`
+### Streams and dictionaries as placeholder `dtype`
 
-You can now use the collection types `jm.DataType.STREAM` and `jm.DataType.PARTIAL_DICT` as your
-placeholder datatype, allowing more freeform data without using `jagged=True`.
+You can now use the collection types `jm.DataType.STREAM`, `jm.DataType.PARTIAL_DICT`, and
+`jm.DataType.TOTAL_DICT` as your placeholder datatype, allowing more freeform data without using
+`jagged=True`.
 
 For example, here we define one placeholder that has a collection of routes, including the nodes
 traversed and their weights, where each route can have a different length.

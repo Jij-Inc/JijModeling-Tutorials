@@ -19,9 +19,9 @@ kernelspec:
 
 +++
 
-### `dtype`でストリームと部分的辞書の対応
+### `dtype`でストリームと辞書の対応
 
-複合型の `jm.DataType.STREAM` と `jm.DataType.PARTIAL_DICT` を、プレースホルダーの `dtype`として指定できるようになりました。
+複合型の `jm.DataType.STREAM`、`jm.DataType.PARTIAL_DICT`および `jm.DataType.TOTAL_DICT` を、プレースホルダーの `dtype`として指定できるようになりました。
 
 以下の例では、通過したノードとその重みを含む経路を持つプレースホルダーを定義します。各経路の長さはそれぞれ異なっても問題ありません。
 
