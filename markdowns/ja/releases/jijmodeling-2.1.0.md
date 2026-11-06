@@ -23,7 +23,7 @@ kernelspec:
 
 ### ランダムインスタンスデータ生成
 
-本バージョンから、JijModeling 2 はランダムインスタンスデータを生成する機能をサポートしています。具体的には、{py:meth}`Problem.generate_random_dataset` や {py:meth}`Problem.generate_random_instance` メソッドを通じて利用可能です。
+本バージョンから、JijModeling 2 はランダムインスタンスデータを生成する機能をサポートしています。具体的には、{py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` や {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` メソッドを通じて利用可能です。
 詳細は API ドキュメントをご参照ください。
 
 例は以下の通りです:
@@ -95,9 +95,9 @@ def problem(problem: jm.DecoratedProblem):
 以前のリリースにはタプルによる添え字アクセス時に、特定の条件下でコンパイラが PanicException によりクラッシュするバグが存在していました。
 本リリースからバグが修正され、単独のタプルにより辞書の添え字を指定しても正しく評価されるようになりました。
 
-### バグ修正4：{py:meth}`Problem.infer()` で正しく式への変換が行われるように
+### バグ修正4：{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` で正しく式への変換が行われるように
 
-旧リリースでは、{py:meth}`Problem.infer()` の引数が {py:class}`~jijmodeling.Expression` オブジェクトでない場合実行時エラーとなっていました。
+旧リリースでは、{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` の引数が {py:class}`~jijmodeling.Expression` オブジェクトでない場合実行時エラーとなっていました。
 このリリースから、引数が数値や {py:class}`~jijmodeling.Placeholder` オブジェクトなどの式に変換可能なオブジェクトであっても、式への変換が行われた上で型推論が行われるようになりました。
 
 ### バグ修正5：数式出力時に必要な括弧が足りない問題の修正

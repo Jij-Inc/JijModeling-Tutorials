@@ -23,16 +23,16 @@ Since JijModeling is a general-purpose modeler, it supports the following repres
 
 | Type | Mathematical Notation | Description |
 | :---- | :------------------: | :--- |
-| {py:meth}`~jijmodeling.Problem.BinaryVar` | $\{0, 1\}$ | A binary variable taking value $0$ or $1$. Bounds are not required. |
-| {py:meth}`~jijmodeling.Problem.IntegerVar` | $\mathbb{Z}$ | An integer variable. Bounds are required. |
-| {py:meth}`~jijmodeling.Problem.ContinuousVar` | $\mathbb{R}$ | A continuous real-valued variable. Bounds are required. |
-| {py:meth}`~jijmodeling.Problem.SemiIntegerVar` | - | A variable that takes integer values within bounds or zero. Bounds are required. |
-| {py:meth}`~jijmodeling.Problem.SemiContinuousVar` | - | A variable that takes continuous values within bounds or zero. Bounds are required. |
+| {py:meth}`BinaryVar <jijmodeling.Problem.BinaryVar>` | $\{0, 1\}$ | A binary variable taking value $0$ or $1$. Bounds are not required. |
+| {py:meth}`IntegerVar <jijmodeling.Problem.IntegerVar>` | $\mathbb{Z}$ | An integer variable. Bounds are required. |
+| {py:meth}`ContinuousVar <jijmodeling.Problem.ContinuousVar>` | $\mathbb{R}$ | A continuous real-valued variable. Bounds are required. |
+| {py:meth}`SemiIntegerVar <jijmodeling.Problem.SemiIntegerVar>` | - | A variable that takes integer values within bounds or zero. Bounds are required. |
+| {py:meth}`SemiContinuousVar <jijmodeling.Problem.SemiContinuousVar>` | - | A variable that takes continuous values within bounds or zero. Bounds are required. |
 
 These constructors are broadly similar to placeholder constructors, but constructors ending in `*Var` are for decision variables, while those without `*Var` are for placeholders.
-Also note that real-valued decision variables are declared with {py:meth}`~jijmodeling.Problem.ContinuousVar`, not `FloatVar`.
+Also note that real-valued decision variables are declared with {py:meth}`ContinuousVar <jijmodeling.Problem.ContinuousVar>`, not `FloatVar`.
 
-To declare a specific type of decision variable, call the method with the corresponding type name on the {py:class}`~jijmodeling.Problem` object to which the variable should be registered.
+To declare a specific type of decision variable, call the method with the corresponding type name on the {py:class}`Problem <jijmodeling.Problem>` object to which the variable should be registered.
 For example, define a mathematical model with a binary variable $x$ and a continuous variable $C' \in[-5, 10.5]$.
 With the Plain API, this is:
 
@@ -54,7 +54,7 @@ problem
 
 The first argument is required and specifies the variable name.
 The keyword arguments `upper_bound` and `lower_bound` specify the variable bounds, and must be provided for all variable types except binary variables.
-`description`, like the one for {py:class}`~jijmodeling.Problem`, is an optional keyword argument for a human-readable explanation.
+`description`, like the one for {py:class}`Problem <jijmodeling.Problem>`, is an optional keyword argument for a human-readable explanation.
 
 :::{admonition} Bounds for single decision variables
 :class: tip
@@ -99,7 +99,7 @@ If you declare multiple variables at once, such as `x, y = (problem.BinaryVar(),
 (var_info)=
 ## Retrieving decision-variable information
 
-As with placeholders, the list of decision variables can be obtained from the {py:class}`~jijmodeling.Problem` object's {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` property.
+As with placeholders, the list of decision variables can be obtained from the {py:class}`Problem <jijmodeling.Problem>` object's {py:attr}`~jijmodeling.DecoratedProblem.decision_vars` property.
 This list also includes information for indexed variables discussed below.
 
 ```{code-cell} ipython3
@@ -131,7 +131,7 @@ Now let's look at how to declare indexed decision variables.
 (array_of_dec_vars)=
 ### Arrays of decision variables
 
-Decision-variable arrays are declared in the same way as placeholder arrays, by passing a `shape=` keyword argument to constructors such as {py:meth}`~jijmodeling.Problem.BinaryVar`.
+Decision-variable arrays are declared in the same way as placeholder arrays, by passing a `shape=` keyword argument to constructors such as {py:meth}`BinaryVar <jijmodeling.Problem.BinaryVar>`.
 The `shape` keyword argument can take an expression representing a fixed-length tuple of natural numbers.
 When the dimension is $1$, it can also be given directly as a natural-valued expression.
 
@@ -245,7 +245,7 @@ By preparing arrays with the same shape, or using functions from indices for mor
 ### Dictionaries of decision variables
 
 As discussed in the note on the number of decision variables in {doc}`./variables`, decision-variable dictionaries must have their number of variables determined after compilation, so only `TotalDict` can be declared.
-To declare a dictionary of decision variables, pass the `dict_keys` keyword argument to constructors such as {py:meth}`~jijmodeling.Problem.BinaryVar`, {py:meth}`~jijmodeling.Problem.IntegerVar`, and so on.
+To declare a dictionary of decision variables, pass the `dict_keys` keyword argument to constructors such as {py:meth}`BinaryVar <jijmodeling.Problem.BinaryVar>`, {py:meth}`IntegerVar <jijmodeling.Problem.IntegerVar>`, and so on.
 This is analogous to passing `shape` when declaring decision-variable arrays.
 
 The following expressions can be passed to `dict_keys` when declaring a decision-variable dictionary:

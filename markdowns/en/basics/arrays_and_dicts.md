@@ -33,7 +33,7 @@ Use {py:func}`~jijmodeling.genarray` to generate an array and {py:func}`~jijmode
 ### Array Generation with {py:func}`~jijmodeling.genarray`
 
 {py:func}`~jijmodeling.genarray` is similar to NumPy's {py:func}`~numpy.fromfunction`[^numpy-fromfunction]. It generates a new array from a shape and a function (the generator function) that maps indices to elements.
-The following example uses {py:func}`~jijmodeling.genarray` to generate an array of shape $(N, M)$ whose elements are the sums of their respective indices:
+The following example uses {py:func}`genarray <jijmodeling.genarray>` to generate an array of shape $(N, M)$ whose elements are the sums of their respective indices:
 
 [^numpy-fromfunction]: Depending on the form of its generator function, NumPy's {py:func}`~numpy.fromfunction` may generate an array with a shape different from the one supplied, or even a scalar. JijModeling's {py:func}`~jijmodeling.genarray` is guaranteed to return an array with the supplied shape regardless of the generator function's form.
 
@@ -99,8 +99,8 @@ def _(problem: jm.DecoratedProblem):
 
 ## Obtaining the Domains of Arrays and Dictionaries
 
-For {py:class}`~jijmodeling.Placeholder` and {py:class}`~jijmodeling.DecisionVar` objects, the tuple representing an array's shape is available through the `shape` attribute. For general expressions, use the {py:meth}`Expression.shape()` method.
-The expression representing a dictionary's key set is available through {py:meth}`Expression.keys()`. Array expressions also provide {py:meth}`Expression.len_at(n) <jijmodeling.Expression.len_at>` for obtaining the size of the $n$-th dimension.
+For {py:class}`~jijmodeling.Placeholder` and {py:class}`~jijmodeling.DecisionVar` objects, the tuple representing an array's shape is available through the `shape` attribute. For general expressions, use the {py:meth}`Expression.shape() <jijmodeling.Expression.shape>` method.
+The expression representing a dictionary's key set is available through {py:meth}`Expression.keys() <jijmodeling.Expression.keys>`. Array expressions also provide {py:meth}`Expression.len_at(n) <jijmodeling.Expression.len_at>` for obtaining the size of the $n$-th dimension.
 These operations are useful when formulating mathematical models, for example when defining sums or constraints that iterate over a domain.
 
 ## Element Access and Slicing with Indices

@@ -63,7 +63,7 @@ problem
 
 ### Add a feature to fix decision variable values
 
-We added a feature to (partially) fix decision variable values in {py:meth}`Problem.eval` and {py:meth}`Compiler.from_problem`.
+We added a feature to (partially) fix decision variable values in {py:meth}`Problem.eval <jijmodeling.Problem.eval>` and {py:meth}`Compiler.from_problem <jijmodeling.Compiler.from_problem>`.
 You can pass a dictionary to the optional keyword argument `fixed_variables`, where the keys are variable names and the values are either fixed values or a dictionary mapping indices to fixed values.
 The substituted value will be stored in `fixed_value` attribute in the corresponding ommx decision variable(s).
 
@@ -118,4 +118,4 @@ x[0][1]
 ### Improve errors for invalid decision variable definitions
 
 Previously, when bounds were specified incorrectly for decision variables, the compiler raised an unrecoverable exception that could not be caught with `try-except`.
-With this fix, a {py:exc}`ValueError` is raised instead, and the error message is more informative.
+With this fix, a {py:class}`ValueError` is raised instead, and the error message is more informative.

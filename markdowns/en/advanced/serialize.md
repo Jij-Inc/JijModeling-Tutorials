@@ -13,7 +13,7 @@ kernelspec:
 
 # Serialization
 
-JijModeling models can be easily serialized to [Protobuf](https://protobuf.dev) using the {py:func}`jijmodeling.to_protobuf` function or the {py:meth}`Problem.to_protobuf` method.
+JijModeling models can be easily serialized to [Protobuf](https://protobuf.dev) using the {py:func}`jijmodeling.to_protobuf` function or the {py:meth}`Problem.to_protobuf <jijmodeling.Problem.to_protobuf>` method.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -26,7 +26,7 @@ problem += x.sum()
 serialized = problem.to_protobuf()
 ```
 
-To deserialize, use {py:func}`jijmodeling.from_protobuf` or {py:meth}`Problem.from_protobuf`.
+To deserialize, use {py:func}`jijmodeling.from_protobuf` or {py:meth}`Problem.from_protobuf <jijmodeling.Problem.from_protobuf>`.
 
 ```{code-cell} ipython3
 deserialized = jm.from_protobuf(serialized)

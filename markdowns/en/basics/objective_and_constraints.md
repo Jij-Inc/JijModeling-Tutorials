@@ -25,7 +25,7 @@ For convenience, we discuss objectives first and then constraints, but in actual
 
 ## Setting the objective
 
-When you create a {py:class}`~jijmodeling.Problem`, setting `sense` to {py:attr}`ProblemSense.MAXIMIZE` makes it a maximization problem, and setting `sense` to {py:attr}`ProblemSense.MINIMIZE` makes it a minimization problem.
+When you create a {py:class}`~jijmodeling.Problem`, setting `sense` to {py:attr}`ProblemSense.MAXIMIZE <jijmodeling.ProblemSense.MAXIMIZE>` makes it a maximization problem, and setting `sense` to {py:attr}`ProblemSense.MINIMIZE <jijmodeling.ProblemSense.MINIMIZE>` makes it a minimization problem.
 Right after a `Problem` is created, the objective is initialized to $0$, and you add terms to it using the {py:meth}`+= <jijmodeling.Problem.__iadd__>` operator on the {py:class}`~jijmodeling.Problem` object.
 The {py:class}`~jijmodeling.Problem` object only accepts scalar {py:class}`~jijmodeling.Expression` objects as objective terms.
 If you attempt to add array-typed or dictionary-typed expressions, a type error will be raised.
@@ -62,7 +62,7 @@ problem
 
 However, as this example shows, the `-=` operator merely **adds** the given expression as a new term to be subtracted. It does **not remove** a matching term from the objective, even if one exists.
 
-To replace the objective with an entirely different one, assign an expression directly to {py:attr}`Problem.objective`. This discards the previous objective and replaces it with the new one.
+To replace the objective with an entirely different one, assign an expression directly to {py:attr}`Problem.objective <jijmodeling.Problem.objective>`. This discards the previous objective and replaces it with the new one.
 To replace the objective of `problem` above with $y$ alone, write:
 
 ```{code-cell} ipython3
@@ -74,7 +74,7 @@ problem
 :::{admonition} Version support for objective operations other than `+=`
 :class: tip
 
-The {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on {py:class}`~jijmodeling.Problem` is supported in JijModeling 2.3.1 and later, while replacing the objective through {py:attr}`Problem.objective` is supported in JijModeling 2.5.0 and later.
+The {py:meth}`-= <jijmodeling.Problem.__isub__>` operator on {py:class}`~jijmodeling.Problem` is supported in JijModeling 2.3.1 and later, while replacing the objective through {py:attr}`Problem.objective <jijmodeling.Problem.objective>` is supported in JijModeling 2.5.0 and later.
 :::
 
 As a more practical example, let's set the objective for the knapsack problem.
@@ -105,8 +105,8 @@ knapsack_problem
 ## Setting constraints
 
 Constraints are also added using the {py:meth}`+= <jijmodeling.Problem.__iadd__>` operator.
-However, when adding constraints, you add {py:class}`~jijmodeling.Constraint` objects created by {py:meth}`Problem.Constraint()`.
-{py:meth}`Problem.Constraint()` takes a name and a constraint expression written with `==`, `<=`, or `>=` as its required arguments.
+However, when adding constraints, you add {py:class}`~jijmodeling.Constraint` objects created by {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>`.
+{py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` takes a name and a constraint expression written with `==`, `<=`, or `>=` as its required arguments.
 
 :::{important}
 The only comparison operators available when building constraints are `==`, `<=`, and `>=`.
@@ -141,13 +141,13 @@ knapsack_problem
 :class: important
 
 When adding a constraint, always use the {py:meth}`+= <jijmodeling.Problem.__iadd__>` operator.
-Simply calling {py:meth}`Problem.Constraint()` does not add the constraint to the model.
+Simply calling {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` does not add the constraint to the model.
 :::
 
 :::{admonition} Removing constraints
 :class: important
 
-At present, there is no way to remove constraints from a model. In particular, note that you cannot "subtract" constraints from a model using the {py:meth}`-= <jijmodeling.Problem.__isub__>` operator.
+At present, there is no way to remove constraints from a model. In particular, note that you cannot "subtract" constraints from a model using the {py:func}`-= <jijmodeling.Problem.__isub__>` operator.
 :::
 
 +++
@@ -177,7 +177,7 @@ There are two types of constraints here, and each is defined not as a single con
 #### Indexed constraints
 
 To define indexed constraints with the Decorator API, provide the second argument to
-{py:meth}`Problem.Constraint()` as a list comprehension or generator expression:
+{py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` as a list comprehension or generator expression:
 
 ```{code-cell} ipython3
 @jm.Problem.define("TSP, Decorated", sense=jm.ProblemSense.MINIMIZE)
@@ -265,7 +265,7 @@ def tsp_array_comparison(problem: jm.DecoratedProblem):
 tsp_array_comparison
 ```
 
-Here, giving an `axis=i` argument to {py:meth}`Expression.sum()` or {py:func}`jm.sum() <jijmodeling.sum>` works the same way as {py:func}`numpy.sum`: rather than a single total sum, it returns an array of sums along that axis.
+Here, giving an `axis=i` argument to {py:meth}`Expression.sum() <jijmodeling.Expression.sum>` or {py:meth}`jm.sum() <jijmodeling.sum>` works the same way as {py:func}`numpy.sum`: rather than a single total sum, it returns an array of sums along that axis.
 You can also pass multiple axes as a list.
 
 In the `one city` constraint above, {py:meth}`x.sum(axis=1) <jijmodeling.Expression.sum>` (0-indexed) sums along the second axis, which corresponds to cities, and produces an array representing the number of cities visited at each time.

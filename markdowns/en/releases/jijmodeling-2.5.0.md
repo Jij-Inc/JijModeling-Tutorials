@@ -81,14 +81,14 @@ problem
 
 ### Bounded naturals and category labels are now allowed as a `Placeholder` `dtype`
 
-The `dtype` argument of {py:meth}`Problem.Placeholder` (and its shorthands such as `Graph`, `PartialDict`, and `TotalDict`) used to be limited to a `jm.DataType`, a NumPy scalar type, or a tuple built out of those.
+The `dtype` argument of {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>` (and its shorthands such as `Graph`, `PartialDict`, and `TotalDict`) used to be limited to a `jm.DataType`, a NumPy scalar type, or a tuple built out of those.
 Starting with this version, `dtype` additionally accepts:
 
 - a natural-number expression `n`, declaring that the values are natural numbers strictly less than `n` (i.e. drawn from $\{0, 1, \dots, n - 1\}$); the bound `n` may also be a Python integer literal or another placeholder/named expression of natural-number type.
 - a {py:class}`~jijmodeling.CategoryLabel` `L`, declaring that the values are labels drawn from `L`.
 - a tuple `(T, T, ...)` whose components are any of the above (or any other accepted `dtype`).
 
-Along with the additions on `dtype` as described above, the shorthand constructors {py:meth}`Problem.Natural` (and its aliases: {py:meth}`Problem.Length` and {py:meth}`Problem.Dim`) now also accept a `less_than=natexpr` keyword argument. This declares the same bounded-natural type placeholder variable as `Placeholder(dtype=natexpr)`, while more clearly communicating the intent of it being a scalar natural placeholder:
+Along with the additions on `dtype` as described above, the shorthand constructors {py:meth}`Problem.Natural <jijmodeling.Problem.Natural>` (and its aliases: {py:meth}`Problem.Length <jijmodeling.Problem.Length>` and {py:meth}`Problem.Dim <jijmodeling.Problem.Dim>`) now also accept a `less_than=natexpr` keyword argument. This declares the same bounded-natural type placeholder variable as `Placeholder(dtype=natexpr)`, while more clearly communicating the intent of it being a scalar natural placeholder:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -159,7 +159,7 @@ When a value supplied through the instance data is not consistent with the decla
 
 ### Objective functions can now be replaced by assignment
 
-In this version, you can now replace the objective function directly by assigning to {py:attr}`Problem.objective`.
+In this version, you can now replace the objective function directly by assigning to {py:attr}`Problem.objective <jijmodeling.Problem.objective>`.
 The same `problem.objective = ...` syntax is also available for {py:class}`~jijmodeling.DecoratedProblem`.
 
 For example, you can replace an already-defined objective with another expression, or explicitly reset it with `problem.objective = 0`.

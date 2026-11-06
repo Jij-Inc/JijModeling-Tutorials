@@ -96,7 +96,7 @@ except SyntaxError as e:
 
 ### Support for `min` / `max` along axes
 
-Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument.
+Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum <jijmodeling.Expression.sum>` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument.
 Starting with this version, the same functionality has been added to {py:func}`jm.min <jijmodeling.min>` and {py:func}`jm.max <jijmodeling.max>` as well as their corresponding `Expression` methods.
 
 ```{code-cell} ipython3
@@ -286,4 +286,4 @@ problem.infer(x.sum())
 
 - Relaxed version bounds to allow installation on any Python 3 version from Python 3.11 onwards.
 - Error messages for invalid comprehensions used with the Decorator API in `sum` and similar constructs now report the specific location in the source code.
-- {py:attr}`Problem.used_placeholders` has been deprecated because its purpose is unclear, and {py:class}`~jijmodeling.Compiler` also requires values for all placeholders. Use {py:attr}`Problem.placeholders` instead.
+- {py:meth}`Problem.used_placeholders <jijmodeling.Problem.used_placeholders>` has been deprecated because its purpose is unclear, and {py:class}`~jijmodeling.Compiler` also requires values for all placeholders. Use {py:meth}`Problem.placeholders <jijmodeling.Problem.placeholders>` instead.

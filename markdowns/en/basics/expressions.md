@@ -18,7 +18,7 @@ In addition to Python type hints, JijModeling provides its own more detailed typ
 The following chapters explain how to construct individual expressions in detail. As preparation, this chapter provides a brief overview of expressions and types in JijModeling.
 
 :::{tip}
-We focus on basic common patterns here. For a complete list of expressions, see the API reference for the {py:class}`~jijmodeling.Expression` class and top-level functions in the {py:mod}`jijmodeling` module.
+We focus on basic common patterns here. For a complete list of expressions, see the API reference for the {py:class}`~jijmodeling.Expression` class and top-level functions in the {py:mod}`~jijmodeling` module.
 
 The {doc}`Cheat Sheet <../references/cheat_sheet>` also provides more complex examples, so it is worth checking after reading this chapter.
 :::
@@ -90,7 +90,7 @@ However, Python type hints cannot express all constraints (for example, validati
 To compensate, JijModeling includes (2), its own more expressive type checker.
 
 The checker in (2) is not invoked directly by users. It is called when you add constraints or objective terms, declare `shape` for decision variables/placeholders, and so on, and it automatically validates modeling mistakes before any data is provided.
-Python type hints distinguish API objects such as {py:class}`~jijmodeling.Expression`, {py:class}`~jijmodeling.Placeholder`, and {py:class}`~jijmodeling.DecisionVar`.
+Python type hints distinguish API objects such as {py:class}`Expression <jijmodeling.Expression>`, {py:class}`~jijmodeling.Placeholder`, and {py:class}`~jijmodeling.DecisionVar`.
 They cannot, however, fully represent detailed information such as an expression's shape or dictionary key set, or whether it contains decision variables. JijModeling's built-in type checker checks this information as well.
 In other words, editor and Jupyter Notebook checks based on Python type hints are relatively coarse, while finer checks happen during model construction.
 
@@ -112,17 +112,17 @@ With these in mind, let's look at operations that commonly appear in modeling.
 JijModeling's built-in type checking is performed **not right after an expression is created**, but at the following times:
 
 1. When a term is added to a problem's objective
-2. When a constraint is declared via {py:meth}`Problem.Constraint()`
+2. When a constraint is declared via {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>`
 3. When it appears in `ndim`, `shape`, or `dict_keys`
-4. When compiling to an instance via {py:meth}`Problem.eval()` or {py:class}`~jijmodeling.Compiler`
-5. When type inference is explicitly triggered via {py:meth}`Problem.infer()`
+4. When compiling to an instance via {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` or {py:class}`~jijmodeling.Compiler`
+5. When type inference is explicitly triggered via {py:meth}`Problem.infer() <jijmodeling.Problem.infer>`
 
 This is because expression types are determined only when placed in context.
 So even if an expression is "invalid", it does not necessarily throw an error at construction time.
 :::
 
-Below, we use {py:meth}`Problem.infer()` to show valid and invalid examples.
-This method infers the type of a given expression based on the decision variables and placeholders defined in the {py:class}`~jijmodeling.Problem`, and it raises a type error for invalid expressions.
+Below, we use {py:meth}`Problem.infer() <jijmodeling.Problem.infer>` to show valid and invalid examples.
+This method infers the type of a given expression based on the decision variables and placeholders defined in the {py:class}`Problem <jijmodeling.Problem>`, and it raises a type error for invalid expressions.
 Let's look at an example. Here, we add a binary variable $x$ and an integer $N$, so $x + N$ is inferred as an integer-type expression $\mathbb{Z}$.
 
 ```{code-cell} ipython3
@@ -143,25 +143,25 @@ except Exception as e:
     print(e)
 ```
 
-:::{admonition} What is the relationship between {py:class}`~jijmodeling.Expression` and {py:data}`~jijmodeling.ExpressionLike` / {py:data}`~jijmodeling.ExpressionFunction`?
+:::{admonition} What is the relationship between {py:class}`Expression <jijmodeling.Expression>` and {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` / {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>`?
 :class: note
 
-In the [API reference](xref:api_reference#index) and editor completions/docs, you may see type names such as {py:data}`~jijmodeling.ExpressionLike` and {py:data}`~jijmodeling.ExpressionFunction`.
-These are dummy shorthand types that do not exist in the library implementation, and are used to represent types that can be converted to {py:class}`~jijmodeling.Expression`, or functions from `Expression` to `Expression`.
+In the [API reference](xref:api_reference#index) and editor completions/docs, you may see type names such as {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` and {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>`.
+These are dummy shorthand types that do not exist in the library implementation, and are used to represent types that can be converted to {py:class}`Expression <jijmodeling.Expression>`, or functions from `Expression` to `Expression`.
 Specifically, you can think of them as follows:
 
 | Type name | Description |
 | --- | --- |
-| {py:data}`~jijmodeling.ExpressionLike` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
-| {py:data}`~jijmodeling.ExpressionFunction` | A function that takes one or more {py:class}`~jijmodeling.Expression` objects and returns a {py:class}`~jijmodeling.Expression`. In Python type hints, only up to 5 arguments are enumerated, but in practice there is no limit on the number of arguments. |
+| {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` | A type that can be converted to {py:class}`~jijmodeling.Expression`. Depending on the context, this includes {py:class}`~jijmodeling.Expression` itself, {py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr`, as well as Python numbers, strings, tuples, lists, dictionaries, NumPy arrays, and so on. |
+| {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>` | A function that takes one or more {py:class}`~jijmodeling.Expression` objects and returns a {py:class}`~jijmodeling.Expression`. In Python type hints, only up to 5 arguments are enumerated, but in practice there is no limit on the number of arguments. |
 
 :::
 
 ## Placeholders and decision variables as expressions
 
-As described in {doc}`variables`, decision variables and placeholders are defined with methods like {py:meth}`Problem.BinaryVar` and {py:meth}`Problem.Placeholder`.
-These methods return {py:class}`~jijmodeling.DecisionVar` and {py:class}`~jijmodeling.Placeholder` objects that hold metadata, but when used in expression building they are automatically converted into {py:class}`~jijmodeling.Expression` objects.
-In the `Test Problem` example above, Python variables `x` and `y` are {py:class}`~jijmodeling.DecisionVar` objects, but in `z = x + y[0]`, they are converted to expressions that represent a decision variable and an array of decision variables.
+As described in {doc}`variables`, decision variables and placeholders are defined with methods like {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` and {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>`.
+These methods return {py:class}`DecisionVar <jijmodeling.DecisionVar>` and {py:class}`Placeholder <jijmodeling.Placeholder>` objects that hold metadata, but when used in expression building they are automatically converted into {py:class}`Expression <jijmodeling.Expression>` objects.
+In the `Test Problem` example above, Python variables `x` and `y` are {py:class}`DecisionVar <jijmodeling.DecisionVar>` objects, but in `z = x + y[0]`, they are converted to expressions that represent a decision variable and an array of decision variables.
 Constants like `0` are plain Python numbers, but they are also automatically converted when they appear in expressions.
 
 ## How to construct expressions

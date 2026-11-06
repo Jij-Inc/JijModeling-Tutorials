@@ -88,8 +88,8 @@ instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data
 :::{admonition} インスタンスデータのランダム生成
 :class: tip
 
-{py:meth}`Problem.generate_random_dataset` メソッドや
-{py:meth}`Problem.generate_random_instance` メソッドを使うと、ランダムなインスタンスデータを生成できます。
+{py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` メソッドや
+{py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` メソッドを使うと、ランダムなインスタンスデータを生成できます。
 詳しくは API ドキュメントや、今後公開予定の発展的トピックのチュートリアルを参照してください。
 :::
 
@@ -98,7 +98,7 @@ instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data
 ## インスタンスへのコンパイル
 
 モデルとインスタンスデータが用意できたら、いよいよ OMMX インスタンスへのコンパイルを行います。
-一番簡単な方法は、{py:meth}`Problem.eval()` メソッドを使う方法です：
+一番簡単な方法は、{py:meth}`Problem.eval() <jijmodeling.Problem.eval>` メソッドを使う方法です：
 
 ```{code-cell} ipython3
 instance1 = problem.eval(instance_data)
@@ -113,7 +113,7 @@ instance1.decision_variables_df
 instance1.objective
 ```
 
-これは実際には {py:meth}`Compiler.from_problem()` メソッドと {py:meth}`Compiler.eval_problem()` メソッドを呼び出しており、以下のように書くのと同値です：
+これは実際には {py:meth}`Compiler.from_problem() <jijmodeling.Compiler.from_problem>` メソッドと {py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` メソッドを呼び出しており、以下のように書くのと同値です：
 
 ```{code-cell} ipython3
 compiler = jm.Compiler.from_problem(problem, instance_data)
@@ -142,9 +142,9 @@ assert instance2.constraints[0].function == instance1.constraints[0].function
      {py:class}`~jijmodeling.Compiler` オブジェクトは特定の {py:class}`~jijmodeling.Problem` に限定されたものではなく、決定変数やプレースホルダーが一致しているような複数の {py:class}`~jijmodeling.Problem` オブジェクトに対して使い回すことができるため、このような形になっています。
 :::
 
-単純に {py:class}`~jijmodeling.Problem` をインスタンスにコンパイルするだけであれば {py:meth}`Problem.eval()` メソッドを使うのが手軽ですが、 {py:class}`~jijmodeling.Compiler` オブジェクトは {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` や {py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name` メソッドなどを使ってモデルの制約条件や決定変数の OMMX 側での ID の情報を取得することもできます。
+単純に {py:class}`~jijmodeling.Problem` をインスタンスにコンパイルするだけであれば {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` メソッドを使うのが手軽ですが、 {py:class}`~jijmodeling.Compiler` オブジェクトは {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` や {py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name` メソッドなどを使ってモデルの制約条件や決定変数の OMMX 側での ID の情報を取得することもできます。
 
-また、{py:class}`~jijmodeling.Compiler` はインスタンスへのコンパイル以外にも、以下のように {py:meth}`~jijmodeling.Compiler.eval_function` メソッドで個別のスカラー関数式を OMMX の {py:class}`~ommx.v1.Function` オブジェクトに評価したり、{py:meth}`~jijmodeling.Compiler.eval_constraints` により個別の制約条件を（Problem に登録せずに）OMMX の {py:class}`~ommx.v1.Constraint` オブジェクトに評価したりすることもできます。
+また、{py:class}`~jijmodeling.Compiler` はインスタンスへのコンパイル以外にも、以下のように {py:meth}`~jijmodeling.Compiler.eval_function` メソッドで個別のスカラー関数式を OMMX の {py:class}`~ommx.v1.Function` オブジェクトに評価したり、{py:meth}`~jijmodeling.Compiler.eval_constraint` により個別の制約条件を（Problem に登録せずに）OMMX の {py:class}`~ommx.v1.Constraint` オブジェクトに評価したりすることもできます。
 以下は `problem` 問題の決定変数を使った関数式を評価している例です：
 
 ```{code-cell} ipython3
@@ -152,7 +152,7 @@ x_ = problem.decision_vars["x"]
 compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
 ```
 
-{py:meth}`~jijmodeling.Compiler.eval_function` や {py:meth}`eval_constraint <jijmodeling.Compiler.eval_constraints>` メソッドはデバッグに使える他、コンパイル後の {py:class}`ommx.v1.Instance` を変形する用途などに利用できます。
+{py:meth}`eval_function <jijmodeling.Compiler.eval_function>` や {py:meth}`eval_constraint <jijmodeling.Compiler.eval_constraint>` メソッドはデバッグに使える他、コンパイル後の {py:class}`ommx.v1.Instance` を変形する用途などに利用できます。
 
 また、一度作成した Compiler は、プレースホルダーと決定変数を共有する複数のモデルに対して使い回すことができ、**決定変数や制約条件の ID の対応関係も保存**されます。
 この機能は、同じパラメーターを持ちつつ制約条件や目的関数を変化させた複数のモデルを同時にコンパイルし、結果を比較する用途などに便利です。
@@ -167,9 +167,9 @@ OMMX SDK にはコンパイル後の {py:class}`~ommx.v1.Instance` オブジェ�
 こういった機能の詳細については [OMMX の公式ドキュメント](https://jij-inc.github.io/ommx/ja/)を御覧ください。
 :::
 
-### {py:meth}`~jijmodeling.Problem.eval` や {py:meth}`~jijmodeling.Compiler.eval_problem` のオプション
+### {py:meth}`eval <jijmodeling.Problem.eval>` や {py:meth}`eval_problem <jijmodeling.Compiler.eval_problem>` のオプション
 
-{py:meth}`Problem.eval()` や {py:meth}`Compiler.eval_problem()` メソッドは、どちらも以下の共通のキーワード限定引数を渡すことで挙動を制御できるようになっています：
+{py:meth}`Problem.eval() <jijmodeling.Problem.eval>` や {py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` メソッドは、どちらも以下の共通のキーワード限定引数を渡すことで挙動を制御できるようになっています：
 
 `prune_unused_vars: bool`
 :    `True` に設定すると、デフォルトでは目的関数や制約条件に現れる決定変数のみが {py:class}`~ommx.v1.Instance` に登録されるようになります。
@@ -205,5 +205,5 @@ OMMX Adapter の詳しい利用方法については、[OMMX のユーザーガ�
 
 OMMX SDK の {py:class}`~ommx.v1.Solution` オブジェクトには、決定変数や制約の値を名前から名寄せする {py:meth}`~ommx.v1.Solution.extract_decision_variables` や {py:meth}`~ommx.v1.Solution.extract_constraints` メソッドが用意されています。
 これらは現時点で文字列を添え字とする決定変数や制約には対応していないため、辞書やカテゴリーラベルを使ったモデルの `Solution` に対して呼び出すとエラーになってしまいます。
-こうした場合は、JijModeling の {py:meth}`Compiler.get_constraint_id_by_name()`  や {py:meth}`Compiler.get_decision_variable_by_name()` メソッドを呼び出してコンパイラから ID との対応を取得し、その ID を {py:meth}`ommx.v1.Solution.get_constraint_value` や {py:meth}`ommx.v1.Solution.get_decision_variable_by_id` メソッドに渡して値を取得するようにしてください。
+こうした場合は、JijModeling の {py:meth}`Compiler.get_constraint_id_by_name() <jijmodeling.Compiler.get_constraint_id_by_name>`  や {py:meth}`Compiler.get_decision_variable_by_name() <jijmodeling.Compiler.get_decision_variable_by_name>` メソッドを呼び出してコンパイラから ID との対応を取得し、その ID を {py:meth}`ommx.v1.Solution.get_constraint_value` や {py:meth}`ommx.v1.Solution.get_decision_variable_by_id` メソッドに渡して値を取得するようにしてください。
 :::

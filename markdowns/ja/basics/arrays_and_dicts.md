@@ -33,7 +33,7 @@ import jijmodeling as jm
 ### 配列の生成関数：{py:func}`~jijmodeling.genarray`
 
 {py:func}`~jijmodeling.genarray` は NumPy の {py:func}`~numpy.fromfunction` に類似する関数[^numpy-fromfunction]であり、シェイプと添え字から要素への関数（生成関数）を与えることで、新しい配列を生成することができます。
-以下では、{py:func}`~jijmodeling.genarray` を用いて、シェイプ $(N, M)$ の各添え字毎の和を要素に持つ配列を生成しています：
+以下では、{py:func}`genarray <jijmodeling.genarray>` を用いて、シェイプ $(N, M)$ の各添え字毎の和を要素に持つ配列を生成しています：
 
 [^numpy-fromfunction]: NumPy の {py:func}`~numpy.fromfunction` は生成関数内の具体的な関数の形によって与えたシェイプと異なる配列やスカラー値が生成される場合がありますが、JijModeling の {py:func}`~jijmodeling.genarray` は、生成関数の形に関わらず、必ず与えたシェイプの配列を返すことが保証されています。
 
@@ -99,8 +99,8 @@ def _(problem: jm.DecoratedProblem):
 
 ## 配列・辞書の定義域の取得
 
-{py:class}`~jijmodeling.Placeholder` や {py:class}`~jijmodeling.DecisionVar` オブジェクトでは、配列のシェイプを表すタプルを `shape` 属性から取得できます。一方、一般の式については {py:meth}`Expression.shape()` メソッドを使います。
-辞書のキー集合を表す式は {py:meth}`Expression.keys()` メソッドで取得できます。また、配列式に対しては、シェイプの $n$ 番目を取得するための {py:meth}`Expression.len_at(n) <jijmodeling.Expression.len_at>` メソッドも用意されています。
+{py:class}`~jijmodeling.Placeholder` や {py:class}`~jijmodeling.DecisionVar` オブジェクトでは、配列のシェイプを表すタプルを `shape` 属性から取得できます。一方、一般の式については {py:meth}`Expression.shape() <jijmodeling.Expression.shape>` メソッドを使います。
+辞書のキー集合を表す式は {py:meth}`Expression.keys() <jijmodeling.Expression.keys>` メソッドで取得できます。また、配列式に対しては、シェイプの $n$ 番目を取得するための {py:meth}`Expression.len_at(n) <jijmodeling.Expression.len_at>` メソッドも用意されています。
 これらは、数理モデルの定式化の際に、定義域を走査する総和や制約条件を定義する際などに使うことができます。
 
 ## 添え字による要素アクセスとスライス

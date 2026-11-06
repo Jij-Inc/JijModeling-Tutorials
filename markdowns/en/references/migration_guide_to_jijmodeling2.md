@@ -43,7 +43,7 @@ JijModeling 2 introduces several key changes that improve usability and safety:
 
 1. **Removal of `Element` nodes**: The old `Element` class has been replaced with Python generator / comprehension or lambda-based binding, providing more flexible and natural iteration patterns.
 
-2. **Decision variables and placeholders must be created on Problem instances**: You can no longer call `jm.BinaryVar()`, `jm.IntegerVar()`, etc. directly. All decision variables now live in a Problem namespace and must be created through a {py:class}`~jijmodeling.Problem` instance using {py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>`, {py:meth}`problem.IntegerVar() <jijmodeling.Problem.IntegerVar>`, {py:meth}`problem.Placeholder <jijmodeling.Problem.Placeholder>`, etc.
+2. **Decision variables and placeholders must be created on Problem instances**: You can no longer call `jm.BinaryVar()`, `jm.IntegerVar()`, etc. directly. All decision variables now live in a Problem namespace and must be created through a {py:class}`Problem <jijmodeling.Problem>` instance using {py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>`, {py:meth}`problem.IntegerVar() <jijmodeling.Problem.IntegerVar>`, {py:meth}`problem.Placeholder <jijmodeling.Problem.Placeholder>`, etc.
 
 3. **Decorator API**: JijModeling 2 comes with two flavors of APIs: Plain API and Decorator API.
    - Plain API provides the notation similar to JijModeling 1.
@@ -52,7 +52,7 @@ JijModeling 2 introduces several key changes that improve usability and safety:
        * use Python comprehension syntax for sums, products, and constraint families;
        * elide (omit) the symbol names of decision variables / placeholders (their Python variable names are used automatically).
 
-4. **{py:class}`~jijmodeling.Compiler` replaces Interpreter**: The `Interpreter` class has been replaced with {py:class}`~jijmodeling.Compiler` and provides additional helper methods.
+4. **{py:class}`Compiler <jijmodeling.Compiler>` replaces Interpreter**: The `Interpreter` class has been replaced with {py:class}`Compiler <jijmodeling.Compiler>` and provides additional helper methods.
 
 5. **Dedicated Static Type System**: JijModeling 2 introduces an internal type system that validates expressions and operator compatibility *at Problem / Constraint construction time and during compilation*. Type mismatches (e.g. mixing incompatible numeric / index types, invalid jagged indexing) are detected early with informative errors.
 
@@ -63,9 +63,9 @@ JijModeling 2 introduces several key changes that improve usability and safety:
       * $0$ or $1$: {py:meth}`problem.Binary() <jijmodeling.Problem.Binary>`,
       * Integer: {py:meth}`problem.Integer <jijmodeling.Problem.Integer>`, and,
       * Real: {py:meth}`problem.Float() <jijmodeling.Problem.Float>`.
-   - They produce clearer intent, tighter static type checking, and better error messages. Use {py:meth}`~jijmodeling.Problem.Placeholder` only for advanced cases (tuple / custom `dtype`s).
+   - They produce clearer intent, tighter static type checking, and better error messages. Use {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` only for advanced cases (tuple / custom `dtype`s).
 
-7. **Introduction of Named Expressions**: The newly introduced {py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>` declaration allows you to bind and reuse frequently appearing sub-expressions as named expressions. This resolves the issue in traditional JijModeling where definitions of variables in LaTeX (defined with {py:meth}`~jijmodeling.Expression.with_latex()` or `latex=...`) were unclear.
+7. **Introduction of Named Expressions**: The newly introduced {py:meth}`problem.NamedExpr(..) <jijmodeling.Problem.NamedExpr>` declaration allows you to bind and reuse frequently appearing sub-expressions as named expressions. This resolves the issue in traditional JijModeling where definitions of variables in LaTeX (defined with {py:meth}`with_latex() <jijmodeling.Expression.with_latex>` or `latex=...`) were unclear.
 
 8. **New Datatypes**: JijModeling 2 now shipped with dictionary and category label types!
    - Many cases formerly written using jagged arrays can now be written more simply with dictionaries!
@@ -178,11 +178,11 @@ assert all(instance.constraints[i].function.almost_equal(instance_2.constraints[
 
 JijModeling 2 is motivated by the following design goals:
 
-- Introduces namespace: every parameter (decision variables, placeholders) belongs to an explicit {py:class}`~jijmodeling.Problem`, and metadata of parameters are stored in Problem, not expression nodes.
+- Introduces namespace: every parameter (decision variables, placeholders) belongs to an explicit {py:class}`Problem <jijmodeling.Problem>`, and metadata of parameters are stored in Problem, not expression nodes.
 - Make iteration & binding Pythonic: replace `Element` nodes with standard generator / comprehension syntax or raw lambda expressions.
 - Reduce boilerplate: implicit (elided) names minimize repetition.
 - Strengthen safety: a dedicated static type system validates expression structure (numeric kinds, comparison, jagged / tuple consistency, axis lengths) at construction & compilation time.
-- Explicit compilation stage: {py:class}`~jijmodeling.Compiler` makes evaluation & downstream tooling (IDs, diagnostics) consistent.
+- Explicit compilation stage: {py:class}`Compiler <jijmodeling.Compiler>` makes evaluation & downstream tooling (IDs, diagnostics) consistent.
 - Provide dual APIs: a high-level Decorator API (ergonomic) over a Plain API (precise / compositional).
 
 ## Major Difference Highlights
@@ -193,10 +193,10 @@ In this section, we will discuss the details of major difference in JijModeling 
 
 The semantics of some entities are changed in JijModeling 2, including:
 
-- Decision variable / placeholder constructors (module-level) → {py:class}`~jijmodeling.Problem`-bound factory ({py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>`, {py:meth}`problem.Natural() <jijmodeling.Problem.Natural>`, etc.).
+- Decision variable / placeholder constructors (module-level) → {py:class}`Problem <jijmodeling.Problem>`-bound factory ({py:meth}`problem.BinaryVar() <jijmodeling.Problem.BinaryVar>`, {py:meth}`problem.Natural() <jijmodeling.Problem.Natural>`, etc.).
 - `Element` (index) → streams of values + iterator (`(f(i) for i in N if ...)`) or `lambda`-expressions.
 - `jm.sum(Element, expr)` / `forall=` argument → Comprehension `jm.sum(expr for i in N if cond)` / constraint collection.
-- `Interpreter` → {py:class}`~jijmodeling.Compiler` (plus convenience {py:meth}`problem.eval(data) <jijmodeling.Problem.eval>` path).
+- `Interpreter` → {py:class}`Compiler <jijmodeling.Compiler>` (plus convenience {py:meth}`problem.eval(data) <jijmodeling.Problem.eval>` path).
 - 2D array as an edge set → Placeholders with tuple elements or {py:meth}`.rows() <jijmodeling.Expression.rows>` helper.
 
 To summarize:
@@ -204,7 +204,7 @@ To summarize:
 | Category | Purpose | Typical Constructors | Notes |
 |----------|---------|----------------------|-------|
 | Problem  | Namespace / model root | {py:class}`jm.Problem(name, sense=...) <jijmodeling.Problem>` | Owns every symbol & constraint. |
-| Placeholders | Parameter multi-dimensional arrays (given at evaluation) | {py:meth}`problem.Placeholder(...) <jijmodeling.Problem.Placeholder>`, {py:meth}`problem.Natural(...) <jijmodeling.Problem.Natural>`, {py:meth}`problem.Float(...) <jijmodeling.Problem.Float>` | Names can be elided with {py:meth}`@problem.update <jijmodeling.Problem.update>` or {py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`; {py:meth}`~jijmodeling.Problem.Natural` is a typed shortcut. |
+| Placeholders | Parameter multi-dimensional arrays (given at evaluation) | {py:meth}`problem.Placeholder(...) <jijmodeling.Problem.Placeholder>`, {py:meth}`problem.Natural(...) <jijmodeling.Problem.Natural>`, {py:meth}`problem.Float(...) <jijmodeling.Problem.Float>` | Names can be elided with {py:meth}`@problem.update <jijmodeling.Problem.update>` or {py:meth}`@jm.Problem.define <jijmodeling.Problem.define>`; {py:meth}`Natural <jijmodeling.Problem.Natural>` is a typed shortcut. |
 | Decision Vars | Optimization variables | {py:meth}`problem.BinaryVar <jijmodeling.Problem.BinaryVar>`, {py:meth}`problem.IntegerVar <jijmodeling.Problem.IntegerVar>`, {py:meth}`problem.ContinuousVar <jijmodeling.Problem.ContinuousVar>`, etc. | Must be constructed in Problem |
 | Expressions | Syntax Tree | algebraic operations, {py:func}`jm.sum <jijmodeling.sum>`, {py:meth}`.sum() <jijmodeling.Expression.sum>`, {py:meth}`.prod() <jijmodeling.Expression.prod>` | In JijModeling 2, expressions can have types other than scalars, and will be typechecked. |
 | Streams | Iterable symbolic domains | placeholder itself (`for i in N`), {py:func}`jm.product(A,B) <jijmodeling.product>`, {py:func}`jm.filter(...) <jijmodeling.filter>` | Used with lambdas or comprehensions, replaces `Element` objects. |
@@ -214,7 +214,7 @@ To summarize:
 
 ### Both Prefix and Method Styles are Provided
 
-For convenience, most functions on expressions (such as {py:func}`~jijmodeling.sum`, {py:func}`~jijmodeling.prod`, {py:func}`~jijmodeling.map`, and {py:func}`~jijmodeling.log2`) can be used both in method and prefix styles.
+For convenience, most functions on expressions (such as {py:func}`sum <jijmodeling.sum>`, {py:func}`prod <jijmodeling.prod>`, {py:func}`map <jijmodeling.map>`, and {py:func}`log2 <jijmodeling.log2>`) can be used both in method and prefix styles.
 For example, {py:meth}`x.sum() <jijmodeling.Expression.sum>` and {py:func}`jm.sum(x) <jijmodeling.sum>` (or {py:meth}`z.log2() <jijmodeling.Expression.log2>` and {py:func}`jm.log2(z) <jijmodeling.log2>`) are interchangeable.
 
 ### Streams and Lambdas / Comprehensions instead of Elements
@@ -224,7 +224,7 @@ Instead, JijModeling 2 removes `Element` node and introduces first-class **strea
 
 Concretely, the following can be treated as a stream:
 
-- Natural number expressions (without decision variables): Natural number $N$ (and hence {py:meth}`~jijmodeling.Problem.Length` and {py:meth}`~jijmodeling.Problem.Dim`) is identified with the stream $0, \ldots, N-1$.
+- Natural number expressions (without decision variables): Natural number $N$ (and hence {py:meth}`Length <jijmodeling.Problem.Length>` and {py:meth}`Dim <jijmodeling.Problem.Dim>`) is identified with the stream $0, \ldots, N-1$.
 - Arrays: Arrays of any dimension can be streamed component by component.
   - ⚠️ This is a breaking change! Formerly, an $(N+1)$-dimensional array was iterated as a collection of $N$-dimensional arrays. If you need this behavior, first use {py:func}`jm.rows() <jijmodeling.rows>` to convert an $(N+1)$-D array into 1D array of $N$-D arrays.
 - Tuple of stream-like values: `(L, R)` is interpreted as the cartesian product ($L \times R$) of $L$ and $R$.
@@ -321,7 +321,7 @@ These styles are useful when expressing a complex constraint. But for this kind 
 problem.Constraint("cap", C <= N)
 ```
 
-When you use a comparison expression as a body of the {py:meth}`~jijmodeling.Problem.Constraint` constructor, it must obey the following rules:
+When you use a comparison expression as a body of the {py:meth}`Constraint <jijmodeling.Problem.Constraint>` constructor, it must obey the following rules:
 
 - Comparison operator must be one of `==`, `<=` or `>=`.
 - The comparison must be between either of:
@@ -335,8 +335,8 @@ Currently, the Decorator API exposes two decorators: {py:meth}`@problem.update <
 Both decorate functions that accept a `DecoratedProblem`, and you can use the exact same Decorator API syntax inside either function.
 Keep the following in mind:
 
-- {py:meth}`@jm.Problem.define(name, ...) <jijmodeling.Problem.define>` creates a new {py:class}`~jijmodeling.Problem` via the Decorator API.
-  - {py:meth}`@jm.Problem.define(..) <jijmodeling.Problem.define>` takes the same arguments as the `Problem` constructor, constructs a {py:class}`~jijmodeling.Problem`, and binds it to a Python variable with the same name as the decorated function.
+- {py:meth}`@jm.Problem.define(name, ...) <jijmodeling.Problem.define>` creates a new {py:class}`Problem <jijmodeling.Problem>` via the Decorator API.
+  - {py:meth}`@jm.Problem.define(..) <jijmodeling.Problem.define>` takes the same arguments as the `Problem` constructor, constructs a {py:class}`Problem <jijmodeling.Problem>`, and binds it to a Python variable with the same name as the decorated function.
 - {py:meth}`@problem.update <jijmodeling.Problem.update>` updates an already-defined optimization problem `problem` via the Decorator API.
   - The decorated function executes immediately at definition time and mutates the original `problem`, so you never call the function manually. The name of the decorated function doesn't affect the result.
   - You can apply {py:meth}`@problem.update <jijmodeling.Problem.update>` to the same `problem` multiple times. Each invocation appends the parameters, objectives, and constraints defined in that block.
@@ -357,7 +357,7 @@ def _update(my_problem: jm.DecoratedProblem):
 ```
 
 In this case, variables `N` and `x` (as Python locals) are out of scope in `_update`.
-However, the metadata of `N` and `x` are still registered to `my_problem`, so you can retrieve them via the {py:attr}`Problem.placeholders` or {py:attr}`Problem.decision_vars` attributes:
+However, the metadata of `N` and `x` are still registered to `my_problem`, so you can retrieve them via the {py:attr}`Problem.placeholders <jijmodeling.Problem.placeholders>` or {py:attr}`Problem.decision_vars <jijmodeling.Problem.decision_vars>` attributes:
 
 ```python
 @my_problem.update
@@ -412,7 +412,7 @@ y = problem.IntegerVar("y", lower_bound=0, upper_bound=10)
 ```
 
 This change ensures proper namespace management.
-Metadata of placeholders and decision variables can be accessed via {py:attr}`Problem.placeholders` and {py:attr}`Problem.decision_vars`.
+Metadata of placeholders and decision variables can be accessed via {py:attr}`Problem.placeholders <jijmodeling.Problem.placeholders>` and {py:attr}`Problem.decision_vars <jijmodeling.Problem.decision_vars>`.
 
 ### Changes in Exceptions
 
@@ -588,7 +588,7 @@ def _(problem: jm.DecoratedProblem):
 problem
 ```
 
-Alternatively, you can use a two-dimensional array with shape $(N, 2)$ in combination with the {py:meth}`~jijmodeling.Expression.rows()` method:
+Alternatively, you can use a two-dimensional array with shape $(N, 2)$ in combination with the {py:meth}`rows() <jijmodeling.Expression.rows>` method:
 
 ```{code-cell} ipython3
 # Alternative method using .rows()
@@ -832,7 +832,7 @@ Or equivalently:
 
 ### Compiler Migration
 
-The `Interpreter` class has been replaced with {py:class}`~jijmodeling.Compiler` in JijModeling 2, providing additional utility methods.
+The `Interpreter` class has been replaced with {py:class}`Compiler <jijmodeling.Compiler>` in JijModeling 2, providing additional utility methods.
 
 **JijModeling 1:**
 
@@ -919,7 +919,7 @@ Replace every direct module-level constructor with its Problem-bound equivalent:
 
 - ❌ **Generic (avoid)**: `N = problem.Placeholder(dtype=jm.DataType.NATURAL)` / `a = problem.Placeholder(ndim=1)`
 - ✅ **Preferred (recommended)**: `N = problem.Length()` / `a = problem.Float(ndim=1)` / `W = problem.Float()` / `K = problem.Integer()` / `G = problem.Graph(dtype=V)`
-- ▶︎ Use {py:meth}`~jijmodeling.Problem.Placeholder` only with explicit `dtype` argument.
+- ▶︎ Use {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` only with explicit `dtype` argument.
 
 ### Step 5: Update Constraint Syntax
 
@@ -963,7 +963,7 @@ a = problem.Placeholder(ndim=1)
 a = problem.Float(ndim=1)
 ```
 
-Typically, you will encounter the error if you failed to specify `dtype` for generic {py:meth}`~jijmodeling.Problem.Placeholder` for natural numbers.
+Typically, you will encounter the error if you failed to specify `dtype` for generic {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` for natural numbers.
 Common mistake pattern:
 
 ```python
@@ -983,7 +983,7 @@ jijmodeling.TypeError: Traceback (most recent last):
 Type Error: Could not match actual type `float' with expected `natural'
 ~~~
 
-You can fix this situation by using `N = problem.Length("N")` instead of generic {py:meth}`~jijmodeling.Problem.Placeholder`.
+You can fix this situation by using `N = problem.Length("N")` instead of generic {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>`.
 
 ### Pitfall 3: Forgetting the Decorator
 
@@ -1050,15 +1050,15 @@ The following table summarizes the common patterns in migration:
 ## Best Practices
 
 1. **Always create variables through Problem instances** – Mandatory in JijModeling 2
-2. **Use typed placeholder constructors ({py:meth}`~jijmodeling.Problem.Natural`, {py:meth}`~jijmodeling.Problem.Float`, {py:meth}`~jijmodeling.Problem.Integer`, …)** – Improves readability & diagnostics
-3. **Reserve generic {py:meth}`~jijmodeling.Problem.Placeholder` for advanced cases** – Only for compound `dtype`s such as tuples.
-   - You can use specialized constructor synonym such as {py:meth}`~jijmodeling.Problem.Length` or {py:meth}`~jijmodeling.Problem.Dim`.
+2. **Use typed placeholder constructors ({py:meth}`Natural <jijmodeling.Problem.Natural>`, {py:meth}`Float <jijmodeling.Problem.Float>`, {py:meth}`Integer <jijmodeling.Problem.Integer>`, …)** – Improves readability & diagnostics
+3. **Reserve generic {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` for advanced cases** – Only for compound `dtype`s such as tuples.
+   - You can use specialized constructor synonym such as {py:meth}`Length <jijmodeling.Problem.Length>` or {py:meth}`Dim <jijmodeling.Problem.Dim>`.
 4. **Prefer Decorator API** – Cleaner and more maintainable
 5. **Leverage name elision** – Let the system infer variable names when possible
 6. **Use comprehensions with conditions** – Native Python semantics aid readability
 7. **Use tuple types for edges in Graph** – Results in cleaner code and math output in Jupyter Notebook
-   - There is a {py:meth}`Problem.Graph` smart constructor for it.
-8. **Use {py:meth}`problem.eval() <jijmodeling.Problem.eval>` for simple cases** – Use {py:class}`~jijmodeling.Compiler` for introspection or advanced workflows
+   - There is a {py:meth}`Problem.Graph <jijmodeling.Problem.Graph>` smart constructor for it.
+8. **Use {py:meth}`problem.eval() <jijmodeling.Problem.eval>` for simple cases** – Use {py:class}`Compiler <jijmodeling.Compiler>` for introspection or advanced workflows
 9. **Use dictionaries instead of jagged arrays** – Jagged arrays tend to hide shape mismatches, so prefer dictionaries whenever possible
 
 ## Summary

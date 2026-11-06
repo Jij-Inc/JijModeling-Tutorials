@@ -23,14 +23,14 @@ import jijmodeling as jm
 ## Arithmetic Operations
 
 Python's built-in arithmetic operations (addition, subtraction, multiplication, division, and so on, including {py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, and {py:meth}`% <jijmodeling.Expression.__mod__>`) can also be used with JijModeling expressions.
-Operations between numeric expressions work as expected. Under certain conditions, operations can also be performed between multidimensional arrays and between {py:meth}`~jijmodeling.Problem.TotalDict` objects with identical key sets.
+Operations between numeric expressions work as expected. Under certain conditions, operations can also be performed between multidimensional arrays and between {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` objects with identical key sets.
 Specifically, arithmetic operations are supported for the following combinations, regardless of operand order:
 
 1. Two scalars
 2. A scalar and a multidimensional array
 3. A scalar and a dictionary
 4. Two multidimensional arrays with the same shape
-5. Two total dictionaries ({py:meth}`~jijmodeling.Problem.TotalDict`) with the same key set
+5. Two total dictionaries ({py:meth}`TotalDict <jijmodeling.Problem.TotalDict>`) with the same key set
 
 :::{admonition} Broadcasting in JijModeling
 :class: note
@@ -105,7 +105,7 @@ except Exception as e:
     print(e)
 ```
 
-### Alternative Syntax: Constructing Arrays with {py:func}`~jijmodeling.genarray` or {py:func}`~jijmodeling.gendict`
+### Alternative Syntax: Constructing Arrays with {py:func}`genarray <jijmodeling.genarray>` or {py:func}`gendict <jijmodeling.gendict>`
 
 In the example above, an operation involving nontrivial broadcasting, such as `y + z`, intentionally results in an error.
 In such cases, you can construct the desired array or dictionary by using {py:func}`~jijmodeling.genarray` or {py:func}`~jijmodeling.gendict` and explicitly specifying its shape or key set and the expression for each element:
@@ -146,7 +146,9 @@ These functions can be applied to expressions regardless of whether they contain
 
 ## Comparison Operations
 
-Equality operators ({py:meth}`== <jijmodeling.Expression.__eq__>` and {py:meth}`!= <jijmodeling.Expression.__ne__>`) and ordering operators ({py:meth}`< <jijmodeling.Expression.__lt__>`, {py:meth}`<= <jijmodeling.Expression.__le__>`, {py:meth}`> <jijmodeling.Expression.__gt__>`, and {py:meth}`>= <jijmodeling.Expression.__ge__>`) can also be used with JijModeling expressions.
+```{eval-rst}
+Equality operators (:py:meth:`== <jijmodeling.Expression.__eq__>` and :py:meth:`\!= <jijmodeling.Expression.__ne__>`) and ordering operators (:py:meth:`< <jijmodeling.Expression.__lt__>`, :py:meth:`<= <jijmodeling.Expression.__le__>`, :py:meth:`> <jijmodeling.Expression.__gt__>`, and :py:meth:`>= <jijmodeling.Expression.__ge__>`) can also be used with JijModeling expressions.
+```
 
 If **neither side of a comparison operator contains a decision variable**, the result is inferred as an expression of the Boolean type `Bool`. If at least one side may contain a decision variable, the result is treated as a special **comparison type**. This distinction is necessary because constraint definitions must be able to compare expressions containing decision variables, while comparisons used in comprehensions and similar constructs must evaluate to a definite Boolean value.
 

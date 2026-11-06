@@ -26,10 +26,10 @@ Representative placeholder types are:
 
 | Type | Mathematical Notation | Description | Alias |
 | :--- | :------------------: | :-- | :-- |
-| {py:meth}`~jijmodeling.Problem.Binary` | $\{0, 1\}$ | A binary placeholder taking value $0$ or $1$. | - |
-| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ or $\{0, \ldots, N-1\}$ | Natural numbers including zero. Used for array sizes and indices. Specify another natural-valued expression `N` with the `less_than` keyword argument to restrict the range to $\{0, \ldots, N-1\}$. | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
-| {py:meth}`~jijmodeling.Problem.Integer` | $\mathbb{Z}$ | An integer value, including negatives. | - |
-| {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | A general real-valued floating-point placeholder. | - |
+| {py:meth}`Binary <jijmodeling.Problem.Binary>` | $\{0, 1\}$ | A binary placeholder taking value $0$ or $1$. | - |
+| {py:meth}`Natural <jijmodeling.Problem.Natural>` | $\mathbb{N}$ or $\{0, \ldots, N-1\}$ | Natural numbers including zero. Used for array sizes and indices. Specify another natural-valued expression `N` with the `less_than` keyword argument to restrict the range to $\{0, \ldots, N-1\}$. | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
+| {py:meth}`Integer <jijmodeling.Problem.Integer>` | $\mathbb{Z}$ | An integer value, including negatives. | - |
+| {py:meth}`Float <jijmodeling.Problem.Float>` | $\mathbb{R}$ | A general real-valued floating-point placeholder. | - |
 | Tuples of the above | $\mathbb{Z} \times \mathbb{R}$ | Fixed-length tuples with per-component types, often used with lists. | - |
 
 To declare a placeholder, call the method with the same name as one of the types above on a `Problem`.
@@ -37,11 +37,11 @@ To declare a placeholder, call the method with the same name as one of the types
 :::{admonition} Choosing placeholder types
 :class: hint
 
-For simple models, it is usually enough to remember just {py:meth}`~jijmodeling.Problem.Natural` and {py:meth}`~jijmodeling.Problem.Float`.
+For simple models, it is usually enough to remember just {py:meth}`Natural <jijmodeling.Problem.Natural>` and {py:meth}`Float <jijmodeling.Problem.Float>`.
 Keep the following guidelines in mind:
 
-1. Use **natural numbers** for **array sizes and item counts**, declaring them as {py:meth}`~jijmodeling.Problem.Natural` or aliases like {py:meth}`~jijmodeling.Problem.Dim` and {py:meth}`~jijmodeling.Problem.Length`.
-2. Use {py:meth}`~jijmodeling.Problem.Float`, or a more specific type when needed, for **other numeric values**.
+1. Use **natural numbers** for **array sizes and item counts**, declaring them as {py:meth}`Natural <jijmodeling.Problem.Natural>` or aliases like {py:meth}`Dim <jijmodeling.Problem.Dim>` and {py:meth}`Length <jijmodeling.Problem.Length>`.
+2. Use {py:meth}`Float <jijmodeling.Problem.Float>`, or a more specific type when needed, for **other numeric values**.
 :::
 
 As an example, declare the single placeholders needed for a knapsack problem.
@@ -110,8 +110,8 @@ You can specify the following for `dtype`:
 - Category labels
 - Tuples of the above
 
-For placeholders with more complex types, such as tuples, use the {py:meth}`~jijmodeling.Problem.Placeholder` constructor to specify the details.
-Like the specialized constructors, {py:meth}`~jijmodeling.Problem.Placeholder` also supports name omission in the Decorator API.
+For placeholders with more complex types, such as tuples, use the {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` constructor to specify the details.
+Like the specialized constructors, {py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` also supports name omission in the Decorator API.
 :::
 
 ## Declaring category labels
@@ -152,10 +152,10 @@ In mathematical notation this is rendered as $\#L$.
 (ph_cl_info)=
 ## Retrieving placeholder and category-label information
 
-The list of placeholders registered in a mathematical model can be obtained from the {py:class}`~jijmodeling.Problem` object's {py:attr}`~jijmodeling.DecoratedProblem.placeholders` property.
+The list of placeholders registered in a mathematical model can be obtained from the {py:class}`Problem <jijmodeling.Problem>` object's {py:attr}`~jijmodeling.DecoratedProblem.placeholders` property.
 This property returns a dictionary keyed by placeholder name, with the corresponding metadata as values.
 It also includes information for indexed variables discussed below.
-Similarly, category labels can be obtained from the {py:class}`~jijmodeling.Problem` object's {py:attr}`~jijmodeling.Problem.category_labels` property as a dictionary keyed by category-label name.
+Similarly, category labels can be obtained from the {py:class}`Problem <jijmodeling.Problem>` object's {py:attr}`~jijmodeling.Problem.category_labels` property as a dictionary keyed by category-label name.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -269,10 +269,10 @@ The {py:meth}`~jijmodeling.Expression.len_at` method returns the length of the $
 Since $v$ and $w$ have the same length, we declare $v$ as a one-dimensional array first and use its length to specify the `shape` of $w$.
 
 These two approaches define semantically similar models, but they differ in how instance data is provided.
-In the first `knapsack_placeholders` example ([definition](#knapsack_placeholders_def) and [update](#knapsack_placeholders_update)), $N$ is also declared as a {py:meth}`~jijmodeling.Problem.Length` placeholder, so when {doc}`generating an instance <./instance_generation>`, you must provide `N` as instance data in addition to `W`, `v`, and `w`.
-In [`knapsack_placeholders_ndim`](#knapsack_placeholders_ndim), where $N$ is constructed as an expression using {py:meth}`~jijmodeling.Expression.len_at` instead of as a placeholder, the value of $N$ is inferred from input `v`, so at compile time you only need to provide values for `W`, `v`, and `w`.
+In the first `knapsack_placeholders` example ([definition](#knapsack_placeholders_def) and [update](#knapsack_placeholders_update)), $N$ is also declared as a {py:meth}`Length <jijmodeling.Problem.Length>` placeholder, so when {doc}`generating an instance <./instance_generation>`, you must provide `N` as instance data in addition to `W`, `v`, and `w`.
+In [`knapsack_placeholders_ndim`](#knapsack_placeholders_ndim), where $N$ is constructed as an expression using {py:meth}`len_at <jijmodeling.Expression.len_at>` instead of as a placeholder, the value of $N$ is inferred from input `v`, so at compile time you only need to provide values for `W`, `v`, and `w`.
 
-So when should you introduce a length placeholder, and when should you use `ndim` + {py:meth}`~jijmodeling.Expression.len_at`?
+So when should you introduce a length placeholder, and when should you use `ndim` + {py:meth}`len_at <jijmodeling.Expression.len_at>`?
 A good rule of thumb is: **if there are dependencies between the lengths of multiple axes in a single array**, then you should define a length placeholder.
 
 As an example, consider defining a distance matrix $d$ of shape $N \times N$:
@@ -329,7 +329,7 @@ You can express graph structures, non-zero-based indices, and sparse structures 
 
 ### Dictionaries of placeholders
 
-Placeholder dictionaries are declared by passing the `dict_keys` keyword argument, instead of `shape`, to constructors such as {py:meth}`~jijmodeling.Problem.Float` and {py:meth}`~jijmodeling.Problem.Length`.
+Placeholder dictionaries are declared by passing the `dict_keys` keyword argument, instead of `shape`, to constructors such as {py:meth}`Float <jijmodeling.Problem.Float>` and {py:meth}`Length <jijmodeling.Problem.Length>`.
 To align with decision-variable behavior, if only `dict_keys` is specified, the placeholder dictionary is declared as a `TotalDict`.
 If you also pass `partial_dict=True`, it is declared as a `PartialDict`.
 
@@ -350,7 +350,7 @@ When declared as a `PartialDict`, the following can be specified:
 6. A category label defined by {py:meth}`problem.CategoryLabel <jijmodeling.Problem.CategoryLabel>`
 7. A tuple composed of (1) to (6)
 
-You can also declare placeholder dictionaries by calling the {py:meth}`~jijmodeling.Problem.TotalDict` constructor or {py:meth}`~jijmodeling.Problem.PartialDict` constructor on the {py:class}`~jijmodeling.Problem` object.
+You can also declare placeholder dictionaries by calling the {py:meth}`~jijmodeling.Problem.TotalDict` constructor or {py:meth}`~jijmodeling.Problem.PartialDict` constructor on the {py:class}`Problem <jijmodeling.Problem>` object.
 
 :::{admonition} Why there is no `ndim`-like option for placeholder dictionaries
 :class: caution

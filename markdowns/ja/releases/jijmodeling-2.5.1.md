@@ -76,14 +76,14 @@ problem
 
 ### `Placeholder` の `dtype` に上限付き自然数とカテゴリーラベルを指定できるように
 
-{py:meth}`Problem.Placeholder`（および `Graph`、`PartialDict`、`TotalDict` などの型付き構築子）の `dtype` 引数は、これまで `jm.DataType`、NumPy のスカラー型、あるいはそれらから構成されるタプルに限られていました。
+{py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>`（および `Graph`、`PartialDict`、`TotalDict` などの型付き構築子）の `dtype` 引数は、これまで `jm.DataType`、NumPy のスカラー型、あるいはそれらから構成されるタプルに限られていました。
 本バージョンから、`dtype` には次のものも追加で指定できるようになりました：
 
 - 自然数式 `n`：値が `n` より真に小さい自然数（すなわち $\{0, 1, \dots, n - 1\}$ のいずれか）であることを表します。`n` には Python の整数リテラルのほか、自然数型の他のプレースホルダーや {py:class}`~jijmodeling.NamedExpr` などの式も渡せます。
 - {py:class}`~jijmodeling.CategoryLabel` `L`：値が `L` のラベルのうちのいずれかであることを表します。
 - 上記（あるいは他の指定可能な `dtype`）を要素とするタプル `(T, T, ...)`。
 
-上記の `dtype` に関する追加に合わせて、型付き構築子である {py:meth}`Problem.Natural`（およびそのエイリアスである {py:meth}`Problem.Length` と {py:meth}`Problem.Dim`）でも `less_than=natexpr` キーワード引数を指定できるようになりました。これは `Placeholder(dtype=natexpr)` と同じく上限付き自然数型のプレースホルダーを宣言するもので、自然数値のプレースホルダーであるという意図をより明瞭に表現する書き方です。
+上記の `dtype` に関する追加に合わせて、型付き構築子である {py:meth}`Problem.Natural <jijmodeling.Problem.Natural>`（およびそのエイリアスである {py:meth}`Problem.Length <jijmodeling.Problem.Length>` と {py:meth}`Problem.Dim <jijmodeling.Problem.Dim>`）でも `less_than=natexpr` キーワード引数を指定できるようになりました。これは `Placeholder(dtype=natexpr)` と同じく上限付き自然数型のプレースホルダーを宣言するもので、自然数値のプレースホルダーであるという意図をより明瞭に表現する書き方です。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -154,7 +154,7 @@ instance = compiler.eval_problem(problem)
 
 ### 目的関数を代入で再設定できるように
 
-本バージョンから {py:attr}`Problem.objective` に直接代入して置き換えられるようになりました。
+本バージョンから {py:attr}`Problem.objective <jijmodeling.Problem.objective>` に直接代入して置き換えられるようになりました。
 {py:class}`~jijmodeling.DecoratedProblem` でも同じように `problem.objective = ...` と書けます。
 
 たとえば、一度設定した目的関数を別の式に置き換えたり、`problem.objective = 0` として目的関数を明示的にリセットしたりできます。
@@ -252,7 +252,7 @@ jm.product(N, M).filter(lambda i, j: i == j)
 
 ### 制約族の定義で singleton list に対する comprehension をした時に `problem.eval()` が失敗するバグの修正
 
-以前は次のような問題定義が、JijModeling の型検査は（期待通り）通過するものの、 {py:meth}`Problem.eval` を呼び出すと `Could not convert value from function of decision variable to SubscriptItem.` というエラーが発生するバグがありました。
+以前は次のような問題定義が、JijModeling の型検査は（期待通り）通過するものの、 {py:meth}`Problem.eval <jijmodeling.Problem.eval>` を呼び出すと `Could not convert value from function of decision variable to SubscriptItem.` というエラーが発生するバグがありました。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Min fail")
@@ -263,4 +263,4 @@ def min_fail(problem: jm.DecoratedProblem):
     )
 ```
 
-本バージョンでは、上記の様な定義に対しても {py:meth}`Problem.eval` が正常に動作するように修正しました。
+本バージョンでは、上記の様な定義に対しても {py:meth}`Problem.eval <jijmodeling.Problem.eval>` が正常に動作するように修正しました。

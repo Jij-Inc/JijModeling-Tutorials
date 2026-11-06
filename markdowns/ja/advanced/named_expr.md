@@ -14,8 +14,8 @@ kernelspec:
 # 式の命名とインスタンスへの保存
 
 JijModeling では、名前つきの式を表すクラスとして {py:class}`~jijmodeling.NamedExpr` クラスが提供されており、
-決定変数やプレースホルダーと同様に、 {py:meth}`Problem.NamedExpr()` メソッドを使って宣言することができます。
-{py:meth}`Problem.NamedExpr()` の引数は以下の通りです。
+決定変数やプレースホルダーと同様に、 {py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` メソッドを使って宣言することができます。
+{py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` の引数は以下の通りです。
 
 | 引数 | 型 | 説明 |
 | :-- | :--: | :-- |
@@ -106,14 +106,14 @@ assert instance_named.constraints[0].function.almost_equal(
 ```
 
 :::{tip}
-数理モデルに登録されている {py:class}`~jijmodeling.NamedExpr` の一覧は、 {py:attr}`jijmodeling.Problem.named_exprs` で確認できます。
+数理モデルに登録されている {py:class}`~jijmodeling.NamedExpr` の一覧は、 {py:meth}`jijmodeling.Problem.named_exprs` で確認できます。
 :::
 
 +++
 
 ## インスタンスへの保存
 
-{py:meth}`~jijmodeling.Problem.NamedExpr` の `save_in_ommx` 引数に `True` を設定することで、以下の条件を満たす場合に限り、その式を OMMX インスタンスに保存することができます。
+{py:class}`~jijmodeling.Problem.NamedExpr` の `save_in_ommx` 引数に `True` を設定することで、以下の条件を満たす場合に限り、その式を OMMX インスタンスに保存することができます。
 
 1. 取りうる値がスカラーである式
 2. 取りうる値がスカラーである式の配列
@@ -182,7 +182,7 @@ except Exception as e:
 ```
 
 :::{tip}
-これらの OMMX インスタンスに保存できない式についても、 `save_in_ommx=False`（あるいは、未指定）にすれば {py:class}`~jijmodeling.NamedExpr` として宣言することができます。
+これらの OMMX インスタンスに保存できない式についても、 `save_in_ommx=False`（あるいは、未指定）にすれば {py:class}`NamedExpr <jijmodeling.NamedExpr>` として宣言することができます。
 :::
 
 +++
@@ -218,14 +218,14 @@ knapsack_weight
 instance = knapsack_weight.eval(knapsack_instance_data)
 ```
 
-OMMX インスタンスに保存された式は、 {py:attr}`ommx.v1.Instance.named_functions` や {py:attr}`ommx.v1.Instance.named_functions_df` プロパティで確認することができます。
+OMMX インスタンスに保存された式は、 {py:meth}`ommx.v1.Instance.named_functions` や {py:meth}`ommx.v1.Instance.named_functions_df` プロパティで確認することができます。
 
 ```{code-cell} ipython3
 instance.named_functions_df
 ```
 
 :::{tip}
-OMMX インスタンスに保存された式に対応する NamedFunction の ID を得るには、{py:meth}`Compiler.get_named_function_id_by_name()` メソッドを利用してください。
+OMMX インスタンスに保存された式に対応する NamedFunction の ID を得るには、{py:meth}`Compiler.get_named_function_id_by_name() <jijmodeling.Compiler.get_named_function_id_by_name>` メソッドを利用してください。
 :::
 
 +++

@@ -94,7 +94,7 @@ except SyntaxError as e:
 
 ## 軸に沿った `min` / `max` のサポート
 
-旧来は {py:func}`jm.sum <jijmodeling.sum>` や {py:meth}`Expression.sum` では `axis` キーワード引数により、多次元配列の特定の軸に沿った和を取ることができましたが、今回のバージョンからは {py:func}`jm.min <jijmodeling.min>` と {py:func}`jm.max <jijmodeling.max>`（そしてその対応する `Expression` メソッド）にも同様の機能が追加されました。
+旧来は {py:func}`jm.sum <jijmodeling.sum>` や {py:meth}`Expression.sum <jijmodeling.Expression.sum>` では `axis` キーワード引数により、多次元配列の特定の軸に沿った和を取ることができましたが、今回のバージョンからは {py:func}`jm.min <jijmodeling.min>` と {py:func}`jm.max <jijmodeling.max>`（そしてその対応する `Expression` メソッド）にも同様の機能が追加されました。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -279,4 +279,4 @@ problem.infer(x.sum())
 
 - バージョン条件を緩和し、Python 3.11 以降の任意の Python 3 でのインストールを許容しました。
 - Decorator API の `sum` などで不正な内包表記を使った際のエラーメッセージが、具体的なコード上の位置を報告するようになりました。
-- {py:attr}`Problem.used_placeholders` は用途が明確でなく、{py:class}`~jijmodeling.Compiler` も全てのプレースホルダーの値を要求するため、廃止予定となりました。かわりに {py:attr}`Problem.placeholders` を使用してください。
+- {py:meth}`Problem.used_placeholders <jijmodeling.Problem.used_placeholders>` は用途が明確でなく、{py:class}`~jijmodeling.Compiler` も全てのプレースホルダーの値を要求するため、廃止予定となりました。かわりに {py:meth}`Problem.placeholders <jijmodeling.Problem.placeholders>` を使用してください。

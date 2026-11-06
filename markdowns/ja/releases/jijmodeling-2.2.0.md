@@ -62,7 +62,7 @@ problem
 
 ### 決定変数の値を固定する機能を追加
 
-{py:meth}`Problem.eval` や {py:meth}`Compiler.from_problem` で、決定変数の値を（部分的に）固定する機能を追加しました。
+{py:meth}`Problem.eval <jijmodeling.Problem.eval>` や {py:meth}`Compiler.from_problem <jijmodeling.Compiler.from_problem>` で、決定変数の値を（部分的に）固定する機能を追加しました。
 オプショナルなキーワード引数 `fixed_variables` に、固定したい変数名をキーとし、固定値または添え字から固定値への辞書を値とする辞書を渡すことで、変数の値を固定できます。
 固定された値は、対応する ommx の決定変数の `fixed_value` 属性に格納されます。
 
@@ -117,4 +117,4 @@ x[0][1]
 ### バグ修正：不正な決定変数の定義に対するエラーの改善
 
 これまでは、決定変数の上下界の指定が不正である場合、`try-except` などで捕捉できない回復不能な例外が発生していました。
-今回の修正から、こうした場合は {py:exc}`ValueError` が発生するようになり、また例外のメッセージもよりわかりやすくなりました。
+今回の修正から、こうした場合は {py:class}`ValueError` が発生するようになり、また例外のメッセージもよりわかりやすくなりました。

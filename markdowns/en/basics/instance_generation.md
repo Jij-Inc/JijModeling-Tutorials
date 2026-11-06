@@ -90,8 +90,8 @@ instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data
 :::{admonition} Random instance data generation
 :class: tip
 
-You can use the {py:meth}`Problem.generate_random_dataset` and
-{py:meth}`Problem.generate_random_instance` methods to generate random instance data.
+You can use the {py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` and
+{py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` methods to generate random instance data.
 For more details, please refer to the API documentation and upcoming advanced topic tutorials.
 :::
 
@@ -100,7 +100,7 @@ For more details, please refer to the API documentation and upcoming advanced to
 ## Compiling to an instance
 
 Once the model and instance data are prepared, you can compile them into an OMMX instance.
-The simplest way is to use the {py:meth}`Problem.eval()` method:
+The simplest way is to use the {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` method:
 
 ```{code-cell} ipython3
 instance1 = problem.eval(instance_data)
@@ -115,8 +115,8 @@ instance1.decision_variables_df
 instance1.objective
 ```
 
-This actually calls {py:meth}`Compiler.from_problem()` and
-{py:meth}`Compiler.eval_problem()` internally, and is equivalent to:
+This actually calls {py:meth}`Compiler.from_problem() <jijmodeling.Compiler.from_problem>` and
+{py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` internally, and is equivalent to:
 
 ```{code-cell} ipython3
 compiler = jm.Compiler.from_problem(problem, instance_data)
@@ -150,7 +150,7 @@ The {py:class}`~jijmodeling.Problem` argument to {py:meth}`~jijmodeling.Compiler
 :::
 
 If you only need to compile a {py:class}`~jijmodeling.Problem` into an instance,
-{py:meth}`Problem.eval()` is convenient. On the other hand, a
+{py:meth}`Problem.eval() <jijmodeling.Problem.eval>` is convenient. On the other hand, a
 {py:class}`~jijmodeling.Compiler` object can also provide OMMX-side IDs of constraints and decision
 variables via {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` and
 {py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name`.
@@ -159,7 +159,7 @@ In addition to compiling instances, {py:class}`~jijmodeling.Compiler` can evalua
 functions into OMMX {py:class}`~ommx.v1.Function` objects via
 {py:meth}`~jijmodeling.Compiler.eval_function`, or compile individual constraints (without registering
 them on a Problem) into OMMX {py:class}`~ommx.v1.Constraint` objects via
-{py:meth}`~jijmodeling.Compiler.eval_constraints`.
+{py:meth}`~jijmodeling.Compiler.eval_constraint`.
 Below is an example that evaluates a function expression using decision variables from `problem`:
 
 ```{code-cell} ipython3
@@ -186,10 +186,10 @@ The  OMMX SDK provides various features for transforming a compiled
 via a penalty method. For details, see the official [OMMX documentation](https://jij-inc.github.io/ommx/en/).
 :::
 
-### Options for {py:meth}`~jijmodeling.Problem.eval` and {py:meth}`~jijmodeling.Compiler.eval_problem`
+### Options for {py:meth}`eval <jijmodeling.Problem.eval>` and {py:meth}`eval_problem <jijmodeling.Compiler.eval_problem>`
 
-Both {py:meth}`Problem.eval()` and
-{py:meth}`Compiler.eval_problem()` accept the same keyword-only
+Both {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` and
+{py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` accept the same keyword-only
 arguments to control behavior:
 
 `prune_unused_vars: bool`
@@ -233,8 +233,8 @@ The {py:class}`~ommx.v1.Solution` object provides name-based extraction methods 
 {py:meth}`~ommx.v1.Solution.extract_constraints`.
 At the moment, these do not support decision variables or constraints with string subscripts, so calling
 them on a `Solution` for models that use dictionaries or category labels will raise an error.
-In such cases, use {py:meth}`Compiler.get_constraint_id_by_name()`
-or {py:meth}`Compiler.get_decision_variable_by_name()` to
+In such cases, use {py:meth}`Compiler.get_constraint_id_by_name() <jijmodeling.Compiler.get_constraint_id_by_name>`
+or {py:meth}`Compiler.get_decision_variable_by_name() <jijmodeling.Compiler.get_decision_variable_by_name>` to
 retrieve IDs from the compiler, and pass those IDs to
 {py:meth}`ommx.v1.Solution.get_constraint_value` or
 {py:meth}`ommx.v1.Solution.get_decision_variable_by_id` to retrieve values.

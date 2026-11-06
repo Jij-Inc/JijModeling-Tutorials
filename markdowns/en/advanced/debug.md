@@ -13,15 +13,15 @@ kernelspec:
 
 # Debugging Methods Using Random Instance Generation
 
-In this document, we introduce a debugging method for mathematical models written in JijModeling using {py:meth}`Problem.generate_random_instance`. Note that this method is specifically intended to find bugs in each element of a mathematical model (placeholders, decision variables, and the expressions composed of them).
+In this document, we introduce a debugging method for mathematical models written in JijModeling using {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>`. Note that this method is specifically intended to find bugs in each element of a mathematical model (placeholders, decision variables, and the expressions composed of them).
 
-## What is {py:meth}`~jijmodeling.Problem.generate_random_instance`?
+## What is {py:meth}`generate_random_instance <jijmodeling.Problem.generate_random_instance>`?
 
-{py:meth}`Problem.generate_random_instance` is a method that randomly generates instance data according to the placeholder definitions in a mathematical model, compiles the model together with the generated data, and outputs an OMMX instance. For detailed usage, see [here](./generation).
+{py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` is a method that randomly generates instance data according to the placeholder definitions in a mathematical model, compiles the model together with the generated data, and outputs an OMMX instance. For detailed usage, see [here](./generation).
 
 +++
 
-## Debugging Method Using {py:meth}`~jijmodeling.Problem.generate_random_instance`
+## Debugging Method Using {py:meth}`generate_random_instance <jijmodeling.Problem.generate_random_instance>`
 
 Let us see how to debug a mathematical model using the graph coloring problem as an example. For the formulation of the graph coloring problem, see [here](https://jij-inc-jijzept-tutorials-en.readthedocs-hosted.com/en/latest/src/08_graph_coloring.html). First, let us intentionally create a "bad formulation".
 
@@ -48,7 +48,7 @@ gcp_bad_modeling
 ```
 
 What is wrong with this formulation? At first glance, the objective function and constraints in the $\LaTeX$ display look exactly as shown in the [graph coloring formulation](https://jij-inc-jijzept-tutorials-en.readthedocs-hosted.com/en/latest/src/08_graph_coloring.html#id4), so it may seem that there is no bug.
-Now, let us run {py:meth}`Problem.generate_random_instance` multiple times as follows.
+Now, let us run {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` multiple times as follows.
 
 ```{code-cell} ipython3
 try:
@@ -58,7 +58,7 @@ except jm.ModelingError as e:
     print(e)
 ```
 
-As shown above, a {py:class}`~jijmodeling.ModelingError` occurs, revealing that there are cases where values outside the index range $V \times N$ of decision variable $x$ are specified. Why does this happen? Because the possible range of $e[0]$ or $e[1]$ becomes the entire set of natural numbers $\mathbb{N}$.
+As shown above, a {py:class}`ModelingError <jijmodeling.ModelingError>` occurs, revealing that there are cases where values outside the index range $V \times N$ of decision variable $x$ are specified. Why does this happen? Because the possible range of $e[0]$ or $e[1]$ becomes the entire set of natural numbers $\mathbb{N}$.
 To fix this bug (the problematic part) in the mathematical model, you need to restrict the possible values of $e[0]$ and $e[1]$ to $V$ instead of all natural numbers. Specifically, you can remove this bug by changing the code as follows.
 
 ```{code-cell} ipython3
@@ -87,17 +87,17 @@ for _ in range(25):
     _ = gcp_good_modeling.generate_random_instance()
 ```
 
-This runs {py:meth}`Problem.generate_random_instance` without errors. This result indicates that errors are less likely to occur even when randomly injecting instance data that follows the placeholder definitions, in other words, that there are fewer bugs in the model definition.
+This runs {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` without errors. This result indicates that errors are less likely to occur even when randomly injecting instance data that follows the placeholder definitions, in other words, that there are fewer bugs in the model definition.
 
 +++
 
-In this way, by using {py:meth}`Problem.generate_random_instance`, you can remove bugs in model definitions and improve the quality of your mathematical models.
+In this way, by using {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>`, you can remove bugs in model definitions and improve the quality of your mathematical models.
 
 +++
 
 ## Notes
 
-JijModeling's expressive power is still evolving. Therefore, it is not always possible to make {py:meth}`Problem.generate_random_instance` pass only by changing the mathematical model. In such cases, we recommend adjusting the range of placeholder values generated by {py:meth}`Problem.generate_random_instance` according to the documentation [here](./generation).
+JijModeling's expressive power is still evolving. Therefore, it is not always possible to make {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` pass only by changing the mathematical model. In such cases, we recommend adjusting the range of placeholder values generated by {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` according to the documentation [here](./generation).
 
 +++
 

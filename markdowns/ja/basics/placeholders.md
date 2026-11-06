@@ -25,10 +25,10 @@ kernelspec:
 
 | 種類 | 数式 | 説明 | 別名 |
 | :--- | :--: | :-- | :-- |
-| {py:meth}`~jijmodeling.Problem.Binary` | $\{0, 1\}$ | $0$ または $1$ の値をとる二値プレースホルダー。 | - |
-| {py:meth}`~jijmodeling.Problem.Natural` | $\mathbb{N}$ または $\{0, \ldots, N-1\}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。`less_than` キーワード引数に別の自然数式 `N` を指定することで、$\{0, \ldots, N-1\}$ の範囲に制限できる。 | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
-| {py:meth}`~jijmodeling.Problem.Integer` | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
-| {py:meth}`~jijmodeling.Problem.Float` | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
+| {py:meth}`Binary <jijmodeling.Problem.Binary>` | $\{0, 1\}$ | $0$ または $1$ の値をとる二値プレースホルダー。 | - |
+| {py:meth}`Natural <jijmodeling.Problem.Natural>` | $\mathbb{N}$ または $\{0, \ldots, N-1\}$ | ゼロも含む自然数。配列のサイズや添え字などを表すのに使われる。`less_than` キーワード引数に別の自然数式 `N` を指定することで、$\{0, \ldots, N-1\}$ の範囲に制限できる。 | {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` |
+| {py:meth}`Integer <jijmodeling.Problem.Integer>` | $\mathbb{Z}$ | 負の数も含む整数値。 | - |
+| {py:meth}`Float <jijmodeling.Problem.Float>` | $\mathbb{R}$ | 一般の実数値（浮動小数点数値）プレースホルダー。 | - |
 | これらのタプル | $\mathbb{Z} \times \mathbb{R}$ | 成分ごとに型の決まった、固定長のタプル。一般にリストと組み合わせて使う。 | - |
 
 プレースホルダーを宣言するには、上記の種類と同じ名前の Problem のメソッドを呼ぶ必要があります。
@@ -36,11 +36,11 @@ kernelspec:
 :::{admonition} プレースホルダーの使い分け
 :class: hint
 
-プレースホルダーの種類については、{py:meth}`~jijmodeling.Problem.Natural` と {py:meth}`~jijmodeling.Problem.Float` だけ覚えておけば簡単なモデルの記述には十分でしょう。
+プレースホルダーの種類については、{py:meth}`Natural <jijmodeling.Problem.Natural>` と {py:meth}`Float <jijmodeling.Problem.Float>` だけ覚えておけば簡単なモデルの記述には十分でしょう。
 特に、以下の基準を念頭に置いておくと使い分けがわかりやすいでしょう：
 
-1. **配列のサイズやアイテムの個数**などを表すものは**自然数**として宣言し、{py:meth}`~jijmodeling.Problem.Natural` やよりわかりやすい {py:meth}`~jijmodeling.Problem.Dim`, {py:meth}`~jijmodeling.Problem.Length` といった別名で宣言する。
-2. **それ以外の数値**は {py:meth}`~jijmodeling.Problem.Float` や、場合によってより細分された型の宣言を使えばよい。
+1. **配列のサイズやアイテムの個数**などを表すものは**自然数**として宣言し、{py:meth}`Natural <jijmodeling.Problem.Natural>` やよりわかりやすい {py:meth}`Dim <jijmodeling.Problem.Dim>`, {py:meth}`Length <jijmodeling.Problem.Length>` といった別名で宣言する。
+2. **それ以外の数値**は {py:meth}`Float <jijmodeling.Problem.Float>` や、場合によってより細分された型の宣言を使えばよい。
 :::
 
 例を見るため、ここではナップサック問題に必要な単独のプレースホルダーを宣言してみましょう。
@@ -109,7 +109,7 @@ Decorator API で変数名を省略できるのは、`x = problem.Float(...)` �
 
 などが指定できます。
 
-タプルなどより複雑な型を持つようなものについては、{py:meth}`~jijmodeling.Problem.Placeholder` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、{py:meth}`~jijmodeling.Problem.Placeholder` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
+タプルなどより複雑な型を持つようなものについては、{py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` 構築子を使ってより詳細な仕様を指定することができるようになっています。また、{py:meth}`Placeholder <jijmodeling.Problem.Placeholder>` も他の特化型の構築子同様、Decorator API による変数名の省略もサポートしています。
 :::
 
 ## カテゴリーラベルの宣言
@@ -149,10 +149,10 @@ Problem オブジェクトに登録されているカテゴリーラベルの一
 (ph_cl_info)=
 ## プレースホルダーおよびカテゴリーラベルの情報の取得
 
-数理モデルに登録されたプレースホルダーの一覧は、{py:class}`~jijmodeling.Problem` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.placeholders` プロパティにより取得できます。
+数理モデルに登録されたプレースホルダーの一覧は、{py:class}`Problem <jijmodeling.Problem>` オブジェクトの {py:attr}`~jijmodeling.DecoratedProblem.placeholders` プロパティにより取得できます。
 このプロパティはプレースホルダー名をキーとし、それぞれのメタデータを値とする辞書を返します。
 この一覧には、以下で扱う添え字つき変数の情報も含まれています。
-また、カテゴリーラベルについては、{py:class}`~jijmodeling.Problem` オブジェクトの {py:attr}`~jijmodeling.Problem.category_labels` プロパティにより、同様にカテゴリーラベル名をキーとする辞書が得られます。
+また、カテゴリーラベルについては、{py:class}`Problem <jijmodeling.Problem>` オブジェクトの {py:attr}`~jijmodeling.Problem.category_labels` プロパティにより、同様にカテゴリーラベル名をキーとする辞書が得られます。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -265,10 +265,10 @@ knapsack_placeholders_ndim
 ここで、{py:meth}`~jijmodeling.Expression.len_at` メソッドは与えられた配列 `array` の $i$ 番目の軸の長さを返すメソッドです。
 $v$ と $w$ の長さは同じなので、$v$ を一次元配列として宣言し、その長さを使って $w$ の `shape` を指定しています。
 このように、最初に $N$ を独立して定義する方法と、配列の長さから復元する方法とでは、定義される数理モデルは意味的には同じですが、インスタンスデータの与え方が異なります。
-たとえば、最初の `knapsack_placeholders` の例（[定義](#knapsack_placeholders_def)およびその[更新](#knapsack_placeholders_update)）では、$N$ も {py:meth}`~jijmodeling.Problem.Length` プレースホルダーとして宣言しているため、**{doc}`インスタンスの生成 <./instance_generation>`時**に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
-一方で、$N$ をプレースホルダーではなく {py:meth}`~jijmodeling.Expression.len_at` を使って別の式として構築している [`knapsack_placeholders_ndim`](#knapsack_placeholders_ndim) では、$N$の値は入力値 `v` から推論されるため、コンパイル時には `W`, `v`, `w` の値のみを指定するだけで済みます。
+たとえば、最初の `knapsack_placeholders` の例（[定義](#knapsack_placeholders_def)およびその[更新](#knapsack_placeholders_update)）では、$N$ も {py:meth}`Length <jijmodeling.Problem.Length>` プレースホルダーとして宣言しているため、**{doc}`インスタンスの生成 <./instance_generation>`時**に `W`, `v`, `w` だけではなく `N` の値もインスタンスデータとして与える必要があります。
+一方で、$N$ をプレースホルダーではなく {py:meth}`len_at <jijmodeling.Expression.len_at>` を使って別の式として構築している [`knapsack_placeholders_ndim`](#knapsack_placeholders_ndim) では、$N$の値は入力値 `v` から推論されるため、コンパイル時には `W`, `v`, `w` の値のみを指定するだけで済みます。
 
-どういう時に長さに相当するプレースホルダーを導入し、どういう時に `ndim` + {py:meth}`~jijmodeling.Expression.len_at` を使うべきでしょうか？
+どういう時に長さに相当するプレースホルダーを導入し、どういう時に `ndim` + {py:meth}`len_at <jijmodeling.Expression.len_at>` を使うべきでしょうか？
 一つの目安は、**単一の配列内の複数軸の長さの間に依存関係がある場合**、長さに相当するプレースホルダーを定義するべき、というものです。
 
 例として、距離行列を表すシェイプ $N \times N$ の多次元配列 $d$ を定義することを考えます：
@@ -323,7 +323,7 @@ JijModeling 1 系統には、シェイプが均一ではない Jagged Array と�
 
 ### プレースホルダーの辞書
 
-プレースホルダーの辞書は、同様に {py:meth}`~jijmodeling.Problem.Float` や {py:meth}`~jijmodeling.Problem.Length` などの構築子に `shape` のかわりに `dict_keys` キーワード引数を渡すことで宣言できます。
+プレースホルダーの辞書は、同様に {py:meth}`Float <jijmodeling.Problem.Float>` や {py:meth}`Length <jijmodeling.Problem.Length>` などの構築子に `shape` のかわりに `dict_keys` キーワード引数を渡すことで宣言できます。
 決定変数の挙動と合わせるため、`dict_keys`のみが指定された場合そのプレースホルダー辞書は `TotalDict` として宣言されますが、同時に `partial_dict=True` 引数を渡すと `PartialDict` として宣言されるようになります。
 
 `TotalDict` として宣言されている場合（つまり、`partial_dict` が指定されていないか `False` に設定されている場合）、`dict_keys` に指定できるものは以下の通りです：
@@ -343,7 +343,7 @@ JijModeling 1 系統には、シェイプが均一ではない Jagged Array と�
 6. {py:meth}`problem.CategoryLabel <jijmodeling.Problem.CategoryLabel>` によって定義されたカテゴリーラベル
 7. (1)-(6) を要素に持つタプル
 
-また、{py:meth}`~jijmodeling.Problem.TotalDict` 構築子や {py:meth}`~jijmodeling.Problem.PartialDict` を {py:class}`~jijmodeling.Problem` オブジェクトに対して呼び出すことでもプレースホルダーの辞書を宣言できます。
+また、{py:meth}`~jijmodeling.Problem.TotalDict` 構築子や {py:meth}`~jijmodeling.Problem.PartialDict` を {py:class}`Problem <jijmodeling.Problem>` オブジェクトに対して呼び出すことでもプレースホルダーの辞書を宣言できます。
 
 :::{admonition} プレースホルダー辞書に `ndim` 相当がない理由
 :class: caution

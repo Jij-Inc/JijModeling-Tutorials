@@ -16,7 +16,7 @@ kernelspec:
 In JijModeling, variables, constraints, and other elements are always registered and tied to a specific mathematical model.
 Before we dive into the individual elements, this chapter briefly explains how to declare a model.
 
-## Creating a {py:class}`~jijmodeling.Problem` object that represents a model
+## Creating a {py:class}`Problem <jijmodeling.Problem>` object that represents a model
 
 In JijModeling, a specific model is represented by a {py:class}`~jijmodeling.Problem` object, which you typically declare first when constructing a model.
 First, import the JijModeling library under the name `jm`.
@@ -27,8 +27,8 @@ import jijmodeling as jm
 
 ### Creating a `Problem` object with the Plain API
 
-There are two ways to create a {py:class}`~jijmodeling.Problem`: with the **Plain API** and with the **Decorator API**.
-The first way is to directly construct a {py:class}`~jijmodeling.Problem` object using the Plain API.
+There are two ways to create a {py:class}`Problem <jijmodeling.Problem>`: with the **Plain API** and with the **Decorator API**.
+The first way is to directly construct a {py:class}`Problem <jijmodeling.Problem>` object using the Plain API.
 
 ```{code-cell} ipython3
 plain_problem = jm.Problem(
@@ -77,24 +77,24 @@ deco_problem
 ```
 
 {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` takes the same arguments as {py:class}`jm.Problem() <jijmodeling.Problem>`, but instead of binding directly to a variable, it decorates a function definition (here, `def deco_problem(...)`).
-With {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`, when the function definition ends, the actual {py:class}`~jijmodeling.Problem` instance is bound to a variable with the same name as the function (here, `deco_problem`).
+With {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`, when the function definition ends, the actual {py:class}`Problem <jijmodeling.Problem>` instance is bound to a variable with the same name as the function (here, `deco_problem`).
 In the example above, after the function definition, we can print-out `deco_problem` to check its definition.
 A function definition preceded by an expression starting with `@` is called a **decorated** function.
 Inside such a decorated function, you will call various methods on the first argument `problem` to update the model.
 
-:::{admonition} What Is a {py:class}`~jijmodeling.DecoratedProblem` Object?
+:::{admonition} What Is a {py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` Object?
 :class: caution
 
-Note that the first argument of a decorated function is **not** a {py:class}`~jijmodeling.Problem` object but a **{py:class}`~jijmodeling.DecoratedProblem` object**.
-{py:class}`~jijmodeling.DecoratedProblem` is a dummy {py:class}`~jijmodeling.Problem` class that only appears inside decorated functions.
-{py:class}`~jijmodeling.DecoratedProblem` is provided with type hints tailored to the Decorator API, so you can benefit from editor completion and type checking.
+Note that the first argument of a decorated function is **not** a {py:class}`Problem <jijmodeling.Problem>` object but a **{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` object**.
+{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` is a dummy {py:class}`Problem <jijmodeling.Problem>` class that only appears inside decorated functions.
+{py:class}`DecoratedProblem <jijmodeling.DecoratedProblem>` is provided with type hints tailored to the Decorator API, so you can benefit from editor completion and type checking.
 :::
 
 As we haven't made any updates on the problem, this style may look a bit verbose.
 However, inside a function decorated by {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>`, you can use natural and intuitive Decorator API syntax, such as omitting variable names or using comprehensions for sums and products, which becomes very convenient in the model definitions shown in the following chapters.
 
 Also, you can treat models defined with either API in the same way, so you never need to care which API was used.
-In fact, both `plain_problem` and `deco_problem` above are identified as the same model as {py:class}`~jijmodeling.Problem` objects:
+In fact, both `plain_problem` and `deco_problem` above are identified as the same model as {py:class}`Problem <jijmodeling.Problem>` objects:
 
 ```{code-cell} ipython3
 jm.is_same(plain_problem, deco_problem)
@@ -109,10 +109,10 @@ To store an intermediate result in a variable, first construct an expression wit
 
 These restrictions apply to symbolic comprehensions that iterate over JijModeling expressions, and do not restrict comprehensions over ordinary Python values.
 
-## Updating a {py:class}`~jijmodeling.Problem` object
+## Updating a {py:class}`Problem <jijmodeling.Problem>` object
 
-We created almost empty `Problem` objects above, but in practice you update the {py:class}`~jijmodeling.Problem` incrementally as you build a model, adding decision variables, constraints, and objectives to the model.
-Regardless of how a model is defined, you can always update it with the Plain API, and you can also update an existing {py:class}`~jijmodeling.Problem` object `problem` using the Decorator API via the {py:meth}`@problem.update <jijmodeling.Problem.update>` decorator.
+We created almost empty `Problem` objects above, but in practice you update the {py:class}`Problem <jijmodeling.Problem>` incrementally as you build a model, adding decision variables, constraints, and objectives to the model.
+Regardless of how a model is defined, you can always update it with the Plain API, and you can also update an existing {py:class}`Problem <jijmodeling.Problem>` object `problem` using the Decorator API via the {py:meth}`@problem.update <jijmodeling.Problem.update>` decorator.
 You can also mix the two styles freely.
 Let's add variables to the two problems we defined earlier.
 
@@ -146,7 +146,7 @@ We use `_` as the function name in the {py:meth}`@problem.update <jijmodeling.Pr
 ### Variable rebinding in the Decorator API
 
 Python variables defined inside functions decorated with {py:meth}`@jm.Problem.define() <jijmodeling.Problem.define>` or {py:meth}`@problem.update <jijmodeling.Problem.update>` cannot be accessed directly from outside the function.
-More precisely, while the model-level variables and constraints are registered in the corresponding {py:class}`~jijmodeling.Problem` object, the Python variables that refer to them stay inside the function scope.
+More precisely, while the model-level variables and constraints are registered in the corresponding {py:class}`Problem <jijmodeling.Problem>` object, the Python variables that refer to them stay inside the function scope.
 
 To make such cases easy to handle, since JijModeling 2.7.0, the second and subsequent arguments of a {py:meth}`~jijmodeling.Problem.update` function can bind variables already defined in the {py:class}`~jijmodeling.Problem`, including placeholders, category labels, decision variables, and named expressions.
 Starting with the second argument, declare arguments with the same names as the items you want to obtain and use the corresponding type annotations below.
@@ -183,7 +183,7 @@ def _(
 
 As this example shows, the additional arguments to {py:meth}`@problem.update <jijmodeling.Problem.update>` need only include the variables required by that update, rather than every variable defined in the Problem.
 
-If you are using a version earlier than 2.7.0, you can achieve the same result by retrieving items directly from metadata such as {py:attr}`~jijmodeling.Problem.placeholders` held by the {py:class}`~jijmodeling.Problem` and binding them manually as described in the following chapters.
+If you are using a version earlier than 2.7.0, you can achieve the same result by retrieving items directly from metadata such as {py:attr}`placeholders <jijmodeling.Problem.placeholders>` held by the {py:class}`Problem <jijmodeling.Problem>` and binding them manually as described in the following chapters.
 
 :::{tip}
 At this point the benefits of the Decorator API may not be obvious, but they will become clear as you go through the following chapters.

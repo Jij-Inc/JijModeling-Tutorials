@@ -23,14 +23,14 @@ import jijmodeling as jm
 ## 算術演算
 
 Python 組込みの算術演算（{py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, {py:meth}`% <jijmodeling.Expression.__mod__>` などの加減乗除）は、JijModeling の式に対しても用いることができます。
-数値型の式同士の演算は期待通り動作するのに加え、（多次元）配列同士や、キー集合が一致する {py:meth}`~jijmodeling.Problem.TotalDict` に対しても、一定の条件を満たせば演算を行うことができます。
+数値型の式同士の演算は期待通り動作するのに加え、（多次元）配列同士や、キー集合が一致する {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` に対しても、一定の条件を満たせば演算を行うことができます。
 具体的には、以下の組み合わせ（左右問わず）に対して算術演算がサポートされています：
 
 1. スカラー同士の算術演算
 2. スカラーと多次元配列の算術演算
 3. スカラーと辞書の算術演算
 4. 同じシェイプを持つ多次元配列同士の算術演算
-5. 同じキー集合を持つ全域辞書（{py:meth}`~jijmodeling.Problem.TotalDict`）同士の算術演算
+5. 同じキー集合を持つ全域辞書（{py:meth}`TotalDict <jijmodeling.Problem.TotalDict>`）同士の算術演算
 
 :::{admonition} JijModeling におけるブロードキャスト
 :class: note
@@ -105,7 +105,7 @@ except Exception as e:
     print(e)
 ```
 
-### 代替記法：{py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` による配列の構築
+### 代替記法：{py:func}`genarray <jijmodeling.genarray>` や {py:func}`gendict <jijmodeling.gendict>` による配列の構築
 
 上の例では、`y + z` のように、非自明なブロードキャストを伴う演算は（意図的に）エラーになっていました。
 このような場合、{py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` 関数を使い、陽にシェイプやキー集合と成分の式を指定することで、目的の配列・辞書を構築できるようになります：
@@ -146,7 +146,9 @@ JijModeling の式では、加減乗除だけではなく、三角関数（{py:m
 
 ## 比較式
 
-等値演算子（{py:meth}`== <jijmodeling.Expression.__eq__>`, {py:meth}`!= <jijmodeling.Expression.__ne__>`）や順序比較演算子（{py:meth}`< <jijmodeling.Expression.__lt__>`, {py:meth}`<= <jijmodeling.Expression.__le__>`, {py:meth}`> <jijmodeling.Expression.__gt__>`, {py:meth}`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
+```{eval-rst}
+等値演算子（:py:meth:`== <jijmodeling.Expression.__eq__>`, :py:meth:`\!= <jijmodeling.Expression.__ne__>`）や順序比較演算子（:py:meth:`< <jijmodeling.Expression.__lt__>`, :py:meth:`<= <jijmodeling.Expression.__le__>`, :py:meth:`> <jijmodeling.Expression.__gt__>`, :py:meth:`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
+```
 
 これらの比較演算子の**両辺が共に決定変数を含まない**場合、結果は真偽値型 `Bool` の式として推論されます。一方、両辺の少なくとも一方が決定変数を含みうる場合、結果は特別な**比較型**として扱われます。これは、制約条件の定義では決定変数が現れる式同士を比較できる必要がある一方、内包表記などで使われる場合は真偽値が確定する比較式が使える必要があるためです。
 

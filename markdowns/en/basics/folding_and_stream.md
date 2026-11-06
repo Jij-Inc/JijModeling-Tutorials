@@ -36,7 +36,7 @@ In JijModeling, operations such as sums and products are implemented as folds th
 The following examples explain the different notations available for sums and products.
 
 :::{note}
-For simplicity, the examples below use {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum()`). Products with {py:func}`jm.prod() <jijmodeling.prod>` or {py:meth}`Expression.prod()`, and maximums and minimums with {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`, can be written in the same way.
+For simplicity, the examples below use {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`). Products with {py:func}`jm.prod() <jijmodeling.prod>` or {py:func}`Expression.prod() <jijmodeling.Expression.prod>`, and maximums and minimums with {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`, can be written in the same way.
 :::
 
 The following example uses the Decorator API to write the sum of products of decision variables and placeholders:
@@ -213,8 +213,8 @@ def stream_compr_problem(problem: jm.DecoratedProblem):
 
 ### Generating Arithmetic Progressions with {py:func}`~jijmodeling.range`
 
-Since JijModeling 2.3.1, {py:func}`~jijmodeling.range`, corresponding to Python's built-in {py:class}`range()`, has been available for defining streams of arithmetic progressions of integers.
-Like Python's {py:class}`range()`, when given one argument it traverses values starting from $0$; when given two arguments, it starts from the first and stops before the second; and when given a third argument, that value is used as the step.
+Since JijModeling 2.3.1, {py:func}`~jijmodeling.range`, corresponding to Python's built-in {py:class}`range() <range>`, has been available for defining streams of arithmetic progressions of integers.
+Like Python's {py:class}`range() <range>`, when given one argument it traverses values starting from $0$; when given two arguments, it starts from the first and stops before the second; and when given a third argument, that value is used as the step.
 
 ```{code-cell} ipython3
 range_problem = jm.Problem("Stream Range Example")
@@ -257,7 +257,7 @@ assert instance.objective == 6  # Only 1, 3, and 2 remain, so the sum is 6
 
 ### Mapping Streams
 
-{py:func}`~jijmodeling.map`, corresponding to the Python standard library's {py:func}`map`, constructs a new stream from the results of applying a function to the elements of an existing stream.
+{py:func}`~jijmodeling.map`, corresponding to the Python standard library's {py:func}`~map`, constructs a new stream from the results of applying a function to the elements of an existing stream.
 
 ```{code-cell} ipython3
 map_problem = jm.Problem("Stream Map Example")
@@ -272,14 +272,14 @@ map_problem
 :class: info
 
 {py:func}`~jijmodeling.map` can also be called directly on arrays and dictionaries. In this case, the result is not a stream but a new array or dictionary with the same shape or key set.
-In particular, because {py:func}`~jijmodeling.map` preserves shape and key-set information for these types, mapped elements can be accessed with the same indices as the original container.
+In particular, because {py:func}`map <jijmodeling.map>` preserves shape and key-set information for these types, mapped elements can be accessed with the same indices as the original container.
 As noted above, these types are automatically converted into streams, so stream operations behave the same way on a mapped container.
 :::
 
 ### Flat-Mapping Streams
 
 If the function passed to {py:func}`~jijmodeling.map` returns a stream, the result is a stream of streams.
-Use {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or its method form, {py:meth}`Expression.flat_map()`) to flatten the mapped result by one level.
+Use {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or its method form, {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`) to flatten the mapped result by one level.
 This makes it possible to traverse multiple indices without using Decorator API comprehensions.
 
 ```{code-cell} ipython3
@@ -311,7 +311,7 @@ def _(problem: jm.DecoratedProblem):
 ```
 
 Where a stream is expected, a tuple can be written directly to represent a Cartesian product, omitting {py:func}`~jijmodeling.product`.
-Examples include the right-hand side of `in` in a Decorator API comprehension and the `domain=` keyword argument to {py:meth}`Problem.Constraint()`.
+Examples include the right-hand side of `in` in a Decorator API comprehension and the `domain=` keyword argument to {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>`.
 
 ```{code-cell} ipython3
 @jm.Problem.define("Tuple Product Example")
