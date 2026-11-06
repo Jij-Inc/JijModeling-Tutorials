@@ -25,17 +25,17 @@ import jijmodeling as jm
 ```
 
 (generators)=
-## コレクションの生成：[`genarray`](xref:api_reference#jijmodeling.genarray) と [`gendict`](xref:api_reference#jijmodeling.gendict)
+## コレクションの生成：{py:func}`~jijmodeling.genarray` と {py:func}`~jijmodeling.gendict`
 
 配列や辞書は、{doc}`./placeholders`や{doc}`./decision_variables`で説明したように、変数宣言時に導入することもできますが、他の式を使って新たに生成することもできます。
-配列の生成に使うのが [`genarray`](xref:api_reference#jijmodeling.genarray)関数、辞書の生成に使うのが [`gendict`](xref:api_reference#jijmodeling.gendict)関数です。
+配列の生成に使うのが {py:func}`~jijmodeling.genarray`関数、辞書の生成に使うのが {py:func}`~jijmodeling.gendict`関数です。
 
-### 配列の生成関数：[`genarray`](xref:api_reference#jijmodeling.genarray)
+### 配列の生成関数：{py:func}`~jijmodeling.genarray`
 
-[`genarray`](xref:api_reference#jijmodeling.genarray) は NumPy の [`fromfunction`](xref:numpy#numpy.fromfunction) に類似する関数[^numpy-fromfunction]であり、シェイプと添え字から要素への関数（生成関数）を与えることで、新しい配列を生成することができます。
-以下では、[`genarray`](xref:api_reference#jijmodeling.genarray) を用いて、シェイプ $(N, M)$ の各添え字毎の和を要素に持つ配列を生成しています：
+{py:func}`~jijmodeling.genarray` は NumPy の {py:func}`~numpy.fromfunction` に類似する関数[^numpy-fromfunction]であり、シェイプと添え字から要素への関数（生成関数）を与えることで、新しい配列を生成することができます。
+以下では、{py:func}`~jijmodeling.genarray` を用いて、シェイプ $(N, M)$ の各添え字毎の和を要素に持つ配列を生成しています：
 
-[^numpy-fromfunction]: NumPy の [`fromfunction`](xref:numpy#numpy.fromfunction) は生成関数内の具体的な関数の形によって与えたシェイプと異なる配列やスカラー値が生成される場合がありますが、JijModeling の [`genarray`](xref:api_reference#jijmodeling.genarray) は、生成関数の形に関わらず、必ず与えたシェイプの配列を返すことが保証されています。
+[^numpy-fromfunction]: NumPy の {py:func}`~numpy.fromfunction` は生成関数内の具体的な関数の形によって与えたシェイプと異なる配列やスカラー値が生成される場合がありますが、JijModeling の {py:func}`~jijmodeling.genarray` は、生成関数の形に関わらず、必ず与えたシェイプの配列を返すことが保証されています。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Array and Dict Example")
@@ -56,7 +56,7 @@ def _(problem: jm.DecoratedProblem):
 ここで `in` の右辺に現れるタプル `(N, M)` は、`N` と `M` の直積集合を表す省略記法です。
 この記法については「{doc}`folding_and_stream`」章で改めて説明します。
 
-[`genarray`](xref:api_reference#jijmodeling.genarray) で利用できる内包表記は、ただ一つの `for` 節のみをサポートしており、また `if` 節は使えません。
+{py:func}`~jijmodeling.genarray` で利用できる内包表記は、ただ一つの `for` 節のみをサポートしており、また `if` 節は使えません。
 たとえば、以下のように複数の `for` 節を使ってしまうと、エラーとなります：
 
 ```{code-cell} ipython3
@@ -74,10 +74,10 @@ except SyntaxError as e:
     print(str(e))
 ```
 
-### 辞書の生成関数：[`gendict`](xref:api_reference#jijmodeling.gendict)
+### 辞書の生成関数：{py:func}`~jijmodeling.gendict`
 
-辞書の生成関数 [`gendict`](xref:api_reference#jijmodeling.gendict) も、キーの集合を表す式と、キーから値への生成関数を与えることで、新しい辞書を生成することができます。
-この生成関数は必ず値を返すため、[`gendict`](xref:api_reference#jijmodeling.gendict) により生成される辞書は常に `TotalDict` となります。
+辞書の生成関数 {py:func}`~jijmodeling.gendict` も、キーの集合を表す式と、キーから値への生成関数を与えることで、新しい辞書を生成することができます。
+この生成関数は必ず値を返すため、{py:func}`~jijmodeling.gendict` により生成される辞書は常に `TotalDict` となります。
 
 以下では、カテゴリーラベル$L$と自然数$N$をキーとする辞書を生成しています：
 
@@ -89,7 +89,7 @@ x = problem.BinaryVar("x", dict_keys=L)
 jm.gendict(lambda l, n: x[l] + n, (L, N))
 ```
 
-[`gendict`](xref:api_reference#jijmodeling.gendict) も Decorator API ではただ一つの `for` 節と任意個の `if` 節からなる内包表記をサポートしています。
+{py:func}`~jijmodeling.gendict` も Decorator API ではただ一つの `for` 節と任意個の `if` 節からなる内包表記をサポートしています。
 
 ```{code-cell} ipython3
 @problem.update
@@ -99,13 +99,13 @@ def _(problem: jm.DecoratedProblem):
 
 ## 配列・辞書の定義域の取得
 
-[`Placeholder`](xref:api_reference#jijmodeling.Placeholder) や [`DecisionVar`](xref:api_reference#jijmodeling.DecisionVar) オブジェクトでは、配列のシェイプを表すタプルを `shape` 属性から取得できます。一方、一般の式については [`Expression.shape()`](xref:api_reference#jijmodeling.Expression.shape) メソッドを使います。
-辞書のキー集合を表す式は [`Expression.keys()`](xref:api_reference#jijmodeling.Expression.keys) メソッドで取得できます。また、配列式に対しては、シェイプの $n$ 番目を取得するための [`Expression.len_at(n)`](xref:api_reference#jijmodeling.Expression.len_at) メソッドも用意されています。
+{py:class}`~jijmodeling.Placeholder` や {py:class}`~jijmodeling.DecisionVar` オブジェクトでは、配列のシェイプを表すタプルを `shape` 属性から取得できます。一方、一般の式については {py:meth}`Expression.shape()` メソッドを使います。
+辞書のキー集合を表す式は {py:meth}`Expression.keys()` メソッドで取得できます。また、配列式に対しては、シェイプの $n$ 番目を取得するための {py:meth}`Expression.len_at(n) <jijmodeling.Expression.len_at>` メソッドも用意されています。
 これらは、数理モデルの定式化の際に、定義域を走査する総和や制約条件を定義する際などに使うことができます。
 
 ## 添え字による要素アクセスとスライス
 
-Python の組み込みのリストや辞書、あるいは [`numpy.ndarray`](xref:numpy#numpy.ndarray) と同様、JijModeling の式でも `x[i, j]` のように多次元の添え字（インデックス）を用いてコレクションの要素にアクセスすることができます。
+Python の組み込みのリストや辞書、あるいは {py:class}`numpy.ndarray` と同様、JijModeling の式でも `x[i, j]` のように多次元の添え字（インデックス）を用いてコレクションの要素にアクセスすることができます。
 具体的には、JijModeling では次の型を持つ式に対して添え字を用いることができます：
 
 1. （多次元）配列

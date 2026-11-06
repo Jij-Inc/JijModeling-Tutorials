@@ -30,7 +30,7 @@ kernelspec:
 
 ### Protobuf スキーマの変更
 
-JijModeling 2.4.0 では [`Problem`](xref:api_reference#jijmodeling.Problem) の Protobuf スキーマが破壊的に変更されました。
+JijModeling 2.4.0 では {py:class}`~jijmodeling.Problem` の Protobuf スキーマが破壊的に変更されました。
 これにより、2.4.0 以降で Protobuf にシリアライズされた Problem は、2.3.x 以前のバージョンの JijModeling では読み込めなくなります。
 一方で、2.3.x 以前のバージョンでシリアライズされた Problem は、2.4.0 以降のバージョンの JijModeling で読み込むことができます。
 これは、MINTO によるデータ保存・交換時に影響が出る可能性がありますが、その場合は依存する JijModeling のバージョンを 2.4.0 以降に更新することで、既存のデータも、新しいデータも問題なく読めるようになります。
@@ -42,8 +42,8 @@ JijModeling 2.4.0 では [`Problem`](xref:api_reference#jijmodeling.Problem) の
 
 ### シェイプと生成関数による配列の生成
 
-本バージョンから、[`genarray`](xref:api_reference#jijmodeling.genarray) 関数により、シェイプと生成関数を指定して配列を生成できるようになりました。
-これは numpy の [`fromfunction`](xref:numpy#numpy.fromfunction) と類似の機能です。
+本バージョンから、{py:func}`~jijmodeling.genarray` 関数により、シェイプと生成関数を指定して配列を生成できるようになりました。
+これは numpy の {py:func}`~numpy.fromfunction` と類似の機能です。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -94,7 +94,7 @@ except SyntaxError as e:
 
 ## 軸に沿った `min` / `max` のサポート
 
-旧来は [`jm.sum`](xref:api_reference#jijmodeling.sum) や [`Expression.sum`](xref:api_reference#jijmodeling.Expression.sum) では `axis` キーワード引数により、多次元配列の特定の軸に沿った和を取ることができましたが、今回のバージョンからは [`jm.min`](xref:api_reference#jijmodeling.min) と [`jm.max`](xref:api_reference#jijmodeling.max)（そしてその対応する `Expression` メソッド）にも同様の機能が追加されました。
+旧来は {py:func}`jm.sum <jijmodeling.sum>` や {py:meth}`Expression.sum` では `axis` キーワード引数により、多次元配列の特定の軸に沿った和を取ることができましたが、今回のバージョンからは {py:func}`jm.min <jijmodeling.min>` と {py:func}`jm.max <jijmodeling.max>`（そしてその対応する `Expression` メソッド）にも同様の機能が追加されました。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -279,4 +279,4 @@ problem.infer(x.sum())
 
 - バージョン条件を緩和し、Python 3.11 以降の任意の Python 3 でのインストールを許容しました。
 - Decorator API の `sum` などで不正な内包表記を使った際のエラーメッセージが、具体的なコード上の位置を報告するようになりました。
-- [`Problem.used_placeholders`](xref:api_reference#jijmodeling.Problem.used_placeholders) は用途が明確でなく、[`Compiler`](xref:api_reference#jijmodeling.Compiler) も全てのプレースホルダーの値を要求するため、廃止予定となりました。かわりに [`Problem.placeholders`](xref:api_reference#jijmodeling.Problem.placeholders) を使用してください。
+- {py:attr}`Problem.used_placeholders` は用途が明確でなく、{py:class}`~jijmodeling.Compiler` も全てのプレースホルダーの値を要求するため、廃止予定となりました。かわりに {py:attr}`Problem.placeholders` を使用してください。

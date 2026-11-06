@@ -23,7 +23,7 @@ kernelspec:
 
 ### Fix dictionary sum and convolution behavior
 
-Formerly, summation or folding on dictionaries were intended to be performed via [`items`](xref:api_reference#jijmodeling.Expression.items), [`values`](xref:api_reference#jijmodeling.Expression.values), and [`keys`](xref:api_reference#jijmodeling.Expression.keys), and direct folding was not planned to be supported.
+Formerly, summation or folding on dictionaries were intended to be performed via {py:meth}`~jijmodeling.Expression.items`, {py:meth}`~jijmodeling.Expression.values`, and {py:meth}`~jijmodeling.Expression.keys`, and direct folding was not planned to be supported.
 However, up to the previous version, dictionary folding was mistakenly available, and it operated over the set of *keys* in the same way as Python dictionaries.
 From the standpoint of consistency with how Placeholder and DecisionVar multi-dimensional arrays, it is more natural for dictionaries to be folded over the set of values rather than keys.
 Given these, we have formalized this behavior as the official specification and re-implemented it accordingly.
@@ -63,7 +63,7 @@ problem
 
 ### Add a feature to fix decision variable values
 
-We added a feature to (partially) fix decision variable values in [`Problem.eval`](xref:api_reference#jijmodeling.Problem.eval) and [`Compiler.from_problem`](xref:api_reference#jijmodeling.Compiler.from_problem).
+We added a feature to (partially) fix decision variable values in {py:meth}`Problem.eval` and {py:meth}`Compiler.from_problem`.
 You can pass a dictionary to the optional keyword argument `fixed_variables`, where the keys are variable names and the values are either fixed values or a dictionary mapping indices to fixed values.
 The substituted value will be stored in `fixed_value` attribute in the corresponding ommx decision variable(s).
 
@@ -118,4 +118,4 @@ x[0][1]
 ### Improve errors for invalid decision variable definitions
 
 Previously, when bounds were specified incorrectly for decision variables, the compiler raised an unrecoverable exception that could not be caught with `try-except`.
-With this fix, a [`ValueError`](xref:python#ValueError) is raised instead, and the error message is more informative.
+With this fix, a {py:exc}`ValueError` is raised instead, and the error message is more informative.

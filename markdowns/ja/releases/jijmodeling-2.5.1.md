@@ -29,9 +29,9 @@ JijModeling 2.5.0 のリリースは取り下げられたため、このノー�
 
 ### Decorator API における `jm.min`、`jm.max`、`jm.set` の内包表記サポート
 
-旧来は、Decorator API を利用する際に内包表記（Python のジェネレータ式）を引数として受け取れるのは [`jm.sum`](xref:api_reference#jijmodeling.sum) と [`jm.prod`](xref:api_reference#jijmodeling.prod) のみでした。
+旧来は、Decorator API を利用する際に内包表記（Python のジェネレータ式）を引数として受け取れるのは {py:func}`jm.sum <jijmodeling.sum>` と {py:func}`jm.prod <jijmodeling.prod>` のみでした。
 
-本バージョンから、[`jm.min`](xref:api_reference#jijmodeling.min)、[`jm.max`](xref:api_reference#jijmodeling.max)、[`jm.set`](xref:api_reference#jijmodeling.set) の一引数呼び出しでも、同様に内包表記を受け取れるようになりました。
+本バージョンから、{py:func}`jm.min <jijmodeling.min>`、{py:func}`jm.max <jijmodeling.max>`、{py:func}`jm.set <jijmodeling.set>` の一引数呼び出しでも、同様に内包表記を受け取れるようになりました。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -76,14 +76,14 @@ problem
 
 ### `Placeholder` の `dtype` に上限付き自然数とカテゴリーラベルを指定できるように
 
-[`Problem.Placeholder`](xref:api_reference#jijmodeling.Problem.Placeholder)（および `Graph`、`PartialDict`、`TotalDict` などの型付き構築子）の `dtype` 引数は、これまで `jm.DataType`、NumPy のスカラー型、あるいはそれらから構成されるタプルに限られていました。
+{py:meth}`Problem.Placeholder`（および `Graph`、`PartialDict`、`TotalDict` などの型付き構築子）の `dtype` 引数は、これまで `jm.DataType`、NumPy のスカラー型、あるいはそれらから構成されるタプルに限られていました。
 本バージョンから、`dtype` には次のものも追加で指定できるようになりました：
 
-- 自然数式 `n`：値が `n` より真に小さい自然数（すなわち $\{0, 1, \dots, n - 1\}$ のいずれか）であることを表します。`n` には Python の整数リテラルのほか、自然数型の他のプレースホルダーや [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) などの式も渡せます。
-- [`CategoryLabel`](xref:api_reference#jijmodeling.CategoryLabel) `L`：値が `L` のラベルのうちのいずれかであることを表します。
+- 自然数式 `n`：値が `n` より真に小さい自然数（すなわち $\{0, 1, \dots, n - 1\}$ のいずれか）であることを表します。`n` には Python の整数リテラルのほか、自然数型の他のプレースホルダーや {py:class}`~jijmodeling.NamedExpr` などの式も渡せます。
+- {py:class}`~jijmodeling.CategoryLabel` `L`：値が `L` のラベルのうちのいずれかであることを表します。
 - 上記（あるいは他の指定可能な `dtype`）を要素とするタプル `(T, T, ...)`。
 
-上記の `dtype` に関する追加に合わせて、型付き構築子である [`Problem.Natural`](xref:api_reference#jijmodeling.Problem.Natural)（およびそのエイリアスである [`Problem.Length`](xref:api_reference#jijmodeling.Problem.Length) と [`Problem.Dim`](xref:api_reference#jijmodeling.Problem.Dim)）でも `less_than=natexpr` キーワード引数を指定できるようになりました。これは `Placeholder(dtype=natexpr)` と同じく上限付き自然数型のプレースホルダーを宣言するもので、自然数値のプレースホルダーであるという意図をより明瞭に表現する書き方です。
+上記の `dtype` に関する追加に合わせて、型付き構築子である {py:meth}`Problem.Natural`（およびそのエイリアスである {py:meth}`Problem.Length` と {py:meth}`Problem.Dim`）でも `less_than=natexpr` キーワード引数を指定できるようになりました。これは `Placeholder(dtype=natexpr)` と同じく上限付き自然数型のプレースホルダーを宣言するもので、自然数値のプレースホルダーであるという意図をより明瞭に表現する書き方です。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -128,8 +128,8 @@ problem += jm.map(lambda u, v: (x[u] - x[v]) ** 2, E).sum()
 problem
 ```
 
-また、グラフの頂点にラベルを用いる場合を想定して、[`CategoryLabel`](xref:api_reference#jijmodeling.CategoryLabel) をそのまま `dtype` として指定することもできるようになりました。
-以下の例は、ラベルが頂点として使われるグラフの上で（[`Problem.Graph`](xref:api_reference#jijmodeling.Problem.Graph) を用いて）同じ問題を定義するものです。
+また、グラフの頂点にラベルを用いる場合を想定して、{py:class}`~jijmodeling.CategoryLabel` をそのまま `dtype` として指定することもできるようになりました。
+以下の例は、ラベルが頂点として使われるグラフの上で（{py:meth}`Problem.Graph` を用いて）同じ問題を定義するものです。
 
 ```{code-cell} ipython3
 problem = jm.Problem("max cut on a labeled graph", sense=jm.ProblemSense.MAXIMIZE)
@@ -154,8 +154,8 @@ instance = compiler.eval_problem(problem)
 
 ### 目的関数を代入で再設定できるように
 
-本バージョンから [`Problem.objective`](xref:api_reference#jijmodeling.Problem.objective) に直接代入して置き換えられるようになりました。
-[`DecoratedProblem`](xref:api_reference#jijmodeling.DecoratedProblem) でも同じように `problem.objective = ...` と書けます。
+本バージョンから {py:attr}`Problem.objective` に直接代入して置き換えられるようになりました。
+{py:class}`~jijmodeling.DecoratedProblem` でも同じように `problem.objective = ...` と書けます。
 
 たとえば、一度設定した目的関数を別の式に置き換えたり、`problem.objective = 0` として目的関数を明示的にリセットしたりできます。
 
@@ -182,8 +182,8 @@ problem
 
 ### 生成関数による辞書の生成
 
-本バージョンから、[`gendict`](xref:api_reference#jijmodeling.gendict) 関数により、キー集合と生成関数を指定して配列を生成できるようになりました。
-これは配列の [`genarray`](xref:api_reference#jijmodeling.genarray) や numpy の [`fromfunction`](xref:numpy#numpy.fromfunction) と類似の機能です。
+本バージョンから、{py:func}`~jijmodeling.gendict` 関数により、キー集合と生成関数を指定して配列を生成できるようになりました。
+これは配列の {py:func}`~jijmodeling.genarray` や numpy の {py:func}`~numpy.fromfunction` と類似の機能です。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -252,7 +252,7 @@ jm.product(N, M).filter(lambda i, j: i == j)
 
 ### 制約族の定義で singleton list に対する comprehension をした時に `problem.eval()` が失敗するバグの修正
 
-以前は次のような問題定義が、JijModeling の型検査は（期待通り）通過するものの、 [`Problem.eval`](xref:api_reference#jijmodeling.Problem.eval) を呼び出すと `Could not convert value from function of decision variable to SubscriptItem.` というエラーが発生するバグがありました。
+以前は次のような問題定義が、JijModeling の型検査は（期待通り）通過するものの、 {py:meth}`Problem.eval` を呼び出すと `Could not convert value from function of decision variable to SubscriptItem.` というエラーが発生するバグがありました。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Min fail")
@@ -263,4 +263,4 @@ def min_fail(problem: jm.DecoratedProblem):
     )
 ```
 
-本バージョンでは、上記の様な定義に対しても [`Problem.eval`](xref:api_reference#jijmodeling.Problem.eval) が正常に動作するように修正しました。
+本バージョンでは、上記の様な定義に対しても {py:meth}`Problem.eval` が正常に動作するように修正しました。

@@ -26,7 +26,7 @@ import jijmodeling as jm
 
 Up to JijModeling 2.7.1, streams were called “sets,” and the explicit conversion function was named `jm.set`. Mathematically, however, a set is unordered and contains no duplicates, so the term “set” was misleading.
 Since version 2.8.0, this concept has consistently been called a stream.
-`jm.set` remains available as a deprecated alias for [`stream`](xref:api_reference#jijmodeling.stream), and existing comprehensions in the Decorator API continue to work, but calling it emits a `DeprecationWarning`.
+`jm.set` remains available as a deprecated alias for {py:func}`~jijmodeling.stream`, and existing comprehensions in the Decorator API continue to work, but calling it emits a `DeprecationWarning`.
 :::
 
 (folding)=
@@ -36,7 +36,7 @@ In JijModeling, operations such as sums and products are implemented as folds th
 The following examples explain the different notations available for sums and products.
 
 :::{note}
-For simplicity, the examples below use [`jm.sum()`](xref:api_reference#jijmodeling.sum) (or [`Expression.sum()`](xref:api_reference#jijmodeling.Expression.sum)). Products with [`jm.prod()`](xref:api_reference#jijmodeling.prod) or [`Expression.prod()`](xref:api_reference#jijmodeling.Expression.prod), and maximums and minimums with [`jm.max()`](xref:api_reference#jijmodeling.max) or [`jm.min()`](xref:api_reference#jijmodeling.min), can be written in the same way.
+For simplicity, the examples below use {py:func}`jm.sum() <jijmodeling.sum>` (or {py:meth}`Expression.sum()`). Products with {py:func}`jm.prod() <jijmodeling.prod>` or {py:meth}`Expression.prod()`, and maximums and minimums with {py:func}`jm.max() <jijmodeling.max>` or {py:func}`jm.min() <jijmodeling.min>`, can be written in the same way.
 :::
 
 The following example uses the Decorator API to write the sum of products of decision variables and placeholders:
@@ -55,14 +55,14 @@ sum_example
 
 After `in`, you can use any stream obtained by the methods described in the following sections or any value of a type that is implicitly converted to a stream. In this example, the natural number `N` in `for i in N` is the stream being folded.
 
-:::{admonition} Be Careful Not to Use Python's Built-in [`sum`](xref:python#sum)!
+:::{admonition} Be Careful Not to Use Python's Built-in {py:func}`sum`!
 :class: caution
 
-When writing folds with comprehensions in the Decorator API, use JijModeling's [`jm.sum()`](xref:api_reference#jijmodeling.sum), [`jm.prod()`](xref:api_reference#jijmodeling.prod), [`jm.max()`](xref:api_reference#jijmodeling.max), or [`jm.min()`](xref:api_reference#jijmodeling.min).
-Passing an expression such as `a[i] * x[i] for i in N` to Python's built-in [`sum`](xref:python#sum) results in an error.
+When writing folds with comprehensions in the Decorator API, use JijModeling's {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, or {py:func}`jm.min() <jijmodeling.min>`.
+Passing an expression such as `a[i] * x[i] for i in N` to Python's built-in {py:func}`sum` results in an error.
 :::
 
-The same program can be written entirely with the Plain API using [`jijmodeling.map`](xref:api_reference#jijmodeling.map), which will be explained in a later section:
+The same program can be written entirely with the Plain API using {py:func}`jijmodeling.map`, which will be explained in a later section:
 
 ```{code-cell} ipython3
 sum_example_plain = jm.Problem("Sum Example (Plain)")
@@ -74,7 +74,7 @@ sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
 sum_example_plain
 ```
 
-For a simple sum like this, you can also pass two arguments to [`jm.sum()`](xref:api_reference#jijmodeling.sum): the domain and a function that returns the term to sum.
+For a simple sum like this, you can also pass two arguments to {py:func}`jm.sum() <jijmodeling.sum>`: the domain and a function that returns the term to sum.
 
 ```{code-cell} ipython3
 sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
@@ -87,13 +87,13 @@ sum_example_plain_alt
 ```
 
 :::{important}
-Only [`jm.sum()`](xref:api_reference#jijmodeling.sum) and [`jm.prod()`](xref:api_reference#jijmodeling.prod) support the two-argument folding form; [`jm.max()`](xref:api_reference#jijmodeling.max) and [`jm.min()`](xref:api_reference#jijmodeling.min) do not.
+Only {py:func}`jm.sum() <jijmodeling.sum>` and {py:func}`jm.prod() <jijmodeling.prod>` support the two-argument folding form; {py:func}`jm.max() <jijmodeling.max>` and {py:func}`jm.min() <jijmodeling.min>` do not.
 
 When using only the Plain API, expressions that traverse indices must be constructed with Python [lambda expressions](xref:python#lambda).
 :::
 
 :::{tip}
-When [`jm.sum()`](xref:api_reference#jijmodeling.sum) or [`jm.prod()`](xref:api_reference#jijmodeling.prod) is called as a single-argument function or method, it takes the sum or product of a stream. To sum the elements of `x`, you can simply write [`jm.sum(x)`](xref:api_reference#jijmodeling.sum) or [`x.sum()`](xref:api_reference#jijmodeling.Expression.sum). With the limited broadcasting described earlier, the example above can also be written as [`jm.sum(a * x)`](xref:api_reference#jijmodeling.sum). The same applies when `x` is a two- or higher-dimensional array.
+When {py:func}`jm.sum() <jijmodeling.sum>` or {py:func}`jm.prod() <jijmodeling.prod>` is called as a single-argument function or method, it takes the sum or product of a stream. To sum the elements of `x`, you can simply write {py:func}`jm.sum(x) <jijmodeling.sum>` or {py:meth}`x.sum() <jijmodeling.Expression.sum>`. With the limited broadcasting described earlier, the example above can also be written as {py:func}`jm.sum(a * x) <jijmodeling.sum>`. The same applies when `x` is a two- or higher-dimensional array.
 :::
 
 Combining these folding functions with `if` clauses in comprehensions allows more flexible folds to be expressed.
@@ -128,11 +128,11 @@ Values of some types are automatically converted into streams. The following tab
 | Natural-number expression $N$ containing no decision variables | A stream that traverses $0, 1, \ldots, N-1$ |
 | Category label `L` | A stream that traverses all values of `L` supplied at compile time |
 
-### Converting a Multidimensional Array into a Stream of Subarrays with [`rows`](xref:api_reference#jijmodeling.rows)
+### Converting a Multidimensional Array into a Stream of Subarrays with {py:func}`~jijmodeling.rows`
 
 As described above, a multidimensional array is automatically converted into a stream that **traverses each element in row-major order**.
-To obtain a stream that instead traverses the inner rows in order, use [`rows`](xref:api_reference#jijmodeling.rows).
-More precisely, [`rows`](xref:api_reference#jijmodeling.rows) converts a multidimensional array of shape $N \times M_1 \times \cdots \times M_n$ into an array of length $N$ whose elements are subarrays of shape $M_1 \times \ldots \times M_n$. The resulting array is then converted into a stream through the automatic conversion described above.
+To obtain a stream that instead traverses the inner rows in order, use {py:func}`~jijmodeling.rows`.
+More precisely, {py:func}`~jijmodeling.rows` converts a multidimensional array of shape $N \times M_1 \times \cdots \times M_n$ into an array of length $N$ whose elements are subarrays of shape $M_1 \times \ldots \times M_n$. The resulting array is then converted into a stream through the automatic conversion described above.
 
 ```{code-cell} ipython3
 problem = jm.Problem("Row Sum Example")
@@ -147,12 +147,12 @@ problem.infer(x.rows())
 :class: caution
 
 In JijModeling 1, when a multidimensional array appeared in `belong_to=` or `forall=`, its inner rows were traversed in order.
-To obtain this behavior, explicitly convert the array with [`rows`](xref:api_reference#jijmodeling.rows), using `jm.rows(A)` or `A.rows()`.
+To obtain this behavior, explicitly convert the array with {py:func}`~jijmodeling.rows`, using `jm.rows(A)` or `A.rows()`.
 :::
 
-### Obtaining a Stream of Array Indices with [`indices`](xref:api_reference#jijmodeling.Expression.indices)
+### Obtaining a Stream of Array Indices with {py:meth}`~jijmodeling.Expression.indices`
 
-[`indices`](xref:api_reference#jijmodeling.Expression.indices) returns a stream corresponding to the set of indices—the domain—of an array.
+{py:meth}`~jijmodeling.Expression.indices` returns a stream corresponding to the set of indices—the domain—of an array.
 
 ```{code-cell} ipython3
 problem = jm.Problem("Index and Keys Example")
@@ -163,10 +163,10 @@ problem.infer(S.indices())
 ### Explicitly Converting a Dictionary into a Stream
 
 As described above, JijModeling's automatic conversion turns a dictionary expression into a stream over its **values, not its keys**.
-This differs from Python's [`dict`](xref:python#dict), but is intentional so that dictionaries behave consistently with multidimensional arrays.
-For example, if a placeholder or decision variable originally defined as a multidimensional array is changed to a dictionary, code such as [`x.sum()`](xref:api_reference#jijmodeling.Expression.sum) does not need to change.
-To obtain a stream that traverses key-value pairs, use [`items`](xref:api_reference#jijmodeling.Expression.items); to obtain one that traverses keys, use [`keys`](xref:api_reference#jijmodeling.Expression.keys).
-To make the default conversion to a stream of values explicit, use [`values`](xref:api_reference#jijmodeling.Expression.values).
+This differs from Python's {py:class}`dict`, but is intentional so that dictionaries behave consistently with multidimensional arrays.
+For example, if a placeholder or decision variable originally defined as a multidimensional array is changed to a dictionary, code such as {py:meth}`x.sum() <jijmodeling.Expression.sum>` does not need to change.
+To obtain a stream that traverses key-value pairs, use {py:meth}`~jijmodeling.Expression.items`; to obtain one that traverses keys, use {py:meth}`~jijmodeling.Expression.keys`.
+To make the default conversion to a stream of values explicit, use {py:meth}`~jijmodeling.Expression.values`.
 
 ```{code-cell} ipython3
 problem = jm.Problem("Row Sum Example")
@@ -196,11 +196,11 @@ x = problem.BinaryVar("x", dict_keys=S.keys())
 problem
 ```
 
-### Explicit Conversion to a Stream with [`stream`](xref:api_reference#jijmodeling.stream)
+### Explicit Conversion to a Stream with {py:func}`~jijmodeling.stream`
 
-Conversion to a stream generally happens automatically, but you can explicitly convert a value with [`stream`](xref:api_reference#jijmodeling.stream).
-When using the Decorator API, you can also construct a stream directly by passing a comprehension to [`jm.stream`](xref:api_reference#jijmodeling.stream).
-Unlike [`genarray`](xref:api_reference#jijmodeling.genarray) and [`gendict`](xref:api_reference#jijmodeling.gendict), [`stream`](xref:api_reference#jijmodeling.stream) supports comprehensions containing any number of `for` and `if` clauses.
+Conversion to a stream generally happens automatically, but you can explicitly convert a value with {py:func}`~jijmodeling.stream`.
+When using the Decorator API, you can also construct a stream directly by passing a comprehension to {py:func}`jm.stream <jijmodeling.stream>`.
+Unlike {py:func}`~jijmodeling.genarray` and {py:func}`~jijmodeling.gendict`, {py:func}`~jijmodeling.stream` supports comprehensions containing any number of `for` and `if` clauses.
 
 ```{code-cell} ipython3
 @jm.Problem.define("Stream Comprehension Example")
@@ -211,10 +211,10 @@ def stream_compr_problem(problem: jm.DecoratedProblem):
     display(jm.stream(i + x[l, i] for l in L for i in N if i % 2 == 0))
 ```
 
-### Generating Arithmetic Progressions with [`range`](xref:api_reference#jijmodeling.range)
+### Generating Arithmetic Progressions with {py:func}`~jijmodeling.range`
 
-Since JijModeling 2.3.1, [`range`](xref:api_reference#jijmodeling.range), corresponding to Python's built-in [`range()`](xref:python#range), has been available for defining streams of arithmetic progressions of integers.
-Like Python's [`range()`](xref:python#range), when given one argument it traverses values starting from $0$; when given two arguments, it starts from the first and stops before the second; and when given a third argument, that value is used as the step.
+Since JijModeling 2.3.1, {py:func}`~jijmodeling.range`, corresponding to Python's built-in {py:class}`range()`, has been available for defining streams of arithmetic progressions of integers.
+Like Python's {py:class}`range()`, when given one argument it traverses values starting from $0$; when given two arguments, it starts from the first and stops before the second; and when given a third argument, that value is used as the step.
 
 ```{code-cell} ipython3
 range_problem = jm.Problem("Stream Range Example")
@@ -232,7 +232,7 @@ The following sections explain how to transform existing streams and combine mul
 
 ### Filtering Streams
 
-[`filter`](xref:api_reference#jijmodeling.filter) constructs a new stream containing only the elements of an existing stream that satisfy a given condition.
+{py:func}`~jijmodeling.filter` constructs a new stream containing only the elements of an existing stream that satisfy a given condition.
 
 ```{code-cell} ipython3
 filter_problem = jm.Problem("Stream Filter Example")
@@ -243,7 +243,7 @@ N.filter(lambda i: i % 2 == 0)
 ### Removing Duplicates from a Stream
 
 As noted above, a stream may contain duplicate values.
-When duplicates must be removed, use [`unique`](xref:api_reference#jijmodeling.unique). For each value that appears multiple times, only its first occurrence is retained, producing a stream of unique values.
+When duplicates must be removed, use {py:func}`~jijmodeling.unique`. For each value that appears multiple times, only its first occurrence is retained, producing a stream of unique values.
 
 ```{code-cell} ipython3
 problem = jm.Problem("Stream Uniquifization Example")
@@ -257,7 +257,7 @@ assert instance.objective == 6  # Only 1, 3, and 2 remain, so the sum is 6
 
 ### Mapping Streams
 
-[`map`](xref:api_reference#jijmodeling.map), corresponding to the Python standard library's [`map`](xref:python#map), constructs a new stream from the results of applying a function to the elements of an existing stream.
+{py:func}`~jijmodeling.map`, corresponding to the Python standard library's {py:func}`map`, constructs a new stream from the results of applying a function to the elements of an existing stream.
 
 ```{code-cell} ipython3
 map_problem = jm.Problem("Stream Map Example")
@@ -271,15 +271,15 @@ map_problem
 :::{admonition} Mapping Arrays and Dictionaries
 :class: info
 
-[`map`](xref:api_reference#jijmodeling.map) can also be called directly on arrays and dictionaries. In this case, the result is not a stream but a new array or dictionary with the same shape or key set.
-In particular, because [`map`](xref:api_reference#jijmodeling.map) preserves shape and key-set information for these types, mapped elements can be accessed with the same indices as the original container.
+{py:func}`~jijmodeling.map` can also be called directly on arrays and dictionaries. In this case, the result is not a stream but a new array or dictionary with the same shape or key set.
+In particular, because {py:func}`~jijmodeling.map` preserves shape and key-set information for these types, mapped elements can be accessed with the same indices as the original container.
 As noted above, these types are automatically converted into streams, so stream operations behave the same way on a mapped container.
 :::
 
 ### Flat-Mapping Streams
 
-If the function passed to [`map`](xref:api_reference#jijmodeling.map) returns a stream, the result is a stream of streams.
-Use [`jm.flat_map()`](xref:api_reference#jijmodeling.flat_map) (or its method form, [`Expression.flat_map()`](xref:api_reference#jijmodeling.Expression.flat_map)) to flatten the mapped result by one level.
+If the function passed to {py:func}`~jijmodeling.map` returns a stream, the result is a stream of streams.
+Use {py:func}`jm.flat_map() <jijmodeling.flat_map>` (or its method form, {py:meth}`Expression.flat_map()`) to flatten the mapped result by one level.
 This makes it possible to traverse multiple indices without using Decorator API comprehensions.
 
 ```{code-cell} ipython3
@@ -293,7 +293,7 @@ jm.stream(N).flat_map(lambda i: jm.map(lambda j: (i, j), M))
 
 ### Cartesian Products of Streams
 
-Use [`product`](xref:api_reference#jijmodeling.product) to take the Cartesian product of multiple streams.
+Use {py:func}`~jijmodeling.product` to take the Cartesian product of multiple streams.
 
 ```{code-cell} ipython3
 product_problem = jm.Problem("Stream Product Example")
@@ -310,8 +310,8 @@ def _(problem: jm.DecoratedProblem):
     display(jm.stream((i, j) for i in N for j in M))
 ```
 
-Where a stream is expected, a tuple can be written directly to represent a Cartesian product, omitting [`product`](xref:api_reference#jijmodeling.product).
-Examples include the right-hand side of `in` in a Decorator API comprehension and the `domain=` keyword argument to [`Problem.Constraint()`](xref:api_reference#jijmodeling.Problem.Constraint).
+Where a stream is expected, a tuple can be written directly to represent a Cartesian product, omitting {py:func}`~jijmodeling.product`.
+Examples include the right-hand side of `in` in a Decorator API comprehension and the `domain=` keyword argument to {py:meth}`Problem.Constraint()`.
 
 ```{code-cell} ipython3
 @jm.Problem.define("Tuple Product Example")
@@ -345,7 +345,7 @@ tuple_domain_example
 ### Unions, Intersections, and Differences of Streams
 
 Unions, intersections, and differences of streams can be expressed using Python's bitwise operators and JijModeling's built-in functions.
-Specifically, use `|` or [`jijmodeling.bor`](xref:api_reference#jijmodeling.bor) for a union, `&` or [`jijmodeling.band`](xref:api_reference#jijmodeling.band) for an intersection, and [`jijmodeling.diff`](xref:api_reference#jijmodeling.diff) for a difference.
+Specifically, use `|` or {py:func}`jijmodeling.bor` for a union, `&` or {py:func}`jijmodeling.band` for an intersection, and {py:func}`jijmodeling.diff` for a difference.
 The following examples examine each operation in turn.
 
 The union of two streams traverses the elements of the first stream in order, followed by the elements of the second stream in order.
@@ -454,4 +454,4 @@ assert instance.objective.almost_equal(expected)
 ```
 
 These operations do not guarantee unique elements in result values.
-Use the previously described [`unique`](xref:api_reference#jijmodeling.unique) function to remove duplicates when necessary.
+Use the previously described {py:func}`~jijmodeling.unique` function to remove duplicates when necessary.

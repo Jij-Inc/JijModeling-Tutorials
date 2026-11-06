@@ -22,11 +22,11 @@ kernelspec:
 ### Major performance improvement in constraint detection
 
 Constraint detection has been significantly accelerated. Models that previously did not finish even after an hour can now complete within one second.
-If you disabled constraint detection by setting `constraint_detection=False` in [`jijmodeling.Problem.eval`](xref:api_reference#jijmodeling.Problem.eval) or [`jijmodeling.Compiler.eval_problem`](xref:api_reference#jijmodeling.Compiler.eval_problem) for performance reasons, try running them again with constraint detection enabled by omitting the `constraint_detection` option.
+If you disabled constraint detection by setting `constraint_detection=False` in {py:meth}`jijmodeling.Problem.eval` or {py:meth}`jijmodeling.Compiler.eval_problem` for performance reasons, try running them again with constraint detection enabled by omitting the `constraint_detection` option.
 
-### [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) can now be specified directly as a shape
+### {py:class}`~jijmodeling.NamedExpr` can now be specified directly as a shape
 
-In previous versions, defining a one-dimensional array whose length was a [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) by specifying it directly as the shape, as shown below, resulted in an error:
+In previous versions, defining a one-dimensional array whose length was a {py:class}`~jijmodeling.NamedExpr` by specifying it directly as the shape, as shown below, resulted in an error:
 
 ```python
 import jijmodeling as jm

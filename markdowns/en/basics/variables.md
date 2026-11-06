@@ -83,7 +83,7 @@ To represent such "families of variables whose number of terms can change with i
 
 In JijModeling, decision variables and placeholders can be defined as two kinds of collections:
 
-1. **Arrays** of variables, indexed continuously from $0$. Multi-dimensional arrays, like [`ndarray`](xref:numpy#numpy.ndarray), are also supported.
+1. **Arrays** of variables, indexed continuously from $0$. Multi-dimensional arrays, like {py:class}`~numpy.ndarray`, are also supported.
 2. **Dictionaries** of variables, discrete associative arrays whose keys are integers, strings, category labels, or tuples of them.
 
 Dedicated constructors exist for these collections, but in many cases you can declare them by passing additional keyword arguments to the single-variable constructors introduced later.

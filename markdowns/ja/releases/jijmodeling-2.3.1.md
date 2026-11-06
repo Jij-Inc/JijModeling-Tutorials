@@ -23,7 +23,7 @@ kernelspec:
 
 ### `jm.range` 関数の追加
 
-[`Expression`](xref:api_reference#jijmodeling.Expression) を使用した値シーケンスを表する関数、 [`jijmodeling.range`](xref:api_reference#jijmodeling.range) を追加しました。使い方は基本的に python 組み込みの [`range()`](xref:python#range) と似ています。
+{py:class}`~jijmodeling.Expression` を使用した値シーケンスを表する関数、 {py:func}`jijmodeling.range` を追加しました。使い方は基本的に python 組み込みの {py:class}`range()` と似ています。
 
 例は以下の通りです:
 
@@ -42,7 +42,7 @@ def problem(problem: jm.DecoratedProblem):
 
 ### `Problem`の`-=`演算子で目的関数更新の対応  
 
-[`Problem`](xref:api_reference#jijmodeling.Problem) に `-=` 演算子を追加しました。 `-=` を使って目的関数から項を引くことができます。
+{py:class}`~jijmodeling.Problem` に `-=` 演算子を追加しました。 `-=` を使って目的関数から項を引くことができます。
 
 `+=` とは異なり、 `-=` で制約条件を削除することはできません。
 
@@ -60,7 +60,7 @@ assert jm.is_same(problem.objective, x - y)
 
 JijModeling 2.3 以前では、依存変数を表す `DependentVar` クラスが存在していました。
 名前の印象に反し、この機能は Placeholder の長さなど決定変数に依存しないような値を定義するためにも用いることができました。
-この状況は混乱を招く恐れがあるため、 `DependentVar` クラスは廃止され、同様の機能を提供する [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) クラスが定義されました。今後は [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) をご利用ください。
+この状況は混乱を招く恐れがあるため、 `DependentVar` クラスは廃止され、同様の機能を提供する {py:class}`~jijmodeling.NamedExpr` クラスが定義されました。今後は {py:class}`~jijmodeling.NamedExpr` をご利用ください。
 
 詳細については {doc}`../advanced/named_expr` を御参照ください。
 

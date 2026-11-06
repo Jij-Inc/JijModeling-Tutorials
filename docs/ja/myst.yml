@@ -22,6 +22,7 @@ project:
     zept_tutor:
       https://jij-inc-jijzept-tutorials-ja.readthedocs-hosted.com/ja/latest
   plugins:
+    - ../../plugins/python-roles.mjs
     - ../../plugins/notebook-math.mjs
     - ../../plugins/notebook-launch.mjs
     - ../../plugins/editable-cells.mjs

@@ -25,7 +25,7 @@ kernelspec:
 
 Previously, JijModeling called the type representing "a sequence of values that can be iterated over" `Set`. However, because a mathematical "set" is a collection with neither duplicates nor order, this terminology could be misleading.
 
-Starting with this release, what was previously called `Set` is now called `Stream`, and [`jm.stream`](xref:api_reference#jijmodeling.stream) has been introduced in place of the deprecated [`jm.set`](xref:api_reference#jijmodeling.set) function.
+Starting with this release, what was previously called `Set` is now called `Stream`, and {py:func}`jm.stream <jijmodeling.stream>` has been introduced in place of the deprecated {py:func}`jm.set <jijmodeling.set>` function.
 This follows the convention in general-purpose programming languages of calling such "an ordered sequence of values that may contain duplicates" a **stream**.
 
 ```{code-cell} ipython3
@@ -44,7 +44,7 @@ def _(problem: jm.DecoratedProblem, N: jm.Placeholder):
     print(problem.infer(jm.stream(2 * i for i in N if i % 2 == 0)))
 ```
 
-[`jm.set`](xref:api_reference#jijmodeling.set) remains available as an alias of [`jm.stream`](xref:api_reference#jijmodeling.stream), but because it is **scheduled for removal**, we recommend migrating to [`jm.stream`](xref:api_reference#jijmodeling.stream) as soon as possible.
+{py:func}`jm.set <jijmodeling.set>` remains available as an alias of {py:func}`jm.stream <jijmodeling.stream>`, but because it is **scheduled for removal**, we recommend migrating to {py:func}`jm.stream <jijmodeling.stream>` as soon as possible.
 
 +++
 
@@ -134,7 +134,7 @@ problem.eval({"T": 3, "demand": [1.0, 2.0, 3.0]})
 
 ### Fixed an issue where dictionaries could not be mapped
 
-[`map`](xref:api_reference#jijmodeling.map) on a dictionary should return a dictionary whose values have been transformed by the given function, but previously it raised an exception during type checking.
+{py:func}`~jijmodeling.map` on a dictionary should return a dictionary whose values have been transformed by the given function, but previously it raised an exception during type checking.
 Starting with this release, it returns a dictionary with the same set of keys as the original and with the function applied to corresponding values.
 
 ```{code-cell} ipython3

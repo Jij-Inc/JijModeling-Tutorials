@@ -22,11 +22,11 @@ kernelspec:
 ### 制約検出の大幅なパフォーマンス改善
 
 制約検出機能が大幅に高速化し、旧来は一時間経っても完了しなかったモデルであっても 1 秒程度で完了するようになりました。
-速度面から [`jijmodeling.Problem.eval`](xref:api_reference#jijmodeling.Problem.eval) や [`jijmodeling.Compiler.eval_problem`](xref:api_reference#jijmodeling.Compiler.eval_problem) で `constraint_detection=False` を指定していたモデルがある場合、いちど `constraint_detection` オプションを省略し有効化した状態で実行してみてください。
+速度面から {py:meth}`jijmodeling.Problem.eval` や {py:meth}`jijmodeling.Compiler.eval_problem` で `constraint_detection=False` を指定していたモデルがある場合、いちど `constraint_detection` オプションを省略し有効化した状態で実行してみてください。
 
-### [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) が単独のシェイプとして指定できるように
+### {py:class}`~jijmodeling.NamedExpr` が単独のシェイプとして指定できるように
 
-これまでのバージョンでは、[`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) を長さとする一次元の配列を、以下のように直接シェイプに指定して定義するとエラーとなっていました：
+これまでのバージョンでは、{py:class}`~jijmodeling.NamedExpr` を長さとする一次元の配列を、以下のように直接シェイプに指定して定義するとエラーとなっていました：
 
 ```python
 import jijmodeling as jm

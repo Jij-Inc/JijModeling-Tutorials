@@ -50,7 +50,7 @@ kernelspec:
 
 ### Decorator API の update 関数で引数の自動取得が可能に
 
-[`@Problem.update`](xref:api_reference#jijmodeling.Problem.update) が追加引数で定義済の決定変数やプレスホルダーを取れるようになりました。
+{py:meth}`@Problem.update <jijmodeling.Problem.update>` が追加引数で定義済の決定変数やプレスホルダーを取れるようになりました。
 旧来は他のブロックで定義されたパラメーターは `problem.decision_vars` などで手動アクセスする必要がありましたが、今回のリリースから対象のパラメーターを直接関数の引数として自動的に取得できるようになりました。
 
 ```{code-cell} ipython3

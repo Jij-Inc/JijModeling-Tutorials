@@ -133,7 +133,7 @@ instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-[`Problem.eval`](xref:api_reference#jijmodeling.Problem.eval) の返却値は [`ommx.v1.Instance`](xref:ommx_api#ommx.v1.Instance) オブジェクトです。詳しくは{doc}`../basics/instance_generation` や [](xref:ommx_doc#user_guide/instance) を参照してください。
+{py:meth}`Problem.eval` の返却値は {py:class}`ommx.v1.Instance` オブジェクトです。詳しくは{doc}`../basics/instance_generation` や [](xref:ommx_doc#user_guide/instance) を参照してください。
 :::
 
 +++
@@ -155,7 +155,7 @@ solution = OMMXOpenJijSAAdapter.solve(
 ```
 
 `OMMXOpenJijSAAdapter` を使えば、`ommx.v1.Instance` で定義されたインスタンスをペナルティ法やログエンコーディングで QUBO/HUBO 形式に変換して解く、という操作を簡単に行うことができます。
-また、得られた解は [`decision_variables_df`](xref:ommx_api#ommx.v1.Solution.decision_variables_df) プロパティを使うことで `pandas.DataFrame` オブジェクトとして確認することができます:
+また、得られた解は {py:attr}`~ommx.v1.Solution.decision_variables_df` プロパティを使うことで `pandas.DataFrame` オブジェクトとして確認することができます:
 
 ```{code-cell} ipython3
 df = solution.decision_variables_df
@@ -169,5 +169,5 @@ df[df["name"] == "x"][["name", "subscripts", "value"]]
 +++
 
 :::{hint}
-`OMMXOpenJijSAAdapter.solve` の返却値は [`ommx.v1.Solution`](xref:ommx_api#ommx.v1.Solution) オブジェクトです。詳しくは [](xref:ommx_doc#user_guide/solution) を参照してください。
+`OMMXOpenJijSAAdapter.solve` の返却値は {py:class}`ommx.v1.Solution` オブジェクトです。詳しくは [](xref:ommx_doc#user_guide/solution) を参照してください。
 :::

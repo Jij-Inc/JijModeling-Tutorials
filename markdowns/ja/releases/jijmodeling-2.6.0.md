@@ -57,8 +57,8 @@ except Exception as e:
 
 ### バグ修正 1：OMMXコンパイル時の `min` の畳み込みが `max` になっていた問題の修正
 
-OMMX へのコンパイル時に、定数上の [`min`](xref:api_reference#jijmodeling.min) が誤って最大値を計算していたバグを修正しました。
+OMMX へのコンパイル時に、定数上の {py:func}`~jijmodeling.min` が誤って最大値を計算していたバグを修正しました。
 
-### バグ修正 2： [`count`](xref:api_reference#jijmodeling.count) 関数を含むモデルがシリアライズできなかった問題の修正
+### バグ修正 2： {py:func}`~jijmodeling.count` 関数を含むモデルがシリアライズできなかった問題の修正
 
-モデル内で CategoryLabel に対する [`count`](xref:api_reference#jijmodeling.count) 関数を使っていた場合、Protobuf 形式へのシリアライズ時に意図せず実行時エラーとなっていた問題を修正しました。
+モデル内で CategoryLabel に対する {py:func}`~jijmodeling.count` 関数を使っていた場合、Protobuf 形式へのシリアライズ時に意図せず実行時エラーとなっていた問題を修正しました。

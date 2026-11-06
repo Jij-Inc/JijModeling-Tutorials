@@ -30,7 +30,7 @@ If you have been avoiding dictionaries because of performance concerns, this is 
 
 ### Protobuf schema changes
 
-JijModeling 2.4.0 brings the breaking changes to the Protobuf schema for [`Problem`](xref:api_reference#jijmodeling.Problem).
+JijModeling 2.4.0 brings the breaking changes to the Protobuf schema for {py:class}`~jijmodeling.Problem`.
 As a result, Problems serialized to Protobuf with version 2.4.0 or later can no longer be loaded by JijModeling versions 2.3.x or earlier.
 On the other hand, Problems serialized with versions 2.3.x or earlier can be loaded by JijModeling versions 2.4.0 or later.
 This may affect data storage and exchange through MINTO, but in that case, updating the dependent JijModeling version to 2.4.0 or later will allow both existing and new data to be loaded without issue.
@@ -44,8 +44,8 @@ Also, this only affects direct use of JijModeling's Protobuf schema; there is no
 
 ### Generating arrays with a shape and generator function
 
-Starting with this version, the [`genarray`](xref:api_reference#jijmodeling.genarray) function can be used to generate arrays by specifying a shape and a generator function.
-This is similar to [`fromfunction`](xref:numpy#numpy.fromfunction) in NumPy.
+Starting with this version, the {py:func}`~jijmodeling.genarray` function can be used to generate arrays by specifying a shape and a generator function.
+This is similar to {py:func}`~numpy.fromfunction` in NumPy.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -96,8 +96,8 @@ except SyntaxError as e:
 
 ### Support for `min` / `max` along axes
 
-Previously, [`jm.sum`](xref:api_reference#jijmodeling.sum) and [`Expression.sum`](xref:api_reference#jijmodeling.Expression.sum) supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument.
-Starting with this version, the same functionality has been added to [`jm.min`](xref:api_reference#jijmodeling.min) and [`jm.max`](xref:api_reference#jijmodeling.max) as well as their corresponding `Expression` methods.
+Previously, {py:func}`jm.sum <jijmodeling.sum>` and {py:meth}`Expression.sum` supported taking sums along a specific axis of a multidimensional array via the `axis` keyword argument.
+Starting with this version, the same functionality has been added to {py:func}`jm.min <jijmodeling.min>` and {py:func}`jm.max <jijmodeling.max>` as well as their corresponding `Expression` methods.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -286,4 +286,4 @@ problem.infer(x.sum())
 
 - Relaxed version bounds to allow installation on any Python 3 version from Python 3.11 onwards.
 - Error messages for invalid comprehensions used with the Decorator API in `sum` and similar constructs now report the specific location in the source code.
-- [`Problem.used_placeholders`](xref:api_reference#jijmodeling.Problem.used_placeholders) has been deprecated because its purpose is unclear, and [`Compiler`](xref:api_reference#jijmodeling.Compiler) also requires values for all placeholders. Use [`Problem.placeholders`](xref:api_reference#jijmodeling.Problem.placeholders) instead.
+- {py:attr}`Problem.used_placeholders` has been deprecated because its purpose is unclear, and {py:class}`~jijmodeling.Compiler` also requires values for all placeholders. Use {py:attr}`Problem.placeholders` instead.

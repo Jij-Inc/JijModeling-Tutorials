@@ -25,7 +25,7 @@ kernelspec:
 
 これまでの JijModeling では「走査できる値の列」を表す型は `Set` と呼ばれていましたが、数学的には "Set"（集合）とは重複も順番も持たないものの集まりであるため、誤解の元となっていました。
 
-今回のリリースより、これまで `Set` と呼ばれていたものは `Stream` と呼ばれるようになり、非推奨となった [`jm.set`](xref:api_reference#jijmodeling.set) 関数のかわりに [`jm.stream`](xref:api_reference#jijmodeling.stream) 関数が導入されました。
+今回のリリースより、これまで `Set` と呼ばれていたものは `Stream` と呼ばれるようになり、非推奨となった {py:func}`jm.set <jijmodeling.set>` 関数のかわりに {py:func}`jm.stream <jijmodeling.stream>` 関数が導入されました。
 これは、一般のプログラミング言語ではこのような「特定の順番を持ち、重複を持った値の列」を**ストリーム**と呼ぶことにならったものです。
 
 ```{code-cell} ipython3
@@ -44,7 +44,7 @@ def _(problem: jm.DecoratedProblem, N: jm.Placeholder):
     print(problem.infer(jm.stream(2 * i for i in N if i % 2 == 0)))
 ```
 
-[`jm.set`](xref:api_reference#jijmodeling.set) は [`jm.stream`](xref:api_reference#jijmodeling.stream) の別名として引き続き利用できますが、**廃止予定**であるため [`jm.stream`](xref:api_reference#jijmodeling.stream) への速やかな移行を推奨します。
+{py:func}`jm.set <jijmodeling.set>` は {py:func}`jm.stream <jijmodeling.stream>` の別名として引き続き利用できますが、**廃止予定**であるため {py:func}`jm.stream <jijmodeling.stream>` への速やかな移行を推奨します。
 
 +++
 
@@ -134,7 +134,7 @@ problem.eval({"T": 3, "demand": [1.0, 2.0, 3.0]})
 
 ### 辞書を `map` できない問題の修正
 
-辞書に対する [`map`](xref:api_reference#jijmodeling.map) は値を与えられた関数で移した辞書になるべきでしたが、これまでは型検査時に例外となっていました。
+辞書に対する {py:func}`~jijmodeling.map` は値を与えられた関数で移した辞書になるべきでしたが、これまでは型検査時に例外となっていました。
 本リリースからは、適用前と同じキー集合を持ち、値に関数が適用された辞書を返すようになりました。
 
 ```{code-cell} ipython3
