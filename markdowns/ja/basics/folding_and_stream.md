@@ -26,7 +26,7 @@ import jijmodeling as jm
 
 JijModeling 2.7.1 までは、ストリームのことを「集合」と呼び、明示的な変換関数の名前も `jm.set` としていましたが、数学的には「集合」とは特定の順番を持たず重複を持たないものであり、「集合」という名前は誤解を招くものでした。
 2.8.0 以後、この概念は一貫してストリームと呼ぶことにしました。
-`jm.set` は {py:func}`~jijmodeling.stream` の非推奨の別名として引き続き利用でき、Decorator API での内包表記もそのまま使えますが、呼び出すと `DeprecationWarning` が発生します。
+`jm.set` は [`stream`](xref:api_reference#jijmodeling.stream) の非推奨の別名として引き続き利用でき、Decorator API での内包表記もそのまま使えますが、呼び出すと `DeprecationWarning` が発生します。
 :::
 
 (folding)=
@@ -36,7 +36,7 @@ JijModeling の総和・総積などは、ストリームの要素を順に処�
 以下では、その具体例として、さまざまな総和・総積の記法について説明していきます。
 
 :::{note}
-簡単のため以下では {py:func}`jm.sum() <jijmodeling.sum>`（または {py:meth}`Expression.sum() <jijmodeling.Expression.sum>`）関数を使った総和の例を示しますが、{py:func}`jm.prod() <jijmodeling.prod>` や {py:func}`Expression.prod() <jijmodeling.Expression.prod>`、 {py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` を使った総積・最大・最小値関数も同様に記述できます。
+簡単のため以下では [`jm.sum()`](xref:api_reference#jijmodeling.sum)（または [`Expression.sum()`](xref:api_reference#jijmodeling.Expression.sum)）関数を使った総和の例を示しますが、[`jm.prod()`](xref:api_reference#jijmodeling.prod) や [`Expression.prod()`](xref:api_reference#jijmodeling.Expression.prod)、 [`jm.max()`](xref:api_reference#jijmodeling.max) や [`jm.min()`](xref:api_reference#jijmodeling.min) を使った総積・最大・最小値関数も同様に記述できます。
 :::
 
 以下は、決定変数とプレースホルダーの積の総和を Decorator API を使って書いた例です：
@@ -55,14 +55,14 @@ sum_example
 
 `in` の後には、次節以降で説明する方法を使って得られる任意のストリームや暗黙にストリームに変換されるような型の値を渡すことができます。この例では、`for i in N` の自然数 `N` が畳み込みが行われるストリームに対応しています。
 
-:::{admonition} Python 組込みの {py:func}`sum` 関数を使わないように注意！
+:::{admonition} Python 組込みの [`sum`](xref:python#sum) 関数を使わないように注意！
 :class: caution
 
-Decorator API の内包表記を用いて畳み込みを記述する場合は、JijModeling の {py:func}`jm.sum() <jijmodeling.sum>`, {py:func}`jm.prod() <jijmodeling.prod>`, {py:func}`jm.max() <jijmodeling.max>`, {py:func}`jm.min() <jijmodeling.min>` を使います。
-誤って Python 組込みの {py:func}`sum` 関数に `a[i] * x[i] for i in N` のような式を渡すとエラーとなるため、注意してください。
+Decorator API の内包表記を用いて畳み込みを記述する場合は、JijModeling の [`jm.sum()`](xref:api_reference#jijmodeling.sum), [`jm.prod()`](xref:api_reference#jijmodeling.prod), [`jm.max()`](xref:api_reference#jijmodeling.max), [`jm.min()`](xref:api_reference#jijmodeling.min) を使います。
+誤って Python 組込みの [`sum`](xref:python#sum) 関数に `a[i] * x[i] for i in N` のような式を渡すとエラーとなるため、注意してください。
 :::
 
-また、後ほど説明する {py:func}`jijmodeling.map` 関数を使えば、同じプログラムを Plain API のみで以下のように書けます：
+また、後ほど説明する [`jijmodeling.map`](xref:api_reference#jijmodeling.map) 関数を使えば、同じプログラムを Plain API のみで以下のように書けます：
 
 ```{code-cell} ipython3
 sum_example_plain = jm.Problem("Sum Example (Plain)")
@@ -74,7 +74,7 @@ sum_example_plain += jm.sum(jm.map(lambda i: a[i] * x[i], N))
 sum_example_plain
 ```
 
-このような単純な総和の場合、{py:func}`jm.sum() <jijmodeling.sum>` に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現できます：
+このような単純な総和の場合、[`jm.sum()`](xref:api_reference#jijmodeling.sum) に定義域と和を取る項を返す関数の二つの引数を渡すことでも、総和を表現できます：
 
 ```{code-cell} ipython3
 sum_example_plain_alt = jm.Problem("Sum Example (Plain, Alt)")
@@ -87,13 +87,13 @@ sum_example_plain_alt
 ```
 
 :::{important}
-二引数による畳み込みをサポートしているのは、 {py:func}`jm.sum() <jijmodeling.sum>` と {py:func}`jm.prod() <jijmodeling.prod>` のみで、{py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` ではサポートされていません。
+二引数による畳み込みをサポートしているのは、 [`jm.sum()`](xref:api_reference#jijmodeling.sum) と [`jm.prod()`](xref:api_reference#jijmodeling.prod) のみで、[`jm.max()`](xref:api_reference#jijmodeling.max) や [`jm.min()`](xref:api_reference#jijmodeling.min) ではサポートされていません。
 
-Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
+Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の [lambda 式](xref:python#lambda) を使う必要があります。
 :::
 
 :::{tip}
-{py:func}`jm.sum() <jijmodeling.sum>` / {py:func}`jm.prod() <jijmodeling.prod>` が一引数関数やメソッドとして呼ばれた場合はストリームの総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば {py:func}`jm.sum(x) <jijmodeling.sum>` や {py:meth}`x.sum() <jijmodeling.Expression.sum>` のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は {py:func}`jm.sum(a * x) <jijmodeling.sum>` のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
+[`jm.sum()`](xref:api_reference#jijmodeling.sum) / [`jm.prod()`](xref:api_reference#jijmodeling.prod) が一引数関数やメソッドとして呼ばれた場合はストリームの総和・総積を取るため、単に `x` の要素の和を取りたいだけであれば [`jm.sum(x)`](xref:api_reference#jijmodeling.sum) や [`x.sum()`](xref:api_reference#jijmodeling.Expression.sum) のように書いたり、また前項で採り上げた限定的なブロードキャストを使えば、上の例は [`jm.sum(a * x)`](xref:api_reference#jijmodeling.sum) のように書くこともできます。これは、`x` が二次元以上の配列であったとしても同様です。
 :::
 
 これらの畳み込み関数と内包表記の `if` 節などを組み合わせることで、より柔軟な畳み込みを表現することができます。
@@ -128,11 +128,11 @@ JijModeling では、（明示的・自動的問わず）他の型の値から�
 | 決定変数を含まない自然数式 $N$ | $0, 1, \ldots, N-1$ を走査するストリーム |
 | カテゴリーラベル `L` | コンパイル時に与えられる `L` の値全体を走査するストリーム |
 
-### {py:func}`~jijmodeling.rows` で多次元配列を部分配列のストリームに変換する
+### [`rows`](xref:api_reference#jijmodeling.rows) で多次元配列を部分配列のストリームに変換する
 
 上述の通り、多次元配列は**行優先順に各要素を走査**するストリームに自動的に変換されます。
-これ以外にも、内側の行を順に走査するストリームを得たい場合は、{py:func}`~jijmodeling.rows` 関数を使います。
-{py:func}`~jijmodeling.rows` 関数は、実際にはシェイプ $N \times M_1 \times \cdots \times M_n$ の多次元配列を、シェイプ $M_1 \times \ldots \times M_n$ の部分配列から成る長さ $N$ の配列に変換する関数であり、配列の自動変換機能を介してストリームに変換されるようになっています。
+これ以外にも、内側の行を順に走査するストリームを得たい場合は、[`rows`](xref:api_reference#jijmodeling.rows) 関数を使います。
+[`rows`](xref:api_reference#jijmodeling.rows) 関数は、実際にはシェイプ $N \times M_1 \times \cdots \times M_n$ の多次元配列を、シェイプ $M_1 \times \ldots \times M_n$ の部分配列から成る長さ $N$ の配列に変換する関数であり、配列の自動変換機能を介してストリームに変換されるようになっています。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Row Sum Example")
@@ -147,12 +147,12 @@ problem.infer(x.rows())
 :class: caution
 
 JijModeling 1 系統では、多次元配列が `belong_to=` や `forall=` に現れていた場合、内側の行を順に走査していました。
-この挙動を使いたい場合、{py:func}`~jijmodeling.rows`関数を使い `jm.rows(A)` または `A.rows()` と明示的に変換してください。
+この挙動を使いたい場合、[`rows`](xref:api_reference#jijmodeling.rows)関数を使い `jm.rows(A)` または `A.rows()` と明示的に変換してください。
 :::
 
-### {py:meth}`~jijmodeling.Expression.indices` で配列の添え字のストリームを取得する
+### [`indices`](xref:api_reference#jijmodeling.Expression.indices) で配列の添え字のストリームを取得する
 
-{py:meth}`~jijmodeling.Expression.indices` を使うと、配列の添え字の集合（定義域）に対応するストリームを取得することができます。
+[`indices`](xref:api_reference#jijmodeling.Expression.indices) を使うと、配列の添え字の集合（定義域）に対応するストリームを取得することができます。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Index and Keys Example")
@@ -163,10 +163,10 @@ problem.infer(S.indices())
 ### 辞書を明示的にストリームに変換する
 
 上述の通り、JijModeling の自動変換機能では、辞書型の式は**キーではなく値を走査する**ストリームになります。
-これは Python の {py:class}`dict` 型の挙動とは異なりますが、多次元配列の振る舞いとの整合性からあえてこの挙動を定めています。
-これにより、たとえば当初は多次元配列として定義されていたプレースホルダーや決定変数を、辞書として扱うようにコードを変更した際に、{py:meth}`x.sum() <jijmodeling.Expression.sum>` のようなコードを変更せずに済むようになります。
-キー値ペアを走査したい場合は {py:meth}`~jijmodeling.Expression.items` メソッドを、キーを走査したい場合は {py:meth}`~jijmodeling.Expression.keys` メソッドを使うことで目的のストリームを得ることができます。
-また、デフォルトの値のストリームへの変換を明示的に行いたい場合は、{py:meth}`~jijmodeling.Expression.values` メソッドを利用できます。
+これは Python の [`dict`](xref:python#dict) 型の挙動とは異なりますが、多次元配列の振る舞いとの整合性からあえてこの挙動を定めています。
+これにより、たとえば当初は多次元配列として定義されていたプレースホルダーや決定変数を、辞書として扱うようにコードを変更した際に、[`x.sum()`](xref:api_reference#jijmodeling.Expression.sum) のようなコードを変更せずに済むようになります。
+キー値ペアを走査したい場合は [`items`](xref:api_reference#jijmodeling.Expression.items) メソッドを、キーを走査したい場合は [`keys`](xref:api_reference#jijmodeling.Expression.keys) メソッドを使うことで目的のストリームを得ることができます。
+また、デフォルトの値のストリームへの変換を明示的に行いたい場合は、[`values`](xref:api_reference#jijmodeling.Expression.values) メソッドを利用できます。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Row Sum Example")
@@ -196,11 +196,11 @@ x = problem.BinaryVar("x", dict_keys=S.keys())
 problem
 ```
 
-### {py:func}`~jijmodeling.stream` による明示的なストリームへの変換
+### [`stream`](xref:api_reference#jijmodeling.stream) による明示的なストリームへの変換
 
-基本的にストリームへの変換は自動的に行われますが、明示的にストリームに変換したい場合は {py:func}`~jijmodeling.stream` 関数を使うことができます。
-また、Decorator API を使っている場合、{py:func}`jm.stream <jijmodeling.stream>` に内包表記を与えることで直接ストリームを構築することもできます。
-{py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` と異なり、{py:func}`~jijmodeling.stream` では任意の個数の `for` 節や `if` 節を含む内包表記をサポートしています。
+基本的にストリームへの変換は自動的に行われますが、明示的にストリームに変換したい場合は [`stream`](xref:api_reference#jijmodeling.stream) 関数を使うことができます。
+また、Decorator API を使っている場合、[`jm.stream`](xref:api_reference#jijmodeling.stream) に内包表記を与えることで直接ストリームを構築することもできます。
+[`genarray`](xref:api_reference#jijmodeling.genarray) や [`gendict`](xref:api_reference#jijmodeling.gendict) と異なり、[`stream`](xref:api_reference#jijmodeling.stream) では任意の個数の `for` 節や `if` 節を含む内包表記をサポートしています。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Stream Comprehension Example")
@@ -211,10 +211,10 @@ def stream_compr_problem(problem: jm.DecoratedProblem):
     display(jm.stream(i + x[l, i] for l in L for i in N if i % 2 == 0))
 ```
 
-### {py:func}`~jijmodeling.range` による等差数列の生成
+### [`range`](xref:api_reference#jijmodeling.range) による等差数列の生成
 
-JijModeling 2.3.1 からは、Python 組込みの {py:class}`range() <range>` 関数に対応する {py:func}`~jijmodeling.range` 関数も提供されており、整数の等差数列からなるストリームを定義することができます。
-Python の {py:class}`range() <range>` と同様に、引数を一つだけ与えた場合は $0$ から、二つ与えた場合は第 1 引数から第 2 引数の手前までを走査し、第 3 引数を与えるとその値を刻み幅として使います。
+JijModeling 2.3.1 からは、Python 組込みの [`range()`](xref:python#range) 関数に対応する [`range`](xref:api_reference#jijmodeling.range) 関数も提供されており、整数の等差数列からなるストリームを定義することができます。
+Python の [`range()`](xref:python#range) と同様に、引数を一つだけ与えた場合は $0$ から、二つ与えた場合は第 1 引数から第 2 引数の手前までを走査し、第 3 引数を与えるとその値を刻み幅として使います。
 
 ```{code-cell} ipython3
 range_problem = jm.Problem("Stream Range Example")
@@ -232,7 +232,7 @@ display(jm.range(1, N, 2))  # 1, 3, 5, ...（N 未満）
 
 ### ストリームのフィルタリング
 
-{py:func}`~jijmodeling.filter` 関数を使うと、既存のストリームのうち特定の条件を満たす要素だけからなる新たなストリームを構築することができます。
+[`filter`](xref:api_reference#jijmodeling.filter) 関数を使うと、既存のストリームのうち特定の条件を満たす要素だけからなる新たなストリームを構築することができます。
 
 ```{code-cell} ipython3
 filter_problem = jm.Problem("Stream Filter Example")
@@ -243,7 +243,7 @@ N.filter(lambda i: i % 2 == 0)
 ### ストリームの重複を取り除く
 
 先述の通り、ストリームには値が重複して現れる場合があります。
-ストリームから重複する要素を取り除くには {py:func}`~jijmodeling.unique` 関数を使います。複数回現れる要素は最初の出現位置のもののみが残され、一意になったストリームが得られます。
+ストリームから重複する要素を取り除くには [`unique`](xref:api_reference#jijmodeling.unique) 関数を使います。複数回現れる要素は最初の出現位置のもののみが残され、一意になったストリームが得られます。
 
 ```{code-cell} ipython3
 problem = jm.Problem("Stream Uniquifization Example")
@@ -257,7 +257,7 @@ assert instance.objective == 6  # 1, 3, 2 のみが残るため、総和は 6
 
 ### ストリームの写像
 
-Python 標準ライブラリの {py:func}`~map` 関数に対応する {py:func}`~jijmodeling.map` 関数を使うと、既存のストリームの要素に対して特定の関数を適用した結果からなる新たなストリームを構築することができます。
+Python 標準ライブラリの [`map`](xref:python#map) 関数に対応する [`map`](xref:api_reference#jijmodeling.map) 関数を使うと、既存のストリームの要素に対して特定の関数を適用した結果からなる新たなストリームを構築することができます。
 
 ```{code-cell} ipython3
 map_problem = jm.Problem("Stream Map Example")
@@ -271,16 +271,16 @@ map_problem
 :::{admonition} 配列・辞書の写像
 :class: info
 
-配列や辞書に対しても {py:func}`~jijmodeling.map` 関数を直接呼び出すことができますが、この場合の結果はストリームではなく、同じシェイプやキー集合を持つ新たな配列や辞書になります。
-特に、これらに対する {py:func}`map <jijmodeling.map>` によってシェイプやキー集合の情報は保たれるため、元のコンテナと同じ添え字を使って写像後の要素にアクセスすることができます。
+配列や辞書に対しても [`map`](xref:api_reference#jijmodeling.map) 関数を直接呼び出すことができますが、この場合の結果はストリームではなく、同じシェイプやキー集合を持つ新たな配列や辞書になります。
+特に、これらに対する [`map`](xref:api_reference#jijmodeling.map) によってシェイプやキー集合の情報は保たれるため、元のコンテナと同じ添え字を使って写像後の要素にアクセスすることができます。
 また先述の通りこれらの型は自動的にストリームに変換され、写像後のコンテナに対するストリーム演算の挙動の差はありません。
 
 :::
 
 ### ストリームの平坦化写像
 
-{py:func}`~jijmodeling.map` に与える関数がストリームを返す場合、その結果は「ストリームからなるストリーム」になってしまいます。
-そこで、{py:func}`jm.flat_map() <jijmodeling.flat_map>`（またはメソッド形式の {py:meth}`Expression.flat_map() <jijmodeling.Expression.flat_map>`）を使うと、写像した結果を一段階平坦化したストリームを得ることができます。
+[`map`](xref:api_reference#jijmodeling.map) に与える関数がストリームを返す場合、その結果は「ストリームからなるストリーム」になってしまいます。
+そこで、[`jm.flat_map()`](xref:api_reference#jijmodeling.flat_map)（またはメソッド形式の [`Expression.flat_map()`](xref:api_reference#jijmodeling.Expression.flat_map)）を使うと、写像した結果を一段階平坦化したストリームを得ることができます。
 これにより、Decorator API の内包表記を使わずに複数の添え字に渡る走査を記述することができます。
 
 ```{code-cell} ipython3
@@ -294,7 +294,7 @@ jm.stream(N).flat_map(lambda i: jm.map(lambda j: (i, j), M))
 
 ### ストリームの直積
 
-{py:func}`~jijmodeling.product` 関数を使うと、複数のストリームの直積（デカルト積）を取ることができます。
+[`product`](xref:api_reference#jijmodeling.product) 関数を使うと、複数のストリームの直積（デカルト積）を取ることができます。
 
 ```{code-cell} ipython3
 product_problem = jm.Problem("Stream Product Example")
@@ -311,8 +311,8 @@ def _(problem: jm.DecoratedProblem):
     display(jm.stream((i, j) for i in N for j in M))
 ```
 
-ストリームが期待される位置では、{py:func}`~jijmodeling.product` を省略して単にタプルを書くことでも直積を表せます。
-Decorator API での内包表記の `in` の右辺や、{py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` の `domain=` キーワード引数などがこれにあたります。
+ストリームが期待される位置では、[`product`](xref:api_reference#jijmodeling.product) を省略して単にタプルを書くことでも直積を表せます。
+Decorator API での内包表記の `in` の右辺や、[`Problem.Constraint()`](xref:api_reference#jijmodeling.Problem.Constraint) の `domain=` キーワード引数などがこれにあたります。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Tuple Product Example")
@@ -346,7 +346,7 @@ tuple_domain_example
 ### ストリームの直和・共通部分・差分
 
 ストリームの直和・共通部分・差分を取る操作は、Python のビット演算や JijModeling の組込み関数を使って表現することができます。
-具体的には、`|` や{py:func}`jijmodeling.bor` により直和を、ビット演算子 `&` や関数{py:func}`jijmodeling.band` により共通部分を、{py:func}`jijmodeling.diff` により差分を取ることができます。
+具体的には、`|` や[`jijmodeling.bor`](xref:api_reference#jijmodeling.bor) により直和を、ビット演算子 `&` や関数[`jijmodeling.band`](xref:api_reference#jijmodeling.band) により共通部分を、[`jijmodeling.diff`](xref:api_reference#jijmodeling.diff) により差分を取ることができます。
 以下、それぞれ順に見ていきましょう。
 
 ストリームの直和は、最初のストリームの要素を順に走査し、次のストリームの要素を順に走査するものとして表現されます。
@@ -454,4 +454,4 @@ expected = ommx.v1.Function(B_data["e"] * xs["e"] + B_data["d"] * xs["d"])
 assert instance.objective.almost_equal(expected)
 ```
 
-いずれの演算結果も要素の一意性は保証されないため、必要に応じて前述の {py:func}`~jijmodeling.unique` 関数を使って重複を取り除いてください。
+いずれの演算結果も要素の一意性は保証されないため、必要に応じて前述の [`unique`](xref:api_reference#jijmodeling.unique) 関数を使って重複を取り除いてください。

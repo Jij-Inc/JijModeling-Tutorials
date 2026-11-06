@@ -4,17 +4,16 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.11"
-  jobs:
-    pre_build:
-      # Generate the Sphinx configuration for this Jupyter Book so it builds.
-      - "jupyter-book config sphinx docs/en/"
-
-python:
-  install:
-    - method: pip
-      path: .
-      extra_requirements:
-      - dev
-
-sphinx:
-  configuration: docs/en/conf.py
+    nodejs: "22"
+  commands:
+    - python -m pip install uv
+    - uv sync --locked --extra dev
+    - |
+      if [ "$READTHEDOCS_VERSION_TYPE" = external ]; then
+        project=jij-inc-jijmodeling-tutorials-ja
+        preview="https://${project}--${READTHEDOCS_VERSION}.com.readthedocs.build/ja/${READTHEDOCS_VERSION}/"
+        sed -i "s|https://${project}[.]readthedocs-hosted[.]com/ja/$|${preview}|" docs/en/myst.yml docs/en/toc.yml
+      fi
+    - uv run --directory docs/en --locked --extra dev jupyter-book build --html --execute --strict
+    - mkdir -p "$READTHEDOCS_OUTPUT/html"
+    - cp -r docs/en/_build/html/. "$READTHEDOCS_OUTPUT/html"

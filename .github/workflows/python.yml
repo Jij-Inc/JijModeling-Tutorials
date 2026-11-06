@@ -36,6 +36,11 @@ jobs:
           version: 3.x
           repo-token: ${{ github.token }}
 
+      - name: Set up Node.js for Jupyter Book
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Set up Python
         run: uv python install ${{ matrix.python-version }}
 
@@ -43,7 +48,12 @@ jobs:
         run: uv sync --extra dev --refresh
 
       - name: Check books
-        run: task check_book_${{ matrix.language }} STRICT=${{ github.ref == 'refs/heads/main' || github.base_ref == 'main' }}
+        shell: bash
+        run: |
+          task check_book_${{ matrix.language }} STRICT=${{ github.ref == 'refs/heads/main' || github.base_ref == 'main' }} 2>&1 | tee book-build.log
+          if grep -Ei '⛔|unknown (reference|role|directive)' book-build.log; then
+            exit 1
+          fi
 
   test_release_scripts:
     name: Test release note TOC and heading updates
@@ -62,6 +72,16 @@ jobs:
 
       - name: Run TOC round-trip and heading version replacement tests
         run: uv run --locked --extra dev python -m unittest discover -s tests -v
+
+  test_notebook_launch:
+    name: Test notebook plugins
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test plugins/*.test.mjs
 
   disallow_unreleased:
     name: Disallow unreleased release notes

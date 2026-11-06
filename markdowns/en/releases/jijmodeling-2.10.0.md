@@ -1,4 +1,6 @@
 ---
+execute:
+  skip: true
 jupytext:
   text_representation:
     extension: .md
@@ -129,7 +131,7 @@ problem.eval({"cuts": []}) # Interpreted as a 0 x 0 array
 
 ### Fix constraint detection errors when specifying `fixed_variables`
 
-Fixed an issue where using `fixed_variables` to fix decision variables in one-hot or SOS1 constraints could raise internal error {external+api_reference:doc}`E-CE0007 <error_codes/error/E-CE0007>` when constraint detection was enabled.
+Fixed an issue where using `fixed_variables` to fix decision variables in one-hot or SOS1 constraints could raise internal error [E-CE0007](xref:api_reference#error_codes/error/E-CE0007) when constraint detection was enabled.
 The following example now compiles successfully with constraint detection enabled:
 
 ```{code-cell} ipython3
@@ -142,4 +144,4 @@ problem += problem.Constraint("onehot", x[0] + x[1] + x[2] == 1)
 problem.eval({}, fixed_variables={"x": {0: 0}})
 ```
 
-If fixed values make these constraints infeasible, such as by fixing all variables in a one-hot constraint to 0, error {external+api_reference:doc}`E-CE0022 <error_codes/error/E-CE0022>` now reports the constraint name and the reason.
+If fixed values make these constraints infeasible, such as by fixing all variables in a one-hot constraint to 0, error [E-CE0022](xref:api_reference#error_codes/error/E-CE0022) now reports the constraint name and the reason.

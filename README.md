@@ -18,18 +18,39 @@ For questions about JijModeling, we provide community support through the follow
 | 日本語   | [![Discord-JP](https://img.shields.io/badge/Discord-日本語-default?logo=Discord)](https://discord.gg/34WkHwvY3Y) |
 
 
-## For Contributors
+## For contributors
 
-When contributing to this repository, please note the following:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), [Task](https://taskfile.dev/installation/), and Node.js 22. From the repository root, run:
 
-- Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and [task](https://taskfile.dev/installation/) for development, then run `uv sync --locked --extra dev`.
-- Use `task` commands to easily build JupyterBook documentation and add release notes, etc. Run `task -l` to see available commands.
-- Use `task create_unreleased_notes` and `task finalize_release_notes -- <VERSION>` to prepare release notes. These commands update both languages' YAML tables of contents through Python while preserving comments and formatting. Finalization replaces the first `X.XX.X` in each Markdown release heading with the version, then uses Jupytext to regenerate and execute the paired notebook from that Markdown.
-- Run `task test_release_toc` to test the YAML editor and `task check_release_toc` to check that neither table of contents contains unreleased entries before merging to `main`.
-- For updates to JijModeling v2.x.y learning materials, create your branch from the `jijmodeling2` branch.
-- The `.ipynb` files under the `book` directory and `.md` files under the `markdowns` directory are synchronized via `jupytext`. When using generative AI to update learning materials, we recommend editing files under the `markdowns` directory.
-- Before submitting a Pull Request, run `task check_book_en`, `task check_book_ja`, and `task check_paired_notebooks` to ensure no errors occur.
-- Book checks are strict by default (`STRICT=true`). Use `task check_book_en STRICT=false` or `task check_book_ja STRICT=false` to check executability while allowing documentation warnings, including unresolved links. Notebook execution failures remain fatal in both modes. CI uses strict mode on `main` and PRs targeting `main`, and executability-only mode elsewhere.
+```sh
+uv sync --locked --extra dev
+```
 
-> [!TIP]
-> For updates to JijModeling v1.x.y learning materials, create your branch from the `main` branch
+### Edit and preview a tutorial
+
+Each tutorial has a Markdown source in `markdowns/en/` or `markdowns/ja/` and a paired notebook at the same relative path in `docs/en/` or `docs/ja/`. After editing a tutorial, synchronize the pair and include both files in your pull request. For example:
+
+```sh
+uv run jupytext --sync --execute markdowns/en/quickstart/scip.md
+task watch_book_en
+```
+
+Use `task watch_book_ja` for the Japanese book. To preview an HTML export, run `task build_book_en` followed by `task open_book_en` (or the corresponding `_ja` tasks).
+
+When adding a chapter, list its notebook in the language's `toc.yml`. For an external API link, use the inventory names in that language's `myst.yml`, for example ``[`Problem`](xref:api_reference#jijmodeling.Problem)``.
+
+### Check your changes
+
+```sh
+task check_paired_notebooks
+task check_book_en
+task check_book_ja
+```
+
+The book checks execute the tutorials and use MyST strict mode by default. For changes to the notebook plugins, also run `node --test plugins/*.test.mjs`.
+
+### Release notes
+
+Run `task create_unreleased_notes` to create the English and Japanese drafts. Edit the paired Markdown files and run `task sync_unreleased`. When the version is known, run `task finalize_release_notes -- <VERSION>` and `task check_release_toc` before merging to `main`. Use `task test_release_toc` when changing the release scripts.
+
+For published URL changes, see the [Read the Docs redirect instructions](deployment/README.md).

@@ -25,9 +25,9 @@ import jijmodeling as jm
 
 ## 目的関数の設定
 
-{py:class}`~jijmodeling.Problem`オブジェクトの生成時に `sense` を {py:attr}`ProblemSense.MAXIMIZE <jijmodeling.ProblemSense.MAXIMIZE>` にすると目的関数を最大化する問題、 `sense` を {py:attr}`ProblemSense.MINIMIZE <jijmodeling.ProblemSense.MINIMIZE>` にすると最小化する問題として解釈されます。
-Problem オブジェクトが作成された初期段階では目的関数は $0$ として設定され、{py:class}`~jijmodeling.Problem`オブジェクトに対し {py:meth}`+= <jijmodeling.Problem.__iadd__>` 演算子を使って目的関数の項を足していく形で設定します。
-{py:class}`~jijmodeling.Problem`オブジェクトが目的関数の項として受け付けるのは、数値型の {py:class}`~jijmodeling.Expression`オブジェクトのみです。
+[`Problem`](xref:api_reference#jijmodeling.Problem)オブジェクトの生成時に `sense` を [`ProblemSense.MAXIMIZE`](xref:api_reference#jijmodeling.ProblemSense.MAXIMIZE) にすると目的関数を最大化する問題、 `sense` を [`ProblemSense.MINIMIZE`](xref:api_reference#jijmodeling.ProblemSense.MINIMIZE) にすると最小化する問題として解釈されます。
+Problem オブジェクトが作成された初期段階では目的関数は $0$ として設定され、[`Problem`](xref:api_reference#jijmodeling.Problem)オブジェクトに対し [`+=`](xref:api_reference#jijmodeling.Problem.__iadd__) 演算子を使って目的関数の項を足していく形で設定します。
+[`Problem`](xref:api_reference#jijmodeling.Problem)オブジェクトが目的関数の項として受け付けるのは、数値型の [`Expression`](xref:api_reference#jijmodeling.Expression)オブジェクトのみです。
 配列型や辞書型などの式を足そうとすると型エラーとなるので注意してください。
 
 具体的な例として、ナップサック問題の目的関数を設定してみましょう。
@@ -77,7 +77,7 @@ problem
 
 既存の項が置き換えられるのではなく、$y$ が加算され $x + y$ が新たな目的関数となっていることが分かります。
 
-また、{py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子を使うと、与えた式を目的関数から「引く」ことができます：
+また、[`-=`](xref:api_reference#jijmodeling.Problem.__isub__) 演算子を使うと、与えた式を目的関数から「引く」ことができます：
 
 ```{code-cell} ipython3
 problem -= x
@@ -87,7 +87,7 @@ problem
 
 ただし、この例で見ているように、`-=` 演算子はあくまでも与えられた式を「引く項」を新たに**追加**するだけであり、目的関数に一致する項が存在してもそれを**削除するわけではない**ことに注意しましょう。
 
-目的関数を全く別個のものに置き換えたい場合、{py:attr}`Problem.objective <jijmodeling.Problem.objective>` に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
+目的関数を全く別個のものに置き換えたい場合、[`Problem.objective`](xref:api_reference#jijmodeling.Problem.objective) に直接式を代入することで、これまでの目的関数を捨て、新しい目的関数で置き換えることができます。
 上の `problem` の目的関数を $y$ のみに置き換える場合は、次のように書きます。
 
 ```{code-cell} ipython3
@@ -99,15 +99,15 @@ problem
 :::{admonition} `+=` 以外の目的関数の操作のサポートバージョン
 :class: tip
 
-{py:class}`~jijmodeling.Problem` に対する {py:meth}`-= <jijmodeling.Problem.__isub__>` 演算子は JijModeling 2.3.1 以降、{py:attr}`Problem.objective <jijmodeling.Problem.objective>` による目的関数の置き換えは JijModeling 2.5.0 以降の機能です。
+[`Problem`](xref:api_reference#jijmodeling.Problem) に対する [`-=`](xref:api_reference#jijmodeling.Problem.__isub__) 演算子は JijModeling 2.3.1 以降、[`Problem.objective`](xref:api_reference#jijmodeling.Problem.objective) による目的関数の置き換えは JijModeling 2.5.0 以降の機能です。
 :::
 
 
 ## 制約条件の設定
 
-制約条件の追加も同様に {py:meth}`+= <jijmodeling.Problem.__iadd__>` 演算子を使って行います。
-ただし、制約条件の追加の際には、{py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` 関数を使って生成された {py:class}`~jijmodeling.Constraint` オブジェクトを足し合わせる形で追加します。
-{py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` は必須引数として名前と、`==`、`<=`、または `>=` のいずれかで書かれた制約条件の式を受け取ります。
+制約条件の追加も同様に [`+=`](xref:api_reference#jijmodeling.Problem.__iadd__) 演算子を使って行います。
+ただし、制約条件の追加の際には、[`Problem.Constraint()`](xref:api_reference#jijmodeling.Problem.Constraint) 関数を使って生成された [`Constraint`](xref:api_reference#jijmodeling.Constraint) オブジェクトを足し合わせる形で追加します。
+[`Problem.Constraint()`](xref:api_reference#jijmodeling.Problem.Constraint) は必須引数として名前と、`==`、`<=`、または `>=` のいずれかで書かれた制約条件の式を受け取ります。
 
 :::{important}
 制約条件の構築に使える比較演算子は `==`、`<=`、`>=` のみです。
@@ -141,13 +141,13 @@ knapsack_problem
 :::{admonition} 制約条件の追加時には必ず `+=` を呼ぶこと！
 :class: important
 
-制約条件を追加する際には、必ず {py:meth}`+= <jijmodeling.Problem.__iadd__>` 演算子を使って追加してください。単純に {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` を呼び出しただけでは、制約条件はモデルに追加されません。
+制約条件を追加する際には、必ず [`+=`](xref:api_reference#jijmodeling.Problem.__iadd__) 演算子を使って追加してください。単純に [`Problem.Constraint()`](xref:api_reference#jijmodeling.Problem.Constraint) を呼び出しただけでは、制約条件はモデルに追加されません。
 :::
 
 :::{admonition} 制約条件の削除
 :class: important
 
-現時点において、モデルから制約条件を削除する方法は提供されていません。特に、{py:func}`-= <jijmodeling.Problem.__isub__>` 演算子を使ってモデルから制約条件を「引く」ことはできませんので注意してください。
+現時点において、モデルから制約条件を削除する方法は提供されていません。特に、[`-=`](xref:api_reference#jijmodeling.Problem.__isub__) 演算子を使ってモデルから制約条件を「引く」ことはできませんので注意してください。
 :::
 
 +++
@@ -175,7 +175,7 @@ $$
 
 #### 添え字つき制約条件
 
-このように、添え字つきの制約条件を Decorator API で定義するには、{py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` メソッドの第二引数をリスト内包表記またはジェネレータ式によって与えればよいです：
+このように、添え字つきの制約条件を Decorator API で定義するには、[`Problem.Constraint()`](xref:api_reference#jijmodeling.Problem.Constraint) メソッドの第二引数をリスト内包表記またはジェネレータ式によって与えればよいです：
 
 ```{code-cell} ipython3
 @jm.Problem.define("TSP, Decorated", sense=jm.ProblemSense.MINIMIZE)
@@ -262,9 +262,9 @@ def tsp_array_comparison(problem: jm.DecoratedProblem):
 tsp_array_comparison
 ```
 
-ここで、{py:meth}`Expression.sum() <jijmodeling.Expression.sum>` や {py:meth}`jm.sum() <jijmodeling.sum>` メソッドに `axis=i` 引数を与えると、NumPy の {py:func}`numpy.sum` 関数と同様に、単純な総和ではなく、その軸に沿った和を計算した配列を返します（複数の軸をリストとして指定することもできます）。
+ここで、[`Expression.sum()`](xref:api_reference#jijmodeling.Expression.sum) や [`jm.sum()`](xref:api_reference#jijmodeling.sum) メソッドに `axis=i` 引数を与えると、NumPy の [`numpy.sum`](xref:numpy#numpy.sum) 関数と同様に、単純な総和ではなく、その軸に沿った和を計算した配列を返します（複数の軸をリストとして指定することもできます）。
 
-このため、上の例の `one-city` では {py:meth}`x.sum(axis=1) <jijmodeling.Expression.sum>` は（$0$起点なので）都市を表す$2$番目の軸に沿って和を取り、各時刻に訪問される都市の数を表す配列を計算させています。
+このため、上の例の `one-city` では [`x.sum(axis=1)`](xref:api_reference#jijmodeling.Expression.sum) は（$0$起点なので）都市を表す$2$番目の軸に沿って和を取り、各時刻に訪問される都市の数を表す配列を計算させています。
 実際に型を推論させてみると、一次元配列になっているのがわかります。
 
 ```{code-cell} ipython3

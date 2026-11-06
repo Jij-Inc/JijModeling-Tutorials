@@ -13,17 +13,17 @@ kernelspec:
 
 # Using random instance generation
 
-{py:class}`~jijmodeling.Problem` provides methods to generate randomized sets of instance data, based on the problem's schema (its placeholders). This chapter will go over all the different instance generation options.
+[`Problem`](xref:api_reference#jijmodeling.Problem) provides methods to generate randomized sets of instance data, based on the problem's schema (its placeholders). This chapter will go over all the different instance generation options.
 
 There are two methods: 
-- {py:meth}`Problem.generate_random_dataset` returns the data as a dictionary, like one you'd pass to {py:meth}`Problem.eval` as the instance data.
-- {py:meth}`Problem.generate_random_instance` generates data in the same way, but returns the compiled problem as an OMMX instance. It's the same as using {py:meth}`generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` and then passing the returned dictionary to {py:meth}`Problem.eval`.
+- [`Problem.generate_random_dataset`](xref:api_reference#jijmodeling.Problem.generate_random_dataset) returns the data as a dictionary, like one you'd pass to [`Problem.eval`](xref:api_reference#jijmodeling.Problem.eval) as the instance data.
+- [`Problem.generate_random_instance`](xref:api_reference#jijmodeling.Problem.generate_random_instance) generates data in the same way, but returns the compiled problem as an OMMX instance. It's the same as using [`generate_random_dataset`](xref:api_reference#jijmodeling.Problem.generate_random_dataset) and then passing the returned dictionary to [`Problem.eval`](xref:api_reference#jijmodeling.Problem.eval).
 
-Both of these methods accept the same generation parameters: `default`, `options`, and `seed`. Meanwhile, {py:meth}`generate_random_instance <jijmodeling.Problem.generate_random_instance>` accepts additional options that are passed along to {py:meth}`Problem.eval <jijmodeling.Problem.eval>`: `prune_unused_dec_vars` and `constraint_detection`, etc.
+Both of these methods accept the same generation parameters: `default`, `options`, and `seed`. Meanwhile, [`generate_random_instance`](xref:api_reference#jijmodeling.Problem.generate_random_instance) accepts additional options that are passed along to [`Problem.eval`](xref:api_reference#jijmodeling.Problem.eval): `prune_unused_dec_vars` and `constraint_detection`, etc.
 
 `seed` is simply the seed value used to initialize the random number generator. Use it when you want the generated instance to be reproducible.
 
-`default` and `options` specify how values should be generated for your random instance. `options` accepts a dictionary that allows you to specify value ranges for each {py:class}`~jijmodeling.Placeholder` in your problem, while `default` is the fallback parameter. Anything that is not present in `options` will refer to `default` to determine how its values should be generated.
+`default` and `options` specify how values should be generated for your random instance. `options` accepts a dictionary that allows you to specify value ranges for each [`Placeholder`](xref:api_reference#jijmodeling.Placeholder) in your problem, while `default` is the fallback parameter. Anything that is not present in `options` will refer to `default` to determine how its values should be generated.
 
 Neither of these is _required_. You don't need to set `default` if specifying `options` for every placeholder, and just setting `default` can be enough to generate a basic instance. However, note that generated instances are not guaranteed to be feasible, that depends entirely on the problem and parameters set.
 
@@ -34,11 +34,11 @@ Let's go over how to specify these parameters for different kinds of problems.
 Our generation parameters `default` and `options` can be specified in several different  ways, namely:
 
 - A fixed value (just a number).
-- A Python {py:class}`range <range>`.
-- The object returned by one the many functions in the {py:mod}`jijmodeling.generation` submodule.
-- Ranges defined with tuples and dictionaries. Refer to the API docs for {py:meth}`~jijmodeling.Problem.generate_random_dataset` for more details on how to use these.
+- A Python [`range`](xref:python#range).
+- The object returned by one the many functions in the [`jijmodeling.generation`](xref:api_reference#jijmodeling.generation) submodule.
+- Ranges defined with tuples and dictionaries. Refer to the API docs for [`generate_random_dataset`](xref:api_reference#jijmodeling.Problem.generate_random_dataset) for more details on how to use these.
 
-When using a fixed value, the placeholder will be set to that number. When using ranges (be they built-in Python {py:class}`range <range>` objects, the ones from {py:mod}`jijmodeling.generation`, or defined by tuples/dictionaries), those will serve as the boundaries for generating random values.
+When using a fixed value, the placeholder will be set to that number. When using ranges (be they built-in Python [`range`](xref:python#range) objects, the ones from [`jijmodeling.generation`](xref:api_reference#jijmodeling.generation), or defined by tuples/dictionaries), those will serve as the boundaries for generating random values.
 
 Let's look at a very simple problem to see how these are used.
 
@@ -54,9 +54,9 @@ problem += A * x + B
 problem.generate_random_dataset(default={"value": range(1, 10)})
 ```
 
-In the above example, we don't use `options`, so we look to `default` when generating values for `A` and `B`. Both then get their own random value from within the default {py:class}`range <range>`.
+In the above example, we don't use `options`, so we look to `default` when generating values for `A` and `B`. Both then get their own random value from within the default [`range`](xref:python#range).
 
-In this case we used Python's built-in {py:class}`range <range>`, which is `[closed, open)`: the lower boundary is included, but the upper boundary is excluded. For example, `range(1,4)` contains 1, 2, and 3, but not 4. The ranges provided in {py:mod}`jijmodeling.generation` provide additional options for defining ranges, like {py:func}`jijmodeling.generation.open` (neither bound is included) or {py:func}`jijmodeling.generation.at_least` (the lower bound is included and the upper bound is infinite). Python's built-in {py:class}`range <range>` is equivalent to {py:func}`jijmodeling.generation.closed_open`.
+In this case we used Python's built-in [`range`](xref:python#range), which is `[closed, open)`: the lower boundary is included, but the upper boundary is excluded. For example, `range(1,4)` contains 1, 2, and 3, but not 4. The ranges provided in [`jijmodeling.generation`](xref:api_reference#jijmodeling.generation) provide additional options for defining ranges, like [`jijmodeling.generation.open`](xref:api_reference#jijmodeling.generation.open) (neither bound is included) or [`jijmodeling.generation.at_least`](xref:api_reference#jijmodeling.generation.at_least) (the lower bound is included and the upper bound is infinite). Python's built-in [`range`](xref:python#range) is equivalent to [`jijmodeling.generation.closed_open`](xref:api_reference#jijmodeling.generation.closed_open).
 
 Generated values will conform to types. That is, if you have a Natural Placeholder, only natural numbers will be generated for it, even if you use a range parameter including a negative number like `(-10, 10)`.
 

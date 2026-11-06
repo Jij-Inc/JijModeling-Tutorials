@@ -7,78 +7,99 @@ vars:
 
 tasks:
   build_book_ja:
-    desc: Build the Japanese version of the book
+    desc: Build the Japanese book with Jupyter Book 2
+    dir: docs/ja
     cmds:
-      - uv run jupyter-book build docs/ja
+      - uv run --locked --extra dev jupyter-book build --html --execute
 
   build_book_ja_all:
-    desc: Build the Japanese version of the book (force rebuild all notebooks)
+    desc: Re-execute and rebuild the Japanese book
     cmds:
-      - uv run jupyter-book build docs/ja --all
+      - uv run --directory docs/ja --locked --extra dev jupyter-book clean --execute --yes
+      - task: build_book_ja
 
   open_book_ja:
-    desc: Open the Japanese version of the book
+    desc: Serve the Japanese HTML book and open it in a browser
     cmds:
-      - uv run python -m webbrowser file:///$(pwd)/docs/ja/_build/html/index.html
+      - task: _open_book
+        vars: { LANGUAGE: ja }
 
   watch_book_ja:
-    desc: Watch Japanese notebooks and auto-rebuild of the book
+    desc: Preview the Japanese book with live reloading
+    dir: docs/ja
     cmds:
-      - fswatch -o docs/ja/**/*.ipynb | xargs -n1 -I{} jupyter-book build docs/ja
+      - uv run --locked --extra dev jupyter-book start
 
   book_ja:
-    desc: Build and open the Japanese version of the book
     cmds:
       - task: build_book_ja
       - task: open_book_ja
 
   book_ja_all:
-    desc: Build and open the Japanese version of the book (force rebuild all notebooks)
     cmds:
       - task: build_book_ja_all
       - task: open_book_ja
 
   check_book_ja:
-    desc: Check the Japanese book (STRICT=false allows documentation warnings)
+    desc: Build and execute the Japanese book (STRICT=true enables MyST strict mode)
+    dir: docs/ja
     cmds:
-      - uv run jupyter-book build docs/ja --all {{if eq .STRICT "true"}}--warningiserror{{end}}
+      - uv run --locked --extra dev jupyter-book build --html --execute {{if eq .STRICT "true"}}--strict{{end}}
 
   build_book_en:
-    desc: Build the English version of the book
+    desc: Build the English book with Jupyter Book 2
+    dir: docs/en
     cmds:
-      - uv run jupyter-book build docs/en
+      - uv run --locked --extra dev jupyter-book build --html --execute
 
   build_book_en_all:
-    desc: Build the English version of the book (force rebuild all notebooks)
+    desc: Re-execute and rebuild the English book
     cmds:
-      - uv run jupyter-book build docs/en --all
+      - uv run --directory docs/en --locked --extra dev jupyter-book clean --execute --yes
+      - task: build_book_en
 
   open_book_en:
-    desc: Open the English version of the book
+    desc: Serve the English HTML book and open it in a browser
     cmds:
-      - uv run python -m webbrowser file:///$(pwd)/docs/en/_build/html/index.html
+      - task: _open_book
+        vars: { LANGUAGE: en }
 
   watch_book_en:
-    desc: Watch English notebooks and auto-rebuild of the book
+    desc: Preview the English book with live reloading
+    dir: docs/en
     cmds:
-      - fswatch -o docs/en/**/*.ipynb | xargs -n1 -I{} jupyter-book build docs/en
+      - uv run --locked --extra dev jupyter-book start
 
   book_en:
-    desc: Build and open the English version of the book
     cmds:
       - task: build_book_en
       - task: open_book_en
 
   book_en_all:
-    desc: Build and open the English version of the book (force rebuild all notebooks)
     cmds:
       - task: build_book_en_all
       - task: open_book_en
 
   check_book_en:
-    desc: Check the English book (STRICT=false allows documentation warnings)
+    desc: Build and execute the English book (STRICT=true enables MyST strict mode)
+    dir: docs/en
     cmds:
-      - uv run jupyter-book build docs/en --all {{if eq .STRICT "true"}}--warningiserror{{end}}
+      - uv run --locked --extra dev jupyter-book build --html --execute {{if eq .STRICT "true"}}--strict{{end}}
+
+  _open_book:
+    internal: true
+    cmds:
+      - |
+        bash -c '
+          set -e
+          uv run --locked --extra dev python -m http.server 8000 --bind 127.0.0.1 --directory docs/{{.LANGUAGE}}/_build/html &
+          preview_pid=$!
+          trap "kill \"$preview_pid\" 2>/dev/null || true" EXIT
+          sleep 1
+          kill -0 "$preview_pid"
+          uv run --locked --extra dev python -m webbrowser http://127.0.0.1:8000/
+          wait "$preview_pid"
+        '
 
   create_unreleased_notes:
     desc: Create release notes for the specified version

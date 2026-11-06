@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "project": {
+    "github": "https://github.com/Jij-Inc/JijModeling-Tutorials",
+    "jupyter": {
+      "binder": {
+        "url": "https://mybinder.org",
+        "repo": "Jij-Inc/JijModeling-Tutorials",
+        "ref": "main"
+      },
+      "kernelName": "python3"
+    }
+  }
+}

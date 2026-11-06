@@ -1,0 +1,63 @@
+version: 1
+project:
+  toc:
+    - file: introduction.ipynb
+    - title: Switch Language
+      children:
+        - url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/
+          title: 日本語
+    - title: Quick Start
+      children:
+        - file: quickstart/scip.ipynb
+        - file: quickstart/openjij.ipynb
+    - title: Basics
+      children:
+        - file: basics/overview.ipynb
+        - file: basics/problem.ipynb
+        - file: basics/variables.ipynb
+        - file: basics/placeholders.ipynb
+        - file: basics/decision_variables.ipynb
+        - file: basics/expressions.ipynb
+        - file: basics/arithmetic_and_conditional.ipynb
+        - file: basics/arrays_and_dicts.ipynb
+        - file: basics/folding_and_stream.ipynb
+        - file: basics/objective_and_constraints.ipynb
+        - file: basics/instance_generation.ipynb
+    - title: Advanced
+      children:
+        - file: advanced/named_expr.ipynb
+        - file: advanced/generation.ipynb
+        - file: advanced/debug.ipynb
+        - file: advanced/serialize.ipynb
+        - file: advanced/agent_plugin_installation.ipynb
+    - title: Reference
+      children:
+        - file: references/cheat_sheet.ipynb
+        - file: references/migration_guide_to_jijmodeling2.ipynb
+        - url: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/
+          title: JijModeling API Reference
+        - url: https://jij-inc-jijzept-tutorials-en.readthedocs-hosted.com/en/
+          title: Typical Problems
+    - title: Release Notes
+      children:
+        - file: releases/jijmodeling-2.11.0.ipynb
+        - file: releases/jijmodeling-2.10.0.ipynb
+        - file: releases/jijmodeling-2.9.1.ipynb
+        - file: releases/jijmodeling-2.9.0.ipynb
+        - file: releases/jijmodeling-2.8.0.ipynb
+        - file: releases/jijmodeling-2.7.1.ipynb
+        - file: releases/jijmodeling-2.7.0.ipynb
+        - file: releases/jijmodeling-2.6.0.ipynb
+        - file: releases/jijmodeling-2.5.1.ipynb
+        - file: releases/jijmodeling-2.5.0.ipynb
+        - file: releases/jijmodeling-2.4.1.ipynb
+        - file: releases/jijmodeling-2.4.0.ipynb
+        - file: releases/jijmodeling-2.3.2.ipynb
+        - file: releases/jijmodeling-2.3.1.ipynb
+        - file: releases/jijmodeling-2.2.0.ipynb
+        - file: releases/jijmodeling-2.1.0.ipynb
+        - file: releases/jijmodeling-2.0.0.ipynb
+    - title: Resources for Older Versions
+      children:
+        - url: https://jij-inc-jijmodeling-tutorials-en.readthedocs-hosted.com/en/jijmodeling1
+          title: JijModeling 1.x

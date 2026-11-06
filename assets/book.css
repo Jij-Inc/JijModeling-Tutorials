@@ -1,0 +1,215 @@
+div.math {
+    flex-direction: row;
+    gap: .5em;
+}
+
+.article:has(> .notebook-launch) > .myst-fm-block,
+.article > .notebook-launch {
+    grid-row: 1;
+}
+
+.myst-fm-block .myst-fm-launch-button {
+    visibility: hidden;
+}
+
+.article > .notebook-launch {
+    position: relative;
+    justify-self: end;
+    align-self: start;
+    z-index: 30;
+    width: 24px;
+    height: 24px;
+    top: 2.25rem;
+    margin: 0;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+}
+
+.notebook-launch > summary {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    list-style: none;
+}
+
+.notebook-launch > summary::-webkit-details-marker,
+.notebook-launch .myst-dropdown-header-title > span {
+    display: none;
+}
+
+.notebook-launch > summary img {
+    width: 15px;
+    height: 15px;
+    margin: 0;
+}
+
+.notebook-launch > .myst-dropdown-body {
+    position: absolute;
+    inset-inline-end: 0;
+    top: 100%;
+    width: max-content;
+    padding: .5rem 0 0;
+}
+
+.notebook-launch-menu {
+    padding: .75rem;
+    border: 1px solid #8884;
+    border-radius: .375rem;
+    box-shadow: 0 8px 24px #0002;
+}
+
+.notebook-launch-menu p {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin: 0;
+}
+
+.notebook-launch-menu a {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    white-space: nowrap;
+    padding: .5rem .75rem;
+    border-radius: .25rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.notebook-launch-menu img {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+}
+
+.notebook-launch-menu .link-text {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    white-space: nowrap;
+}
+
+.notebook-launch-menu picture {
+    display: contents;
+}
+
+.notebook-launch-menu .link-icon {
+    display: none;
+}
+
+.notebook-launch-menu a:hover {
+    background: #8882;
+}
+
+.notebook-launch-menu img {
+    flex: none;
+    margin-inline: 0 !important;
+}
+
+.myst-primary-sidebar-pointer:has(.book-chapters) {
+    overflow-y: auto;
+}
+
+.myst-primary-sidebar-pointer:has(.book-chapters) .myst-primary-sidebar-nav {
+    flex: none;
+    padding-block: 0;
+}
+
+.myst-primary-sidebar-pointer:has(.book-chapters) .myst-primary-sidebar-toc {
+    display: none;
+}
+
+.myst-primary-sidebar-pointer > .myst-primary-sidebar-footer:has(.book-chapters) {
+    opacity: 1;
+    transform: none;
+}
+
+.book-chapters {
+    padding-inline: .75rem;
+    font-size: .95rem;
+    line-height: 1.4;
+}
+
+.book-chapters details {
+    margin: .25rem 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.book-chapters summary {
+    padding: .5rem .25rem;
+    font-size: inherit;
+    background: transparent;
+    list-style: none;
+}
+
+.book-chapters .myst-dropdown-body {
+    padding: 0 0 0 .75rem;
+}
+
+.book-chapters ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.book-chapters li {
+    margin: 0;
+    padding: 0;
+}
+
+.book-chapters a {
+    display: block;
+    padding: .35rem .5rem;
+    border-radius: .375rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.book-chapters a:hover, .book-chapters a:focus-visible {
+    background: var(--myst-surface, #8882);
+}
+
+.live-code-cell > :is(.cell-edit, .cell-add) { display: none; }
+.live-code-cell {
+    --cell-surface: #fff;
+    --cell-caret: #222;
+    --cell-keyword: #aa0d91;
+    --cell-builtin: #5c2699;
+    --cell-number: #1c00cf;
+    --cell-string: #c41a16;
+    --cell-comment: #007400;
+    --cell-meta: #643820;
+}
+.dark .live-code-cell {
+    --cell-surface: #1e1e1e;
+    --cell-caret: #dcdcdc;
+    --cell-keyword: #569cd6;
+    --cell-builtin: #4ec9b0;
+    --cell-number: #b8d7a3;
+    --cell-string: #d69d85;
+    --cell-comment: #57a64a;
+    --cell-meta: #9b9b9b;
+}
+.article:has([aria-label="Run all cells"]) .live-code-cell {
+    display: flex;
+    flex-direction: column;
+}
+.article:has([aria-label="Run all cells"]) .live-code-cell > :is(.cell-edit, .cell-add) {
+    display: block;
+}
+.article:has([aria-label="Run all cells"]) .live-code-cell > .myst-code {
+    cursor: text;
+    touch-action: manipulation;
+}
+.article:has([aria-label="Run all cells"]) .live-code-cell:has(> .cell-edit[data-engaged]) > .myst-code {
+    display: none;
+}
+.live-code-cell > .cell-edit { order: 1; }
+.live-code-cell > .myst-code + div { order: 2; }
+.live-code-cell > .cell-add { order: 3; }

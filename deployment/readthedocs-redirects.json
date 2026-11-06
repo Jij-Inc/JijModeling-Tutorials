@@ -1,0 +1,306 @@
+[
+  {
+    "type": "page",
+    "from_url": "/advanced/agent_plugin_installation.html",
+    "to_url": "/advanced/agent-plugin-installation/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/advanced/debug.html",
+    "to_url": "/advanced/debug/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/advanced/generation.html",
+    "to_url": "/advanced/generation/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/advanced/named_expr.html",
+    "to_url": "/advanced/named-expr/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/advanced/serialize.html",
+    "to_url": "/advanced/serialize/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/arithmetic_and_conditional.html",
+    "to_url": "/basics/arithmetic-and-conditional/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/arrays_and_dicts.html",
+    "to_url": "/basics/arrays-and-dicts/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/decision_variables.html",
+    "to_url": "/basics/decision-variables/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/expressions.html",
+    "to_url": "/basics/expressions/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/folding_and_stream.html",
+    "to_url": "/basics/folding-and-stream/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/instance_generation.html",
+    "to_url": "/basics/instance-generation/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/objective_and_constraints.html",
+    "to_url": "/basics/objective-and-constraints/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/overview.html",
+    "to_url": "/basics/overview/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/placeholders.html",
+    "to_url": "/basics/placeholders/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/problem.html",
+    "to_url": "/basics/problem/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/basics/variables.html",
+    "to_url": "/basics/variables/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/introduction.html",
+    "to_url": "/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/quickstart/openjij.html",
+    "to_url": "/quickstart/openjij/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/quickstart/scip.html",
+    "to_url": "/quickstart/scip/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/references/cheat_sheet.html",
+    "to_url": "/references/cheat-sheet/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/references/migration_guide_to_jijmodeling2.html",
+    "to_url": "/references/migration-guide-to-jijmodeling2/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.0.0.html",
+    "to_url": "/releases/jijmodeling-2-0-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.1.0.html",
+    "to_url": "/releases/jijmodeling-2-1-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.10.0.html",
+    "to_url": "/releases/jijmodeling-2-10-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.11.0.html",
+    "to_url": "/releases/jijmodeling-2-11-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.2.0.html",
+    "to_url": "/releases/jijmodeling-2-2-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.3.1.html",
+    "to_url": "/releases/jijmodeling-2-3-1/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.3.2.html",
+    "to_url": "/releases/jijmodeling-2-3-2/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.4.0.html",
+    "to_url": "/releases/jijmodeling-2-4-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.4.1.html",
+    "to_url": "/releases/jijmodeling-2-4-1/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.5.0.html",
+    "to_url": "/releases/jijmodeling-2-5-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.5.1.html",
+    "to_url": "/releases/jijmodeling-2-5-1/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.6.0.html",
+    "to_url": "/releases/jijmodeling-2-6-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.7.0.html",
+    "to_url": "/releases/jijmodeling-2-7-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.7.1.html",
+    "to_url": "/releases/jijmodeling-2-7-1/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.8.0.html",
+    "to_url": "/releases/jijmodeling-2-8-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.9.0.html",
+    "to_url": "/releases/jijmodeling-2-9-0/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  },
+  {
+    "type": "page",
+    "from_url": "/releases/jijmodeling-2.9.1.html",
+    "to_url": "/releases/jijmodeling-2-9-1/",
+    "force": false,
+    "enabled": true,
+    "http_status": 301
+  }
+]

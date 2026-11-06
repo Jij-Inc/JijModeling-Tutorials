@@ -13,31 +13,31 @@ kernelspec:
 
 # 式の命名とインスタンスへの保存
 
-JijModeling では、名前つきの式を表すクラスとして {py:class}`~jijmodeling.NamedExpr` クラスが提供されており、
-決定変数やプレースホルダーと同様に、 {py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` メソッドを使って宣言することができます。
-{py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` の引数は以下の通りです。
+JijModeling では、名前つきの式を表すクラスとして [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) クラスが提供されており、
+決定変数やプレースホルダーと同様に、 [`Problem.NamedExpr()`](xref:api_reference#jijmodeling.Problem.NamedExpr) メソッドを使って宣言することができます。
+[`Problem.NamedExpr()`](xref:api_reference#jijmodeling.Problem.NamedExpr) の引数は以下の通りです。
 
 | 引数 | 型 | 説明 |
 | :-- | :--: | :-- |
 | `name` | `str` | 名前つき式の名前。Decorator API では省略可能。 |
-| `definition` | 必須。{py:data}`~jijmodeling.ExpressionLike` | 名前つき式の定義。JijModeling の式オブジェクトや、Python の数値、文字列、タプル、リスト、辞書、NumPy 配列など、式に変換可能なオブジェクトを指定できます。 |
+| `definition` | 必須。[`ExpressionLike`](xref:api_reference#jijmodeling.ExpressionLike) | 名前つき式の定義。JijModeling の式オブジェクトや、Python の数値、文字列、タプル、リスト、辞書、NumPy 配列など、式に変換可能なオブジェクトを指定できます。 |
 | `description` | `Optional[str]` | 省略可。名前つき式の説明。数式出力や OMMX に保存される式の説明に使用されます。 |
 | `latex` | `Optional[str]` | 省略可。名前つき式の $\LaTeX$ 表現。数式出力時に使用されます。 |
-| `save_in_ommx` | `bool` | 省略可（デフォルト：`False`）。`True` にすると、後述する条件を満たす場合、OMMX インスタンスに {py:class}`ommx.v1.NamedFunction` として保存されます。 |
+| `save_in_ommx` | `bool` | 省略可（デフォルト：`False`）。`True` にすると、後述する条件を満たす場合、OMMX インスタンスに [`ommx.v1.NamedFunction`](xref:ommx_api#ommx.v1.NamedFunction) として保存されます。 |
 
-{py:class}`~jijmodeling.NamedExpr` には、以下の 2 つの使い方があります。
+[`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) には、以下の 2 つの使い方があります。
 
 1. 特定の式に対して名前をつけて $\LaTeX$ 表示を見やすくする
 2. 特定の式を OMMX インスタンスに保存して求解後にその式の値を評価する
 
-本ドキュメントでは、 {py:class}`~jijmodeling.NamedExpr` のこれらの使い方について具体例を交えながら説明していきます。
+本ドキュメントでは、 [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) のこれらの使い方について具体例を交えながら説明していきます。
 
 +++
 
 ## 式の命名
 
 特定の式に対して名前をつけて $\LaTeX$ 表示を見やすくする例を見てみましょう。ナップサック問題において、アイテム数 $N$ をインスタンスデータとして与えるのではなく、各アイテムの重さを表すプレースホルダー配列 $w$ の長さから推論することを考えます。
-まずは、 {py:meth}`~jijmodeling.Problem.NamedExpr` を使わずに定式化すると以下のようになります。
+まずは、 [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr) を使わずに定式化すると以下のようになります。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -62,7 +62,7 @@ knapsack_unnamed
 ```
 
 $\LaTeX$ 表示を見るとわかる通り、$N$ の定義式 `len_at(w, 0)` が定義中で展開されてしまっており、特に総和の範囲などがみづらくなっています。
-そこで、$N$ を {py:meth}`~jijmodeling.Problem.NamedExpr` を使って定義してみましょう。
+そこで、$N$ を [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr) を使って定義してみましょう。
 
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
@@ -87,7 +87,7 @@ knapsack
 
 +++
 
-また、 {py:meth}`~jijmodeling.Problem.NamedExpr` で定義された $N$ は JijModeling の数理モデルの中では変数の一種として扱われますが、コンパイル時に自動で展開されるため、 {py:meth}`~jijmodeling.Problem.NamedExpr` の有無で OMMX インスタンスが変わることはありません。
+また、 [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr) で定義された $N$ は JijModeling の数理モデルの中では変数の一種として扱われますが、コンパイル時に自動で展開されるため、 [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr) の有無で OMMX インスタンスが変わることはありません。
 
 ```{code-cell} ipython3
 knapsack_instance_data = {
@@ -106,14 +106,14 @@ assert instance_named.constraints[0].function.almost_equal(
 ```
 
 :::{tip}
-数理モデルに登録されている {py:class}`~jijmodeling.NamedExpr` の一覧は、 {py:meth}`jijmodeling.Problem.named_exprs` で確認できます。
+数理モデルに登録されている [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) の一覧は、 [`jijmodeling.Problem.named_exprs`](xref:api_reference#jijmodeling.Problem.named_exprs) で確認できます。
 :::
 
 +++
 
 ## インスタンスへの保存
 
-{py:class}`~jijmodeling.Problem.NamedExpr` の `save_in_ommx` 引数に `True` を設定することで、以下の条件を満たす場合に限り、その式を OMMX インスタンスに保存することができます。
+[`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr) の `save_in_ommx` 引数に `True` を設定することで、以下の条件を満たす場合に限り、その式を OMMX インスタンスに保存することができます。
 
 1. 取りうる値がスカラーである式
 2. 取りうる値がスカラーである式の配列
@@ -182,7 +182,7 @@ except Exception as e:
 ```
 
 :::{tip}
-これらの OMMX インスタンスに保存できない式についても、 `save_in_ommx=False`（あるいは、未指定）にすれば {py:class}`NamedExpr <jijmodeling.NamedExpr>` として宣言することができます。
+これらの OMMX インスタンスに保存できない式についても、 `save_in_ommx=False`（あるいは、未指定）にすれば [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) として宣言することができます。
 :::
 
 +++
@@ -218,14 +218,14 @@ knapsack_weight
 instance = knapsack_weight.eval(knapsack_instance_data)
 ```
 
-OMMX インスタンスに保存された式は、 {py:meth}`ommx.v1.Instance.named_functions` や {py:meth}`ommx.v1.Instance.named_functions_df` プロパティで確認することができます。
+OMMX インスタンスに保存された式は、 [`ommx.v1.Instance.named_functions`](xref:ommx_api#ommx.v1.Instance.named_functions) や [`ommx.v1.Instance.named_functions_df`](xref:ommx_api#ommx.v1.Instance.named_functions_df) プロパティで確認することができます。
 
 ```{code-cell} ipython3
 instance.named_functions_df
 ```
 
 :::{tip}
-OMMX インスタンスに保存された式に対応する NamedFunction の ID を得るには、{py:meth}`Compiler.get_named_function_id_by_name() <jijmodeling.Compiler.get_named_function_id_by_name>` メソッドを利用してください。
+OMMX インスタンスに保存された式に対応する NamedFunction の ID を得るには、[`Compiler.get_named_function_id_by_name()`](xref:api_reference#jijmodeling.Compiler.get_named_function_id_by_name) メソッドを利用してください。
 :::
 
 +++

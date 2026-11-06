@@ -13,31 +13,31 @@ kernelspec:
 
 # Naming Expressions and Saving Them in Instances
 
-JijModeling provides the {py:class}`~jijmodeling.NamedExpr` class to represent named expressions.
-Like decision variables and placeholders, it can be declared using the {py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` method.
-{py:meth}`Problem.NamedExpr() <jijmodeling.Problem.NamedExpr>` accepts the following arguments:
+JijModeling provides the [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) class to represent named expressions.
+Like decision variables and placeholders, it can be declared using the [`Problem.NamedExpr()`](xref:api_reference#jijmodeling.Problem.NamedExpr) method.
+[`Problem.NamedExpr()`](xref:api_reference#jijmodeling.Problem.NamedExpr) accepts the following arguments:
 
 | Argument | Type | Description |
 | :-- | :--: | :-- |
 | `name` | `str` | The name of the named expression. Optional in the Decorator API. |
-| `definition` | Required. {py:data}`~jijmodeling.ExpressionLike` | The definition of the named expression. You can pass JijModeling expression objects or any object that can be converted into an expression, such as Python numbers, strings, tuples, lists, dictionaries, and NumPy arrays. |
+| `definition` | Required. [`ExpressionLike`](xref:api_reference#jijmodeling.ExpressionLike) | The definition of the named expression. You can pass JijModeling expression objects or any object that can be converted into an expression, such as Python numbers, strings, tuples, lists, dictionaries, and NumPy arrays. |
 | `description` | `Optional[str]` | Optional. A description of the named expression. It is used in mathematical output and in expressions saved to OMMX. |
 | `latex` | `Optional[str]` | Optional. A $\LaTeX$ representation of the named expression. It is used when rendering mathematical output. |
-| `save_in_ommx` | `bool` | Optional, default `False`. If set to `True`, and the conditions described later are satisfied, the expression is saved in the OMMX instance as an {py:class}`ommx.v1.NamedFunction`. |
+| `save_in_ommx` | `bool` | Optional, default `False`. If set to `True`, and the conditions described later are satisfied, the expression is saved in the OMMX instance as an [`ommx.v1.NamedFunction`](xref:ommx_api#ommx.v1.NamedFunction). |
 
-{py:class}`~jijmodeling.NamedExpr` has the following two main use cases:
+[`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) has the following two main use cases:
 
 1. Give a specific expression a name to make the $\LaTeX$ output easier to read
 2. Save a specific expression in an OMMX instance and evaluate its value after solving
 
-This document explains these uses of {py:class}`~jijmodeling.NamedExpr` with concrete examples.
+This document explains these uses of [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) with concrete examples.
 
 +++
 
 ## Naming Expressions
 
 Let us look at an example of naming a specific expression to make the $\LaTeX$ output easier to read. In the knapsack problem, suppose we want to infer the number of items $N$ from the length of the placeholder array $w$ representing the weight of each item, rather than providing $N$ explicitly as instance data.
-First, here is a formulation that does not use {py:meth}`~jijmodeling.Problem.NamedExpr`:
+First, here is a formulation that does not use [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr):
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -62,7 +62,7 @@ knapsack_unnamed
 ```
 
 As you can see from the $\LaTeX$ output, the definition `len_at(w, 0)` for $N$ is expanded inline, which makes the formulation, especially the summation ranges, harder to read.
-Now let us define $N$ using {py:meth}`~jijmodeling.Problem.NamedExpr`:
+Now let us define $N$ using [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr):
 
 ```{code-cell} ipython3
 @jm.Problem.define("Knapsack", sense=jm.ProblemSense.MAXIMIZE)
@@ -87,7 +87,7 @@ The definition of $N$ now appears in the `Named Expressions` section at the end,
 
 +++
 
-Also, although $N$ defined by {py:meth}`~jijmodeling.Problem.NamedExpr` is treated as a kind of variable in the JijModeling model, it is automatically expanded during compilation. Therefore, whether or not you use {py:meth}`~jijmodeling.Problem.NamedExpr` does not change the resulting OMMX instance.
+Also, although $N$ defined by [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr) is treated as a kind of variable in the JijModeling model, it is automatically expanded during compilation. Therefore, whether or not you use [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr) does not change the resulting OMMX instance.
 
 ```{code-cell} ipython3
 knapsack_instance_data = {
@@ -106,14 +106,14 @@ assert instance_named.constraints[0].function.almost_equal(
 ```
 
 :::{tip}
-You can inspect the list of {py:class}`~jijmodeling.NamedExpr` objects registered in a model using {py:meth}`jijmodeling.Problem.named_exprs`.
+You can inspect the list of [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) objects registered in a model using [`jijmodeling.Problem.named_exprs`](xref:api_reference#jijmodeling.Problem.named_exprs).
 :::
 
 +++
 
 ## Saving in Instances
 
-By setting the `save_in_ommx` argument of {py:class}`~jijmodeling.Problem.NamedExpr` to `True`, you can save an expression in an OMMX instance only when it satisfies one of the following conditions:
+By setting the `save_in_ommx` argument of [`NamedExpr`](xref:api_reference#jijmodeling.Problem.NamedExpr) to `True`, you can save an expression in an OMMX instance only when it satisfies one of the following conditions:
 
 1. An expression whose possible values are scalars
 2. An array of expressions whose possible values are scalars
@@ -185,7 +185,7 @@ except Exception as e:
 ```
 
 :::{tip}
-Even for expressions that cannot be saved in an OMMX instance, you can still declare them as {py:class}`NamedExpr <jijmodeling.NamedExpr>` by setting `save_in_ommx=False` or leaving it unspecified.
+Even for expressions that cannot be saved in an OMMX instance, you can still declare them as [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) by setting `save_in_ommx=False` or leaving it unspecified.
 :::
 
 +++
@@ -221,14 +221,14 @@ In the code above, we give the total-weight expression the name `total_weight`, 
 instance = knapsack_weight.eval(knapsack_instance_data)
 ```
 
-You can inspect the expressions saved in the OMMX instance via the {py:meth}`ommx.v1.Instance.named_functions` and {py:meth}`ommx.v1.Instance.named_functions_df` properties.
+You can inspect the expressions saved in the OMMX instance via the [`ommx.v1.Instance.named_functions`](xref:ommx_api#ommx.v1.Instance.named_functions) and [`ommx.v1.Instance.named_functions_df`](xref:ommx_api#ommx.v1.Instance.named_functions_df) properties.
 
 ```{code-cell} ipython3
 instance.named_functions_df
 ```
 
 :::{tip}
-To get the `NamedFunction` IDs corresponding to expressions saved in the OMMX instance, use {py:meth}`Compiler.get_named_function_id_by_name() <jijmodeling.Compiler.get_named_function_id_by_name>`.
+To get the `NamedFunction` IDs corresponding to expressions saved in the OMMX instance, use [`Compiler.get_named_function_id_by_name()`](xref:api_reference#jijmodeling.Compiler.get_named_function_id_by_name).
 :::
 
 +++

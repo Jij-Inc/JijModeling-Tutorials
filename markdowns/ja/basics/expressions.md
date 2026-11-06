@@ -18,7 +18,7 @@ JijModeling はこの式の型の情報を Python の型ヒントに加え、独
 個別の式の構築方法は次章以降で詳しく説明していきますので、本章ではその準備として JijModeling の「式」および「型」の概要について簡単に説明していきます。
 
 :::{tip}
-以下では頻出と思われるパターンに絞って説明するため、式の構築に使える網羅的な一覧については、API リファレンスの {py:class}`~jijmodeling.Expression` クラスや {py:mod}`~jijmodeling` モジュールのトップレベル関数一覧を参照してください。
+以下では頻出と思われるパターンに絞って説明するため、式の構築に使える網羅的な一覧については、API リファレンスの [`Expression`](xref:api_reference#jijmodeling.Expression) クラスや [`jijmodeling`](xref:api_reference#jijmodeling) モジュールのトップレベル関数一覧を参照してください。
 
 また、本サイトの {doc}`../references/cheat_sheet` には、さらに複雑な事例集がまとめられていますので、本章を読んだ後にそちらも参照するとよいでしょう。
 :::
@@ -68,8 +68,8 @@ $x, y, N$ といった数理モデルに含まれる決定変数・プレース�
 :::{admonition} 式に対する関数呼び出しとメソッド呼び出しは同値
 :class: tip
 
-JijModeling では、{py:class}`~jijmodeling.Expression` オブジェクト `A` に対する単項演算は、`jm.log(A)` のように前置式の関数呼び出しとして書くこともできますし、`A.log()` のように後置式のメソッド呼び出しで書くこともできます。
-どちらも全く同じ式が構築されるようになっているため、好きな方を使って書くとよいでしょう。{py:class}`~jijmodeling.DecisionVar` や {py:class}`~jijmodeling.Placeholder` に対しても同様です。
+JijModeling では、[`Expression`](xref:api_reference#jijmodeling.Expression) オブジェクト `A` に対する単項演算は、`jm.log(A)` のように前置式の関数呼び出しとして書くこともできますし、`A.log()` のように後置式のメソッド呼び出しで書くこともできます。
+どちらも全く同じ式が構築されるようになっているため、好きな方を使って書くとよいでしょう。[`DecisionVar`](xref:api_reference#jijmodeling.DecisionVar) や [`Placeholder`](xref:api_reference#jijmodeling.Placeholder) に対しても同様です。
 ただし、Python の組込み数値などに対してはメソッド呼び出しができないため、こうした場合は関数呼び出しを用いて `jm.log(2)` のように書く必要があります。
 :::
 
@@ -88,7 +88,7 @@ JijModeling を使う上では、こうした型システムの詳細を理解�
 (1) はライブラリに Python コードとして同梱されており、 `Pyright` や `ty`、`pyrefly` といった代表的な型検査器によるエディタや Jupyter Notebook 上での補完・静的検査を可能にしています。
 しかし、Python の型ヒントで表現できる制約には制限があり、たとえば配列の添え字サイズの検証などには不向きです。こうした表現力の不足を補うため、JijModeling は (2) の独自の型検査器も内蔵しています。
 (2) の型検査器は Python のユーザーが直接呼び出すものではなく、モデルへの制約条件や目的関数項の追加、決定変数・プレースホルダーの `shape` の宣言などの際に適宜呼び出され、記述の誤りがないかをデータの入力前に自動的に検証します。
-Python の型ヒントでも {py:class}`Expression <jijmodeling.Expression>`、{py:class}`~jijmodeling.Placeholder`、{py:class}`~jijmodeling.DecisionVar` などの API オブジェクトは区別されます。
+Python の型ヒントでも [`Expression`](xref:api_reference#jijmodeling.Expression)、[`Placeholder`](xref:api_reference#jijmodeling.Placeholder)、[`DecisionVar`](xref:api_reference#jijmodeling.DecisionVar) などの API オブジェクトは区別されます。
 しかし、式のシェイプや辞書のキー集合、決定変数を含むかどうかといった詳細な情報までは表現しきれないため、JijModeling が搭載する型検査器は、こうした情報も含めて検査しています。
 つまり、エディタや Jupyter Notebook 上では Python の型ヒントに基づく比較的「粗い」基準で検査し、モデルの構築中には JijModeling がより細分化された基準で検査するという二段構えです。
 JijModeling が搭載している式の型はいくつかありますが、代表的なものを以下にまとめます：
@@ -109,17 +109,17 @@ JijModeling が搭載している式の型はいくつかありますが、代�
 JijModeling 内蔵の型検査は、式が**構築された直後ではなく**、以下のタイミングで行われます：
 
 1. 数理モデルの目的関数に項が追加されたとき
-2. {py:meth}`Problem.Constraint() <jijmodeling.Problem.Constraint>` により制約条件が宣言されたとき
+2. [`Problem.Constraint()`](xref:api_reference#jijmodeling.Problem.Constraint) により制約条件が宣言されたとき
 3. `ndim`, `shape` や `dict_keys` の成分として現れたとき
-4. {py:meth}`Problem.eval() <jijmodeling.Problem.eval>`関数や{py:class}`~jijmodeling.Compiler`によりインスタンスへコンパイルされるとき
-5. {py:meth}`Problem.infer() <jijmodeling.Problem.infer>`関数により明示的に型推論を行わせたとき
+4. [`Problem.eval()`](xref:api_reference#jijmodeling.Problem.eval)関数や[`Compiler`](xref:api_reference#jijmodeling.Compiler)によりインスタンスへコンパイルされるとき
+5. [`Problem.infer()`](xref:api_reference#jijmodeling.Problem.infer)関数により明示的に型推論を行わせたとき
 
 これは、式が文脈に置かれて初めて適切な「型」が定まるためです。
 そのため、以下で見ていく式の構築方法について「不正」な記述であっても、単に式を構築した段階でエラーになるとは限らないことに注意してください。
 :::
 
-以下では、妥当な用例や妥当でない用例を例示するために、{py:meth}`Problem.infer() <jijmodeling.Problem.infer>` メソッドを用いています。
-このメソッドは、{py:class}`Problem <jijmodeling.Problem>`の持っている決定変数・プレースホルダーの情報を基に、与えられた式の型を推論するメソッドであり、不正な式を与えると型エラーを発生させます。
+以下では、妥当な用例や妥当でない用例を例示するために、[`Problem.infer()`](xref:api_reference#jijmodeling.Problem.infer) メソッドを用いています。
+このメソッドは、[`Problem`](xref:api_reference#jijmodeling.Problem)の持っている決定変数・プレースホルダーの情報を基に、与えられた式の型を推論するメソッドであり、不正な式を与えると型エラーを発生させます。
 例を見てみましょう。ここでは、バイナリ変数 $x$ と整数 $N$ を足しているので、$x + N$ は整数型 $\mathbb{Z}$を持つものとして推論されています。
 
 ```{code-cell} ipython3
@@ -140,25 +140,25 @@ except Exception as e:
     print(e)
 ```
 
-:::{admonition} {py:class}`Expression <jijmodeling.Expression>` と {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` / {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>` の関係は？
+:::{admonition} [`Expression`](xref:api_reference#jijmodeling.Expression) と [`ExpressionLike`](xref:api_reference#jijmodeling.ExpressionLike) / [`ExpressionFunction`](xref:api_reference#jijmodeling.ExpressionFunction) の関係は？
 :class: note
 
-{external+api_reference:doc}`API リファレンス <index>` やエディタの補完・ドキュメント上では、{py:data}`ExpressionLike <jijmodeling.ExpressionLike>` や {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>` といった型名が登場します。
-これらはライブラリの実装には存在しないダミーの略記用の型であり、{py:class}`Expression <jijmodeling.Expression>` に変換可能な型や、`Expression` から `Expression` への関数を表す型の略記です。
+[API リファレンス](xref:api_reference#index) やエディタの補完・ドキュメント上では、[`ExpressionLike`](xref:api_reference#jijmodeling.ExpressionLike) や [`ExpressionFunction`](xref:api_reference#jijmodeling.ExpressionFunction) といった型名が登場します。
+これらはライブラリの実装には存在しないダミーの略記用の型であり、[`Expression`](xref:api_reference#jijmodeling.Expression) に変換可能な型や、`Expression` から `Expression` への関数を表す型の略記です。
 具体的には以下のように考えておけば大丈夫です：
 
 | 型名 | 説明 |
 | --- | --- |
-| {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` | {py:class}`~jijmodeling.Expression` に変換することができる型を表す。{py:class}`~jijmodeling.Expression` 自身のほか、{py:class}`~jijmodeling.Placeholder`, {py:class}`~jijmodeling.DecisionVar`, {py:class}`~jijmodeling.NamedExpr` や、Python の数値、文字列、それらからなるタプル、リスト・辞書・NumPy 配列などが文脈に応じて使えます。 |
-| {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>` | 一つ以上の {py:class}`~jijmodeling.Expression` オブジェクトを取り、{py:class}`~jijmodeling.Expression` を返す関数。Python の型ヒントの仕組み上、最大 5 つの引数までしか列挙していませんが、実際には引数の個数に上限はありません。 |
+| [`ExpressionLike`](xref:api_reference#jijmodeling.ExpressionLike) | [`Expression`](xref:api_reference#jijmodeling.Expression) に変換することができる型を表す。[`Expression`](xref:api_reference#jijmodeling.Expression) 自身のほか、[`Placeholder`](xref:api_reference#jijmodeling.Placeholder), [`DecisionVar`](xref:api_reference#jijmodeling.DecisionVar), [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) や、Python の数値、文字列、それらからなるタプル、リスト・辞書・NumPy 配列などが文脈に応じて使えます。 |
+| [`ExpressionFunction`](xref:api_reference#jijmodeling.ExpressionFunction) | 一つ以上の [`Expression`](xref:api_reference#jijmodeling.Expression) オブジェクトを取り、[`Expression`](xref:api_reference#jijmodeling.Expression) を返す関数。Python の型ヒントの仕組み上、最大 5 つの引数までしか列挙していませんが、実際には引数の個数に上限はありません。 |
 
 :::
 
 ## 式としてのプレースホルダー、決定変数
 
-「{doc}`variables`」章で見たように、JijModeling では {py:meth}`Problem.BinaryVar <jijmodeling.Problem.BinaryVar>` や {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>` などによって決定変数やプレースホルダーを定義します。
-この際に返されるのは、それぞれの変数のメタデータを保持する {py:class}`DecisionVar <jijmodeling.DecisionVar>` や {py:class}`Placeholder <jijmodeling.Placeholder>` オブジェクトですが、これらは式の構築中に現れると、自動的に {py:class}`Expression <jijmodeling.Expression>` オブジェクトへと変換されます。
-上の `Test Problem` の例でも、Python 変数 `x` や `y` はそれぞれ {py:class}`DecisionVar <jijmodeling.DecisionVar>` オブジェクトですが、それを用いて `z = x + y[0]` などのように構築されると、`x`, `y` はそれぞれ決定変数と決定変数の配列を表す式に変換されています。
+「{doc}`variables`」章で見たように、JijModeling では [`Problem.BinaryVar`](xref:api_reference#jijmodeling.Problem.BinaryVar) や [`Problem.Placeholder`](xref:api_reference#jijmodeling.Problem.Placeholder) などによって決定変数やプレースホルダーを定義します。
+この際に返されるのは、それぞれの変数のメタデータを保持する [`DecisionVar`](xref:api_reference#jijmodeling.DecisionVar) や [`Placeholder`](xref:api_reference#jijmodeling.Placeholder) オブジェクトですが、これらは式の構築中に現れると、自動的に [`Expression`](xref:api_reference#jijmodeling.Expression) オブジェクトへと変換されます。
+上の `Test Problem` の例でも、Python 変数 `x` や `y` はそれぞれ [`DecisionVar`](xref:api_reference#jijmodeling.DecisionVar) オブジェクトですが、それを用いて `z = x + y[0]` などのように構築されると、`x`, `y` はそれぞれ決定変数と決定変数の配列を表す式に変換されています。
 また、`z` の定義中に現れる `0` は通常の Python の数値ですが、このような定数も JijModeling の式中に現れると自動で変換されるようになっています。
 
 ## 式のつくりかた

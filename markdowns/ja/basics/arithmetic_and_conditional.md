@@ -22,15 +22,15 @@ import jijmodeling as jm
 
 ## 算術演算
 
-Python 組込みの算術演算（{py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, {py:meth}`% <jijmodeling.Expression.__mod__>` などの加減乗除）は、JijModeling の式に対しても用いることができます。
-数値型の式同士の演算は期待通り動作するのに加え、（多次元）配列同士や、キー集合が一致する {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` に対しても、一定の条件を満たせば演算を行うことができます。
+Python 組込みの算術演算（[`+`](xref:api_reference#jijmodeling.Expression.__add__), [`-`](xref:api_reference#jijmodeling.Expression.__sub__), [`*`](xref:api_reference#jijmodeling.Expression.__mul__), [`/`](xref:api_reference#jijmodeling.Expression.__truediv__), [`%`](xref:api_reference#jijmodeling.Expression.__mod__) などの加減乗除）は、JijModeling の式に対しても用いることができます。
+数値型の式同士の演算は期待通り動作するのに加え、（多次元）配列同士や、キー集合が一致する [`TotalDict`](xref:api_reference#jijmodeling.Problem.TotalDict) に対しても、一定の条件を満たせば演算を行うことができます。
 具体的には、以下の組み合わせ（左右問わず）に対して算術演算がサポートされています：
 
 1. スカラー同士の算術演算
 2. スカラーと多次元配列の算術演算
 3. スカラーと辞書の算術演算
 4. 同じシェイプを持つ多次元配列同士の算術演算
-5. 同じキー集合を持つ全域辞書（{py:meth}`TotalDict <jijmodeling.Problem.TotalDict>`）同士の算術演算
+5. 同じキー集合を持つ全域辞書（[`TotalDict`](xref:api_reference#jijmodeling.Problem.TotalDict)）同士の算術演算
 
 :::{admonition} JijModeling におけるブロードキャスト
 :class: note
@@ -105,10 +105,10 @@ except Exception as e:
     print(e)
 ```
 
-### 代替記法：{py:func}`genarray <jijmodeling.genarray>` や {py:func}`gendict <jijmodeling.gendict>` による配列の構築
+### 代替記法：[`genarray`](xref:api_reference#jijmodeling.genarray) や [`gendict`](xref:api_reference#jijmodeling.gendict) による配列の構築
 
 上の例では、`y + z` のように、非自明なブロードキャストを伴う演算は（意図的に）エラーになっていました。
-このような場合、{py:func}`~jijmodeling.genarray` や {py:func}`~jijmodeling.gendict` 関数を使い、陽にシェイプやキー集合と成分の式を指定することで、目的の配列・辞書を構築できるようになります：
+このような場合、[`genarray`](xref:api_reference#jijmodeling.genarray) や [`gendict`](xref:api_reference#jijmodeling.gendict) 関数を使い、陽にシェイプやキー集合と成分の式を指定することで、目的の配列・辞書を構築できるようになります：
 
 ```{code-cell} ipython3
 A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
@@ -140,15 +140,13 @@ def _(problem: jm.DecoratedProblem):
 :::{admonition} 初等超越関数
 :class: tip
 
-JijModeling の式では、加減乗除だけではなく、三角関数（{py:meth}`~jijmodeling.Expression.sin`, {py:meth}`~jijmodeling.Expression.cos`, {py:meth}`~jijmodeling.Expression.tan`など）や対数関数（{py:meth}`~jijmodeling.Expression.log2`, {py:meth}`~jijmodeling.Expression.log10`, {py:meth}`~jijmodeling.Expression.ln`）などの初等超越関数もサポートしています。
+JijModeling の式では、加減乗除だけではなく、三角関数（[`sin`](xref:api_reference#jijmodeling.Expression.sin), [`cos`](xref:api_reference#jijmodeling.Expression.cos), [`tan`](xref:api_reference#jijmodeling.Expression.tan)など）や対数関数（[`log2`](xref:api_reference#jijmodeling.Expression.log2), [`log10`](xref:api_reference#jijmodeling.Expression.log10), [`ln`](xref:api_reference#jijmodeling.Expression.ln)）などの初等超越関数もサポートしています。
 これらの関数も決定変数の有無に関わらず式に適用できますが、現時点ではインスタンスへのコンパイル時に決定変数を含む式に適用されている場合はエラーになります。
 :::
 
 ## 比較式
 
-```{eval-rst}
-等値演算子（:py:meth:`== <jijmodeling.Expression.__eq__>`, :py:meth:`\!= <jijmodeling.Expression.__ne__>`）や順序比較演算子（:py:meth:`< <jijmodeling.Expression.__lt__>`, :py:meth:`<= <jijmodeling.Expression.__le__>`, :py:meth:`> <jijmodeling.Expression.__gt__>`, :py:meth:`>= <jijmodeling.Expression.__ge__>`）も、JijModeling の式に対して用いることができます。
-```
+等値演算子（[`==`](xref:api_reference#jijmodeling.Expression.__eq__), [`!=`](xref:api_reference#jijmodeling.Expression.__ne__)）や順序比較演算子（[`<`](xref:api_reference#jijmodeling.Expression.__lt__), [`<=`](xref:api_reference#jijmodeling.Expression.__le__), [`>`](xref:api_reference#jijmodeling.Expression.__gt__), [`>=`](xref:api_reference#jijmodeling.Expression.__ge__)）も、JijModeling の式に対して用いることができます。
 
 これらの比較演算子の**両辺が共に決定変数を含まない**場合、結果は真偽値型 `Bool` の式として推論されます。一方、両辺の少なくとも一方が決定変数を含みうる場合、結果は特別な**比較型**として扱われます。これは、制約条件の定義では決定変数が現れる式同士を比較できる必要がある一方、内包表記などで使われる場合は真偽値が確定する比較式が使える必要があるためです。
 
@@ -170,7 +168,7 @@ problem.infer(y > W)  # OK! （同一シェイプ配列同士の比較）
 ## 論理演算
 
 JijModeling では、「論理積（かつ）」、「論理和（または）」「否定（でない）」などの論理演算を使って、複雑な条件式を表現することができます。
-残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりにビット演算子 `&`（かつ）、`|`（または）、`~`（否定）や、関数{py:func}`jijmodeling.band`（かつ）、{py:func}`jijmodeling.bor`（または）、{py:func}`jijmodeling.bnot` を使って論理演算を表現します。
+残念ながら、Python の `and` や `or`、`not` といった論理演算子はオーバーロードできないため、かわりにビット演算子 `&`（かつ）、`|`（または）、`~`（否定）や、関数[`jijmodeling.band`](xref:api_reference#jijmodeling.band)（かつ）、[`jijmodeling.bor`](xref:api_reference#jijmodeling.bor)（または）、[`jijmodeling.bnot`](xref:api_reference#jijmodeling.bnot) を使って論理演算を表現します。
 
 :::{admonition} ビット演算の優先順位に注意！
 :class: caution
@@ -199,5 +197,5 @@ problem
 :::{admonition} より複雑な条件式の例
 :class: hint
 
-論理演算を使ってより現実的かつ複雑な条件式を表現する例としては、JijZept 典型問題集の「{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`」が参考になるでしょう。
+論理演算を使ってより現実的かつ複雑な条件式を表現する例としては、JijZept 典型問題集の「[](xref:zept_tutor#src/30_radio_telescope_scheduling)」が参考になるでしょう。
 :::

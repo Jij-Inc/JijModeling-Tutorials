@@ -1,4 +1,6 @@
 ---
+execute:
+  skip: true
 jupytext:
   text_representation:
     extension: .md
@@ -21,7 +23,7 @@ kernelspec:
 
 ### Added `jm.range()`
 
-With the {py:func}`jijmodeling.range()` function you can now represent sequences by using {py:class}`~jijmodeling.Expression`s. Its usage is similar to python's built-in {py:class}`range() <range>`.
+With the [`jijmodeling.range()`](xref:api_reference#jijmodeling.range) function you can now represent sequences by using [`Expression`](xref:api_reference#jijmodeling.Expression)s. Its usage is similar to python's built-in [`range()`](xref:python#range).
 
 Example usage:
 
@@ -40,7 +42,7 @@ def problem(problem: jm.DecoratedProblem):
 
 ### Support `-=` operator to update a `Problem`'s objective function
 
-You can now use `-=` to add subtracted terms from a {py:class}`~jijmodeling.Problem`'s objective function. 
+You can now use `-=` to add subtracted terms from a [`Problem`](xref:api_reference#jijmodeling.Problem)'s objective function.
 
 Unlike `+=`, `-=` does not support removing constraints.
 
@@ -58,7 +60,7 @@ assert jm.is_same(problem.objective, x - y)
 
 Before JijModeling 2.3, there was a `DependentVar` class for representing dependent variables.
 Despite the name, this feature could also be used to define values that do not depend on decision variables, such as the length of a Placeholder.
-Because this could be confusing, the `DependentVar` class has been replaced by the {py:class}`~jijmodeling.NamedExpr` class, which provides the same functionality. Use {py:class}`~jijmodeling.NamedExpr` instead.
+Because this could be confusing, the `DependentVar` class has been replaced by the [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) class, which provides the same functionality. Use [`NamedExpr`](xref:api_reference#jijmodeling.NamedExpr) instead.
 
 For details, see {doc}`../advanced/named_expr`.
 

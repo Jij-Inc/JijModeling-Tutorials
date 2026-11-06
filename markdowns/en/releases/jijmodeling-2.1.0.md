@@ -1,4 +1,6 @@
 ---
+execute:
+  skip: true
 jupytext:
   text_representation:
     extension: .md
@@ -21,7 +23,7 @@ kernelspec:
 
 ### Random Instance Data Generation
 
-JijModeling 2 now supports random instance data generation via {py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` and {py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>`!
+JijModeling 2 now supports random instance data generation via [`Problem.generate_random_dataset`](xref:api_reference#jijmodeling.Problem.generate_random_dataset) and [`Problem.generate_random_instance`](xref:api_reference#jijmodeling.Problem.generate_random_instance)!
 Please refer to the API documentation for more details.
 
 Example usage:
@@ -48,7 +50,7 @@ inputs
 
 ### Support for the `jm.Expression()` constructor
 
-The {py:class}`~jijmodeling.Expression` class now provides a constructor, allowing you to explicitly convert any value that is convertible to {py:class}`~jijmodeling.Expression` (i.e., {py:data}`~jijmodeling.ExpressionLike`) into an {py:class}`~jijmodeling.Expression` object.
+The [`Expression`](xref:api_reference#jijmodeling.Expression) class now provides a constructor, allowing you to explicitly convert any value that is convertible to [`Expression`](xref:api_reference#jijmodeling.Expression) (i.e., [`ExpressionLike`](xref:api_reference#jijmodeling.ExpressionLike)) into an [`Expression`](xref:api_reference#jijmodeling.Expression) object.
 
 ### Improved Type Hints
 
@@ -95,8 +97,8 @@ With this release, the bug has been fixed, and indexing dictionaries with single
 
 ### Bugfix 4: `Problem.infer()` now correctly converts to expressions
 
-In previous releases, {py:meth}`Problem.infer() <jijmodeling.Problem.infer>` raised a runtime error if its argument was not a {py:class}`~jijmodeling.Expression` object.
-With this release, arguments that can be converted to expressions (such as numeric values or {py:class}`~jijmodeling.Placeholder` objects) are now converted to expressions before type inference.
+In previous releases, [`Problem.infer()`](xref:api_reference#jijmodeling.Problem.infer) raised a runtime error if its argument was not a [`Expression`](xref:api_reference#jijmodeling.Expression) object.
+With this release, arguments that can be converted to expressions (such as numeric values or [`Placeholder`](xref:api_reference#jijmodeling.Placeholder) objects) are now converted to expressions before type inference.
 
 ### Bugfix 5: Missing parentheses in formula output
 
@@ -104,4 +106,4 @@ Previously, exponentiation of summation symbols and addition/subtraction within 
 
 ## Other Changes
 
-- `Problem` now provides {py:attr}`Problem.name` and {py:attr}`Problem.sense` properties.
+- `Problem` now provides [`Problem.name`](xref:api_reference#jijmodeling.Problem.name) and [`Problem.sense`](xref:api_reference#jijmodeling.Problem.sense) properties.

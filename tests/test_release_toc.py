@@ -65,10 +65,13 @@ class ReleaseTocTests(unittest.TestCase):
                 expected_unreleased = []
                 expected_finalized = []
                 for language in ("en", "ja"):
-                    content = Path(f"docs/{language}/_toc.yml").read_bytes()
+                    content = Path(f"docs/{language}/toc.yml").read_bytes()
                     newline = b"\r\n" if b"\r\n" in content else b"\n"
-                    header = RELEASE_HEADER.encode().replace(b"\n", newline)
-                    unreleased = UNRELEASED.encode().replace(b"\n", newline)
+                    header = newline.join([b"    - title: Release Notes", b"      children:", b""])
+                    unreleased = b"        - file: releases/unreleased.ipynb" + newline
+                    finalized = (
+                        f"        - file: releases/jijmodeling-{VERSION}.ipynb".encode() + newline
+                    )
                     self.assertEqual(content.count(header), 1)
                     lines = content.splitlines(keepends=True)
                     self.assertLessEqual(lines.count(unreleased), 1)
@@ -76,9 +79,7 @@ class ReleaseTocTests(unittest.TestCase):
                     with_unreleased = content.replace(header, header + unreleased, 1)
                     expected_unreleased.append(with_unreleased)
                     expected_finalized.append(
-                        content.replace(
-                            header, header + FINALIZED.encode().replace(b"\n", newline), 1
-                        )
+                        content.replace(header, header + finalized, 1)
                     )
                     paths.append(
                         self.write_toc(
@@ -88,6 +89,7 @@ class ReleaseTocTests(unittest.TestCase):
 
                 for _ in range(2):
                     self.assert_success(paths, "ensure-unreleased")
+                    self.assert_failure(paths, "check-no-unreleased")
                     for path, expected in zip(paths, expected_unreleased):
                         self.assertEqual(path.read_bytes(), expected, path.name)
 

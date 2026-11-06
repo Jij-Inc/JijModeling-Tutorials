@@ -1,0 +1,75 @@
+:host { color: inherit; font: inherit; }
+[hidden] { display: none !important; }
+.code-view, .code-input {
+    position: relative;
+    margin: .4rem 0;
+}
+.code-view pre, .code-input pre, textarea {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: .6rem;
+    color: inherit;
+    background: transparent;
+    border: 1px solid #8889;
+    border-radius: .4rem;
+    font: .9rem/1.5 monospace;
+    font-variant-ligatures: none;
+    white-space: pre;
+    tab-size: 4;
+}
+.code-view pre {
+    min-height: 2.5rem;
+    overflow-x: auto;
+    cursor: text;
+    touch-action: manipulation;
+}
+.code-view button {
+    position: absolute;
+    top: .15rem;
+    right: .15rem;
+    background: var(--cell-surface);
+    opacity: 0;
+}
+.code-view:hover button, .code-view:focus-within button { opacity: 1; }
+.code-input pre {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+.code-input code { display: block; width: max-content; font: inherit; }
+textarea {
+    position: relative;
+    display: block;
+    resize: vertical;
+    color: transparent;
+    caret-color: var(--cell-caret);
+}
+textarea::selection { background: #668bcc60; }
+@media (forced-colors: active) {
+    .code-input pre { visibility: hidden; }
+    textarea { color: CanvasText; caret-color: CanvasText; }
+}
+.hljs-keyword, .hljs-literal, .hljs-name { color: var(--cell-keyword); }
+.hljs-built_in, .hljs-type, .hljs-title { color: var(--cell-builtin); }
+.hljs-number { color: var(--cell-number); }
+.hljs-string { color: var(--cell-string); }
+.hljs-comment, .hljs-quote { color: var(--cell-comment); }
+.hljs-meta { color: var(--cell-meta); }
+.hljs-subst { color: var(--cell-caret); }
+button {
+    cursor: pointer;
+    margin: .15rem .4rem .15rem 0;
+    padding: .2rem .55rem;
+    color: inherit;
+    background: transparent;
+    border: 1px solid #8887;
+    border-radius: .35rem;
+    font: inherit;
+    font-size: .85rem;
+}
+button:hover { background: #8882; }
+button:disabled { opacity: .5; }
+.added-cell { margin-block: 1rem; }
+.thebe-output { overflow: auto; }

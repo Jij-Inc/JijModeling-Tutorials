@@ -17,7 +17,7 @@ from ruamel.yaml.tokens import CommentToken
 
 UNRELEASED = "releases/unreleased"
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_TOCS = [ROOT / "docs" / language / "_toc.yml" for language in ("en", "ja")]
+DEFAULT_TOCS = [ROOT / "docs" / language / "toc.yml" for language in ("en", "ja")]
 
 
 @dataclass
@@ -26,6 +26,7 @@ class Toc:
     original: bytes
     yaml: YAML
     document: CommentedMap
+    sections: CommentedSeq
     chapters: CommentedSeq
 
 
@@ -40,17 +41,25 @@ def load_toc(path: Path) -> Toc:
     document = yaml.load(text.replace("\r\n", "\n"))
     if not isinstance(document, CommentedMap):
         raise ValueError("expected a TOC mapping")
-    parts = document.get("parts")
+    if "project" in document:
+        project = document["project"]
+        if not isinstance(project, CommentedMap):
+            raise ValueError("expected 'project' to be a mapping")
+        parts = project.get("toc")
+        title_key, children_key = "title", "children"
+    else:
+        parts = document.get("parts")
+        title_key, children_key = "caption", "chapters"
     if not isinstance(parts, CommentedSeq) or any(
         not isinstance(part, CommentedMap) for part in parts
     ):
-        raise ValueError("expected 'parts' to be a sequence of mappings")
-    releases = [part for part in parts if part.get("caption") == "Release Notes"]
+        raise ValueError("expected the TOC to be a sequence of mappings")
+    releases = [part for part in parts if part.get(title_key) == "Release Notes"]
     if len(releases) != 1:
         raise ValueError("expected exactly one 'Release Notes' section")
-    chapters = releases[0].get("chapters")
+    chapters = releases[0].get(children_key)
     if not isinstance(chapters, CommentedSeq):
-        raise ValueError("expected 'Release Notes.chapters' to be a sequence")
+        raise ValueError(f"expected 'Release Notes.{children_key}' to be a sequence")
     files = set()
     for chapter in chapters:
         if not isinstance(chapter, CommentedMap):
@@ -62,7 +71,7 @@ def load_toc(path: Path) -> Toc:
             if file in files:
                 raise ValueError(f"duplicate release chapter: {file}")
             files.add(file)
-    return Toc(path, original, yaml, document, chapters)
+    return Toc(path, original, yaml, document, parts, chapters)
 
 
 def contains_unreleased(document: object) -> bool:
@@ -74,7 +83,7 @@ def contains_unreleased(document: object) -> bool:
             continue
         visited.add(id(node))
         if isinstance(node, Mapping):
-            if node.get("file") == UNRELEASED:
+            if node.get("file") in (UNRELEASED, f"{UNRELEASED}.ipynb"):
                 return True
             pending.extend(node.values())
         elif isinstance(node, list):
@@ -95,7 +104,7 @@ def attach_leading_comments(toc: Toc) -> None:
     lines = toc.original.decode("utf-8").replace("\r\n", "\n").splitlines(keepends=True)
     blocks = []
     detached_lines = set()
-    for sequence in (toc.document["parts"], toc.chapters):
+    for sequence in (toc.sections, toc.chapters):
         for index in range(len(sequence)):
             line, _ = sequence.lc.item(index)
             column = len(lines[line]) - len(lines[line].lstrip())
@@ -162,10 +171,12 @@ def update_toc(toc: Toc, command: str, version: str | None) -> bool:
         if contains_unreleased(toc.document):
             raise ValueError(f"'{UNRELEASED}' found in TOC")
         return False
+    suffix = ".ipynb" if "project" in toc.document else ""
+    unreleased = UNRELEASED + suffix
     target = (
-        UNRELEASED
+        unreleased
         if command == "ensure-unreleased"
-        else f"releases/jijmodeling-{version}"
+        else f"releases/jijmodeling-{version}{suffix}"
     )
     chapters = toc.chapters
     target_index = next(
@@ -173,7 +184,7 @@ def update_toc(toc: Toc, command: str, version: str | None) -> bool:
         None,
     )
     unreleased_index = next(
-        (index for index, chapter in enumerate(chapters) if chapter.get("file") == UNRELEASED),
+        (index for index, chapter in enumerate(chapters) if chapter.get("file") == unreleased),
         None,
     )
     if command == "finalize" and unreleased_index is not None:

@@ -1,4 +1,6 @@
 ---
+execute:
+  skip: true
 jupytext:
   text_representation:
     extension: .md
@@ -32,9 +34,9 @@ Please use version 2.5.1 or later instead of this version.
 
 ### Comprehension syntax for `jm.min`, `jm.max`, and `jm.set` in the Decorator API
 
-Previously, when using the Decorator API, only {py:func}`jm.sum <jijmodeling.sum>` and {py:func}`jm.prod <jijmodeling.prod>` accepted a comprehension (Python generator) expression as their single argument.
+Previously, when using the Decorator API, only [`jm.sum`](xref:api_reference#jijmodeling.sum) and [`jm.prod`](xref:api_reference#jijmodeling.prod) accepted a comprehension (Python generator) expression as their single argument.
 
-Starting with this version, unary calls to {py:func}`jm.min <jijmodeling.min>`, {py:func}`jm.max <jijmodeling.max>`, and {py:func}`jm.set <jijmodeling.set>` also accept comprehension expressions in the same way.
+Starting with this version, unary calls to [`jm.min`](xref:api_reference#jijmodeling.min), [`jm.max`](xref:api_reference#jijmodeling.max), and [`jm.set`](xref:api_reference#jijmodeling.set) also accept comprehension expressions in the same way.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -79,14 +81,14 @@ problem
 
 ### Bounded naturals and category labels are now allowed as a `Placeholder` `dtype`
 
-The `dtype` argument of {py:meth}`Problem.Placeholder <jijmodeling.Problem.Placeholder>` (and its shorthands such as `Graph`, `PartialDict`, and `TotalDict`) used to be limited to a `jm.DataType`, a NumPy scalar type, or a tuple built out of those.
+The `dtype` argument of [`Problem.Placeholder`](xref:api_reference#jijmodeling.Problem.Placeholder) (and its shorthands such as `Graph`, `PartialDict`, and `TotalDict`) used to be limited to a `jm.DataType`, a NumPy scalar type, or a tuple built out of those.
 Starting with this version, `dtype` additionally accepts:
 
 - a natural-number expression `n`, declaring that the values are natural numbers strictly less than `n` (i.e. drawn from $\{0, 1, \dots, n - 1\}$); the bound `n` may also be a Python integer literal or another placeholder/named expression of natural-number type.
-- a {py:class}`~jijmodeling.CategoryLabel` `L`, declaring that the values are labels drawn from `L`.
+- a [`CategoryLabel`](xref:api_reference#jijmodeling.CategoryLabel) `L`, declaring that the values are labels drawn from `L`.
 - a tuple `(T, T, ...)` whose components are any of the above (or any other accepted `dtype`).
 
-Along with the additions on `dtype` as described above, the shorthand constructors {py:meth}`Problem.Natural <jijmodeling.Problem.Natural>` (and its aliases: {py:meth}`Problem.Length <jijmodeling.Problem.Length>` and {py:meth}`Problem.Dim <jijmodeling.Problem.Dim>`) now also accept a `less_than=natexpr` keyword argument. This declares the same bounded-natural type placeholder variable as `Placeholder(dtype=natexpr)`, while more clearly communicating the intent of it being a scalar natural placeholder:
+Along with the additions on `dtype` as described above, the shorthand constructors [`Problem.Natural`](xref:api_reference#jijmodeling.Problem.Natural) (and its aliases: [`Problem.Length`](xref:api_reference#jijmodeling.Problem.Length) and [`Problem.Dim`](xref:api_reference#jijmodeling.Problem.Dim)) now also accept a `less_than=natexpr` keyword argument. This declares the same bounded-natural type placeholder variable as `Placeholder(dtype=natexpr)`, while more clearly communicating the intent of it being a scalar natural placeholder:
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -131,8 +133,8 @@ problem += jm.map(lambda u, v: (x[u] - x[v]) ** 2, E).sum()
 problem
 ```
 
-When the vertices of a graph are named rather than indexed, a {py:class}`~jijmodeling.CategoryLabel` can now be used directly as the `dtype`.
-Here is the same problem, written with {py:meth}`Problem.Graph`, but on a graph whose vertices are identified by labels rather than integer indices:
+When the vertices of a graph are named rather than indexed, a [`CategoryLabel`](xref:api_reference#jijmodeling.CategoryLabel) can now be used directly as the `dtype`.
+Here is the same problem, written with [`Problem.Graph`](xref:api_reference#jijmodeling.Problem.Graph), but on a graph whose vertices are identified by labels rather than integer indices:
 
 ```{code-cell} ipython3
 problem = jm.Problem("max cut on a labeled graph", sense=jm.ProblemSense.MAXIMIZE)
@@ -157,8 +159,8 @@ When a value supplied through the instance data is not consistent with the decla
 
 ### Objective functions can now be replaced by assignment
 
-In this version, you can now replace the objective function directly by assigning to {py:attr}`Problem.objective <jijmodeling.Problem.objective>`.
-The same `problem.objective = ...` syntax is also available for {py:class}`~jijmodeling.DecoratedProblem`.
+In this version, you can now replace the objective function directly by assigning to [`Problem.objective`](xref:api_reference#jijmodeling.Problem.objective).
+The same `problem.objective = ...` syntax is also available for [`DecoratedProblem`](xref:api_reference#jijmodeling.DecoratedProblem).
 
 For example, you can replace an already-defined objective with another expression, or explicitly reset it with `problem.objective = 0`.
 
@@ -185,8 +187,8 @@ problem
 
 ### Generating dictionaries with generator functions
 
-Starting with this version, the {py:func}`~jijmodeling.gendict` function can be used to generate dictionaries by specifying a set of keys and a generator function.
-This is similar to the array version {py:func}`~jijmodeling.genarray`, and to NumPy's {py:func}`~numpy.fromfunction`.
+Starting with this version, the [`gendict`](xref:api_reference#jijmodeling.gendict) function can be used to generate dictionaries by specifying a set of keys and a generator function.
+This is similar to the array version [`genarray`](xref:api_reference#jijmodeling.genarray), and to NumPy's [`fromfunction`](xref:numpy#numpy.fromfunction).
 
 ```{code-cell} ipython3
 import jijmodeling as jm

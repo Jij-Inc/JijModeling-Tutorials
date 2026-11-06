@@ -22,15 +22,15 @@ import jijmodeling as jm
 
 ## Arithmetic Operations
 
-Python's built-in arithmetic operations (addition, subtraction, multiplication, division, and so on, including {py:meth}`+ <jijmodeling.Expression.__add__>`, {py:meth}`- <jijmodeling.Expression.__sub__>`, {py:meth}`* <jijmodeling.Expression.__mul__>`, {py:meth}`/ <jijmodeling.Expression.__truediv__>`, and {py:meth}`% <jijmodeling.Expression.__mod__>`) can also be used with JijModeling expressions.
-Operations between numeric expressions work as expected. Under certain conditions, operations can also be performed between multidimensional arrays and between {py:meth}`TotalDict <jijmodeling.Problem.TotalDict>` objects with identical key sets.
+Python's built-in arithmetic operations (addition, subtraction, multiplication, division, and so on, including [`+`](xref:api_reference#jijmodeling.Expression.__add__), [`-`](xref:api_reference#jijmodeling.Expression.__sub__), [`*`](xref:api_reference#jijmodeling.Expression.__mul__), [`/`](xref:api_reference#jijmodeling.Expression.__truediv__), and [`%`](xref:api_reference#jijmodeling.Expression.__mod__)) can also be used with JijModeling expressions.
+Operations between numeric expressions work as expected. Under certain conditions, operations can also be performed between multidimensional arrays and between [`TotalDict`](xref:api_reference#jijmodeling.Problem.TotalDict) objects with identical key sets.
 Specifically, arithmetic operations are supported for the following combinations, regardless of operand order:
 
 1. Two scalars
 2. A scalar and a multidimensional array
 3. A scalar and a dictionary
 4. Two multidimensional arrays with the same shape
-5. Two total dictionaries ({py:meth}`TotalDict <jijmodeling.Problem.TotalDict>`) with the same key set
+5. Two total dictionaries ([`TotalDict`](xref:api_reference#jijmodeling.Problem.TotalDict)) with the same key set
 
 :::{admonition} Broadcasting in JijModeling
 :class: note
@@ -105,10 +105,10 @@ except Exception as e:
     print(e)
 ```
 
-### Alternative Syntax: Constructing Arrays with {py:func}`genarray <jijmodeling.genarray>` or {py:func}`gendict <jijmodeling.gendict>`
+### Alternative Syntax: Constructing Arrays with [`genarray`](xref:api_reference#jijmodeling.genarray) or [`gendict`](xref:api_reference#jijmodeling.gendict)
 
 In the example above, an operation involving nontrivial broadcasting, such as `y + z`, intentionally results in an error.
-In such cases, you can construct the desired array or dictionary by using {py:func}`~jijmodeling.genarray` or {py:func}`~jijmodeling.gendict` and explicitly specifying its shape or key set and the expression for each element:
+In such cases, you can construct the desired array or dictionary by using [`genarray`](xref:api_reference#jijmodeling.genarray) or [`gendict`](xref:api_reference#jijmodeling.gendict) and explicitly specifying its shape or key set and the expression for each element:
 
 ```{code-cell} ipython3
 A = jm.genarray(lambda i, j, k: y[i, j] + z[i, j, k], (N, M, N))
@@ -140,15 +140,13 @@ In the future, JijModeling and OMMX are expected to support specifying such enco
 :::{admonition} Elementary Transcendental Functions
 :class: tip
 
-In addition to arithmetic operations, JijModeling expressions support elementary transcendental functions, including trigonometric functions ({py:meth}`~jijmodeling.Expression.sin`, {py:meth}`~jijmodeling.Expression.cos`, and {py:meth}`~jijmodeling.Expression.tan`) and logarithmic functions ({py:meth}`~jijmodeling.Expression.log2`, {py:meth}`~jijmodeling.Expression.log10`, and {py:meth}`~jijmodeling.Expression.ln`).
+In addition to arithmetic operations, JijModeling expressions support elementary transcendental functions, including trigonometric functions ([`sin`](xref:api_reference#jijmodeling.Expression.sin), [`cos`](xref:api_reference#jijmodeling.Expression.cos), and [`tan`](xref:api_reference#jijmodeling.Expression.tan)) and logarithmic functions ([`log2`](xref:api_reference#jijmodeling.Expression.log2), [`log10`](xref:api_reference#jijmodeling.Expression.log10), and [`ln`](xref:api_reference#jijmodeling.Expression.ln)).
 These functions can be applied to expressions regardless of whether they contain decision variables. Currently, however, compiling an instance results in an error if one of these functions is applied to an expression containing a decision variable.
 :::
 
 ## Comparison Operations
 
-```{eval-rst}
-Equality operators (:py:meth:`== <jijmodeling.Expression.__eq__>` and :py:meth:`\!= <jijmodeling.Expression.__ne__>`) and ordering operators (:py:meth:`< <jijmodeling.Expression.__lt__>`, :py:meth:`<= <jijmodeling.Expression.__le__>`, :py:meth:`> <jijmodeling.Expression.__gt__>`, and :py:meth:`>= <jijmodeling.Expression.__ge__>`) can also be used with JijModeling expressions.
-```
+Equality operators ([`==`](xref:api_reference#jijmodeling.Expression.__eq__) and [`!=`](xref:api_reference#jijmodeling.Expression.__ne__)) and ordering operators ([`<`](xref:api_reference#jijmodeling.Expression.__lt__), [`<=`](xref:api_reference#jijmodeling.Expression.__le__), [`>`](xref:api_reference#jijmodeling.Expression.__gt__), and [`>=`](xref:api_reference#jijmodeling.Expression.__ge__)) can also be used with JijModeling expressions.
 
 If **neither side of a comparison operator contains a decision variable**, the result is inferred as an expression of the Boolean type `Bool`. If at least one side may contain a decision variable, the result is treated as a special **comparison type**. This distinction is necessary because constraint definitions must be able to compare expressions containing decision variables, while comparisons used in comprehensions and similar constructs must evaluate to a definite Boolean value.
 
@@ -170,7 +168,7 @@ problem.infer(y > W)  # OK: comparison between arrays with the same shape
 ## Logical Operations
 
 JijModeling supports logical operations such as conjunction ("and"), disjunction ("or"), and negation ("not").
-Because Python's logical operators `and`, `or`, and `not` cannot be overloaded, use the bitwise operators `&` (and), `|` (or), and `~` (not), or the functions {py:func}`jijmodeling.band` (and), {py:func}`jijmodeling.bor` (or), and {py:func}`jijmodeling.bnot` (not).
+Because Python's logical operators `and`, `or`, and `not` cannot be overloaded, use the bitwise operators `&` (and), `|` (or), and `~` (not), or the functions [`jijmodeling.band`](xref:api_reference#jijmodeling.band) (and), [`jijmodeling.bor`](xref:api_reference#jijmodeling.bor) (or), and [`jijmodeling.bnot`](xref:api_reference#jijmodeling.bnot) (not).
 
 :::{admonition} Beware of Bitwise Operator Precedence
 :class: caution
@@ -199,5 +197,5 @@ problem
 :::{admonition} Example of a More Complex Conditional Expression
 :class: hint
 
-For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
+For a more realistic and complex conditional expression built with logical operations, see “[](xref:zept_tutor#src/30_radio_telescope_scheduling)” in the JijZept Typical Problem Collection.
 :::

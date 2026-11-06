@@ -61,8 +61,8 @@ Currently, the data specifications are as follows:
 | Placeholder type | Corresponding Python data type |
 | ---------------- | ------------------------------ |
 | Single placeholder | A Python number or tuple matching the placeholder's value type |
-| Placeholder array | A Python (nested) list or {py:class}`NumPy array <numpy.ndarray>` matching the value type |
-| Placeholder dictionary | A Python {py:class}`dictionary <dict>` matching the value type |
+| Placeholder array | A Python (nested) list or [`NumPy array`](xref:numpy#numpy.ndarray) matching the value type |
+| Placeholder dictionary | A Python [`dictionary`](xref:python#dict) matching the value type |
 | Category label | A Python list of unique numbers or strings |
 
 You also need to satisfy constraints on array shapes and the totality of dictionaries.
@@ -90,8 +90,8 @@ instance_data = {"N": N_data, "W": W_data, "v": v_data, "w": w_data, "s": s_data
 :::{admonition} Random instance data generation
 :class: tip
 
-You can use the {py:meth}`Problem.generate_random_dataset <jijmodeling.Problem.generate_random_dataset>` and
-{py:meth}`Problem.generate_random_instance <jijmodeling.Problem.generate_random_instance>` methods to generate random instance data.
+You can use the [`Problem.generate_random_dataset`](xref:api_reference#jijmodeling.Problem.generate_random_dataset) and
+[`Problem.generate_random_instance`](xref:api_reference#jijmodeling.Problem.generate_random_instance) methods to generate random instance data.
 For more details, please refer to the API documentation and upcoming advanced topic tutorials.
 :::
 
@@ -100,7 +100,7 @@ For more details, please refer to the API documentation and upcoming advanced to
 ## Compiling to an instance
 
 Once the model and instance data are prepared, you can compile them into an OMMX instance.
-The simplest way is to use the {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` method:
+The simplest way is to use the [`Problem.eval()`](xref:api_reference#jijmodeling.Problem.eval) method:
 
 ```{code-cell} ipython3
 instance1 = problem.eval(instance_data)
@@ -115,8 +115,8 @@ instance1.decision_variables_df
 instance1.objective
 ```
 
-This actually calls {py:meth}`Compiler.from_problem() <jijmodeling.Compiler.from_problem>` and
-{py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` internally, and is equivalent to:
+This actually calls [`Compiler.from_problem()`](xref:api_reference#jijmodeling.Compiler.from_problem) and
+[`Compiler.eval_problem()`](xref:api_reference#jijmodeling.Compiler.eval_problem) internally, and is equivalent to:
 
 ```{code-cell} ipython3
 compiler = jm.Compiler.from_problem(problem, instance_data)
@@ -133,33 +133,33 @@ assert instance2.constraints[0].function == instance1.constraints[0].function
 :class: note
 
 In the example above, we pass the `problem` problem to both
-{py:meth}`~jijmodeling.Compiler.from_problem` and {py:meth}`~jijmodeling.Compiler.eval_problem`.
+[`from_problem`](xref:api_reference#jijmodeling.Compiler.from_problem) and [`eval_problem`](xref:api_reference#jijmodeling.Compiler.eval_problem).
 This may look redundant, but they serve different purposes:
 
-The {py:class}`~jijmodeling.Problem` argument to {py:meth}`~jijmodeling.Compiler.from_problem`
-:    Used to extract information such as decision variable types that the {py:class}`~jijmodeling.Compiler`
+The [`Problem`](xref:api_reference#jijmodeling.Problem) argument to [`from_problem`](xref:api_reference#jijmodeling.Compiler.from_problem)
+:    Used to extract information such as decision variable types that the [`Compiler`](xref:api_reference#jijmodeling.Compiler)
      needs at evaluation time. In JijModeling, this bundle of information is called a
-     {py:class}`~jijmodeling.Namespace`. Internally, this is obtained via the
-     {py:meth}`~jijmodeling.Problem.namespace` property and passed to the
-     {py:meth}`Compiler constructor <jijmodeling.Compiler.__new__>`.
+     [`Namespace`](xref:api_reference#jijmodeling.Namespace). Internally, this is obtained via the
+     [`namespace`](xref:api_reference#jijmodeling.Problem.namespace) property and passed to the
+     [`Compiler constructor`](xref:api_reference#jijmodeling.Compiler.__new__).
 
-The {py:class}`~jijmodeling.Problem` argument to {py:meth}`~jijmodeling.Compiler.eval_problem`
-:    Specifies the {py:class}`~jijmodeling.Problem` you want to compile into an instance.
-     A {py:class}`~jijmodeling.Compiler` is not tied to a single problem, and can be reused for
-     multiple {py:class}`~jijmodeling.Problem` objects that share placeholders and decision variables.
+The [`Problem`](xref:api_reference#jijmodeling.Problem) argument to [`eval_problem`](xref:api_reference#jijmodeling.Compiler.eval_problem)
+:    Specifies the [`Problem`](xref:api_reference#jijmodeling.Problem) you want to compile into an instance.
+     A [`Compiler`](xref:api_reference#jijmodeling.Compiler) is not tied to a single problem, and can be reused for
+     multiple [`Problem`](xref:api_reference#jijmodeling.Problem) objects that share placeholders and decision variables.
 :::
 
-If you only need to compile a {py:class}`~jijmodeling.Problem` into an instance,
-{py:meth}`Problem.eval() <jijmodeling.Problem.eval>` is convenient. On the other hand, a
-{py:class}`~jijmodeling.Compiler` object can also provide OMMX-side IDs of constraints and decision
-variables via {py:meth}`~jijmodeling.Compiler.get_constraint_id_by_name` and
-{py:meth}`~jijmodeling.Compiler.get_decision_variable_by_name`.
+If you only need to compile a [`Problem`](xref:api_reference#jijmodeling.Problem) into an instance,
+[`Problem.eval()`](xref:api_reference#jijmodeling.Problem.eval) is convenient. On the other hand, a
+[`Compiler`](xref:api_reference#jijmodeling.Compiler) object can also provide OMMX-side IDs of constraints and decision
+variables via [`get_constraint_id_by_name`](xref:api_reference#jijmodeling.Compiler.get_constraint_id_by_name) and
+[`get_decision_variable_by_name`](xref:api_reference#jijmodeling.Compiler.get_decision_variable_by_name).
 
-In addition to compiling instances, {py:class}`~jijmodeling.Compiler` can evaluate individual scalar
-functions into OMMX {py:class}`~ommx.v1.Function` objects via
-{py:meth}`~jijmodeling.Compiler.eval_function`, or compile individual constraints (without registering
-them on a Problem) into OMMX {py:class}`~ommx.v1.Constraint` objects via
-{py:meth}`~jijmodeling.Compiler.eval_constraint`.
+In addition to compiling instances, [`Compiler`](xref:api_reference#jijmodeling.Compiler) can evaluate individual scalar
+functions into OMMX [`Function`](xref:ommx_api#ommx.v1.Function) objects via
+[`eval_function`](xref:api_reference#jijmodeling.Compiler.eval_function), or compile individual constraints (without registering
+them on a Problem) into OMMX [`Constraint`](xref:ommx_api#ommx.v1.Constraint) objects via
+[`eval_constraints`](xref:api_reference#jijmodeling.Compiler.eval_constraints).
 Below is an example that evaluates a function expression using decision variables from `problem`:
 
 ```{code-cell} ipython3
@@ -168,40 +168,40 @@ compiler.eval_function(jm.sum(x_.roll(1) * x_) - 1)
 ```
 
 These `eval_function` and `eval_constraint` methods are useful for debugging, and can also be used to
-transform a compiled {py:class}`ommx.v1.Instance`.
+transform a compiled [`ommx.v1.Instance`](xref:ommx_api#ommx.v1.Instance).
 
 Once created, a Compiler can be reused across multiple models that share placeholders and decision
 variables, and the **ID mappings for decision variables and constraints are preserved**. This is useful for
 cases like compiling multiple models with the same parameters but different objectives or constraints
 and comparing their results.
-On the other hand, since each call to {py:meth}`jijmodeling.Problem.eval` creates a new Compiler, IDs for the same decision variables and constraints may differ between generated instances.
-When IDs must remain consistent, create one {py:class}`~jijmodeling.Compiler` explicitly and reuse {py:meth}`jijmodeling.Compiler.eval_problem`.
+On the other hand, since each call to [`jijmodeling.Problem.eval`](xref:api_reference#jijmodeling.Problem.eval) creates a new Compiler, IDs for the same decision variables and constraints may differ between generated instances.
+When IDs must remain consistent, create one [`Compiler`](xref:api_reference#jijmodeling.Compiler) explicitly and reuse [`jijmodeling.Compiler.eval_problem`](xref:api_reference#jijmodeling.Compiler.eval_problem).
 
 :::{admonition} Transforming problems with the OMMX SDK
 :class: tip
 
 The  OMMX SDK provides various features for transforming a compiled
-{py:class}`~ommx.v1.Instance` object. For example, you can fix decision variable values or use
-{py:meth}`ommx.v1.Instance.to_qubo` to convert a constrained problem into an unconstrained QUBO
+[`Instance`](xref:ommx_api#ommx.v1.Instance) object. For example, you can fix decision variable values or use
+[`ommx.v1.Instance.to_qubo`](xref:ommx_api#ommx.v1.Instance.to_qubo) to convert a constrained problem into an unconstrained QUBO
 via a penalty method. For details, see the official [OMMX documentation](https://jij-inc.github.io/ommx/en/).
 :::
 
-### Options for {py:meth}`eval <jijmodeling.Problem.eval>` and {py:meth}`eval_problem <jijmodeling.Compiler.eval_problem>`
+### Options for [`eval`](xref:api_reference#jijmodeling.Problem.eval) and [`eval_problem`](xref:api_reference#jijmodeling.Compiler.eval_problem)
 
-Both {py:meth}`Problem.eval() <jijmodeling.Problem.eval>` and
-{py:meth}`Compiler.eval_problem() <jijmodeling.Compiler.eval_problem>` accept the same keyword-only
+Both [`Problem.eval()`](xref:api_reference#jijmodeling.Problem.eval) and
+[`Compiler.eval_problem()`](xref:api_reference#jijmodeling.Compiler.eval_problem) accept the same keyword-only
 arguments to control behavior:
 
 `prune_unused_vars: bool`
 :    When set to `True`, only decision variables that appear in the objective or constraints are registered in
-     the {py:class}`~ommx.v1.Instance`. The default is `False`, and decision variables that do not appear in the
+     the [`Instance`](xref:ommx_api#ommx.v1.Instance). The default is `False`, and decision variables that do not appear in the
      model are still registered.
 
 `constraint_detection: Optional[ConstraintDetectionConfig | bool] = None`
 :    JijModeling detects the structure of constraints and reflects it in the OMMX instance so that
      OMMX Adapters can call solvers more efficiently. This detection is enabled by default, but it currently
      incurs a compilation overhead of up to a few seconds.
-     Passing a {py:class}`~jijmodeling.ConstraintDetectionConfig` object allows you to specify which constraint
+     Passing a [`ConstraintDetectionConfig`](xref:api_reference#jijmodeling.ConstraintDetectionConfig) object allows you to specify which constraint
      types to detect and to adjust behavior parameters. You can also pass `False` to disable detection entirely.
 
 ## Solving an instance
@@ -221,21 +221,21 @@ solution.decision_variables_df[["name", "subscripts", "value"]]
 ```
 
 For details on how to use OMMX Adapters, see the
-{external+ommx_doc:doc}`OMMX User Guide <introduction>`.
-In addition to SCIP, {external+ommx_doc:doc}`OMMX Adapters for various solvers <user_guide/supported_ommx_adapters>`
+[OMMX User Guide](xref:ommx_doc#introduction).
+In addition to SCIP, [OMMX Adapters for various solvers](xref:ommx_doc#user_guide/supported_ommx_adapters)
 are available and can be used in the same manner.
 
 :::{admonition} OMMX SDK name-based extraction does not support dict-based variables or constraints
 :class: important
 
-The {py:class}`~ommx.v1.Solution` object provides name-based extraction methods such as
-{py:meth}`~ommx.v1.Solution.extract_decision_variables` and
-{py:meth}`~ommx.v1.Solution.extract_constraints`.
+The [`Solution`](xref:ommx_api#ommx.v1.Solution) object provides name-based extraction methods such as
+[`extract_decision_variables`](xref:ommx_api#ommx.v1.Solution.extract_decision_variables) and
+[`extract_constraints`](xref:ommx_api#ommx.v1.Solution.extract_constraints).
 At the moment, these do not support decision variables or constraints with string subscripts, so calling
 them on a `Solution` for models that use dictionaries or category labels will raise an error.
-In such cases, use {py:meth}`Compiler.get_constraint_id_by_name() <jijmodeling.Compiler.get_constraint_id_by_name>`
-or {py:meth}`Compiler.get_decision_variable_by_name() <jijmodeling.Compiler.get_decision_variable_by_name>` to
+In such cases, use [`Compiler.get_constraint_id_by_name()`](xref:api_reference#jijmodeling.Compiler.get_constraint_id_by_name)
+or [`Compiler.get_decision_variable_by_name()`](xref:api_reference#jijmodeling.Compiler.get_decision_variable_by_name) to
 retrieve IDs from the compiler, and pass those IDs to
-{py:meth}`ommx.v1.Solution.get_constraint_value` or
-{py:meth}`ommx.v1.Solution.get_decision_variable_by_id` to retrieve values.
+[`ommx.v1.Solution.get_constraint_value`](xref:ommx_api#ommx.v1.Solution.get_constraint_value) or
+[`ommx.v1.Solution.get_decision_variable_by_id`](xref:ommx_api#ommx.v1.Solution.get_decision_variable_by_id) to retrieve values.
 :::
