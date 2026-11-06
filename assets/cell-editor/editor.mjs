@@ -1,10 +1,10 @@
 const labels = {
-  en: { editHint: 'Double-click, double-tap or press Enter to edit Python code', done: 'Done', copy: 'Copy code',
-    add: '+ Code cell', run: 'Run', remove: 'Remove cell', code: 'Python code',
+  en: { editHint: 'Double-click, double-tap or press Enter to edit Python code', copy: 'Copy code',
+    add: '+ Code cell', code: 'Python code',
     connect: 'Connect the page kernel to edit cells.', failed: 'Execution failed.',
     unavailable: 'The cell editor could not load.', busy: 'Wait for the running cells to finish.' },
-  ja: { editHint: 'ダブルクリック・ダブルタップ・Enter で Python コードを編集', done: '完了', copy: 'コードをコピー',
-    add: '＋ コードセルを追加', run: '実行', remove: 'セルを削除', code: 'Python コード',
+  ja: { editHint: 'ダブルクリック・ダブルタップ・Enter で Python コードを編集', copy: 'コードをコピー',
+    add: '＋ コードセルを追加', code: 'Python コード',
     connect: '編集するにはページのカーネルに接続してください。', failed: '実行に失敗しました。',
     unavailable: 'セルエディターを読み込めませんでした。', busy: '実行中のセルが終わるまでお待ちください。' },
 };
@@ -84,13 +84,14 @@ export function enableEditGesture(target, start, run, signal) {
 }
 
 const editing = new WeakMap();
+const activeEditors = new WeakMap();
 const insertedAfter = new WeakMap();
 
 function addedCells({ notebook, cell }) {
   return notebook.cells.filter(item => insertedAfter.get(item) === cell);
 }
 
-function editor(cell, notebook, text, report) {
+function editor(block, cell, text, report, run) {
   const panel = document.createElement('div');
   const view = document.createElement('div');
   view.className = 'code-view';
@@ -143,36 +144,22 @@ function editor(cell, notebook, text, report) {
     paint();
     syncScroll();
   });
-  const run = button(text.run, async () => {
-    if (cell.isBusy || run.disabled) return;
-    run.disabled = true;
-    report('');
-    try {
-      cell.clear();
-      const result = await notebook.executeOnly(cell.id);
-      if (!result || result.error?.length) report(text.failed);
-    } catch (error) {
-      report(error.message);
-    } finally {
-      run.disabled = false;
-    }
-  });
-  run.title = 'Shift+Enter';
-  const done = button(text.done, finish);
-  done.title = 'Esc';
-  function finish() {
+  function finish(focus = true) {
+    if (input.hidden) return;
+    cell.source = field.value;
+    activeEditors.delete(block);
     editing.set(cell, false);
     input.hidden = true;
-    done.hidden = true;
     view.hidden = false;
     paint();
-    preview.focus();
+    if (focus) preview.focus();
   }
   function enter(offset, focus = true) {
     if (!input.hidden) return false;
+    activeEditors.get(block)?.finish(false);
+    activeEditors.set(block, surface);
     editing.set(cell, true);
     view.hidden = true;
-    done.hidden = false;
     input.hidden = false;
     if (field.value !== cell.source) field.value = cell.source;
     field.rows = Math.min(24, Math.max(3, field.value.split('\n').length));
@@ -183,12 +170,13 @@ function editor(cell, notebook, text, report) {
     return true;
   }
   input.hidden = true;
-  done.hidden = true;
   const events = new AbortController();
   function execute() {
-    if (cell.isBusy || run.disabled) return false;
-    preview.focus();
-    run.click();
+    const active = activeEditors.get(block);
+    if (active && active !== surface) return active.execute();
+    if (input.hidden) preview.focus();
+    else finish();
+    run();
     return true;
   }
   enableEditGesture(preview, enter, execute, events.signal);
@@ -200,14 +188,18 @@ function editor(cell, notebook, text, report) {
       finish();
     } else if (event.shiftKey && event.key === 'Enter') {
       event.preventDefault();
-      finish();
-      run.click();
+      execute();
     }
   });
-  panel.append(view, input, run, done);
+  panel.append(view, input);
   paint();
   loadHighlighter().then(loaded => { highlighter = loaded; paint(); });
-  return { panel, enter, execute, dispose: () => events.abort() };
+  function dispose() {
+    if (activeEditors.get(block) === surface) activeEditors.delete(block);
+    events.abort();
+  }
+  const surface = { panel, cell, enter, finish, execute, dispose };
+  return surface;
 }
 
 function render({ el, model }) {
@@ -217,9 +209,11 @@ function render({ el, model }) {
   status.setAttribute('role', 'status');
   const report = message => { status.textContent = message; };
   const host = el.getRootNode().host;
+  const block = host.parentElement;
+  const runSelector = 'button[aria-label="Run cell"]';
 
   if (model.get('action') === 'edit') {
-    const source = host.parentElement.querySelector(':scope > .myst-code');
+    const source = block.querySelector(':scope > .myst-code');
     if (!source) return;
     const events = new AbortController();
     let surface;
@@ -237,7 +231,7 @@ function render({ el, model }) {
       const live = connectedCell(key);
       if (!live) return;
       report('');
-      surface = editor(live.cell, live.notebook, text, report);
+      surface = editor(block, live.cell, text, report, () => block.querySelector(runSelector)?.click());
       el.prepend(surface.panel);
       host.dataset.engaged = '';
       return surface;
@@ -252,6 +246,17 @@ function render({ el, model }) {
       }
     });
     observer.observe(host);
+    block.addEventListener('click', event => {
+      if (!event.target.closest(runSelector)) return;
+      const active = activeEditors.get(block);
+      if (!active) return;
+      if (insertedAfter.has(active.cell)) {
+        event.stopPropagation();
+        active.execute();
+      } else {
+        active.finish();
+      }
+    }, { capture: true, signal: events.signal });
     enableEditGesture(source, offset => getSurface()?.enter(offset), () => getSurface()?.execute(), events.signal);
     el.append(status);
     return () => {
@@ -268,21 +273,23 @@ function render({ el, model }) {
     const { notebook } = live;
     const row = document.createElement('div');
     row.className = 'added-cell';
-    const surface = editor(cell, notebook, text, report);
-    const output = document.createElement('div');
-    const discard = button(text.remove, () => {
-      if (cell.isBusy) return report(text.busy);
-      const index = notebook.cells.indexOf(cell);
-      if (index >= 0) notebook.cells.splice(index, 1);
-      insertedAfter.delete(cell);
-      cell.detachSession();
-      mounted.delete(cell);
-      surface.dispose();
-      row.remove();
+    let running = false;
+    const surface = editor(block, cell, text, report, async () => {
+      if (running || notebook.code.some(item => item.isBusy)) return;
+      running = true;
       report('');
-      add.focus();
+      try {
+        cell.clear();
+        const result = await notebook.executeOnly(cell.id);
+        if (!result || result.error?.length) report(text.failed);
+      } catch (error) {
+        report(error.message);
+      } finally {
+        running = false;
+      }
     });
-    row.append(surface.panel, discard, output);
+    const output = document.createElement('div');
+    row.append(surface.panel, output);
     el.insertBefore(row, add);
     mounted.set(cell, surface);
     cell.attachToDOM(output);
