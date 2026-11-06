@@ -76,9 +76,9 @@ W + 1
 
 また、Decorator API を使えば、Python 変数と同じ名前の場合、宣言時にプレースホルダーの名前を省略できます。
 
-(knapsack_placeholders_def)=
-
 ```{code-cell} ipython3
+:label: knapsack_placeholders_def
+
 @jm.Problem.define("Another Problem with Placeholder")
 def knapsack_placeholders(problem: jm.DecoratedProblem):
     W = problem.Float(description="ナップサックの耐荷重")
@@ -193,9 +193,9 @@ print(f"Category Labels: {ph_catlab_problem.category_labels}")
 また、次元が$1$の場合は単に自然数を表す式で与えることもできます。
 ここでは、$N$や$W$などの単独のプレースホルダーだけではなく、各アイテムの価値を表す一次元配列 `v` と、重さを表す一次元配列 `w` を持つようなナップサック問題を部分的に定義してみましょう：
 
-(knapsack_placeholders_update)=
-
 ```{code-cell} ipython3
+:label: knapsack_placeholders_update
+
 import jijmodeling as jm
 
 @jm.Problem.define("Knapsack (Placeholders only, with arrays)", sense=jm.ProblemSense.MAXIMIZE)
@@ -245,9 +245,9 @@ partial_shape
 
 たとえば、上で定義した `knapsack_placeholders` は `ndim` を使って次のように定義することができます：
 
-(knapsack_placeholders_ndim)=
-
 ```{code-cell} ipython3
+:label: knapsack_placeholders_ndim
+
 import jijmodeling as jm
 
 

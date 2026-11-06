@@ -77,9 +77,9 @@ W + 1
 
 With the Decorator API, when the placeholder name matches the Python variable name, you can omit the name at declaration time.
 
-(knapsack_placeholders_def)=
-
 ```{code-cell} ipython3
+:label: knapsack_placeholders_def
+
 @jm.Problem.define("Another Problem with Placeholder")
 def knapsack_placeholders(problem: jm.DecoratedProblem):
     W = problem.Float(description="Knapsack capacity")
@@ -196,9 +196,9 @@ The `shape` keyword argument can take an expression representing a fixed-length 
 When the dimension is $1$, it can also be given directly as a natural-valued expression.
 Here we partially define a knapsack problem that has not only single placeholders such as $N$ and $W$, but also one-dimensional arrays `v` for item values and `w` for item weights:
 
-(knapsack_placeholders_update)=
-
 ```{code-cell} ipython3
+:label: knapsack_placeholders_update
+
 import jijmodeling as jm
 
 @jm.Problem.define("Knapsack (Placeholders only, with arrays)", sense=jm.ProblemSense.MAXIMIZE)
@@ -248,9 +248,9 @@ You can specify `ndim` and `shape` together, but in that case the number of comp
 
 For example, the `knapsack_placeholders` defined above can be written using `ndim` as follows:
 
-(knapsack_placeholders_ndim)=
-
 ```{code-cell} ipython3
+:label: knapsack_placeholders_ndim
+
 import jijmodeling as jm
 
 

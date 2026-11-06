@@ -197,8 +197,8 @@ print(f"目的関数の最適値: {solution.objective}")
 solution.decision_variables_df[["name", "subscripts", "value"]]
 ```
 
-OMMX Adapter の詳しい利用方法については、{external+ommx_doc:doc}`OMMX のユーザーガイド <introduction>`を参照してください。
-また、SCIP だけでなく{external+ommx_doc:doc}`さまざまなソルバーに対する OMMX Adapter <user_guide/supported_ommx_adapters>`が用意されており、同様の手順で利用することができます。
+OMMX Adapter の詳しい利用方法については、[OMMX のユーザーガイド](xref:ommx_doc#introduction)を参照してください。
+また、SCIP だけでなく[さまざまなソルバーに対する OMMX Adapter](xref:ommx_doc#user_guide/supported_ommx_adapters)が用意されており、同様の手順で利用することができます。
 
 :::{admonition} OMMX SDK の名寄せ機能は決定変数や制約の辞書に未対応
 :class: important

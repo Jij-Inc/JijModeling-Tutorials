@@ -146,7 +146,7 @@ except Exception as e:
 :::{admonition} What is the relationship between {py:class}`Expression <jijmodeling.Expression>` and {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` / {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>`?
 :class: note
 
-In the {external+api_reference:doc}`API reference <index>` and editor completions/docs, you may see type names such as {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` and {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>`.
+In the [API reference](xref:api_reference#index) and editor completions/docs, you may see type names such as {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` and {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>`.
 These are dummy shorthand types that do not exist in the library implementation, and are used to represent types that can be converted to {py:class}`Expression <jijmodeling.Expression>`, or functions from `Expression` to `Expression`.
 Specifically, you can think of them as follows:
 

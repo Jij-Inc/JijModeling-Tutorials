@@ -160,9 +160,9 @@ problem
 
 次は `shape` にタプルを渡して二次元配列を定義している例です：
 
-(multidim_arrays)=
-
 ```{code-cell} ipython3
+:label: multidim_arrays
+
 import jijmodeling as jm
 
 

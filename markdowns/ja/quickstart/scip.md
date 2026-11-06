@@ -133,7 +133,7 @@ instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-{py:meth}`Problem.eval <jijmodeling.Problem.eval>` の返却値は {py:class}`ommx.v1.Instance` オブジェクトです。詳しくは{doc}`../basics/instance_generation` や {external+ommx_doc:doc}`user_guide/instance` を参照してください。
+{py:meth}`Problem.eval <jijmodeling.Problem.eval>` の返却値は {py:class}`ommx.v1.Instance` オブジェクトです。詳しくは{doc}`../basics/instance_generation` や [](xref:ommx_doc#user_guide/instance) を参照してください。
 :::
 
 +++
@@ -158,5 +158,5 @@ solution.decision_variables_df[["name", "subscripts", "value"]]
 ```
 
 :::{hint}
-`OMMXPySCIPOptAdapter.solve` の返却値は {py:class}`ommx.v1.Solution` オブジェクトです。詳しくは {external+ommx_doc:doc}`user_guide/solution` を参照してください。
+`OMMXPySCIPOptAdapter.solve` の返却値は {py:class}`ommx.v1.Solution` オブジェクトです。詳しくは [](xref:ommx_doc#user_guide/solution) を参照してください。
 :::

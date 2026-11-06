@@ -221,8 +221,8 @@ solution.decision_variables_df[["name", "subscripts", "value"]]
 ```
 
 For details on how to use OMMX Adapters, see the
-{external+ommx_doc:doc}`OMMX User Guide <introduction>`.
-In addition to SCIP, {external+ommx_doc:doc}`OMMX Adapters for various solvers <user_guide/supported_ommx_adapters>`
+[OMMX User Guide](xref:ommx_doc#introduction).
+In addition to SCIP, [OMMX Adapters for various solvers](xref:ommx_doc#user_guide/supported_ommx_adapters)
 are available and can be used in the same manner.
 
 :::{admonition} OMMX SDK name-based extraction does not support dict-based variables or constraints

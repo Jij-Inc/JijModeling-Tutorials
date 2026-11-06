@@ -89,7 +89,7 @@ sum_example_plain_alt
 :::{important}
 二引数による畳み込みをサポートしているのは、 {py:func}`jm.sum() <jijmodeling.sum>` と {py:func}`jm.prod() <jijmodeling.prod>` のみで、{py:func}`jm.max() <jijmodeling.max>` や {py:func}`jm.min() <jijmodeling.min>` ではサポートされていません。
 
-Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の {external+python:ref}`lambda 式 <lambda>` を使う必要があります。
+Decorator API を使わずに Plain API のみで済ませる場合、添え字を渡る式を作成するには Python の [lambda 式](xref:python#lambda) を使う必要があります。
 :::
 
 :::{tip}

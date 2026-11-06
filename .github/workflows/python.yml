@@ -36,6 +36,11 @@ jobs:
           version: 3.x
           repo-token: ${{ github.token }}
 
+      - name: Set up Node.js for Jupyter Book
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Set up Python
         run: uv python install ${{ matrix.python-version }}
 
@@ -43,7 +48,26 @@ jobs:
         run: uv sync --extra dev --refresh
 
       - name: Check books
-        run: task check_book_${{ matrix.language }} STRICT=${{ github.ref == 'refs/heads/main' || github.base_ref == 'main' }}
+        shell: bash
+        env:
+          JUPYTER_BASE_URL: http://127.0.0.1:8888
+        run: |
+          JUPYTER_TOKEN=$(python -c 'import secrets; print(secrets.token_hex(32))')
+          export JUPYTER_TOKEN
+          echo "::add-mask::$JUPYTER_TOKEN"
+          uv run --directory docs/${{ matrix.language }} --locked --extra dev python -m jupyter_server \
+            --no-browser --ServerApp.ip=127.0.0.1 --ServerApp.port=8888 --ServerApp.port_retries=0 \
+            --Application.log_level=WARN &
+          server_pid=$!
+          auth="Authorization: token $JUPYTER_TOKEN"
+          trap 'curl -fsS --max-time 5 -X POST -H "$auth" "$JUPYTER_BASE_URL/api/shutdown" >/dev/null || kill "$server_pid" 2>/dev/null || true' EXIT
+          curl -fsS --retry 45 --retry-delay 1 --retry-connrefused --max-time 5 \
+            -H "$auth" "$JUPYTER_BASE_URL/api/kernelspecs" >/dev/null
+
+          task check_book_${{ matrix.language }} STRICT=${{ github.ref == 'refs/heads/main' || github.base_ref == 'main' }} 2>&1 | tee book-build.log
+          if grep -F '⛔' book-build.log; then
+            exit 1
+          fi
 
   test_release_scripts:
     name: Test release note TOC and heading updates
@@ -62,6 +86,16 @@ jobs:
 
       - name: Run TOC round-trip and heading version replacement tests
         run: uv run --locked --extra dev python -m unittest discover -s tests -v
+
+  test_notebook_launch:
+    name: Test notebook plugins
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test plugins/*.test.mjs
 
   disallow_unreleased:
     name: Disallow unreleased release notes

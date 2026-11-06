@@ -13,16 +13,20 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "jupyter-book >= 1.0.0, < 2.0.0",
+  "jupyter-book == 2.1.7",
+  "jupyterlab >= 4.4, < 5",
+  "ipykernel >= 6.29, < 8",
   "jupytext >= 1.18.1, < 2.0.0",
   "nbconvert>=7.16.6, <8.0.0",
   "ruamel.yaml==0.19.1",
-  "sphinxcontrib-katex >=0.9.11, <1.0.0",
 ]
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.jupytext]
+notebook_metadata_filter = "execute"
 
 [tool.jupytext.formats]
 "docs/" = "ipynb"

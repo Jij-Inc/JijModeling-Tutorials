@@ -133,7 +133,7 @@ instance = knapsack_problem.eval(instance_data)
 ```
 
 :::{hint}
-The return value of {py:meth}`Problem.eval <jijmodeling.Problem.eval>` is an {py:class}`ommx.v1.Instance` object. For details, see {doc}`../basics/instance_generation` and {external+ommx_doc:doc}`user_guide/instance`.
+The return value of {py:meth}`Problem.eval <jijmodeling.Problem.eval>` is an {py:class}`ommx.v1.Instance` object. For details, see {doc}`../basics/instance_generation` and [](xref:ommx_doc#user_guide/instance).
 :::
 
 +++

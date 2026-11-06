@@ -176,4 +176,4 @@ problem
 ```
 
 Slices that specify a step or stop index, such as `x[1, 1:N:2]`, are also supported.
-For details on slice syntax, see the Python docs on "{external+python:ref}`slicings`".
+For details on slice syntax, see the Python docs on "[](xref:python#slicings)".

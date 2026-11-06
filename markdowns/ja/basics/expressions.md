@@ -143,7 +143,7 @@ except Exception as e:
 :::{admonition} {py:class}`Expression <jijmodeling.Expression>` と {py:data}`ExpressionLike <jijmodeling.ExpressionLike>` / {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>` の関係は？
 :class: note
 
-{external+api_reference:doc}`API リファレンス <index>` やエディタの補完・ドキュメント上では、{py:data}`ExpressionLike <jijmodeling.ExpressionLike>` や {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>` といった型名が登場します。
+[API リファレンス](xref:api_reference#index) やエディタの補完・ドキュメント上では、{py:data}`ExpressionLike <jijmodeling.ExpressionLike>` や {py:data}`ExpressionFunction <jijmodeling.ExpressionFunction>` といった型名が登場します。
 これらはライブラリの実装には存在しないダミーの略記用の型であり、{py:class}`Expression <jijmodeling.Expression>` に変換可能な型や、`Expression` から `Expression` への関数を表す型の略記です。
 具体的には以下のように考えておけば大丈夫です：
 

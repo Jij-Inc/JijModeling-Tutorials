@@ -1,4 +1,6 @@
 ---
+execute:
+  skip: true
 jupytext:
   text_representation:
     extension: .md
@@ -40,7 +42,7 @@ def problem(problem: jm.DecoratedProblem):
 
 ### Support `-=` operator to update a `Problem`'s objective function
 
-You can now use `-=` to add subtracted terms from a {py:class}`~jijmodeling.Problem`'s objective function. 
+You can now use `-=` to add subtracted terms from a {py:class}`~jijmodeling.Problem`'s objective function.
 
 Unlike `+=`, `-=` does not support removing constraints.
 

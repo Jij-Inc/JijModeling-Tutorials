@@ -1,4 +1,6 @@
 ---
+execute:
+  skip: true
 jupytext:
   text_representation:
     extension: .md

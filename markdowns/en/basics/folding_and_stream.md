@@ -89,7 +89,7 @@ sum_example_plain_alt
 :::{important}
 Only {py:func}`jm.sum() <jijmodeling.sum>` and {py:func}`jm.prod() <jijmodeling.prod>` support the two-argument folding form; {py:func}`jm.max() <jijmodeling.max>` and {py:func}`jm.min() <jijmodeling.min>` do not.
 
-When using only the Plain API, expressions that traverse indices must be constructed with Python {external+python:ref}`lambda expressions <lambda>`.
+When using only the Plain API, expressions that traverse indices must be constructed with Python [lambda expressions](xref:python#lambda).
 :::
 
 :::{tip}

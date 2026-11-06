@@ -199,5 +199,5 @@ problem
 :::{admonition} Example of a More Complex Conditional Expression
 :class: hint
 
-For a more realistic and complex conditional expression built with logical operations, see “{external+zept_tutor:doc}`src/30_radio_telescope_scheduling`” in the JijZept Typical Problem Collection.
+For a more realistic and complex conditional expression built with logical operations, see “[](xref:zept_tutor#src/30_radio_telescope_scheduling)” in the JijZept Typical Problem Collection.
 :::

@@ -165,9 +165,9 @@ This example uses the Decorator API, but the `shape` argument works the same in 
 
 As another example, here is a two-dimensional array declared by passing a tuple to `shape`:
 
-(multidim_arrays)=
-
 ```{code-cell} ipython3
+:label: multidim_arrays
+
 import jijmodeling as jm
 
 

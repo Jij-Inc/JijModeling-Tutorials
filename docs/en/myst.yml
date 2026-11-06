@@ -1,0 +1,50 @@
+version: 1
+extends:
+  - ../../config/jupyter.json
+  - toc.yml
+project:
+  static_files:
+    - ../../assets/launch/launch-icons-LICENSE.txt
+  title: JijModeling
+  authors:
+    - name: Jij Inc.
+  bibliography:
+    - references.bib
+  error_rules:
+    - rule: reference-target-resolves
+      severity: error
+  references:
+    api_reference: https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/
+    numpy: https://numpy.org/doc/stable
+    python: https://docs.python.org/3
+    ommx_api: https://jij-inc.github.io/ommx/python/ommx
+    ommx_doc: https://jij-inc.github.io/ommx/en
+    zept_tutor:
+      https://jij-inc-jijzept-tutorials-en.readthedocs-hosted.com/en/latest
+  plugins:
+    - ../../plugins/python-roles.mjs
+    - ../../plugins/notebook-math.mjs
+    - ../../plugins/notebook-launch.mjs
+    - ../../plugins/editable-cells.mjs
+    - ../../plugins/sidebar.mjs
+site:
+  parts:
+    primary_sidebar_footer: |
+      ```{toc}
+      :kind: project
+      ```
+
+      [Made with MyST](https://mystmd.org/made-with-myst)
+  options:
+    logo: logo.png
+    logo_dark: logo.png
+    favicon: logo.png
+    logo_alt: JijModeling
+    logo_text: JijModeling
+    hide_authors: true
+    outline_maxdepth: 5
+    folders: true
+    style: ../../assets/book.css
+  nav:
+    - title: 日本語
+      url: https://jij-inc-jijmodeling-tutorials-ja.readthedocs-hosted.com/ja/

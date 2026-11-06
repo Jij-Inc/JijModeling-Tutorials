@@ -22,14 +22,14 @@ For questions about JijModeling, we provide community support through the follow
 
 When contributing to this repository, please note the following:
 
-- Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and [task](https://taskfile.dev/installation/) for development, then run `uv sync --locked --extra dev`.
+- Install [uv](https://docs.astral.sh/uv/getting-started/installation/), [task](https://taskfile.dev/installation/), and Node.js 22 for development, then run `uv sync --locked --extra dev`.
 - Use `task` commands to easily build JupyterBook documentation and add release notes, etc. Run `task -l` to see available commands.
 - Use `task create_unreleased_notes` and `task finalize_release_notes -- <VERSION>` to prepare release notes. These commands update both languages' YAML tables of contents through Python while preserving comments and formatting. Finalization replaces the first `X.XX.X` in each Markdown release heading with the version, then uses Jupytext to regenerate and execute the paired notebook from that Markdown.
 - Run `task test_release_toc` to test the YAML editor and `task check_release_toc` to check that neither table of contents contains unreleased entries before merging to `main`.
 - For updates to JijModeling v2.x.y learning materials, create your branch from the `jijmodeling2` branch.
 - The `.ipynb` files under the `book` directory and `.md` files under the `markdowns` directory are synchronized via `jupytext`. When using generative AI to update learning materials, we recommend editing files under the `markdowns` directory.
-- Before submitting a Pull Request, run `task check_book_en`, `task check_book_ja`, and `task check_paired_notebooks` to ensure no errors occur.
-- Book checks are strict by default (`STRICT=true`). Use `task check_book_en STRICT=false` or `task check_book_ja STRICT=false` to check executability while allowing documentation warnings, including unresolved links. Notebook execution failures remain fatal in both modes. CI uses strict mode on `main` and PRs targeting `main`, and executability-only mode elsewhere.
+- Before submitting a Pull Request, run `task check_book_en`, `task check_book_ja`, and `task check_paired_notebooks` to ensure no errors occur. If you change a MyST plugin, also run `node --test plugins/*.test.mjs`.
+- Book checks use JB2's `--strict` by default. Each book's `project.error_rules` promotes unresolved references to errors. Ordinary warnings are allowed. Use `task check_book_en STRICT=false` or `task check_book_ja STRICT=false` to skip the strict exit check locally. CI enables strict mode on `main` and PRs targeting `main`. In all CI builds, logged errors also fail the job because JB2 2.1.7 can return success for unknown roles and directives.
 
 > [!TIP]
 > For updates to JijModeling v1.x.y learning materials, create your branch from the `main` branch
