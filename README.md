@@ -29,7 +29,7 @@ When contributing to this repository, please note the following:
 - For updates to JijModeling v2.x.y learning materials, create your branch from the `jijmodeling2` branch.
 - The `.ipynb` files under the `book` directory and `.md` files under the `markdowns` directory are synchronized via `jupytext`. When using generative AI to update learning materials, we recommend editing files under the `markdowns` directory.
 - Before submitting a Pull Request, run `task check_book_en`, `task check_book_ja`, and `task check_paired_notebooks` to ensure no errors occur. If you change a MyST plugin, also run `node --test plugins/*.test.mjs`.
-- Book checks are strict by default (`STRICT=true`). Use `task check_book_en STRICT=false` or `task check_book_ja STRICT=false` to run a local check with documentation warnings allowed. Notebook execution failures remain fatal in both modes. CI uses strict mode on `main` and PRs targeting `main`, and non-strict mode elsewhere. In both modes, CI also fails on logged errors and unknown references, roles, or directives.
+- Book checks use JB2's `--strict` by default. Each book's `project.error_rules` promotes unresolved references to errors. Ordinary warnings are allowed. Use `task check_book_en STRICT=false` or `task check_book_ja STRICT=false` to skip the strict exit check locally. CI enables strict mode on `main` and PRs targeting `main`. In all CI builds, logged errors also fail the job because JB2 2.1.7 can return success for unknown roles and directives.
 
 > [!TIP]
 > For updates to JijModeling v1.x.y learning materials, create your branch from the `main` branch

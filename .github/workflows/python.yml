@@ -49,9 +49,23 @@ jobs:
 
       - name: Check books
         shell: bash
+        env:
+          JUPYTER_BASE_URL: http://127.0.0.1:8888
         run: |
+          JUPYTER_TOKEN=$(python -c 'import secrets; print(secrets.token_hex(32))')
+          export JUPYTER_TOKEN
+          echo "::add-mask::$JUPYTER_TOKEN"
+          uv run --directory docs/${{ matrix.language }} --locked --extra dev python -m jupyter_server \
+            --no-browser --ServerApp.ip=127.0.0.1 --ServerApp.port=8888 --ServerApp.port_retries=0 \
+            --Application.log_level=WARN &
+          server_pid=$!
+          auth="Authorization: token $JUPYTER_TOKEN"
+          trap 'curl -fsS --max-time 5 -X POST -H "$auth" "$JUPYTER_BASE_URL/api/shutdown" >/dev/null || kill "$server_pid" 2>/dev/null || true' EXIT
+          curl -fsS --retry 45 --retry-delay 1 --retry-connrefused --max-time 5 \
+            -H "$auth" "$JUPYTER_BASE_URL/api/kernelspecs" >/dev/null
+
           task check_book_${{ matrix.language }} STRICT=${{ github.ref == 'refs/heads/main' || github.base_ref == 'main' }} 2>&1 | tee book-build.log
-          if grep -Ei '⛔|unknown (reference|role|directive)' book-build.log; then
+          if grep -F '⛔' book-build.log; then
             exit 1
           fi
 
