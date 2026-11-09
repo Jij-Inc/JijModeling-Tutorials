@@ -23,7 +23,7 @@ kernelspec:
 
 複合型の `jm.DataType.STREAM`、`jm.DataType.PARTIAL_DICT`および `jm.DataType.TOTAL_DICT` を、プレースホルダーの `dtype`として指定できるようになりました。
 
-以下の例では、重み `c` とノードの添字 `i` の組を並べたストリームを、プレースホルダー `A` の各要素として定義します。`A` は経路の配列に対応し、各経路に含まれる組の数は異なっていても構いません。
+以下の例では、長さ `N` のバイナリ変数の配列 `x` を定義します。プレースホルダー `A` は、係数 `c` と `x` の添字 `i` の組を並べたストリームを要素とする 1 次元配列です。各ストリームから重み付き和が 1 以下となる制約を作り、和に含める項の数はストリームごとに変えられます。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -34,11 +34,11 @@ def problem(problem: jm.DecoratedProblem):
     x = problem.BinaryVar("x", shape=N)
     A = problem.Placeholder("A", dtype=jm.DataType.STREAM[(float, N)], ndim=1)
     problem += problem.Constraint(
-        "at-most-one", [jm.sum(c * x[i] for c, i in route) <= 1 for route in A]
+        "weighted-sum", [jm.sum(c * x[i] for c, i in terms) <= 1 for terms in A]
     )
 ```
 
-インスタンスデータでは、各経路を `(重み, 添字)` のタプルのリストで表します。次の例ではノード数を `N = 3` とし、2 つの組を含む経路と 1 つの組を含む経路を `A` に渡して評価します。
+インスタンスデータでは、各ストリームを `(係数, 添字)` のタプルのリストで表します。次の例では `N = 3` とし、2 項を含むストリームと 1 項を含むストリームを `A` に渡して評価します。
 
 ```{code-cell} ipython3
 problem.eval({
@@ -49,6 +49,15 @@ problem.eval({
     ],
 })
 ```
+
+この `A` の各要素は、それぞれ次の制約に対応します。
+
+$$
+\begin{aligned}
+0.5 x_0 + 0.75 x_1 &\le 1, \\
+x_2 &\le 1.
+\end{aligned}
+$$
 
 ## バグ修正
 

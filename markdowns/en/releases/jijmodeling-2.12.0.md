@@ -25,7 +25,7 @@ You can now use the collection types `jm.DataType.STREAM`, `jm.DataType.PARTIAL_
 `jm.DataType.TOTAL_DICT` as your placeholder datatype, allowing more freeform data without using
 `jagged=True`.
 
-In the following example, each element of placeholder `A` is a stream of pairs consisting of a weight `c` and a node index `i`. `A` represents an array of routes, and each route can contain a different number of pairs.
+In the following example, `x` is an array of `N` binary decision variables. Placeholder `A` is a one-dimensional array whose elements are streams of pairs consisting of a coefficient `c` and an index `i` into `x`. Each stream defines a weighted sum constrained to be at most 1, and the number of terms can vary between streams.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -36,11 +36,11 @@ def problem(problem: jm.DecoratedProblem):
     x = problem.BinaryVar("x", shape=N)
     A = problem.Placeholder("A", dtype=jm.DataType.STREAM[(float, N)], ndim=1)
     problem += problem.Constraint(
-        "at-most-one", [jm.sum(c * x[i] for c, i in route) <= 1 for route in A]
+        "weighted-sum", [jm.sum(c * x[i] for c, i in terms) <= 1 for terms in A]
     )
 ```
 
-In the instance data, each route is a list of `(weight, index)` tuples. The following example sets the number of nodes to `N = 3` and evaluates the model with two routes in `A`: one containing two pairs and the other containing one pair.
+In the instance data, each stream is a list of `(coefficient, index)` tuples. The following example sets `N = 3` and evaluates the model with two streams in `A`: one containing two terms and the other containing one term.
 
 ```{code-cell} ipython3
 problem.eval({
@@ -51,6 +51,15 @@ problem.eval({
     ],
 })
 ```
+
+The elements of this `A` correspond to the following constraints, respectively:
+
+$$
+\begin{aligned}
+0.5 x_0 + 0.75 x_1 &\le 1, \\
+x_2 &\le 1.
+\end{aligned}
+$$
 
 ## Bugfixes
 
