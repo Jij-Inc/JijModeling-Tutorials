@@ -23,19 +23,31 @@ kernelspec:
 
 複合型の `jm.DataType.STREAM`、`jm.DataType.PARTIAL_DICT`および `jm.DataType.TOTAL_DICT` を、プレースホルダーの `dtype`として指定できるようになりました。
 
-以下の例では、通過したノードとその重みを含む経路を持つプレースホルダーを定義します。各経路の長さはそれぞれ異なっても問題ありません。
+以下の例では、重み `c` とノードの添字 `i` の組を並べたストリームを、プレースホルダー `A` の各要素として定義します。`A` は経路の配列に対応し、各経路に含まれる組の数は異なっていても構いません。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
 @jm.Problem.define("problem")
-def _(problem: jm.DecoratedProblem):
+def problem(problem: jm.DecoratedProblem):
     N = problem.Natural("N")
     x = problem.BinaryVar("x", shape=N)
     A = problem.Placeholder("A", dtype=jm.DataType.STREAM[(float, N)], ndim=1)
     problem += problem.Constraint(
         "at-most-one", [jm.sum(c * x[i] for c, i in route) <= 1 for route in A]
     )
+```
+
+インスタンスデータでは、各経路を `(重み, 添字)` のタプルのリストで表します。次の例ではノード数を `N = 3` とし、2 つの組を含む経路と 1 つの組を含む経路を `A` に渡して評価します。
+
+```{code-cell} ipython3
+problem.eval({
+    "N": 3,
+    "A": [
+        [(0.5, 0), (0.75, 1)],
+        [(1.0, 2)],
+    ],
+})
 ```
 
 ## バグ修正

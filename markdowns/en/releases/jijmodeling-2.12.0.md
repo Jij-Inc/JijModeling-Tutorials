@@ -25,20 +25,31 @@ You can now use the collection types `jm.DataType.STREAM`, `jm.DataType.PARTIAL_
 `jm.DataType.TOTAL_DICT` as your placeholder datatype, allowing more freeform data without using
 `jagged=True`.
 
-For example, here we define one placeholder that has a collection of routes, including the nodes
-traversed and their weights, where each route can have a different length.
+In the following example, each element of placeholder `A` is a stream of pairs consisting of a weight `c` and a node index `i`. `A` represents an array of routes, and each route can contain a different number of pairs.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
 
 @jm.Problem.define("problem")
-def _(problem: jm.DecoratedProblem):
+def problem(problem: jm.DecoratedProblem):
     N = problem.Natural("N")
     x = problem.BinaryVar("x", shape=N)
     A = problem.Placeholder("A", dtype=jm.DataType.STREAM[(float, N)], ndim=1)
     problem += problem.Constraint(
         "at-most-one", [jm.sum(c * x[i] for c, i in route) <= 1 for route in A]
     )
+```
+
+In the instance data, each route is a list of `(weight, index)` tuples. The following example sets the number of nodes to `N = 3` and evaluates the model with two routes in `A`: one containing two pairs and the other containing one pair.
+
+```{code-cell} ipython3
+problem.eval({
+    "N": 3,
+    "A": [
+        [(0.5, 0), (0.75, 1)],
+        [(1.0, 2)],
+    ],
+})
 ```
 
 ## Bugfixes
