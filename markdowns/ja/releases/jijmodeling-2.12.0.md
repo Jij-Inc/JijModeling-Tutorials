@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
+# JijModeling 2.12.0 リリースノート
 
 +++
 
@@ -42,9 +42,9 @@ def _(problem: jm.DecoratedProblem):
 
 +++
 
-### バグ修正 1：制約条件の domain にタプルストリームを使った場合エラーになる問題の修正
+### バグ修正：制約条件の domain にタプルストリームを使った場合エラーになる問題の修正
 
-辞書の`.keys()`など、タプルのストリームを制約条件の `domain`として eval した場合に、型エラー{external+api_reference:doc}`E-TE0014 <error_codes/error/E-TE0014>`エラーが発生する問題を修正しました。
+辞書の`.keys()`など、タプルのストリームを制約条件の `domain`として eval した場合に、型エラー{external+api_reference:doc}`E-TE0014 <error_codes/error/E-TE0014>`が発生する問題を修正しました。
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -76,7 +76,3 @@ instance = problem.eval({})
 
 本バージョンから、厳密な演算ができる場合のみ定数畳み込みを行うようにしたため、このような問題は発生しなくなっています。
 また、これの影響として $\LaTeX$ 出力では一部の超越関数が簡約されずに表示されるようになりました。
-
-## その他の変更
-
-- 変更 1：

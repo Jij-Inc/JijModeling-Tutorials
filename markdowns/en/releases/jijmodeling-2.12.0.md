@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
+# JijModeling 2.12.0 Release Notes
 
 +++
 
@@ -45,7 +45,7 @@ def _(problem: jm.DecoratedProblem):
 
 +++
 
-### Bugfix 1: Fix compilation of constraints with a stream of tuples as its domain.
+### Bugfix: Fix compilation of constraints with a stream of tuples as its domain
 
 Fixed an issue where using a stream of tuples, such as dictionary placeholder's `keys()`, as a constraint's `domain` parameter would raise type error {external+api_reference:doc}`E-TE0014 <error_codes/error/E-TE0014>`.
 
@@ -79,7 +79,3 @@ instance = problem.eval({})
 
 Starting with this release, constant folding is performed only when the arithmetic is exact, preventing this issue.
 As a result, some transcendental functions now appear without simplification in $\LaTeX$ output.
-
-## Other Changes
-
-- Change 1

@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.11, <3.14"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -109,7 +109,7 @@ name = "cffi"
 version = "2.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pycparser" },
+    { name = "pycparser", marker = "implementation_name != 'PyPy'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/9e/ef/008a1939e372c06329a3fce4279c02f328488f3526744906eeec3da7ad5f/cffi-2.1.1.tar.gz", hash = "sha256:dd31f52ea1086513bb9df30f8fcee9b8918323ae067a3d5b78bc826a000712be", size = 530807, upload-time = "2026-08-03T21:21:18.939Z" }
 wheels = [
@@ -234,11 +234,11 @@ wheels = [
 
 [[package]]
 name = "click"
-version = "8.5.0"
+version = "8.5.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c7/0e/7fa0ef50764b67090eca4114772a2abf8b6148198475e54c660b97caeee6/click-8.5.0.tar.gz", hash = "sha256:ba0d2089de75ea0310e2dde03160e6ca10009947fb95a182f9b54021bb272e34", size = 382235, upload-time = "2026-08-26T13:33:14.56Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/45/37/edbf1b0707709013c0cf2e8317e03d97ed29bf4cac709fe328904ae92a38/click-8.5.1.tar.gz", hash = "sha256:9bbfada76703fd1d784b83eea012e3e8c6a001a876543ef104fa56aaaeb072b4", size = 399151, upload-time = "2026-11-06T17:37:01.021Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/50/6c0d534c5f134586a8e1ba4e330569e32f057e33372ae556463212fb4cd3/click-8.5.0-py3-none-any.whl", hash = "sha256:255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360", size = 125251, upload-time = "2026-08-26T13:33:12.928Z" },
+    { url = "https://files.pythonhosted.org/packages/31/7d/164b7ffc8624fe9efb4221bf9af485d5c1e41b9ae118045d2b6dc5457d8b/click-8.5.1-py3-none-any.whl", hash = "sha256:8bb5376d2006950386f8c6427613334a2acadc5f559cb80e638d00b4df957e37", size = 126163, upload-time = "2026-11-06T17:36:59.287Z" },
 ]
 
 [[package]]
@@ -469,7 +469,7 @@ wheels = [
 
 [[package]]
 name = "jijmodeling"
-version = "2.11.0"
+version = "2.12.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
@@ -480,13 +480,13 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/16/14/44dbb2e12a48f6a0eb5351ce4e235944e295a05edd75e1cd8a0e23333fe5/jijmodeling-2.11.0-cp310-abi3-macosx_10_16_x86_64.whl", hash = "sha256:5298cc926f4f0d0a2fdf6c2b7a9e75cd4ce5d768bedfc2179cff69ccca34f422", size = 13546963, upload-time = "2026-11-04T02:53:01.135Z" },
-    { url = "https://files.pythonhosted.org/packages/a0/1a/9a2ef5db8a9f5d649e47fbc4dbb7ddc467076eeec80f6f126dc5f422172d/jijmodeling-2.11.0-cp310-abi3-macosx_11_0_arm64.macosx_11_0_universal2.macosx_11_0_x86_64.whl", hash = "sha256:7f6706ead3f64fc4237805e5b1477af66706b817f28e1855f19b2ef4dfc7abf2", size = 26443602, upload-time = "2026-11-04T02:53:05.474Z" },
-    { url = "https://files.pythonhosted.org/packages/3b/86/e3d9cf939f52bb6e0f85289db17bea79473866c12635da8204d562883f7e/jijmodeling-2.11.0-cp310-abi3-macosx_12_0_arm64.macosx_12_0_universal2.macosx_12_0_x86_64.whl", hash = "sha256:b581b91618eeb634df6336938ec6e89c52a6087e1ced410dec1f5e2cb8e09a80", size = 26443023, upload-time = "2026-11-04T02:53:09.421Z" },
-    { url = "https://files.pythonhosted.org/packages/a1/2f/3f2f2c21348cd0fb372e5e84317f7b22af51d8df3d4e5864c89f4ef7f05d/jijmodeling-2.11.0-cp310-abi3-macosx_13_0_arm64.macosx_13_0_universal2.macosx_13_0_x86_64.whl", hash = "sha256:280767e0b618393b26c558db48f90755a9d8d4e058121cd19b840fe5b9f87ac8", size = 26443023, upload-time = "2026-11-04T02:53:13.397Z" },
-    { url = "https://files.pythonhosted.org/packages/c3/f2/1542fb9ef8f8163bce4a7ae068298897e48879fd4e854dc71b665f4c179c/jijmodeling-2.11.0-cp310-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:7abd7d22e2ca78fea8d7d1bf6a731f6c91781100de11e5ec0bc17ffcd17c9211", size = 13255114, upload-time = "2026-11-04T02:53:16.521Z" },
-    { url = "https://files.pythonhosted.org/packages/c8/31/f478fe23a32a9adadb8fceb515b19b3c40e18a0814819711ab4d1d9b530d/jijmodeling-2.11.0-cp310-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:1cd6d1b1ff53f3f5b378400af6e6e3a3c13e58ccdc4649943320580cc12c338c", size = 14057560, upload-time = "2026-11-04T02:53:19.527Z" },
-    { url = "https://files.pythonhosted.org/packages/ac/f5/347656ee1bbce76c4969ec36fb6bf894ed7a677c97cf859c306fd6b3bf39/jijmodeling-2.11.0-cp310-abi3-win_amd64.whl", hash = "sha256:2ae4066f45cb4c104733cce7a7e29153e1370bdc4f192dadb5f051f7a39d30f5", size = 15544672, upload-time = "2026-11-04T02:53:22.966Z" },
+    { url = "https://files.pythonhosted.org/packages/02/6e/1e76d48372d801e1158cea154a27160eb4f07ad671b17faea4cb27f76770/jijmodeling-2.12.0-cp310-abi3-macosx_10_16_x86_64.whl", hash = "sha256:f8fdf2a23a99121aa8646918c2da09516864a3f30ee3579c0703babe42849964", size = 13654105, upload-time = "2026-11-09T06:57:30.437Z" },
+    { url = "https://files.pythonhosted.org/packages/9e/6f/afbdb1f9b18e53d2c2e7e1adea4bb1a676a2ffbcac213db51706116e2c53/jijmodeling-2.12.0-cp310-abi3-macosx_11_0_arm64.macosx_11_0_universal2.macosx_11_0_x86_64.whl", hash = "sha256:1d714c4a48b2accefaa9e55e156387db0b6d75431a973d5b91337b6c9db56067", size = 26617715, upload-time = "2026-11-09T06:57:33.366Z" },
+    { url = "https://files.pythonhosted.org/packages/63/f2/1022fa24aa0f49eeee421e1aafd8a6f484f232ad6045b277f5fe1753ecca/jijmodeling-2.12.0-cp310-abi3-macosx_12_0_arm64.macosx_12_0_universal2.macosx_12_0_x86_64.whl", hash = "sha256:0dc2495ba2ced81bc2799c0c243be6f7048df19d9628ab6918d92c7870c77998", size = 26615760, upload-time = "2026-11-09T06:57:36.006Z" },
+    { url = "https://files.pythonhosted.org/packages/5c/a5/877cf12362b45fac17c9a3518ab565c7270103f9271ca8b545e10fa97e07/jijmodeling-2.12.0-cp310-abi3-macosx_13_0_arm64.macosx_13_0_universal2.macosx_13_0_x86_64.whl", hash = "sha256:d3f7ba1a6ad6e642187b06e416216a238c18010e3bfb87d94be3324bc6c6de40", size = 26615762, upload-time = "2026-11-09T06:57:38.892Z" },
+    { url = "https://files.pythonhosted.org/packages/0b/19/b1a73085c2942c859800b0ddae04f8ad61247e8d951e0f45b7c45b71a004/jijmodeling-2.12.0-cp310-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:8d6e9d26289c20e84b237d3f847e93a90659da04b5e074d8e50b576817b7dff2", size = 13254217, upload-time = "2026-11-09T06:57:41.757Z" },
+    { url = "https://files.pythonhosted.org/packages/1e/e0/98dd5e3697ba8f3f370257403cacc978d95e639200ed649ee05de749f0d9/jijmodeling-2.12.0-cp310-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:4a2adbf6a64ee17cbb262a22ee3266633515dfdd72f7ae4a9b1854e5cee9f454", size = 14082366, upload-time = "2026-11-09T06:57:43.809Z" },
+    { url = "https://files.pythonhosted.org/packages/c2/7e/46e420a92b1e3c4d880189b0bc1604a674c67400ed1aae90bb285e9ad8d4/jijmodeling-2.12.0-cp310-abi3-win_amd64.whl", hash = "sha256:d1c18258c8d47668fc4f0126536a1de5ca9ad7d7a093913f41ecc8c2f8407185", size = 15559769, upload-time = "2026-11-09T06:57:45.927Z" },
 ]
 
 [[package]]
@@ -1601,7 +1601,7 @@ resolution-markers = [
     "python_full_version < '3.11.5'",
 ]
 dependencies = [
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" } },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7a/97/5a3609c4f8d58b039179648e62dd220f89864f56f7357f5d4f45c29eb2cc/scipy-1.17.1.tar.gz", hash = "sha256:95d8e012d8cb8816c226aef832200b1d45109ed4464303e997c5b13122b297c0", size = 30573822, upload-time = "2026-02-23T00:26:24.851Z" }
 wheels = [
@@ -1655,7 +1655,7 @@ resolution-markers = [
     "python_full_version >= '3.12'",
 ]
 dependencies = [
-    { name = "numpy", version = "2.5.4", source = { registry = "https://pypi.org/simple" } },
+    { name = "numpy", version = "2.5.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7e/74/66de6258867beb2ef08f35f9f2ac017a52cacd5081714d239ff1a442d458/scipy-1.18.1.tar.gz", hash = "sha256:52c4b7422442aba924d03ad4019852b08a92e64ea187b933135687bfe2747307", size = 30781235, upload-time = "2026-08-21T23:28:50.599Z" }
 wheels = [
