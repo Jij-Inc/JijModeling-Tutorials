@@ -64,11 +64,25 @@
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'thebelab-button jij-add-cell';
-    button.textContent = japanese ? '＋ コードセルを追加' : '+ Code cell';
+    button.title = japanese ? 'コードセルを追加' : 'Add code cell';
+    button.setAttribute('aria-label', button.title);
+    const plus = document.createElement('i');
+    plus.className = 'fas fa-plus';
+    plus.setAttribute('aria-hidden', 'true');
+    button.append(plus);
     button.addEventListener('click', () => {
       const source = document.createElement('pre');
       source.dataset.language = 'python';
-      element.after(source);
+      const cell = document.createElement('div');
+      cell.className = 'cell docutils container';
+      const input = document.createElement('div');
+      input.className = 'cell_input docutils container';
+      const highlight = document.createElement('div');
+      highlight.className = 'highlight';
+      highlight.append(source);
+      input.append(highlight);
+      cell.append(input);
+      element.closest('.cell').after(cell);
       const added = thebelab.renderCell(source);
       added.cell.data('kernel-promise-resolve')(entry.cell.data('kernel'));
       const widgets = registry.getFactory('application/vnd.jupyter.widget-view+json');
