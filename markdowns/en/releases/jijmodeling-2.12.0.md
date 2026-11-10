@@ -21,10 +21,9 @@ kernelspec:
 
 ### Streams and dictionaries as placeholder `dtype`
 
-You can now specify `jm.DataType.STREAM`, `jm.DataType.PARTIAL_DICT`, and `jm.DataType.TOTAL_DICT` as a placeholder's `dtype`.
+You can now specify composite types (types defined by combining constructs such as `jm.DataType.STREAM`, `jm.DataType.PARTIAL_DICT`, and `jm.DataType.TOTAL_DICT` and nesting them as needed) as a placeholder's `dtype`.
 
 The following example defines an array `x` of `N` binary decision variables and a one-dimensional placeholder `A` whose elements are streams of pairs consisting of a coefficient `c` and an index `i` into `x`.
-Each stream defines a weighted sum constrained to be at most $1$, and the number of terms can vary between streams.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -61,11 +60,11 @@ x_2 &\le 1.
 $$
 
 :::{tip}
-Using placeholders with composite types in this way allows you to define data types whose rows can have different lengths.
+Placeholders with composite types allow you to define data types whose rows can have different lengths.
 
-Earlier versions of JijModeling used Jagged Arrays for this purpose. Although Jagged Arrays allow random access to their elements, they are difficult to validate through type checking, making debugging harder. For this reason, their use has been discouraged since JijModeling 2.
+Earlier versions of JijModeling required Jagged Arrays for this kind of formulation. However, while Jagged Arrays allow random access to their elements, they offer limited benefits from type checking and are deprecated in JijModeling 2.
 
-In many such cases, direct random access by index is unnecessary. Using placeholders with composite types to represent variable-length data in these cases allows you to define models in a safe, manageable way.
+We therefore encourage you to use placeholders with composite types for this kind of formulation.
 :::
 
 ## Bugfixes
