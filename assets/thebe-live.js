@@ -57,6 +57,7 @@
   const observer = new MutationObserver(() => {
     setTimeout(() => {
       if (!window.thebeKernel || !window.thebelab?.cells) return;
+      if (document.querySelector('.jij-clear-outputs')) return;
       observer.disconnect();
       thebelab.cells.each((_, entry) => enhance(entry));
       const clear = document.createElement('button');
