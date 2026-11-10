@@ -21,7 +21,7 @@ kernelspec:
 
 ### Streams and dictionaries as placeholder `dtype`
 
-You can now specify composite types (types defined by combining constructs such as `jm.DataType.STREAM`, `jm.DataType.PARTIAL_DICT`, and `jm.DataType.TOTAL_DICT` and nesting them as needed) as a placeholder's `dtype`.
+You can now define placeholders with composite types (placeholders whose containers can be nested as needed by combining `jm.DataType.STREAM`, `jm.DataType.PARTIAL_DICT`, and `jm.DataType.TOTAL_DICT` in `dtype` and using settings such as `ndim=`).
 
 The following example defines an array `x` of `N` binary decision variables and a one-dimensional placeholder `A` whose elements are streams of pairs consisting of a coefficient `c` and an index `i` into `x`.
 

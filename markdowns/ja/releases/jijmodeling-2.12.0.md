@@ -21,7 +21,7 @@ kernelspec:
 
 ### `dtype`でストリームと辞書の対応
 
-プレースホルダーの `dtype`として複合型（`jm.DataType.STREAM` 、 `jm.DataType.PARTIAL_DICT` および `jm.DataType.TOTAL_DICT`などを組み合わせ、必要に応じてネストして定義できる型）を指定できるようになりました。
+複合型のプレースホルダー（`dtype` で `jm.DataType.STREAM` 、 `jm.DataType.PARTIAL_DICT` および `jm.DataType.TOTAL_DICT` を必要に応じて組み合わせたり、`ndim=`指定などと合わせて必要に応じてコンテナをネストさせた形のプレースホルダー）を指定できるようになりました。
 
 以下の例では、長さ `N` のバイナリ変数の配列 `x` を定義し、係数 `c` と `x` の添字 `i` の組を並べたストリームを要素とする $1$ 次元のプレースホルダー `A` を定義しています。
 
