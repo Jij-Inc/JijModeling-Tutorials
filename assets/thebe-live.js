@@ -12,6 +12,27 @@
     if (enhanced.has(element)) return;
     enhanced.add(element);
 
+    const actions = document.createElement('div');
+    actions.className = 'jij-cell-actions';
+    actions.setAttribute('role', 'group');
+    actions.setAttribute('aria-label', japanese ? 'セルの操作' : 'Cell actions');
+    for (const [selector, icon, label] of [
+      ['.thebelab-run-button', 'far fa-circle-play', japanese ? 'セルを実行' : 'Run cell'],
+      ['.thebelab-restart-button', 'fas fa-arrow-rotate-right', japanese ? 'カーネルを再起動' : 'Restart kernel'],
+      ['.thebelab-restartall-button', 'fas fa-forward-fast', japanese ? '再起動してすべてのセルを実行' : 'Restart kernel and run all cells'],
+    ]) {
+      const button = element.querySelector(selector);
+      button.type = 'button';
+      button.title = label;
+      button.setAttribute('aria-label', label);
+      const symbol = document.createElement('i');
+      symbol.className = icon;
+      symbol.setAttribute('aria-hidden', 'true');
+      button.replaceChildren(symbol);
+      actions.append(button);
+    }
+    element.prepend(actions);
+
     const registry = entry.cell.data('renderMime');
     registry.addFactory({
       safe: true,

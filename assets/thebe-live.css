@@ -52,3 +52,58 @@ html[data-theme="dark"] :is(.cell_output .text_latex, .thebelab-cell .jp-OutputA
   color: #000;
   padding: 0.75rem;
 }
+
+.thebelab-cell {
+  position: relative;
+}
+
+.thebelab-cell .thebelab-input {
+  padding-top: 1.75rem;
+}
+
+.jij-cell-actions {
+  position: absolute;
+  top: 0;
+  right: 0.25rem;
+  z-index: 1;
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.thebelab-cell:is(:hover, :focus-within) > .jij-cell-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.thebelab-cell .jij-cell-actions button.thebelab-button {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pst-color-text-muted);
+  font-size: 1rem;
+}
+
+.thebelab-cell .jij-cell-actions button:is(:hover, :focus-visible) {
+  background: var(--pst-color-surface);
+  color: var(--pst-color-primary);
+}
+
+.jij-cell-actions button:focus-visible {
+  outline: 2px solid var(--pst-color-primary);
+  outline-offset: 2px;
+}
+
+@media (hover: none) {
+  .jij-cell-actions {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
