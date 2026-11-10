@@ -53,6 +53,7 @@ sphinx:
   config:
     html_static_path: ["_static", "../../assets"]
     html_js_files: ["thebe-live.js"]
+    html_css_files: ["thebe-live.css"]
     thebe_config:
       path_to_docs: docs/en
     mathjax_path: ""

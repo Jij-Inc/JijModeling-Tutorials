@@ -1,0 +1,54 @@
+html[data-theme="dark"] .thebelab-cell .CodeMirror {
+  background: #1e1e2e;
+  color: #cdd6f4;
+}
+
+html[data-theme="dark"] .thebelab-cell .jp-RenderedText pre {
+  color: #cdd6f4;
+}
+
+html[data-theme="dark"] .thebelab-cell .CodeMirror-cursor {
+  border-left-color: #cdd6f4;
+}
+
+html[data-theme="dark"] .thebelab-cell .CodeMirror-selected {
+  background: #45475a;
+}
+
+html[data-theme="dark"] .thebelab-cell .cm-keyword {
+  color: #cba6f7;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.cm-string, .cm-string-2) {
+  color: #a6e3a1;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.cm-number, .cm-atom) {
+  color: #fab387;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.cm-builtin, .cm-variable-2, .cm-variable-3, .cm-type, .cm-operator) {
+  color: #89dceb;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.cm-def, .cm-property) {
+  color: #89b4fa;
+}
+
+html[data-theme="dark"] .thebelab-cell .cm-comment {
+  color: #a6adc8;
+}
+
+html[data-theme="dark"] .thebelab-cell .cm-meta {
+  color: #f9e2af;
+}
+
+html[data-theme="dark"] .thebelab-cell .cm-error {
+  color: #f38ba8;
+}
+
+html[data-theme="dark"] :is(.cell_output .text_latex, .thebelab-cell .jp-OutputArea-output:has(.katex)) {
+  background: #fff;
+  color: #000;
+  padding: 0.75rem;
+}
