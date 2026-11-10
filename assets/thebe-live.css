@@ -1,5 +1,5 @@
 html[data-theme="dark"] .thebelab-cell .CodeMirror {
-  background: #1e1e2e;
+  background: transparent;
   color: #cdd6f4;
 }
 
@@ -55,6 +55,10 @@ html[data-theme="dark"] :is(.cell_output .text_latex, .thebelab-cell .jp-OutputA
 
 .thebelab-cell {
   position: relative;
+}
+
+.thebelab-cell > .thebelab-button:not(.jij-add-cell) {
+  display: none;
 }
 
 .thebelab-cell .thebelab-input {
