@@ -59,6 +59,14 @@
       if (!window.thebeKernel || !window.thebelab?.cells) return;
       observer.disconnect();
       thebelab.cells.each((_, entry) => enhance(entry));
+      const clear = document.createElement('button');
+      clear.type = 'button';
+      clear.className = 'thebelab-button jij-clear-outputs';
+      clear.textContent = japanese ? 'すべての出力を消去' : 'Clear all outputs';
+      clear.addEventListener('click', () => {
+        thebelab.cells.each((_, entry) => entry.setOutputText(''));
+      });
+      document.querySelector('.thebe-launch-button').after(clear);
     }, 0);
   });
   observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
