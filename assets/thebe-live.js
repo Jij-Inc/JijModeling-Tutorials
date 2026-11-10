@@ -12,12 +12,18 @@
     if (enhanced.has(element)) return;
     enhanced.add(element);
 
+    const clearOutput = document.createElement('button');
+    clearOutput.className = 'thebelab-button jij-clear-output';
+    clearOutput.addEventListener('click', () => entry.setOutputText(''));
+    element.append(clearOutput);
+
     const actions = document.createElement('div');
     actions.className = 'jij-cell-actions';
     actions.setAttribute('role', 'group');
     actions.setAttribute('aria-label', japanese ? 'セルの操作' : 'Cell actions');
     for (const [selector, icon, label] of [
       ['.thebelab-run-button', 'far fa-circle-play', japanese ? 'セルを実行' : 'Run cell'],
+      ['.jij-clear-output', 'fas fa-eraser', japanese ? 'このセルの出力を消去' : 'Clear cell output'],
       ['.thebelab-restart-button', 'fas fa-arrow-rotate-right', japanese ? 'カーネルを再起動' : 'Restart kernel'],
       ['.thebelab-restartall-button', 'fas fa-forward-fast', japanese ? '再起動してすべてのセルを実行' : 'Restart kernel and run all cells'],
     ]) {
