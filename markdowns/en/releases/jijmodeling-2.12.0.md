@@ -21,11 +21,10 @@ kernelspec:
 
 ### Streams and dictionaries as placeholder `dtype`
 
-You can now use the collection types `jm.DataType.STREAM`, `jm.DataType.PARTIAL_DICT`, and
-`jm.DataType.TOTAL_DICT` as your placeholder datatype, allowing more freeform data without using
-`jagged=True`.
+You can now specify `jm.DataType.STREAM`, `jm.DataType.PARTIAL_DICT`, and `jm.DataType.TOTAL_DICT` as a placeholder's `dtype`.
 
-In the following example, `x` is an array of `N` binary decision variables. Placeholder `A` is a one-dimensional array whose elements are streams of pairs consisting of a coefficient `c` and an index `i` into `x`. Each stream defines a weighted sum constrained to be at most 1, and the number of terms can vary between streams.
+The following example defines an array `x` of `N` binary decision variables and a one-dimensional placeholder `A` whose elements are streams of pairs consisting of a coefficient `c` and an index `i` into `x`.
+Each stream defines a weighted sum constrained to be at most $1$, and the number of terms can vary between streams.
 
 ```{code-cell} ipython3
 import jijmodeling as jm
@@ -40,7 +39,7 @@ def problem(problem: jm.DecoratedProblem):
     )
 ```
 
-In the instance data, each stream is a list of `(coefficient, index)` tuples. The following example sets `N = 3` and evaluates the model with two streams in `A`: one containing two terms and the other containing one term.
+The streams do not need to have the same length, so the model can accept instance data such as the following:
 
 ```{code-cell} ipython3
 problem.eval({
@@ -60,6 +59,14 @@ $$
 x_2 &\le 1.
 \end{aligned}
 $$
+
+:::{tip}
+Using placeholders with composite types in this way allows you to define data types whose rows can have different lengths.
+
+Earlier versions of JijModeling used Jagged Arrays for this purpose. Although Jagged Arrays allow random access to their elements, they are difficult to validate through type checking, making debugging harder. For this reason, their use has been discouraged since JijModeling 2.
+
+In many such cases, direct random access by index is unnecessary. Using placeholders with composite types to represent variable-length data in these cases allows you to define models in a safe, manageable way.
+:::
 
 ## Bugfixes
 
