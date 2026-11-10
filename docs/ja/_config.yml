@@ -52,7 +52,7 @@ sphinx:
   recursive_update: true
   config:
     html_static_path: ["_static", "../../assets"]
-    html_js_files: ["thebe-live.js"]
+    html_js_files: ["thebe-live.js", "theme-toggle.js"]
     html_css_files: ["thebe-live.css"]
     thebe_config:
       path_to_docs: docs/ja
