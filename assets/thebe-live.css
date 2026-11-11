@@ -1,0 +1,121 @@
+html[data-theme="dark"] .thebelab-cell .CodeMirror {
+  background: transparent;
+  color: #cdd6f4;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.jp-RenderedText, .jp-RenderedHTMLCommon) pre {
+  background: transparent;
+  color: var(--pst-color-text-base);
+}
+
+html[data-theme="dark"] .thebelab-cell .CodeMirror-cursor {
+  border-left-color: #cdd6f4;
+}
+
+html[data-theme="dark"] .thebelab-cell .CodeMirror-selected {
+  background: #45475a;
+}
+
+html[data-theme="dark"] .thebelab-cell .cm-keyword {
+  color: #cba6f7;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.cm-string, .cm-string-2) {
+  color: #a6e3a1;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.cm-number, .cm-atom) {
+  color: #fab387;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.cm-builtin, .cm-variable-2, .cm-variable-3, .cm-type, .cm-operator) {
+  color: #89dceb;
+}
+
+html[data-theme="dark"] .thebelab-cell :is(.cm-def, .cm-property) {
+  color: #89b4fa;
+}
+
+html[data-theme="dark"] .thebelab-cell .cm-comment {
+  color: #a6adc8;
+}
+
+html[data-theme="dark"] .thebelab-cell .cm-meta {
+  color: #f9e2af;
+}
+
+html[data-theme="dark"] .thebelab-cell .cm-error {
+  color: #f38ba8;
+}
+
+html[data-theme="dark"] :is(.cell_output .text_latex, .thebelab-cell .jp-OutputArea-output:has(.katex)) {
+  background: #fff;
+  color: #000;
+  padding: 0.75rem;
+}
+
+.thebelab-cell {
+  position: relative;
+}
+
+.thebelab-cell > .thebelab-button:not(.jij-add-cell) {
+  display: none;
+}
+
+.thebelab-cell .thebelab-input {
+  padding-top: 1.75rem;
+}
+
+.jij-cell-actions {
+  position: absolute;
+  top: 0;
+  right: 0.25rem;
+  z-index: 1;
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.thebelab-cell:is(:hover, :focus-within) > .jij-cell-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.thebelab-cell .jij-cell-actions button.thebelab-button,
+.thebelab-cell button.jij-add-cell {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pst-color-text-muted);
+  font-size: 1rem;
+}
+
+.thebelab-cell button.jij-add-cell {
+  margin: 1rem 0.25rem 0.25rem;
+}
+
+.thebelab-cell .jij-cell-actions button:is(:hover, :focus-visible),
+.thebelab-cell button.jij-add-cell:is(:hover, :focus-visible) {
+  background: var(--pst-color-surface);
+  color: var(--pst-color-primary);
+}
+
+.jij-cell-actions button:focus-visible,
+.jij-add-cell:focus-visible {
+  outline: 2px solid var(--pst-color-primary);
+  outline-offset: 2px;
+}
+
+@media (hover: none) {
+  .jij-cell-actions {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
