@@ -105,6 +105,25 @@ error[E-TE0004] Could not match actual type `natural` with expected `T` on an ex
 
 Starting with this release, it runs without an error.
 
+### Bugfix 3: Fix $\LaTeX$ output of placeholders with partially determined shape
+
+The $\LaTeX$ output of a problem now shows the range of each index of a placeholder array even when the shape is partially undetermined with `None`.
+Previously, such placeholders fully fell back to output like $\forall (i,j) \in \mathop{\mathtt{indices}}(c)$.
+Now each index ranges over its own axis: the length given in `shape` for axes where it is known, and `len_at` of the array for axes specified as `None`.
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Partially determined shape")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    c = problem.Float(shape=(N, None))
+
+
+problem
+```
+
 ## Other Changes
 
 - Change 1
