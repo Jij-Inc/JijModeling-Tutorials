@@ -105,6 +105,25 @@ error[E-TE0004] Could not match actual type `natural` with expected `T` on an ex
 
 本リリースからは、問題なく実行されるようになりました。
 
+### バグ修正3：形状が部分的に決まったプレースホルダーの $\LaTeX$ 出力の修正
+
+`shape` の一部を `None` として形状を部分的に未定にしたプレースホルダー配列についても、数理モデルの $\LaTeX$ 出力で各添え字の範囲が表示されるようになりました。
+これまでは、このようなプレースホルダーは $\forall (i,j) \in \mathop{\mathtt{indices}}(c)$ のような出力に全面的にフォールバックしていました。
+本リリースからは、各添え字がそれぞれの軸の範囲を動くものとして表示されます。長さが `shape` で与えられている軸にはその長さが、`None` を指定した軸には配列の `len_at` が使われます。
+
+```{code-cell} ipython3
+import jijmodeling as jm
+
+
+@jm.Problem.define("Partially determined shape")
+def problem(problem: jm.DecoratedProblem):
+    N = problem.Length()
+    c = problem.Float(shape=(N, None))
+
+
+problem
+```
+
 ## その他の変更
 
 - 変更 1：
