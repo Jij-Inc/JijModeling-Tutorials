@@ -124,6 +124,11 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
+### バグ修正 4：`DecoratedProblem` の `element_latex` と `subscript_styles` の型ヒントの追加
+
+`DecoratedProblem` の決定変数・プレースホルダー・`CategoryLabel`・`NamedExpr` の各コンストラクタは、実行時には `element_latex` と `subscript_styles` を受け付けていましたが、型ヒントにそれらが含まれていなかったため、正しいコードに対して型チェッカーがエラーを報告していました。
+本リリースからは、これらの型ヒントが対応する `Problem` のメソッドと一致するようになりました。
+
 ## その他の変更
 
 - 変更 1：

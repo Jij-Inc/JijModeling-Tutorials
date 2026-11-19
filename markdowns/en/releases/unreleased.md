@@ -124,6 +124,11 @@ def problem(problem: jm.DecoratedProblem):
 problem
 ```
 
+### Bugfix 4: Add missing type hints for `element_latex` and `subscript_styles` to `DecoratedProblem`
+
+The decision variable, placeholder, `CategoryLabel`, and `NamedExpr` constructors of `DecoratedProblem` accepted `element_latex` and `subscript_styles` at runtime, but their type hints did not include them, so type checkers reported errors on valid code.
+Their type hints now match those of the corresponding `Problem` methods.
+
 ## Other Changes
 
 - Change 1
