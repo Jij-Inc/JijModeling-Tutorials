@@ -52,13 +52,17 @@ sphinx:
   recursive_update: true
   config:
     html_static_path: ["_static", "../../assets"]
-    html_js_files: ["thebe-live.js", "theme-toggle.js", "sidebar-toggle.js"]
+    html_js_files: ["thebe-live.js", "theme-toggle.js"]
     html_css_files: ["thebe-live.css"]
     thebe_config:
       path_to_docs: docs/ja
     mathjax_path: ""
     html_theme_options:
       show_toc_level: 5
+      # pydata-sphinx-theme otherwise adds a header whose hidden sidebar toggles
+      # get the click handlers instead of the visible ones.
+      # TODO: drop once sphinx-book-theme releases executablebooks/sphinx-book-theme#987.
+      navbar_persistent: []
     intersphinx_mapping:
       api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/, null]
       numpy: [https://numpy.org/doc/stable, null]
