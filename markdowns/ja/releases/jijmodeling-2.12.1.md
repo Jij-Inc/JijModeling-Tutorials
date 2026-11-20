@@ -11,15 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X リリースノート
-
-+++
-
-## 機能強化
-
-+++
-
-### 機能 1
+# JijModeling 2.12.1 リリースノート
 
 +++
 
@@ -128,7 +120,3 @@ problem
 
 `DecoratedProblem` の決定変数・プレースホルダー・`CategoryLabel`・`NamedExpr` の各コンストラクタは、実行時には `element_latex` と `subscript_styles` を受け付けていましたが、型ヒントにそれらが含まれていなかったため、正しいコードに対して型チェッカーがエラーを報告していました。
 本リリースからは、これらの型ヒントが対応する `Problem` のメソッドと一致するようになりました。
-
-## その他の変更
-
-- 変更 1：

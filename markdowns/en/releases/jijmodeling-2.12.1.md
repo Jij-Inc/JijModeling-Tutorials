@@ -11,15 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# JijModeling X.XX.X Release Notes
-
-+++
-
-## Feature Enhancements
-
-+++
-
-### Feature 1
+# JijModeling 2.12.1 Release Notes
 
 +++
 
@@ -128,7 +120,3 @@ problem
 
 The decision variable, placeholder, `CategoryLabel`, and `NamedExpr` constructors of `DecoratedProblem` accepted `element_latex` and `subscript_styles` at runtime, but their type hints did not include them, so type checkers reported errors on valid code.
 Their type hints now match those of the corresponding `Problem` methods.
-
-## Other Changes
-
-- Change 1
