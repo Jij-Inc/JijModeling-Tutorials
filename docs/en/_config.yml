@@ -59,6 +59,10 @@ sphinx:
     mathjax_path: ""
     html_theme_options:
       show_toc_level: 5
+      # pydata-sphinx-theme otherwise adds a header whose hidden sidebar toggles
+      # get the click handlers instead of the visible ones.
+      # TODO: drop once sphinx-book-theme releases executablebooks/sphinx-book-theme#987.
+      navbar_persistent: []
     intersphinx_mapping:
       api_reference: [https://jij-inc-jijmodeling.readthedocs-hosted.com/en/stable/, null]
       numpy: [https://numpy.org/doc/stable, null]
