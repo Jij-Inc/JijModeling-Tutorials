@@ -20,10 +20,10 @@ JijModeling 2.12.0 以降では、辞書、配列、タプルなどがネスト�
 
 | 構築子 | 意味 |
 | :---- | :--- |
-| {py:meth}`jm.DataType.STREAM[T] <jijmodeling.DataType.STREAM>` | `T` 型の値を要素に持つ{doc}`ストリーム型 <../basics/folding_and_stream.md>` |
-| `(T1, ..., Tn)` または {py:meth}`tuple[T1, ..., Tn] <tuple>` | `T1`, ..., `Tn` 型の値を各成分に持つタプル型 |
-| {py:meth}`jm.DataType.PARTIAL_DICT[K, V] <jijmodeling.DataType.PARTIAL_DICT>` | キー集合が `K` 型、値が `V` 型の部分辞書型 |
-| {py:meth}`jm.DataType.TOTAL_DICT[K, V] <jijmodeling.DataType.TOTAL_DICT>` | キーが `K` 型、値が `V` 型の全域辞書型 |
+| {py:attr}`jm.DataType.STREAM[T] <jijmodeling.DataType.STREAM>` | `T` 型の値を要素に持つ{doc}`ストリーム型 <../basics/folding_and_stream>` |
+| `(T1, ..., Tn)` または {py:class}`tuple[T1, ..., Tn] <tuple>` | `T1`, ..., `Tn` 型の値を各成分に持つタプル型 |
+| {py:attr}`jm.DataType.PARTIAL_DICT[K, V] <jijmodeling.DataType.PARTIAL_DICT>` | キー集合が `K` 型、値が `V` 型の部分辞書型 |
+| {py:attr}`jm.DataType.TOTAL_DICT[K, V] <jijmodeling.DataType.TOTAL_DICT>` | キーが `K` 型、値が `V` 型の全域辞書型 |
 
 辞書のキー型 `K` に現れることができる型は、通常の辞書のキーに使うことができるものと同じです。
 `V` や `T` については、`dtype` キーワード引数と同じ任意の型指定子を指定することができます。
