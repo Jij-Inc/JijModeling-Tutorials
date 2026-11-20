@@ -185,6 +185,13 @@ A category label is a concept for adding a new type that can appear as dictionar
 For this reason, unlike placeholders, there is no such thing as an "indexed category label".
 :::
 
+:::{admonition} Compound placeholders
+:class: tip
+
+Starting with JijModeling 2.12.0, you can declare **compound placeholders** that combine arrays, dictionaries, and tuples in nested structures.
+See {doc}`../advanced/compound_placeholder` for an example of how to represent data whose rows have different lengths.
+:::
+
 ### Arrays of placeholders
 
 There are two ways to declare arrays of placeholders.

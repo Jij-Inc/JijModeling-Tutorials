@@ -182,6 +182,13 @@ print(f"Category Labels: {ph_catlab_problem.category_labels}")
 
 :::
 
+:::{admonition} 複合型プレースホルダー
+:class: tip
+
+JijModeling 2.12.0 以降では、さらに、配列・辞書・タプルなどがネストした、**複合型プレースホルダー**を宣言できるようになっています。
+このような複合型プレースホルダーを使って不定形のデータ構造を表す方法については、発展的な話題として {doc}`../advanced/compound_placeholder` で紹介しています。
+:::
+
 ### プレースホルダーの配列
 
 プレースホルダーの配列を宣言する方法は二つあります。それぞれについて見ていきましょう。
